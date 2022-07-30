@@ -49,7 +49,7 @@ const Explore = () => (
         <div className="container">
           <div className="row m-10-hor">
             <div className="col-12">
-              <h1 className="text-center">Explore</h1>
+              <h1 className="text-center">Nft's</h1>
             </div>
           </div>
         </div>
