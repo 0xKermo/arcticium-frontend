@@ -143,7 +143,8 @@ const Profile = ({}) => {
           </div>
         </div>
         <div id="zero1" className="onStep fadeIn">
-          <ColumnNew shuffle showLoadMore={false} authorId={dummyData.id} />
+          {/* <ColumnNew shuffle showLoadMore={false} authorId={dummyData.id} /> */}
+          <ColumnNew />
         </div>
       </section>
     </div>
