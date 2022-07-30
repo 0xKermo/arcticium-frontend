@@ -1,7 +1,7 @@
-import React from 'react';
-import ColumnNew from '../components/ColumnNew';
-import { createGlobalStyle } from 'styled-components';
-import TopFilterBar from '../components/topFilterBar';
+import React from "react";
+import ColumnNew from "../components/ColumnNew";
+import { createGlobalStyle } from "styled-components";
+import TopFilterBar from "../components/topFilterBar";
 
 const GlobalStyles = createGlobalStyle`
   header#myHeader.navbar.sticky.white {
@@ -37,31 +37,33 @@ const GlobalStyles = createGlobalStyle`
   }
 `;
 
-const Explore= () => (
-<div>
-<GlobalStyles/>
+const Explore = () => (
+  <div>
+    <GlobalStyles />
 
-  <section className='jumbotron breadcumb no-bg' style={{backgroundImage: `url(${'./img/background/subheader.jpg'})`}}>
-    <div className='mainbreadcumb'>
-      <div className='container'>
-        <div className='row m-10-hor'>
-          <div className='col-12'>
-            <h1 className='text-center'>Explore</h1>
+    <section
+      className="jumbotron breadcumb no-bg"
+      style={{ backgroundImage: `url(${"./img/background/subheader.jpg"})` }}
+    >
+      <div className="mainbreadcumb">
+        <div className="container">
+          <div className="row m-10-hor">
+            <div className="col-12">
+              <h1 className="text-center">Explore</h1>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section className='container'>
-        <div className='row'>
-          <div className='col-lg-12'>
-              <TopFilterBar />
-          </div>
+    <section className="container">
+      <div className="row">
+        <div className="col-lg-12">
+          <TopFilterBar />
         </div>
-       <ColumnNew/>
-      </section>
       </div>
-
+      <ColumnNew />
+    </section>
+  </div>
 );
 export default Explore;

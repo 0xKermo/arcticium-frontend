@@ -29,7 +29,7 @@ const NavLink = (props) => (
 );
 
 const Header = function ({ className }) {
- const { walletAddress } = useSelector((state) => state.wallet);
+  const { walletAddress } = useSelector((state) => state.wallet);
   const { connectWallet } = ConnectWallet();
   const [openMenu, setOpenMenu] = React.useState(false);
   const [openMenu1, setOpenMenu1] = React.useState(false);
@@ -184,11 +184,6 @@ const Header = function ({ className }) {
                     </div>
                   </div>
                   <div className="navbar-item">
-                    <NavLink to="/activity" onClick={() => btn_icon(!showmenu)}>
-                      Activity
-                    </NavLink>
-                  </div>
-                  <div className="navbar-item">
                     <NavLink to="/mint">
                       Mint
                       <span className="lines"></span>
@@ -274,14 +269,9 @@ const Header = function ({ className }) {
                   {showpop && (
                     <div className="popshow">
                       <div className="d-name">
-                        <h4>Monica Lucas</h4>
-                        <span
-                          className="name"
-                          onClick={() => window.open("", "_self")}
-                        >
-                          Set display name
-                        </span>
+                        <h3>Monica Lucas</h3>
                       </div>
+                      <div className="d-line"></div>
                       <div className="d-balance">
                         <h4>Balance</h4>
                         12.858 ETH
@@ -289,7 +279,7 @@ const Header = function ({ className }) {
                       <div className="d-wallet">
                         <h4>My Wallet</h4>
                         <span id="wallet" className="d-wallet-address">
-                        {walletAddress.slice(0, 6)}
+                          {walletAddress.slice(0, 6)}
                           ...
                           {walletAddress.slice(-7)}
                         </span>
@@ -300,7 +290,9 @@ const Header = function ({ className }) {
                       <div className="d-line"></div>
                       <ul className="de-submenu-profile">
                         <li>
-                          <span onClick={() => window.open("/profile", "_self")}>
+                          <span
+                            onClick={() => window.open("/profile", "_self")}
+                          >
                             <i className="fa fa-user"></i> My profile
                           </span>
                         </li>

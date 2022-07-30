@@ -81,11 +81,7 @@ const Profile = ({}) => {
   return (
     <div>
       <GlobalStyles />
-      <section
-        id="profile_banner"
-        className="jumbotron breadcumb no-bg"
-        style={{ backgroundImage: "./img/background/1.jpg" }}
-      >
+      <section>
         <div className="mainbreadcumb"></div>
       </section>
 
