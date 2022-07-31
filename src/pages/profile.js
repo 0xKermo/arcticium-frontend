@@ -2,6 +2,8 @@ import React, { memo, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import ColumnMyNfts from "../components/columnMyNfts";
 import ColumnSwap from "../components/columnSwap";
+import Activity from "../components/activity";
+import Favorites from "../components/favorites";
 import { createGlobalStyle } from "styled-components";
 import { dummyData } from "../components/constants/dummy";
 import { setUserNfts } from "../store/slicers/userNfts";
@@ -39,30 +41,47 @@ const Profile = ({}) => {
   const [openMenu, setOpenMenu] = React.useState(true);
   const [openMenu1, setOpenMenu1] = React.useState(false);
   const [openMenu2, setOpenMenu2] = React.useState(false);
+  const [openMenu3, setOpenMenu3] = React.useState(false);
   const { dispatch } = useDispatch();
   const handleBtnClick = () => {
     setOpenMenu(!openMenu);
     setOpenMenu1(false);
     setOpenMenu2(false);
+    setOpenMenu3(false);
     document.getElementById("Mainbtn").classList.add("active");
     document.getElementById("Mainbtn1").classList.remove("active");
     document.getElementById("Mainbtn2").classList.remove("active");
+    document.getElementById("Mainbtn3").classList.remove("active");
   };
   const handleBtnClick1 = () => {
     setOpenMenu1(!openMenu1);
     setOpenMenu2(false);
+    setOpenMenu3(false);
     setOpenMenu(false);
     document.getElementById("Mainbtn1").classList.add("active");
-    document.getElementById("Mainbtn").classList.remove("active");
     document.getElementById("Mainbtn2").classList.remove("active");
+    document.getElementById("Mainbtn3").classList.remove("active");
+    document.getElementById("Mainbtn").classList.remove("active");
   };
   const handleBtnClick2 = () => {
     setOpenMenu2(!openMenu2);
+    setOpenMenu3(false);
     setOpenMenu(false);
     setOpenMenu1(false);
     document.getElementById("Mainbtn2").classList.add("active");
+    document.getElementById("Mainbtn3").classList.remove("active");
     document.getElementById("Mainbtn").classList.remove("active");
     document.getElementById("Mainbtn1").classList.remove("active");
+  };
+  const handleBtnClick3 = () => {
+    setOpenMenu3(!openMenu3);
+    setOpenMenu(false);
+    setOpenMenu1(false);
+    setOpenMenu2(false);
+    document.getElementById("Mainbtn3").classList.add("active");
+    document.getElementById("Mainbtn").classList.remove("active");
+    document.getElementById("Mainbtn1").classList.remove("active");
+    document.getElementById("Mainbtn2").classList.remove("active");
   };
   useEffect(async () => {
     const { getTokenURI } = GetTokenURI();
@@ -136,6 +155,12 @@ const Profile = ({}) => {
                 <li id="Mainbtn1" className="">
                   <span onClick={handleBtnClick1}>On Swap</span>
                 </li>
+                <li id="Mainbtn2" className="">
+                  <span onClick={handleBtnClick2}>Activity</span>
+                </li>
+                <li id="Mainbtn3" className="">
+                  <span onClick={handleBtnClick3}>Favorites</span>
+                </li>
               </ul>
             </div>
           </div>
@@ -152,6 +177,16 @@ const Profile = ({}) => {
         {openMenu1 && (
           <div id="zero3" className="onStep fadeIn">
             <ColumnSwap />
+          </div>
+        )}
+        {openMenu2 && (
+          <div id="zero3" className="onStep fadeIn">
+            <Activity />
+          </div>
+        )}
+        {openMenu3 && (
+          <div id="zero3" className="onStep fadeIn">
+            <Favorites />
           </div>
         )}
       </section>
