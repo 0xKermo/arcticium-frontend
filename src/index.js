@@ -19,6 +19,7 @@ import { Provider } from "react-redux";
 import store from "./store";
 import Nfts from "./pages/nfts";
 import Collections from "./pages/collections";
+import Collection from "./pages/collection";
 import ItemDetail from "./pages/itemDetail";
 import Profile from "./pages/profile";
 import Faucet from "./pages/faucet";
@@ -32,6 +33,7 @@ root.render(
         <Route path="/" element={<Home />} />
         <Route path="/nfts" element={<Nfts />} />
         <Route path="/collections" element={<Collections />} />
+        <Route path="/collection" element={<Collection />} />
         <Route path="/itemDetail" element={<ItemDetail />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/faucet" element={<Faucet />} />

@@ -1,125 +1,296 @@
-import React, { memo, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React from "react";
+import ColumnNew from "../components/ColumnNew";
 import { createGlobalStyle } from "styled-components";
-import ColumnNewRedux from "../components/carouselNew";
-import * as selectors from "../store/selectors";
-import { fetchHotCollections } from "../store/actions/thunks";
-import { dummyData } from "../components/constants/dummy";
 
 const GlobalStyles = createGlobalStyle`
-  header#myHeader.navbar.white {
-    background: #fff;
+  header#myHeader.navbar.sticky.white {
+    background: #403f83;
+    border-bottom: solid 1px #403f83;
+  }
+  header#myHeader.navbar .search #quick_search{
+    color: #fff;
+    background: rgba(255, 255, 255, .1);
+  }
+  header#myHeader.navbar.white .btn, .navbar.white a, .navbar.sticky.white a{
+    color: #fff;
+  }
+  header#myHeader .dropdown-toggle::after{
+    color: rgba(255, 255, 255, .5);;
+  }
+  header#myHeader .logo .d-block{
+    display: none !important;
+  }
+  header#myHeader .logo .d-none{
+    display: block !important;
   }
   @media only screen and (max-width: 1199px) {
     .navbar{
       background: #403f83;
     }
     .navbar .menu-line, .navbar .menu-line1, .navbar .menu-line2{
-      background: #111;
+      background: #fff;
     }
     .item-dropdown .dropdown a{
-      color: #111 !important;
+      color: #fff !important;
     }
   }
 `;
+const collection = () => (
+  <div>
+    <GlobalStyles />
 
-const Colection = function ({ collectionId = 1 }) {
-  const [openMenu, setOpenMenu] = React.useState(true);
-  const [openMenu1, setOpenMenu1] = React.useState(false);
-  const handleBtnClick = () => {
-    setOpenMenu(!openMenu);
-    setOpenMenu1(false);
-    document.getElementById("Mainbtn").classList.add("active");
-    document.getElementById("Mainbtn1").classList.remove("active");
-  };
-  const handleBtnClick1 = () => {
-    setOpenMenu1(!openMenu1);
-    setOpenMenu(false);
-    document.getElementById("Mainbtn1").classList.add("active");
-    document.getElementById("Mainbtn").classList.remove("active");
-  };
+    <section
+      id="profile_banner"
+      className="jumbotron breadcumb no-bg"
+      style={{ backgroundImage: `url(${"./img/background/subheader.jpg"})` }}
+    >
+      <div className="mainbreadcumb"></div>
+    </section>
 
-  const dispatch = useDispatch();
-  const hotCollectionsState = useSelector(selectors.hotCollectionsState);
-  const hotCollections = hotCollectionsState.data
-    ? hotCollectionsState.data[0]
-    : {};
+    <section className="container d_coll no-top no-bottom">
+      <div className="row">
+        <div className="col-md-12">
+          <div className="d_profile">
+            <div className="profile_avatar">
+              <div className="d_profile_img">
+                <img src="./img/author/author-1.jpg" alt="" />
+                <i className="fa fa-check"></i>
+              </div>
 
-  // useEffect(() => {
-  //     dispatch(fetchHotCollections(collectionId));
-  // }, [dispatch, collectionId]);
-
-  return (
-    <div>
-      <GlobalStyles />
-
-      <section
-        id="profile_banner"
-        className="jumbotron breadcumb no-bg"
-        style={{ backgroundImage: "./img/author_single/author_thumbnail.jpg" }}
-      >
-        <div className="mainbreadcumb"></div>
-      </section>
-
-      <section className="container d_coll no-top no-bottom">
-        <div className="row">
-          <div className="col-md-12">
-            <div className="d_profile">
-              <div className="profile_avatar">
-                <div className="d_profile_img">
-                  <img src="./img/author_single/author_thumbnail.jpg" alt="" />
-                  <i className="fa fa-check"></i>
-                </div>
-
-                <div className="profile_name">
-                  <h4>
-                    <div className="clearfix"></div>
-                    <span id="wallet" className="profile_wallet">
-                      0x1234
-                    </span>
-
-                    <button id="btn_copy" title="Copy Text">
-                      Copy
-                    </button>
-                  </h4>
-                </div>
+              <div className="profile_name">
+                <h4>
+                  Abstraction
+                  <div className="clearfix"></div>
+                  <span id="wallet" className="profile_wallet">
+                    DdzFFzCqrhshMSxb9oW3mRo4MJrQkusV3fGFSTwaiu4wPBqMryA9DYVJCkW9n7twCffG5f5wX2sSkoDXGiZB1HPa7K7f865Kk4LqnrME
+                  </span>
+                  <button id="btn_copy" title="Copy Text">
+                    Copy
+                  </button>
+                </h4>
               </div>
             </div>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section className="container no-top">
-        <div className="row">
-          <div className="col-lg-12">
-            <div className="items_filter">
-              <ul className="de_nav">
-                <li id="Mainbtn" className="active">
-                  <span onClick={handleBtnClick}>On Sale</span>
-                </li>
-                <li id="Mainbtn1" className="">
-                  <span onClick={handleBtnClick1}>Owned</span>
-                </li>
-              </ul>
+    <section>
+      <div className="row">
+        <div className="spacer-double"></div>
+
+        <div className="col-md-3">
+          <div className="item_filter_group">
+            <h4>Select Categories</h4>
+            <div className="de_form">
+              <div className="de_checkbox">
+                <input
+                  id="check_cat_1"
+                  name="check_cat_1"
+                  type="checkbox"
+                  value="check_cat_1"
+                />
+                <label htmlFor="check_cat_1">Art</label>
+              </div>
+
+              <div className="de_checkbox">
+                <input
+                  id="check_cat_2"
+                  name="check_cat_2"
+                  type="checkbox"
+                  value="check_cat_2"
+                />
+                <label htmlFor="check_cat_2">Music</label>
+              </div>
+
+              <div className="de_checkbox">
+                <input
+                  id="check_cat_3"
+                  name="check_cat_3"
+                  type="checkbox"
+                  value="check_cat_3"
+                />
+                <label htmlFor="check_cat_3">Domain Names</label>
+              </div>
+
+              <div className="de_checkbox">
+                <input
+                  id="check_cat_4"
+                  name="check_cat_4"
+                  type="checkbox"
+                  value="check_cat_4"
+                />
+                <label htmlFor="check_cat_4">Virtual World</label>
+              </div>
+
+              <div className="de_checkbox">
+                <input
+                  id="check_cat_5"
+                  name="check_cat_5"
+                  type="checkbox"
+                  value="check_cat_5"
+                />
+                <label htmlFor="check_cat_5">Trading Cards</label>
+              </div>
+
+              <div className="de_checkbox">
+                <input
+                  id="check_cat_6"
+                  name="check_cat_6"
+                  type="checkbox"
+                  value="check_cat_6"
+                />
+                <label htmlFor="check_cat_6">Collectibles</label>
+              </div>
+
+              <div className="de_checkbox">
+                <input
+                  id="check_cat_7"
+                  name="check_cat_7"
+                  type="checkbox"
+                  value="check_cat_7"
+                />
+                <label htmlFor="check_cat_7">Sports</label>
+              </div>
+
+              <div className="de_checkbox">
+                <input
+                  id="check_cat_8"
+                  name="check_cat_8"
+                  type="checkbox"
+                  value="check_cat_8"
+                />
+                <label htmlFor="check_cat_8">Utility</label>
+              </div>
+            </div>
+          </div>
+
+          <div className="item_filter_group">
+            <h4>Status</h4>
+            <div className="de_form">
+              <div className="de_checkbox">
+                <input id="buy" name="buy" type="checkbox" value="buy" />
+                <label htmlFor="buy">Buy Now</label>
+              </div>
+
+              <div className="de_checkbox">
+                <input
+                  id="onauction"
+                  name="onauction"
+                  type="checkbox"
+                  value="onauction"
+                />
+                <label htmlFor="onauction">On Auction</label>
+              </div>
+
+              <div className="de_checkbox">
+                <input
+                  id="offers"
+                  name="offers"
+                  type="checkbox"
+                  value="offers"
+                />
+                <label htmlFor="offers">has Offers</label>
+              </div>
+            </div>
+          </div>
+
+          <div className="item_filter_group">
+            <h4>Items Type</h4>
+            <div className="de_form">
+              <div className="de_checkbox">
+                <input
+                  id="sitems"
+                  name="sitems"
+                  type="checkbox"
+                  value="sitems"
+                />
+                <label htmlFor="sitems">Single Items</label>
+              </div>
+
+              <div className="de_checkbox">
+                <input
+                  id="bundles"
+                  name="bundles"
+                  type="checkbox"
+                  value="bundles"
+                />
+                <label htmlFor="bundles">Bundles</label>
+              </div>
+            </div>
+          </div>
+
+          <div className="item_filter_group">
+            <h4>Collections</h4>
+            <div className="de_form">
+              <div className="de_checkbox">
+                <input
+                  id="abstract"
+                  name="abstract"
+                  type="checkbox"
+                  value="abstract"
+                />
+                <label htmlFor="abstract">Abstraction</label>
+              </div>
+
+              <div className="de_checkbox">
+                <input
+                  id="paterns"
+                  name="paterns"
+                  type="checkbox"
+                  value="paterns"
+                />
+                <label htmlFor="paterns">Patternlicious</label>
+              </div>
+
+              <div className="de_checkbox">
+                <input
+                  id="skecth"
+                  name="skecth"
+                  type="checkbox"
+                  value="skecth"
+                />
+                <label htmlFor="skecth">Skecthify</label>
+              </div>
+
+              <div className="de_checkbox">
+                <input
+                  id="cartoon"
+                  name="cartoon"
+                  type="checkbox"
+                  value="cartoon"
+                />
+                <label htmlFor="cartoon">Cartoonism</label>
+              </div>
+
+              <div className="de_checkbox">
+                <input
+                  id="virtualand"
+                  name="virtualand"
+                  type="checkbox"
+                  value="virtualand"
+                />
+                <label htmlFor="virtualand">Virtuland</label>
+              </div>
+
+              <div className="de_checkbox">
+                <input
+                  id="pappercut"
+                  name="pappercut"
+                  type="checkbox"
+                  value="pappercut"
+                />
+                <label htmlFor="pappercut">Papercut</label>
+              </div>
             </div>
           </div>
         </div>
-        {openMenu && (
-          <div id="zero1" className="onStep fadeIn">
-            <ColumnNewRedux
-              shuffle
-              showLoadMore={false}
-              authorId={dummyData.author}
-            />
-          </div>
-        )}
-        {openMenu1 && (
-          <div id="zero2" className="onStep fadeIn">
-            <ColumnNewRedux shuffle showLoadMore={false} />
-          </div>
-        )}
-      </section>
-    </div>
-  );
-};
-export default Colection;
+
+        <div className="col-md-9">
+          <ColumnNew />
+        </div>
+      </div>
+    </section>
+  </div>
+);
+export default collection;
