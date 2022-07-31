@@ -1,6 +1,6 @@
 import React, { memo, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import ColumnNew from "../components/ColumnNew";
+import ColumnMyNfts from "../components/columnMyNfts";
 import ColumnSwap from "../components/columnSwap";
 import { createGlobalStyle } from "styled-components";
 import { dummyData } from "../components/constants/dummy";
@@ -117,10 +117,7 @@ const Profile = ({}) => {
               </div>
               <div className="profile_follow de-flex">
                 <div className="de-flex-col">
-                  <div className="profile_follower">1 followers</div>
-                </div>
-                <div className="de-flex-col">
-                  <span className="btn-main">Follow</span>
+                  <span className="btn-main">Edit Profile</span>
                 </div>
               </div>
             </div>
@@ -148,7 +145,7 @@ const Profile = ({}) => {
         </div> */}
         {openMenu && (
           <div id="zero2" className="onStep fadeIn">
-            <ColumnNew />
+            <ColumnMyNfts />
           </div>
         )}
 

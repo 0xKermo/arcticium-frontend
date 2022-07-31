@@ -1,11 +1,10 @@
-import React from 'react';
-import Particle from '../components/particle';
-import AuthorList from '../components/authorList';
-import SliderMainParticle from '../components/sliderMainParticle';
-import FeatureBox from '../components/featureBox';
-import CarouselCollectionRedux from '../components/carouselCollection';
-import ColumnNewRedux from '../components/columnNewRedux';
-import { createGlobalStyle } from 'styled-components';
+import React from "react";
+import Particle from "../components/particle";
+import SliderMainParticle from "../components/sliderMainParticle";
+import FeatureBox from "../components/featureBox";
+import CarouselCollection from "../components/carouselCollection";
+import CarouselSwap from "../components/carouselSwap";
+import { createGlobalStyle } from "styled-components";
 
 const GlobalStyles = createGlobalStyle`
   header#myHeader.navbar.sticky.white {
@@ -41,77 +40,60 @@ const GlobalStyles = createGlobalStyle`
   }
 `;
 
-
-const Home= () => (
+const Home = () => (
   <div>
-  <GlobalStyles />
-      <section className="jumbotron no-bg" style={{backgroundImage: `url(${'./img/background/2.jpg'})`}}>
-       <Particle/>
-         <SliderMainParticle/>
-      </section>
+    <GlobalStyles />
+    <section
+      className="jumbotron no-bg"
+      style={{ backgroundImage: `url(${"./img/background/2.jpg"})` }}
+    >
+      <Particle />
+      <SliderMainParticle />
+    </section>
 
-      <section className='container'>
-        <div className='row'>
-          <div className='col-lg-12'>
-            <div className='text-center'>
-              <h2>Popular Items</h2>
-              <div className="small-border"></div>
-            </div>
+    <section className="container">
+      <div className="row">
+        <div className="col-lg-12">
+          <div className="text-center">
+            <h2>Popular Swap's</h2>
+            <div className="small-border"></div>
           </div>
         </div>
-        
-        <ColumnNewRedux/>
-        
-        
-      </section>
+      </div>
+      <CarouselSwap />
+    </section>
 
-      <section className='container-fluid bg-gray'>
-        <div className='row'>
-          <div className='col-lg-12'>
-            <div className='text-center'>
-              <h2>Hot Collections</h2>
-              <div className="small-border"></div>
-            </div>
+    <section className="container-fluid bg-gray">
+      <div className="row">
+        <div className="col-lg-12">
+          <div className="text-center">
+            <h2>Hot Collections</h2>
+            <div className="small-border"></div>
           </div>
         </div>
-        <div className='container'>
-          <div className='row'>
-            <div className='col-lg-12'>
-              <CarouselCollectionRedux/>
-            </div>
+      </div>
+      <div className="container">
+        <div className="row">
+          <div className="col-lg-12">
+            <CarouselCollection />
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
- 
-      <section className='container'>
-        <div className='row'>
-          <div className='col-lg-12'>
-            <div className='text-center'>
-              <h2>Top Sellers</h2>
-              <div className="small-border"></div>
-            </div>
-          </div>
-          <div className='col-lg-12'>
-            <AuthorList/>
+    <section className="container">
+      <div className="row">
+        <div className="col-lg-12">
+          <div className="text-center">
+            <h2>Create and sell your NFTs</h2>
+            <div className="small-border"></div>
           </div>
         </div>
-      </section>
-
-      <section className='container-fluid bg-gray'>
-        <div className='row'>
-          <div className='col-lg-12'>
-            <div className='text-center'>
-              <h2>Create and sell your NFTs</h2>
-              <div className="small-border"></div>
-            </div>
-          </div>
-        </div>
-        <div className='container'>
-          <FeatureBox/>
-        </div>
-      </section>
-
+      </div>
+      <div className="container">
+        <FeatureBox />
+      </div>
+    </section>
   </div>
 );
 export default Home;
