@@ -234,6 +234,29 @@ export default class Responsive extends Component {
                 className="nft__item_wrap"
                 style={{ height: `${this.state.height}px` }}
               >
+                {/* <Outer>
+                  <span>
+                    <img
+                      onLoad={this.onImgLoad}
+                      src={nft.previewImg}
+                      className="lazy nft__item_preview"
+                      alt=""
+                    />
+                  </span>
+                </Outer> */}
+                <Outer>
+                  <span>
+                    <img
+                      onLoad={this.onImgLoad}
+                      src={nft.previewImg}
+                      className="lazy nft__item_preview"
+                      alt=""
+                    />
+                  </span>
+                </Outer>
+                <div className="swap-icon">
+                  <i className="fa fa-exchange"></i>
+                </div>
                 <Outer>
                   <span>
                     <img

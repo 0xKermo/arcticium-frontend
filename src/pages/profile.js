@@ -1,6 +1,7 @@
 import React, { memo, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import ColumnNew from "../components/ColumnNew";
+import ColumnSwap from "../components/columnSwap";
 import { createGlobalStyle } from "styled-components";
 import { dummyData } from "../components/constants/dummy";
 import { setUserNfts } from "../store/slicers/userNfts";
@@ -133,19 +134,29 @@ const Profile = ({}) => {
             <div className="items_filter">
               <ul className="de_nav text-left">
                 <li id="Mainbtn" className="active">
-                  <span onClick={handleBtnClick}>NFTs</span>
+                  <span onClick={handleBtnClick}>My Nft's</span>
                 </li>
                 <li id="Mainbtn1" className="">
-                  <span onClick={handleBtnClick1}>Activity</span>
+                  <span onClick={handleBtnClick1}>On Swap</span>
                 </li>
               </ul>
             </div>
           </div>
         </div>
-        <div id="zero1" className="onStep fadeIn">
-          {/* <ColumnNew shuffle showLoadMore={false} authorId={dummyData.id} /> */}
-          <ColumnNew />
-        </div>
+        {/* <div id="zero1" className="onStep fadeIn">
+          <ColumnNew shuffle showLoadMore={false} authorId={dummyData.id} />
+        </div> */}
+        {openMenu && (
+          <div id="zero2" className="onStep fadeIn">
+            <ColumnNew />
+          </div>
+        )}
+
+        {openMenu1 && (
+          <div id="zero3" className="onStep fadeIn">
+            <ColumnSwap />
+          </div>
+        )}
       </section>
     </div>
   );
