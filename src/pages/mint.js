@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import Clock from "../components/clock";
 import { createGlobalStyle } from "styled-components";
 import $ from "jquery";
 import { uploadMetadata } from "../utils/apiRequest/ipfs";
 import { MintErc721 } from "../hooks";
 import { ToastPromise } from "../components/toast";
-import { Toaster, toast } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import { Provider } from "starknet";
 
 const GlobalStyles = createGlobalStyle`
@@ -158,7 +157,6 @@ const Mint = () => {
                   name="item_desc"
                   id="item_desc"
                   className="form-control"
-                  placeholder="e.g. 'This is very limited item'"
                 ></textarea>
 
                 <div className="spacer-10"></div>

@@ -9,7 +9,7 @@ import { dummyData } from "../components/constants/dummy";
 import { setUserNfts } from "../store/slicers/userNfts";
 import { hexToDecimalString } from "../utils/number";
 import { ownerTokens } from "../utils/apiRequest/readEvent";
-import { GetTokenURI } from "../hooks";
+import { GetTokenURI, ProfileActions } from "../hooks";
 
 const GlobalStyles = createGlobalStyle`
   header#myHeader.navbar.white {
@@ -38,51 +38,14 @@ const GlobalStyles = createGlobalStyle`
 `;
 
 const Profile = ({}) => {
-  const [openMenu, setOpenMenu] = React.useState(true);
-  const [openMenu1, setOpenMenu1] = React.useState(false);
-  const [openMenu2, setOpenMenu2] = React.useState(false);
-  const [openMenu3, setOpenMenu3] = React.useState(false);
-  const { dispatch } = useDispatch();
-  const handleBtnClick = () => {
-    setOpenMenu(!openMenu);
-    setOpenMenu1(false);
-    setOpenMenu2(false);
-    setOpenMenu3(false);
-    document.getElementById("Mainbtn").classList.add("active");
-    document.getElementById("Mainbtn1").classList.remove("active");
-    document.getElementById("Mainbtn2").classList.remove("active");
-    document.getElementById("Mainbtn3").classList.remove("active");
-  };
-  const handleBtnClick1 = () => {
-    setOpenMenu1(!openMenu1);
-    setOpenMenu2(false);
-    setOpenMenu3(false);
-    setOpenMenu(false);
-    document.getElementById("Mainbtn1").classList.add("active");
-    document.getElementById("Mainbtn2").classList.remove("active");
-    document.getElementById("Mainbtn3").classList.remove("active");
-    document.getElementById("Mainbtn").classList.remove("active");
-  };
-  const handleBtnClick2 = () => {
-    setOpenMenu2(!openMenu2);
-    setOpenMenu3(false);
-    setOpenMenu(false);
-    setOpenMenu1(false);
-    document.getElementById("Mainbtn2").classList.add("active");
-    document.getElementById("Mainbtn3").classList.remove("active");
-    document.getElementById("Mainbtn").classList.remove("active");
-    document.getElementById("Mainbtn1").classList.remove("active");
-  };
-  const handleBtnClick3 = () => {
-    setOpenMenu3(!openMenu3);
-    setOpenMenu(false);
-    setOpenMenu1(false);
-    setOpenMenu2(false);
-    document.getElementById("Mainbtn3").classList.add("active");
-    document.getElementById("Mainbtn").classList.remove("active");
-    document.getElementById("Mainbtn1").classList.remove("active");
-    document.getElementById("Mainbtn2").classList.remove("active");
-  };
+  const dispatch = useDispatch();
+  const { openMenu, openMenu1, openMenu2, openMenu3 } = useSelector(
+    (state) => state.profileOperation
+  );
+  const { handleBtnClick, handleBtnClick1, handleBtnClick2, handleBtnClick3 } =
+    ProfileActions();
+   const { userNfts } = useSelector((state) => state.userNfts) 
+
   useEffect(async () => {
     const { getTokenURI } = GetTokenURI();
     const events = await ownerTokens();
@@ -94,9 +57,11 @@ const Profile = ({}) => {
         hexToDecimalString(events[index].token_id)
       );
       arr.push(metadata);
+      
     }
     dispatch(setUserNfts(arr));
-  }, []);
+    
+  }, [userNfts]);
 
   return (
     <div>
@@ -170,7 +135,7 @@ const Profile = ({}) => {
         </div> */}
         {openMenu && (
           <div id="zero2" className="onStep fadeIn">
-            <ColumnMyNfts />
+            <ColumnMyNfts nfts={userNfts}/>
           </div>
         )}
 
