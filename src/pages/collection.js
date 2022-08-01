@@ -1,6 +1,7 @@
 import React from "react";
-import ColumnNew from "../components/ColumnNew";
 import { createGlobalStyle } from "styled-components";
+import Activity from "../components/activity";
+import CollectionNfts from "../components/collectionNfts";
 
 const GlobalStyles = createGlobalStyle`
   header#myHeader.navbar.sticky.white {
@@ -35,262 +36,117 @@ const GlobalStyles = createGlobalStyle`
     }
   }
 `;
-const collection = () => (
-  <div>
-    <GlobalStyles />
+const Collection = function () {
+  const [openMenu, setOpenMenu] = React.useState(true);
+  const [openMenu1, setOpenMenu1] = React.useState(false);
+  const handleBtnClick = (): void => {
+    setOpenMenu(!openMenu);
+    setOpenMenu1(false);
+    document.getElementById("Mainbtn").classList.add("active");
+    document.getElementById("Mainbtn1").classList.remove("active");
+  };
+  const handleBtnClick1 = (): void => {
+    setOpenMenu1(!openMenu1);
+    setOpenMenu(false);
+    document.getElementById("Mainbtn1").classList.add("active");
+    document.getElementById("Mainbtn").classList.remove("active");
+  };
 
-    <section
-      id="profile_banner"
-      className="jumbotron breadcumb no-bg"
-      style={{ backgroundImage: `url(${"./img/background/subheader.jpg"})` }}
-    >
-      <div className="mainbreadcumb"></div>
-    </section>
+  return (
+    <div>
+      <GlobalStyles />
 
-    <section className="container d_coll no-top no-bottom">
-      <div className="row">
-        <div className="col-md-12">
-          <div className="d_profile">
-            <div className="profile_avatar">
-              <div className="d_profile_img">
-                <img src="./img/author/author-1.jpg" alt="" />
-                <i className="fa fa-check"></i>
+      <section
+        id="profile_banner"
+        className="jumbotron breadcumb no-bg"
+        style={{ backgroundImage: `url(${"./img/background/subheader.jpg"})` }}
+      >
+        <div className="mainbreadcumb"></div>
+      </section>
+
+      <section className="left_item d_coll no-top no-bottom">
+        <div className="row">
+          <div className="col-md-12">
+            <div className="d_profile">
+              <div className="profile_avatar">
+                <div className="d_profile_img">
+                  <img src="./img/author/author-1.jpg" alt="" />
+                  <i className="fa fa-check"></i>
+                </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-              <div className="profile_name">
-                <h4>
-                  Abstraction
-                  <div className="clearfix"></div>
-                  <span id="wallet" className="profile_wallet">
-                    DdzFFzCqrhshMSxb9oW3mRo4MJrQkusV3fGFSTwaiu4wPBqMryA9DYVJCkW9n7twCffG5f5wX2sSkoDXGiZB1HPa7K7f865Kk4LqnrME
+      <section className="padding_zero">
+        <div className="row">
+          <div className="col-md-8">
+            <div className="item_filter_group">
+              <h3>BaşlıkBaşlıkBaşlıkBaşlıkBaşlıkBaşlıkBaşlıkBaşlık</h3>
+              <span>
+                <h4>By Başlık</h4>
+              </span>
+              <h4>
+                BaşlıkBaşlıkBaşlıkBaşlıkBaşlıkBaşlıkBaşlıkBaşlıkBaşlıkBaşlıkBaşlıkBaşlıkBaşlıkBaşlıkBaşlıkBaşlık
+                BaşlıkBaşlıkBaşlıkBaşlıkBaşlıkBaşlıkBaşlıkBaşlık
+                BaşlıkBaşlıkBaşlıkBaşlıkBaşlıkBaşlıkBaşlıkBaşlık
+              </h4>
+            </div>
+          </div>
+          <div className="col-md-4">
+            <div className="de-flex right">
+              <div className="de-flex-col">
+                <div className="collection-social-icons">
+                  <span onClick={() => window.open("", "_self")}>
+                    <i className="fa fa-facebook fa-lg"></i>
                   </span>
-                  <button id="btn_copy" title="Copy Text">
-                    Copy
-                  </button>
-                </h4>
+                  <span onClick={() => window.open("", "_self")}>
+                    <i className="fa fa-twitter fa-lg"></i>
+                  </span>
+                  <span onClick={() => window.open("", "_self")}>
+                    <i className="fa fa-linkedin fa-lg"></i>
+                  </span>
+                  <span onClick={() => window.open("", "_self")}>
+                    <i className="fa fa-pinterest fa-lg"></i>
+                  </span>
+                  <span onClick={() => window.open("", "_self")}>
+                    <i className="fa fa-rss fa-lg"></i>
+                  </span>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section>
-      <div className="row">
-        <div className="spacer-double"></div>
-
-        <div className="col-md-3">
-          <div className="item_filter_group">
-            <h4>Select Categories</h4>
-            <div className="de_form">
-              <div className="de_checkbox">
-                <input
-                  id="check_cat_1"
-                  name="check_cat_1"
-                  type="checkbox"
-                  value="check_cat_1"
-                />
-                <label htmlFor="check_cat_1">Art</label>
-              </div>
-
-              <div className="de_checkbox">
-                <input
-                  id="check_cat_2"
-                  name="check_cat_2"
-                  type="checkbox"
-                  value="check_cat_2"
-                />
-                <label htmlFor="check_cat_2">Music</label>
-              </div>
-
-              <div className="de_checkbox">
-                <input
-                  id="check_cat_3"
-                  name="check_cat_3"
-                  type="checkbox"
-                  value="check_cat_3"
-                />
-                <label htmlFor="check_cat_3">Domain Names</label>
-              </div>
-
-              <div className="de_checkbox">
-                <input
-                  id="check_cat_4"
-                  name="check_cat_4"
-                  type="checkbox"
-                  value="check_cat_4"
-                />
-                <label htmlFor="check_cat_4">Virtual World</label>
-              </div>
-
-              <div className="de_checkbox">
-                <input
-                  id="check_cat_5"
-                  name="check_cat_5"
-                  type="checkbox"
-                  value="check_cat_5"
-                />
-                <label htmlFor="check_cat_5">Trading Cards</label>
-              </div>
-
-              <div className="de_checkbox">
-                <input
-                  id="check_cat_6"
-                  name="check_cat_6"
-                  type="checkbox"
-                  value="check_cat_6"
-                />
-                <label htmlFor="check_cat_6">Collectibles</label>
-              </div>
-
-              <div className="de_checkbox">
-                <input
-                  id="check_cat_7"
-                  name="check_cat_7"
-                  type="checkbox"
-                  value="check_cat_7"
-                />
-                <label htmlFor="check_cat_7">Sports</label>
-              </div>
-
-              <div className="de_checkbox">
-                <input
-                  id="check_cat_8"
-                  name="check_cat_8"
-                  type="checkbox"
-                  value="check_cat_8"
-                />
-                <label htmlFor="check_cat_8">Utility</label>
-              </div>
-            </div>
-          </div>
-
-          <div className="item_filter_group">
-            <h4>Status</h4>
-            <div className="de_form">
-              <div className="de_checkbox">
-                <input id="buy" name="buy" type="checkbox" value="buy" />
-                <label htmlFor="buy">Buy Now</label>
-              </div>
-
-              <div className="de_checkbox">
-                <input
-                  id="onauction"
-                  name="onauction"
-                  type="checkbox"
-                  value="onauction"
-                />
-                <label htmlFor="onauction">On Auction</label>
-              </div>
-
-              <div className="de_checkbox">
-                <input
-                  id="offers"
-                  name="offers"
-                  type="checkbox"
-                  value="offers"
-                />
-                <label htmlFor="offers">has Offers</label>
-              </div>
-            </div>
-          </div>
-
-          <div className="item_filter_group">
-            <h4>Items Type</h4>
-            <div className="de_form">
-              <div className="de_checkbox">
-                <input
-                  id="sitems"
-                  name="sitems"
-                  type="checkbox"
-                  value="sitems"
-                />
-                <label htmlFor="sitems">Single Items</label>
-              </div>
-
-              <div className="de_checkbox">
-                <input
-                  id="bundles"
-                  name="bundles"
-                  type="checkbox"
-                  value="bundles"
-                />
-                <label htmlFor="bundles">Bundles</label>
-              </div>
-            </div>
-          </div>
-
-          <div className="item_filter_group">
-            <h4>Collections</h4>
-            <div className="de_form">
-              <div className="de_checkbox">
-                <input
-                  id="abstract"
-                  name="abstract"
-                  type="checkbox"
-                  value="abstract"
-                />
-                <label htmlFor="abstract">Abstraction</label>
-              </div>
-
-              <div className="de_checkbox">
-                <input
-                  id="paterns"
-                  name="paterns"
-                  type="checkbox"
-                  value="paterns"
-                />
-                <label htmlFor="paterns">Patternlicious</label>
-              </div>
-
-              <div className="de_checkbox">
-                <input
-                  id="skecth"
-                  name="skecth"
-                  type="checkbox"
-                  value="skecth"
-                />
-                <label htmlFor="skecth">Skecthify</label>
-              </div>
-
-              <div className="de_checkbox">
-                <input
-                  id="cartoon"
-                  name="cartoon"
-                  type="checkbox"
-                  value="cartoon"
-                />
-                <label htmlFor="cartoon">Cartoonism</label>
-              </div>
-
-              <div className="de_checkbox">
-                <input
-                  id="virtualand"
-                  name="virtualand"
-                  type="checkbox"
-                  value="virtualand"
-                />
-                <label htmlFor="virtualand">Virtuland</label>
-              </div>
-
-              <div className="de_checkbox">
-                <input
-                  id="pappercut"
-                  name="pappercut"
-                  type="checkbox"
-                  value="pappercut"
-                />
-                <label htmlFor="pappercut">Papercut</label>
-              </div>
+      <section className="padding_zero">
+        <div className="row">
+          <div className="col-lg-12">
+            <div className="items_filter">
+              <ul className="de_nav">
+                <li id="Mainbtn" className="active">
+                  <span onClick={handleBtnClick}>NFT's</span>
+                </li>
+                <li id="Mainbtn1" className="">
+                  <span onClick={handleBtnClick1}>Activity</span>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
-
-        <div className="col-md-9">
-          <ColumnNew />
-        </div>
-      </div>
-    </section>
-  </div>
-);
-export default collection;
+        {openMenu && (
+          <div id="zero1" className="onStep fadeIn">
+            <CollectionNfts />
+          </div>
+        )}
+        {openMenu1 && (
+          <div id="zero2" className="onStep fadeIn">
+            <Activity />
+          </div>
+        )}
+      </section>
+    </div>
+  );
+};
+export default Collection;

@@ -3882,6 +3882,7 @@ img.img-rounded {
   margin-bottom: 25px;
   padding: 30px;
   border-radius: 12px;
+  margin-top: -25px;
   .de_checkbox {
     position: relative;
     display: block;
@@ -5384,6 +5385,52 @@ blockquote {
   margin-right: 1px;
 }
 
-.sticky-filter {
-  position: fixed;
+.left_item {
+  margin-left: -1500px;
+}
+
+.padding_zero {
+  padding: 0px 10px 0px 10px;
+}
+
+.collection-social-icons {
+  display: inline-block;
+  span {
+    i {
+      text-shadow: none;
+      color: $black;
+      background: $white;
+      padding: 12px 10px 8px 10px;
+      width: 34px;
+      height: 34px;
+      text-align: center;
+      font-size: 22px;
+      border-radius: 5px;
+      margin: 0 5px 0 5px;
+      transition: 0.3s;
+    }
+    &:hover i {
+      color: $white;
+      background: $black;
+      transition: 0.3s;
+    }
+  }
+}
+
+.right {
+  float: right;
+}
+
+.left {
+  float: left;
+}
+
+.stick-place {
+  align-self: flex-start;
+  display: flex;
+  top: 5rem;
+
+  @media screen and (min-width: 35rem) {
+    position: sticky;
+  }
 }
