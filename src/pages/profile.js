@@ -1,4 +1,4 @@
-import React, { memo, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import ColumnMyNfts from "../components/columnMyNfts";
 import ColumnSwap from "../components/columnSwap";
@@ -7,10 +7,9 @@ import Favorites from "../components/favorites";
 import { createGlobalStyle } from "styled-components";
 import { dummyData } from "../components/constants/dummy";
 import { setUserNfts } from "../store/slicers/userNfts";
-import { hexToDecimalString } from "../utils/number";
-import { ownerTokens } from "../utils/apiRequest/readEvent";
-import { GetTokenURI, ProfileActions } from "../hooks";
-
+import {  ProfileActions } from "../hooks";
+import { useQuery } from "@apollo/client";
+import { tokensURI } from "../grqphql/query";
 const GlobalStyles = createGlobalStyle`
   header#myHeader.navbar.white {
     background: #fff;
@@ -39,6 +38,8 @@ const GlobalStyles = createGlobalStyle`
 
 const Profile = ({}) => {
   const dispatch = useDispatch();
+  const {loading,error,data} = useQuery(tokensURI)
+
   const { openMenu, openMenu1, openMenu2, openMenu3 } = useSelector(
     (state) => state.profileOperation
   );
@@ -46,22 +47,30 @@ const Profile = ({}) => {
     ProfileActions();
    const { userNfts } = useSelector((state) => state.userNfts) 
 
-  useEffect(async () => {
-    const { getTokenURI } = GetTokenURI();
-    const events = await ownerTokens();
+  useEffect( () => {
+    // const prepare = async () => {
+    //   const { getTokenURI } = GetTokenURI();
+    //   const events = await ownerTokens();
+  
+    //   var arr = [];
+    //   for (let index = 0; index < events.length; index++) {
+    //     var metadata = await getTokenURI(
+    //       events[index].contract_address,
+    //       hexToDecimalString(events[index].token_id)
+    //     );
+    //     arr.push(metadata);
+        
+    //   }
+    // }
+    // prepare()
+    if(!loading){
+      dispatch(setUserNfts(data.getTokensURI));
 
-    var arr = [];
-    for (let index = 0; index < events.length; index++) {
-      var metadata = await getTokenURI(
-        events[index].contract_address,
-        hexToDecimalString(events[index].token_id)
-      );
-      arr.push(metadata);
-      
     }
-    dispatch(setUserNfts(arr));
+
+    console.log("data",data)
     
-  }, [userNfts]);
+  }, [loading]);
 
   return (
     <div>

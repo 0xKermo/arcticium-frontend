@@ -24,8 +24,14 @@ import ItemDetail from "./pages/itemDetail";
 import Profile from "./pages/profile";
 import Faucet from "./pages/faucet";
 import Mint from "./pages/mint";
+import { ApolloClient, InMemoryCache, ApolloProvider, gql } from '@apollo/client';
+const client = new ApolloClient({
+  uri: 'http://localhost:4000/graphql',
+  cache: new InMemoryCache(),
+});
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
+  <ApolloProvider client={client}>
   <Provider store={store}>
     <BrowserRouter>
       <Header />
@@ -42,6 +48,7 @@ root.render(
       <Footer />
     </BrowserRouter>
   </Provider>
+  </ApolloProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

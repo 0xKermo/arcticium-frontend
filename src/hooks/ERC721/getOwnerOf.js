@@ -8,8 +8,6 @@ export const GetOwnerOf = () => {
         const low = hexToDecimalString(token_id.low)
         const high = hexToDecimalString(token_id.high)
         const provider = new Provider()
-        console.log(_contract_address)
-        console.log(_token_id)
         const tx = await provider.callContract({
             contractAddress: _contract_address,
             entrypoint: 'ownerOf',

@@ -6,6 +6,8 @@ import CarouselCollection from "../components/carouselCollection";
 import CarouselSwap from "../components/carouselSwap";
 import { createGlobalStyle } from "styled-components";
 
+
+
 const GlobalStyles = createGlobalStyle`
   header#myHeader.navbar.sticky.white {
     background: #403f83;

@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "./",
   "dependencies": {
+    "@apollo/client": "^3.6.9",
     "@emotion/react": "^11.9.3",
     "@reduxjs/toolkit": "^1.8.3",
     "@testing-library/jest-dom": "^5.16.4",
@@ -19,6 +20,7 @@
     "ethers": "^5.6.9",
     "font-awesome": "^4.7.0",
     "get-starknet": "^1.4.2",
+    "graphql": "^16.5.0",
     "jquery": "^3.6.0",
     "react": "^18.2.0",
     "react-awesome-reveal": "^3.8.1",

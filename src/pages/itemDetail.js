@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from "react";
-import Clock from "../components/clock";
 import { createGlobalStyle } from "styled-components";
-import { tradeType } from "../constants/filters";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { GetTokenURI, GetOwnerOf } from "../hooks";
-import { _fetchData } from "ethers/lib/utils";
-import {
-       useParams
-  } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { useQuery } from "@apollo/client";
+import { tokenURI } from "../grqphql/query";
 const GlobalStyles = createGlobalStyle`
   header#myHeader.navbar.white {
     background: #fff;
@@ -24,9 +21,16 @@ const GlobalStyles = createGlobalStyle`
       color: #111 !important;
     }
   }
+  .test{
+    border: 2px solid #8364e2;
+    border-radius: 15px;
+    background-color: ghostwhite;
+    padding-top: 3%;
+}
+  }
 `;
 
-const ItemDetail = function (props) {
+const ItemDetail = function () {
   const [openMenu, setOpenMenu] = React.useState(true);
   const [openMenu1, setOpenMenu1] = React.useState(false);
   const [voyagerLink, setVoyagerLink] = useState(0);
@@ -42,10 +46,13 @@ const ItemDetail = function (props) {
   const { walletAddress } = useSelector((state) => state.wallet);
   const [isOpenTrade, setIsOpenTrade] = useState(false);
 
-  const {contract,id} =  useParams();
-
-
-  const dispatch = useDispatch();
+  const { contract, id } = useParams();
+  const { loading, error, data } = useQuery(tokenURI, {
+    variables: {
+      contract_address: contract,
+      token_id: id,
+    },
+  });
 
   const handleBtnClick = (): void => {
     setOpenMenu(!openMenu);
@@ -60,22 +67,25 @@ const ItemDetail = function (props) {
     document.getElementById("Mainbtn").classList.remove("active");
   };
 
-  useEffect( () => {
+  const open_trade = () => {
+    console.log("open trade");
+  };
+
+  useEffect(() => {
     const prepare = async () => {
-        const res = await getOwnerOf(contract, id);
-        if (walletAddress != null && res.result[0] == walletAddress) {
-          setIsOwner(1);
-        } else if (walletAddress != null) {
-          setIsOwner(2);
-        }
-        var metadata = await getTokenURI(contract, id);
-        setNftInfo(metadata);
-        setVoyagerLink(
-          `https://beta-goerli.voyager.online/contract/${metadata.contract_address}`
-        );
-        console.log(nftInfo)
-    }
-    prepare()
+      const res = await getOwnerOf(contract, id);
+      if (walletAddress != null && res.result[0] == walletAddress) {
+        setIsOwner(1);
+      } else if (walletAddress != null) {
+        setIsOwner(2);
+      }
+      var metadata = await getTokenURI(contract, id);
+      setNftInfo(metadata);
+      setVoyagerLink(
+        `https://beta-goerli.voyager.online/contract/${metadata.contract_address}`
+      );
+    };
+    prepare();
   }, [walletAddress]);
   return (
     <div>
@@ -83,18 +93,32 @@ const ItemDetail = function (props) {
 
       <section className="container">
         <div className="row mt-md-5 pt-md-4">
-          <div className="col-md-6 text-center">
+          <div className="col-md-4 text-center">
             <img
               src={nftInfo.image}
               className="img-fluid img-rounded mb-sm-30"
               alt=""
             />
+            <div className="spacer-40"></div>
+
+            <div className="de_tab">
+              <div className="tab-1 onStep fadeIn">
+                <div className="p_list">
+                  <div className="p_list_info">
+                    <span>
+                    <h4><a  target="_blank" rel="noopener noreferrer" href={voyagerLink}>Voyager Link</a></h4>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
           <div className="col-md-6">
             <div className="item_info">
-              Auctions ends in
               <div className="de_countdown">
-                <Clock deadline="December, 30, 2021" />
+                <span onClick={open_trade} className="btn-main inline lead">
+                  Open Trade
+                </span>
               </div>
               <h2>{nftInfo.name}</h2>
               <div className="item_info_counts">
@@ -108,28 +132,21 @@ const ItemDetail = function (props) {
                   <i className="fa fa-heart"></i>18
                 </div>
               </div>
-              <p>
-                Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-                accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
-                quae ab illo inventore veritatis et quasi architecto beatae
-                vitae dicta sunt explicabo.
-              </p>
+              <p>{nftInfo.description}</p>
               <h6>Creator</h6>
               <div className="item_author">
                 <div className="author_list_pp">
                   <span>
-                    <img
-                      className="lazy"
-                      src={nftInfo.image} 
-                      alt=""
-                    />
+                    <img className="lazy" src={nftInfo.image} alt="" />
                     <i className="fa fa-check"></i>
                   </span>
                 </div>
                 <div className="author_list_info">
-                  <span>{nftInfo.contract_address.slice(0,6)}
-                  ...
-                  {nftInfo.contract_address.slice(-6)}</span>
+                  <span>
+                    {nftInfo.contract_address.slice(0, 6)}
+                    ...
+                    {nftInfo.contract_address.slice(-6)}
+                  </span>
                 </div>
               </div>
               <div className="spacer-40"></div>
@@ -143,7 +160,7 @@ const ItemDetail = function (props) {
                   </li>
                 </ul>
 
-                <div className="de_tab_content">
+                <div className="de_tab_content test">
                   {openMenu && (
                     <div className="tab-1 onStep fadeIn">
                       <div className="p_list">
