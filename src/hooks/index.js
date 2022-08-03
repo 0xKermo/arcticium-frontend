@@ -6,3 +6,4 @@ export {GetTokenURI} from './ERC721/getTokenURI'
 export {GetOwnerOf} from './ERC721/getOwnerOf'
 export {GetAmmOut} from './test/get_amm_out'
 export { ProfileActions } from './Profile/profileActions'
+export {GetCollectionName} from "./Collection/getCollectionName"

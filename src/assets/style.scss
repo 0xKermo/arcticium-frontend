@@ -2864,6 +2864,13 @@ i.font60 {
   -webkit-border-radius: 100%;
   z-index: 2;
 }
+.nft__item_offer {
+  width: 100%;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .nft__item_wrap {
   width: 100%;
   text-align: center;
@@ -4097,6 +4104,7 @@ img.img-rounded {
     max-width: 500px;
     height: max-content;
     margin: 30px 0 0;
+    overflow:auto;
     .heading {
       display: flex;
       justify-content: space-between;

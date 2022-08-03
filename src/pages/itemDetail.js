@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { createGlobalStyle } from "styled-components";
-import { useSelector } from "react-redux";
-import { GetTokenURI, GetOwnerOf } from "../hooks";
+import { useSelector, useDispatch } from "react-redux";
+import { GetTokenURI, GetOwnerOf, GetCollectionName } from "../hooks";
 import { useParams } from "react-router-dom";
-import { useQuery } from "@apollo/client";
-import { tokenURI } from "../grqphql/query";
 import Select from "react-select";
+import { GraphqlCollections } from "../grqphql/controller/collectionGraphql";
+import { ItemDetailAction } from "../hooks/Profile/itemDetailAction";
+import {
+  setOpenCheckout,
+  setOpenCheckoutBid,
+} from "../store/slicers/itemDetailOperations";
+
 const GlobalStyles = createGlobalStyle`
   header#myHeader.navbar.white {
     background: #fff;
@@ -22,7 +27,10 @@ const GlobalStyles = createGlobalStyle`
       color: #111 !important;
     }
   }
-
+  .method_active{
+    background: #8364e2!important;
+    color: #fff;
+  }
   .p_detail_header{
     font-weight: 400;
     padding-left: 5%;
@@ -72,32 +80,36 @@ const customStyles = {
 };
 
 const ItemDetail = function () {
-  const [openMenu, setOpenMenu] = useState(true);
-  const [openMenu1, setOpenMenu1] = useState(false);
-  const [openCheckout, setOpenCheckout] = useState(false);
-  const [openCheckoutbid, setOpenCheckoutbid] = useState(false);
-  const [choosen, setChoosen] = useState(0); // 0 = any, 1 = collection, 2 = nft
+  const dispatch = useDispatch();
   const [voyagerLink, setVoyagerLink] = useState(0);
   const [nftInfo, setNftInfo] = useState({
     name: "",
     description: "",
     contract_address: "",
     image: "",
+    attributes: [
+      {
+        trait_type: "",
+        value: "",
+      },
+    ],
   });
   const [is_owner, setIsOwner] = useState(0);
-  const { getTokenURI } = GetTokenURI();
   const { getOwnerOf } = GetOwnerOf();
   const { walletAddress } = useSelector((state) => state.wallet);
-  const [isOpenTrade, setIsOpenTrade] = useState(false);
+  const { openMenu, openMenu1, openCheckout, openCheckoutbid, choosen } =
+    useSelector((state) => state.itemDetailOperation);
+  const { collections, collectionloading, collectionError, collectionName } =
+    useSelector((state) => state.collections);
+  const { handleBtnClick, handleBtnClick1, anyBtn, collectionBtn, nftBtn } =
+    ItemDetailAction();
 
   const { contract, id } = useParams();
-  const { loading, error, data } = useQuery(tokenURI, {
-    variables: {
-      contract_address: contract,
-      token_id: id,
-    },
-  });
+
   const [isActive, setIsActive] = useState(false);
+  const { getTokenURI } = GetTokenURI();
+  const { graphqlCollections } = GraphqlCollections();
+  const { getCollectionName } = GetCollectionName();
   const unlockClick = () => {
     setIsActive(true);
   };
@@ -105,60 +117,50 @@ const ItemDetail = function () {
     setIsActive(false);
   };
 
-  const handleBtnClick = (): void => {
-    setOpenMenu(!openMenu);
-    setOpenMenu1(false);
-    document.getElementById("Mainbtn").classList.add("active");
-    document.getElementById("Mainbtn1").classList.remove("active");
-  };
-  const handleBtnClick1 = (): void => {
-    setOpenMenu1(!openMenu1);
-    setOpenMenu(false);
-    document.getElementById("Mainbtn1").classList.add("active");
-    document.getElementById("Mainbtn").classList.remove("active");
-  };
-  const anyBtn = () => {
-    setChoosen(0);
-    document.getElementById("any").classList.add("active");
-    document.getElementById("collection").classList.remove("active");
-    document.getElementById("nft").classList.remove("active");
-  };
-  const collectionBtn = () => {
-    setChoosen(1);
-    document.getElementById("any").classList.remove("active");
-    document.getElementById("collection").classList.add("active");
-    document.getElementById("nft").classList.remove("active");
-  };
-  const nftBtn = () => {
-    setChoosen(2);
-    document.getElementById("any").classList.remove("active");
-    document.getElementById("collection").classList.remove("active");
-    document.getElementById("nft").classList.add("active");
-  };
   const descriptionHandle = (): void => {
     console.log("ok");
   };
 
   const open_trade = () => {
-    setOpenCheckout(true);
+    graphqlCollections();
+    dispatch(setOpenCheckout(true));
   };
 
   useEffect(() => {
     const prepare = async () => {
       const res = await getOwnerOf(contract, id);
-      if (walletAddress != null && res.result[0] == walletAddress) {
+      if (walletAddress != null && res.result[0] === walletAddress) {
         setIsOwner(1);
       } else if (walletAddress != null) {
         setIsOwner(2);
       }
-      var metadata = await getTokenURI(contract, id);
-      setNftInfo(metadata);
-      setVoyagerLink(
-        `https://beta-goerli.voyager.online/contract/${metadata.contract_address}`
-      );
+      await getCollectionName(contract);
+
+      var _metadata = await getTokenURI(contract, id);
+      if (_metadata.name != undefined) {
+        setNftInfo(_metadata);
+        setVoyagerLink(
+          `https://beta-goerli.voyager.online/contract/${_metadata.contract_address}`
+        );
+      }
     };
     prepare();
   }, [walletAddress]);
+
+  const attr =
+    nftInfo.attributes != undefined
+      ? nftInfo.attributes.map((item, index) => {
+          return (
+            <div className="col-lg-4 col-md-6 col-sm-6" key={index}>
+              <div className="nft_attr">
+                <h5>{item.trait_type}</h5>
+                <h4>{item.value}</h4>
+              </div>
+            </div>
+          );
+        })
+      : null;
+
   return (
     <div>
       <GlobalStyles />
@@ -228,24 +230,11 @@ const ItemDetail = function () {
                 <div className="p_list">
                   <div className="p_detail_header">
                     <span>
-                      <h4>Properties</h4>
+                      <h4>Attributes</h4>
                     </span>
                   </div>
                 </div>
-
-                <div className="p_list">
-                  <div className="p_detail">
-                    <span>
-                      <a
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        href={voyagerLink}
-                      >
-                        <b>Voyager Link</b>
-                      </a>
-                    </span>
-                  </div>
-                </div>
+                <div className="row mt-5">{attr}</div>
               </div>
             </div>
           </div>
@@ -264,11 +253,7 @@ const ItemDetail = function () {
                   </span>
                 </div>
                 <div className="author_list_info">
-                  <span>
-                    {nftInfo.contract_address.slice(0, 6)}
-                    ...
-                    {nftInfo.contract_address.slice(-6)}
-                  </span>
+                  <span>{collectionName}</span>
                 </div>
               </div>
             </div>
@@ -484,7 +469,7 @@ const ItemDetail = function () {
           <div className="maincheckout">
             <button
               className="btn-close"
-              onClick={() => setOpenCheckout(false)}
+              onClick={() => dispatch(setOpenCheckout(false))}
             >
               x
             </button>
@@ -531,8 +516,18 @@ const ItemDetail = function () {
                         className="select1"
                         styles={customStyles}
                         menuContainerStyle={{ zIndex: 999 }}
-                        defaultValue={options[0]}
-                        options={options}
+                        options={collections}
+                        formatOptionLabel={
+                          <div>
+                            <img
+                              class="lazy"
+                              src="https://gateway.pinata.cloud/ipfs/bafkreie5y6v5g2jwwcatnpbe5ilqd3vywtxvfanb2mqwkkddphudo6bdhe"
+                              alt=""
+                            >
+                              {" "}
+                            </img>{" "}
+                          </div>
+                        }
                       />
                     </div>
                     <div className="spacer-20"></div>
@@ -543,7 +538,6 @@ const ItemDetail = function () {
                         className="select1"
                         styles={customStyles}
                         menuContainerStyle={{ zIndex: 999 }}
-                        defaultValue={options[0]}
                         options={options}
                       />
                     </div>
@@ -551,7 +545,7 @@ const ItemDetail = function () {
                     <div className="switch-with-title">
                       <h5>
                         <i className="fa fa- fa-unlock-alt id-color-2 mr10"></i>
-                        + Currency
+                        Currency
                       </h5>
                       <div className="de-switch">
                         <input
@@ -572,7 +566,6 @@ const ItemDetail = function () {
                         )}
                       </div>
                       <div className="clearfix"></div>
-                      <p className="p-info pb-3">if your</p>
 
                       {isActive ? (
                         <div id="unlockCtn" className="hide-content">
@@ -638,50 +631,25 @@ const ItemDetail = function () {
                   <div className="subtotal">0.013325 ETH</div>
                 </div>
               </div>
-            )} 
-            <div className="spacer-20"></div>
-            <h5>You will get</h5>
-            <div className="nft__item m-0">
-              <div className="de_countdown">
-              </div>
-              <div className="author_list_pp">
-                <span>
-                  <img
-                    className="lazy"
-                    src="./img/author/author-1.jpg"
-                    alt=""
-                  />
-                  <i className="fa fa-check"></i>
-                </span>
-              </div>
-              <div className="nft__item_wrap">
-                <span>
-                  <img
-                    src="./img/collections/coll-item-3.jpg"
-                    id="get_file_2"
-                    className="lazy nft__item_preview"
-                    alt=""
-                  />
-                </span>
-              </div>
-              <div className="nft__item_info">
-                <span>
-                  <h4>Pinky Ocean</h4>
-                </span>
-                <div className="nft__item_price">
-                  0.08 ETH<span>1/20</span>
-                </div>
-                <div className="nft__item_action">
-                  <span>Place a bid</span>
-                </div>
-                <div className="nft__item_like">
-                  <i className="fa fa-heart"></i>
-                  <span>50</span>
-                </div>
-              </div>
-            </div>
+            )}
 
-            <button className="btn-main lead mb-5">Open Trade</button>
+            {choosen === 2 && (
+              <div className="nft__item m-0">
+              
+                <div className="nft__item_offer">
+                  <span>
+                    <img
+                      src={nftInfo.image}
+                      id="get_file_2"
+                      className="lazy nft__item_preview"
+                      alt=""
+                    />
+                  </span>
+                </div>
+              </div>
+            )}
+
+            <button className="btn-main lead mb-5">List item</button>
           </div>
         </div>
       )}
@@ -690,7 +658,7 @@ const ItemDetail = function () {
           <div className="maincheckout">
             <button
               className="btn-close"
-              onClick={() => setOpenCheckoutbid(false)}
+              onClick={() => dispatch(setOpenCheckoutBid(false))}
             >
               x
             </button>
