@@ -21,7 +21,8 @@ export const GetTokenURI = () => {
             "description":resFile.data.description,
             "image":image_link,
             "contract_address":_contract_address,
-            "token_id": _token_id
+            "token_id": _token_id,
+            "attributes": resFile.data.attributes
         }
     
         return res
@@ -48,7 +49,7 @@ export const GetTokenURI = () => {
         const arr_len = hexArray.length
         var res
         var metadaURI = ""
-        for (let i = 1; i < arr_len - 1; i++) {
+        for (let i = 1; i < arr_len -1; i++) {
             metadaURI += hex2a(hexArray[i])
         }
         try {

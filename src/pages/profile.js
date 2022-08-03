@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import ColumnMyNfts from "../components/columnMyNfts";
+// import ColumnMyNfts from "../components/columnMyNfts";
 import ColumnSwap from "../components/columnSwap";
 import Activity from "../components/activity";
 import Favorites from "../components/favorites";
@@ -10,6 +10,7 @@ import { setUserNfts } from "../store/slicers/userNfts";
 import {  ProfileActions } from "../hooks";
 import { useQuery } from "@apollo/client";
 import { tokensURI } from "../grqphql/query";
+import ColumnMyNfts from "../components/columnMyNftsCopy";
 const GlobalStyles = createGlobalStyle`
   header#myHeader.navbar.white {
     background: #fff;
@@ -38,7 +39,7 @@ const GlobalStyles = createGlobalStyle`
 
 const Profile = ({}) => {
   const dispatch = useDispatch();
-  const {loading,error,data} = useQuery(tokensURI)
+  // const {loading,error,data} = useQuery(tokensURI)
 
   const { openMenu, openMenu1, openMenu2, openMenu3 } = useSelector(
     (state) => state.profileOperation
@@ -47,30 +48,30 @@ const Profile = ({}) => {
     ProfileActions();
    const { userNfts } = useSelector((state) => state.userNfts) 
 
-  useEffect( () => {
-    // const prepare = async () => {
-    //   const { getTokenURI } = GetTokenURI();
-    //   const events = await ownerTokens();
+  // useEffect( () => {
+  //   // const prepare = async () => {
+  //   //   const { getTokenURI } = GetTokenURI();
+  //   //   const events = await ownerTokens();
   
-    //   var arr = [];
-    //   for (let index = 0; index < events.length; index++) {
-    //     var metadata = await getTokenURI(
-    //       events[index].contract_address,
-    //       hexToDecimalString(events[index].token_id)
-    //     );
-    //     arr.push(metadata);
+  //   //   var arr = [];
+  //   //   for (let index = 0; index < events.length; index++) {
+  //   //     var metadata = await getTokenURI(
+  //   //       events[index].contract_address,
+  //   //       hexToDecimalString(events[index].token_id)
+  //   //     );
+  //   //     arr.push(metadata);
         
-    //   }
-    // }
-    // prepare()
-    if(!loading){
-      dispatch(setUserNfts(data.getTokensURI));
+  //   //   }
+  //   // }
+  //   // prepare()
+  //   if(!loading){
+  //     dispatch(setUserNfts(data.getTokensURI));
 
-    }
+  //   }
 
-    console.log("data",data)
+  //   console.log("data",data)
     
-  }, [loading]);
+  // }, [loading]);
 
   return (
     <div>
