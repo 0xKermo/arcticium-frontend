@@ -10,7 +10,7 @@ import {
   setOpenCheckout,
   setOpenCheckoutBid,
 } from "../store/slicers/itemDetailOperations";
-
+import { GraphqlCurrency } from "../grqphql/controller/currencyGraphql";
 const GlobalStyles = createGlobalStyle`
   header#myHeader.navbar.white {
     background: #fff;
@@ -97,6 +97,7 @@ const ItemDetail = function () {
   const [is_owner, setIsOwner] = useState(0);
   const { getOwnerOf } = GetOwnerOf();
   const { walletAddress } = useSelector((state) => state.wallet);
+  const { currencyInfo } = useSelector((state) => state.currency);
   const { openMenu, openMenu1, openCheckout, openCheckoutbid, choosen } =
     useSelector((state) => state.itemDetailOperation);
   const { collections, collectionloading, collectionError, collectionName } =
@@ -110,6 +111,7 @@ const ItemDetail = function () {
   const { getTokenURI } = GetTokenURI();
   const { graphqlCollections } = GraphqlCollections();
   const { getCollectionName } = GetCollectionName();
+  const {graphqlCurrency} = GraphqlCurrency()
   const unlockClick = () => {
     setIsActive(true);
   };
@@ -123,9 +125,11 @@ const ItemDetail = function () {
 
   const open_trade = () => {
     graphqlCollections();
+    graphqlCurrency()
+    console.log(currencyInfo)
     dispatch(setOpenCheckout(true));
   };
-
+  
   useEffect(() => {
     const prepare = async () => {
       const res = await getOwnerOf(contract, id);
@@ -502,8 +506,7 @@ const ItemDetail = function () {
                         className="select1"
                         styles={customStyles}
                         menuContainerStyle={{ zIndex: 999 }}
-                        defaultValue={options[0]}
-                        options={options}
+                        options={collections}
                       />
                     </div>
                   </div>
@@ -573,8 +576,8 @@ const ItemDetail = function () {
                             className="select1"
                             styles={customStyles}
                             menuContainerStyle={{ zIndex: 999 }}
-                            defaultValue={options[0]}
-                            options={options}
+                            defaultValue={currencyInfo[0]}
+                            options={currencyInfo.currencyInfo}
                           />
                           <input
                             type="text"

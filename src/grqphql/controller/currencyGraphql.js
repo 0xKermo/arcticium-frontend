@@ -1,30 +1,29 @@
 import React, { useEffect } from 'react'
-import { useSelector,useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { useQuery } from "@apollo/client";
-import { tokenURI,tokensURI } from '../query';
-import {setCurrencyInfo,setMetadataLoading,setMetadataError} from '../../store/slicers/metadata'
+import { getCurrencies } from '../query';
+import {setCurrencyInfo} from '../../store/slicers/currency'
 
-export const GraphqlMetadata = (_contract,_id) => {
+export const GraphqlCurrency = (_contract,_id) => {
   const dispatch = useDispatch()
-  const { loading, error, data } = useQuery(tokenURI, {
-    variables: {
-      contract_address: _contract,
-      token_id: _id,
-    },
-  });
+  const { loading, error, data } = useQuery(getCurrencies);
   
-  const graphqlMetadata = () => {
+  const graphqlCurrency = () => {
     if(!loading){
-      dispatch(setMetadata(data.getTokenURI))
-      dispatch(setMetadataLoading(loading))
+    const currencyInfo = data.getCurrencies.map((item,i) => {
+        return {
+            value:item.currencyAddress,
+            label:item.currencyName
+        }
+    }) 
+      dispatch(setCurrencyInfo({currencyInfo}))
     }
       
-      dispatch(setMetadataError(error))
    
   }
   useEffect(() => {
-    graphqlMetadata()
+    graphqlCurrency()
   },[loading])
 
-return {graphqlMetadata}
+return {graphqlCurrency}
 }
