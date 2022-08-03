@@ -3,36 +3,45 @@ import { useSelector, useDispatch } from "react-redux";
 // import ColumnMyNfts from "../components/columnMyNfts";
 import ColumnSwap from "../components/profileColumnSwap";
 import Activity from "../components/profileActvity";
-import Favorites from "../components/favorites";
+import Favorites from "../components/profileColumnFavorites";
 import { createGlobalStyle } from "styled-components";
 import { dummyData } from "../components/constants/dummy";
 import { setUserNfts } from "../store/slicers/userNfts";
 import { ProfileActions } from "../hooks";
 import { useQuery } from "@apollo/client";
 import { tokensURI } from "../grqphql/query";
-import ColumnMyNfts from "../components/columnMyNftsCopy";
+import ColumnMyNfts from "../components/profileColumnMyNftsCopy";
+
 const GlobalStyles = createGlobalStyle`
-  header#myHeader.navbar.white {
-    background: #fff;
+  header#myHeader.navbar.sticky.white {
+    background: #403f83;
+    border-bottom: solid 1px #403f83;
   }
-  .mainside{
-    .connect-wal{
-      display: none;
-    }
-    .logout{
-      display: flex;
-      align-items: center;
-    }
+  header#myHeader.navbar .search #quick_search{
+    color: #fff;
+    background: rgba(255, 255, 255, .1);
+  }
+  header#myHeader.navbar.white .btn, .navbar.white a, .navbar.sticky.white a{
+    color: #fff;
+  }
+  header#myHeader .dropdown-toggle::after{
+    color: rgba(255, 255, 255, .5);;
+  }
+  header#myHeader .logo .d-block{
+    display: none !important;
+  }
+  header#myHeader .logo .d-none{
+    display: block !important;
   }
   @media only screen and (max-width: 1199px) {
     .navbar{
       background: #403f83;
     }
     .navbar .menu-line, .navbar .menu-line1, .navbar .menu-line2{
-      background: #111;
+      background: #fff;
     }
     .item-dropdown .dropdown a{
-      color: #111 !important;
+      color: #fff !important;
     }
   }
 `;
@@ -76,42 +85,23 @@ const Profile = ({}) => {
   return (
     <div>
       <GlobalStyles />
-      <section>
+
+      <section
+        id="profile_banner"
+        className="jumbotron breadcumb no-bg"
+        style={{ backgroundImage: `url(${"./img/background/subheader.jpg"})` }}
+      >
         <div className="mainbreadcumb"></div>
       </section>
 
-      <section className="container no-bottom">
+      <section className="left_item d_coll no-top no-bottom">
         <div className="row">
           <div className="col-md-12">
-            <div className="d_profile de-flex">
-              <div className="de-flex-col">
-                <div className="profile_avatar">
-                  <img
-                    src={dummyData[0].avatar}
-                    alt=""
-                    style={{ width: "150px", height: "150px" }}
-                  />
-
+            <div className="d_profile">
+              <div className="profile_avatar">
+                <div className="d_profile_img">
+                  <img src={dummyData[0].avatar} alt="" />
                   <i className="fa fa-check"></i>
-                  <div className="profile_name">
-                    <h4>
-                      {dummyData[0].username}
-                      <span className="profile_username">
-                        {dummyData[0].name}
-                      </span>
-                      <span id="wallet" className="profile_wallet">
-                        {dummyData[0].wallet}
-                      </span>
-                      <button id="btn_copy" title="Copy Text">
-                        Copy
-                      </button>
-                    </h4>
-                  </div>
-                </div>
-              </div>
-              <div className="profile_follow de-flex">
-                <div className="de-flex-col">
-                  <span className="btn-main">Edit Profile</span>
                 </div>
               </div>
             </div>
@@ -119,7 +109,48 @@ const Profile = ({}) => {
         </div>
       </section>
 
-      <section className="container no-top">
+      <section className="padding_zero">
+        <div className="row">
+          <div className="col-md-8">
+            <div className="item_filter_group">
+              <h3>BaşlıkBaşlıkBaşlıkBaşlıkBaşlıkBaşlıkBaşlıkBaşlık</h3>
+              <span>
+                <h4>By Başlık</h4>
+              </span>
+              <h4>
+                BaşlıkBaşlıkBaşlıkBaşlıkBaşlıkBaşlıkBaşlıkBaşlıkBaşlıkBaşlıkBaşlıkBaşlıkBaşlıkBaşlıkBaşlıkBaşlık
+                BaşlıkBaşlıkBaşlıkBaşlıkBaşlıkBaşlıkBaşlıkBaşlık
+                BaşlıkBaşlıkBaşlıkBaşlıkBaşlıkBaşlıkBaşlıkBaşlık
+              </h4>
+            </div>
+          </div>
+          <div className="col-md-4">
+            <div className="de-flex right">
+              <div className="de-flex-col">
+                <div className="collection-social-icons">
+                  <span onClick={() => window.open("", "_self")}>
+                    <i className="fa fa-facebook fa-lg"></i>
+                  </span>
+                  <span onClick={() => window.open("", "_self")}>
+                    <i className="fa fa-twitter fa-lg"></i>
+                  </span>
+                  <span onClick={() => window.open("", "_self")}>
+                    <i className="fa fa-linkedin fa-lg"></i>
+                  </span>
+                  <span onClick={() => window.open("", "_self")}>
+                    <i className="fa fa-pinterest fa-lg"></i>
+                  </span>
+                  <span onClick={() => window.open("", "_self")}>
+                    <i className="fa fa-rss fa-lg"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="padding_zero">
         <div className="row">
           <div className="col-lg-12">
             <div className="items_filter">
@@ -140,9 +171,6 @@ const Profile = ({}) => {
             </div>
           </div>
         </div>
-        {/* <div id="zero1" className="onStep fadeIn">
-          <ColumnNew shuffle showLoadMore={false} authorId={dummyData.id} />
-        </div> */}
         {openMenu && (
           <div id="zero2" className="onStep fadeIn">
             <ColumnMyNfts nfts={userNfts} />

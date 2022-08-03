@@ -4,7 +4,7 @@ import useLazyLoad from "./useLazyLoad";
 import { Card } from './Card';
 import { LoadingPosts } from './LoadingPosts';
 import posts from './data.json';
-import ColumnMyNfts from "../columnMyNfts"
+import ColumnMyNfts from "../profileColumnMyNfts"
 const NUM_PER_PAGE = 6;
 const TOTAL_PAGES = 2;
 
