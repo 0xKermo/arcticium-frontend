@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import useOnclickOutside from "react-cool-onclickoutside";
 import { ConnectWallet } from "../hooks/connectWallet";
-import $ from "jquery"
+import $ from "jquery";
 
 setDefaultBreakpoints([{ xs: 0 }, { l: 1199 }, { xl: 1200 }]);
 
@@ -29,6 +29,10 @@ const Header = function ({ className }) {
   const { connectWallet } = ConnectWallet();
   const [openMenu, setOpenMenu] = React.useState(false);
   const [openMenu1, setOpenMenu1] = React.useState(false);
+
+  const handleBtnClick = () => {
+    setOpenMenu(!openMenu);
+  };
 
   const handleBtnClick1 = () => {
     setOpenMenu1(!openMenu1);
@@ -161,7 +165,7 @@ const Header = function ({ className }) {
                     </NavLink>
                   </div>
                   <div className="navbar-item">
-                  {walletAddress != null ? (
+                    {walletAddress != null ? (
                       <div className="mainside">
                         <div
                           id="de-click-menu-profile"
@@ -284,73 +288,76 @@ const Header = function ({ className }) {
                   </NavLink>
                 </div>
                 <div className="navbar-item">
-                    {walletAddress != null ? (
-                      <div className="mainside">
-                        <div
-                          id="de-click-menu-profile"
-                          className="de-menu-profile"
-                          onClick={() => btn_icon_pop(!showpop)}
-                          ref={refpop}
-                        >
-                          <img
-                            src="../../img/author_single/author_thumbnail.jpg"
-                            alt=""
-                          />
-                          {showpop && (
-                            <div className="popshow">
-                              <div className="d-name">
-                                <h3>Monica Lucas</h3>
-                              </div>
-                              <div className="d-line"></div>
-                              <div className="d-balance">
-                                <h4>Balance</h4>
-                                12.858 ETH
-                              </div>
-                              <div className="d-wallet">
-                                <h4>My Wallet</h4>
-                                <span id="wallet" className="d-wallet-address">
-                                  {walletAddress.slice(0, 6)}
-                                  ...
-                                  {walletAddress.slice(-7)}
-                                </span>
-                                <button id="btn_copy" title="Copy Text">
-                                  Copy
-                                </button>
-                              </div>
-                              <div className="d-line"></div>
-                              <ul className="de-submenu-profile">
-                                <li>
-                                  <NavLink to="/profile">
-                                    <i className="fa fa-user"></i> My profile
-                                  </NavLink>
-                                </li>
-                                <li>
-                                  <span>
-                                    <i className="fa fa-pencil"></i> Edit
-                                    profile
-                                  </span>
-                                </li>
-                                <li onClick={handleLogout}>
-                                  <span>
-                                    <i className="fa fa-sign-out"></i>{" "}
-                                    Disconnect
-                                  </span>
-                                </li>
-                              </ul>
+                  {walletAddress != null ? (
+                    <div className="mainside">
+                      <div
+                        id="de-click-menu-profile"
+                        className="de-menu-profile"
+                        onClick={() => btn_icon_pop(!showpop)}
+                        ref={refpop}
+                      >
+                        <img
+                          src="../../img/author_single/author_thumbnail.jpg"
+                          alt=""
+                        />
+                        {showpop && (
+                          <div className="popshow">
+                            <div className="d-name">
+                              <h3>Monica Lucas</h3>
                             </div>
-                          )}
-                        </div>
+                            <div className="d-line"></div>
+                            <div className="d-balance">
+                              <h4>Balance</h4>
+                              12.858 ETH
+                            </div>
+                            <div className="d-wallet">
+                              <h4>My Wallet</h4>
+                              <span id="wallet" className="d-wallet-address">
+                                {walletAddress.slice(0, 6)}
+                                ...
+                                {walletAddress.slice(-7)}
+                              </span>
+                              <button id="btn_copy" title="Copy Text">
+                                Copy
+                              </button>
+                            </div>
+                            <div className="d-line"></div>
+                            <ul className="de-submenu-profile">
+                              <li>
+                                <span
+                                  onClick={() =>
+                                    window.open("/profile", "_self")
+                                  }
+                                >
+                                  <i className="fa fa-pencil"></i> Edit profile
+                                </span>
+                              </li>
+                              <li>
+                                <span>
+                                  <i className="fa fa-pencil"></i> Edit profile
+                                </span>
+                              </li>
+                              <li onClick={handleLogout}>
+                                <span>
+                                  <i className="fa fa-sign-out"></i>
+                                  Disconnect
+                                </span>
+                              </li>
+                            </ul>
+                          </div>
+                        )}
                       </div>
-                    ) : (
-                      <div className="connect-wal">
-                        <span
-                          onClick={connectWallet}
-                          class="btn-main inline lead"
-                        >
-                          Connect Wallet
-                        </span>
-                      </div>
-                    )}
+                    </div>
+                  ) : (
+                    <div className="connect-wal">
+                      <span
+                        onClick={connectWallet}
+                        class="btn-main inline lead"
+                      >
+                        Connect Wallet
+                      </span>
+                    </div>
+                  )}
                 </div>
               </div>
             </Breakpoint>

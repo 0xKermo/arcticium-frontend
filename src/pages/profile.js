@@ -2,12 +2,12 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 // import ColumnMyNfts from "../components/columnMyNfts";
 import ColumnSwap from "../components/columnSwap";
-import Activity from "../components/activity";
+import Activity from "../components/profileActvity";
 import Favorites from "../components/favorites";
 import { createGlobalStyle } from "styled-components";
 import { dummyData } from "../components/constants/dummy";
 import { setUserNfts } from "../store/slicers/userNfts";
-import {  ProfileActions } from "../hooks";
+import { ProfileActions } from "../hooks";
 import { useQuery } from "@apollo/client";
 import { tokensURI } from "../grqphql/query";
 import ColumnMyNfts from "../components/columnMyNftsCopy";
@@ -39,15 +39,20 @@ const GlobalStyles = createGlobalStyle`
 
 const Profile = ({}) => {
   const dispatch = useDispatch();
+<<<<<<< HEAD
   // const {loading,error,data} = useQuery(tokensURI)
+=======
+  const { loading, error, data } = useQuery(tokensURI);
+>>>>>>> c22544b374e3257ee0af1dd58386dd3e95c1f678
 
   const { openMenu, openMenu1, openMenu2, openMenu3 } = useSelector(
     (state) => state.profileOperation
   );
   const { handleBtnClick, handleBtnClick1, handleBtnClick2, handleBtnClick3 } =
     ProfileActions();
-   const { userNfts } = useSelector((state) => state.userNfts) 
+  const { userNfts } = useSelector((state) => state.userNfts);
 
+<<<<<<< HEAD
   // useEffect( () => {
   //   // const prepare = async () => {
   //   //   const { getTokenURI } = GetTokenURI();
@@ -72,6 +77,30 @@ const Profile = ({}) => {
   //   console.log("data",data)
     
   // }, [loading]);
+=======
+  useEffect(() => {
+    // const prepare = async () => {
+    //   const { getTokenURI } = GetTokenURI();
+    //   const events = await ownerTokens();
+
+    //   var arr = [];
+    //   for (let index = 0; index < events.length; index++) {
+    //     var metadata = await getTokenURI(
+    //       events[index].contract_address,
+    //       hexToDecimalString(events[index].token_id)
+    //     );
+    //     arr.push(metadata);
+
+    //   }
+    // }
+    // prepare()
+    if (!loading) {
+      dispatch(setUserNfts(data.getTokensURI));
+    }
+
+    console.log("data", data);
+  }, [loading]);
+>>>>>>> c22544b374e3257ee0af1dd58386dd3e95c1f678
 
   return (
     <div>
@@ -145,7 +174,7 @@ const Profile = ({}) => {
         </div> */}
         {openMenu && (
           <div id="zero2" className="onStep fadeIn">
-            <ColumnMyNfts nfts={userNfts}/>
+            <ColumnMyNfts nfts={userNfts} />
           </div>
         )}
 

@@ -1,6 +1,6 @@
 import React from "react";
 import { createGlobalStyle } from "styled-components";
-import Activity from "../components/activity";
+import Activity from "../components/collectionActivity";
 import CollectionNfts from "../components/collectionNfts";
 
 const GlobalStyles = createGlobalStyle`

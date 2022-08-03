@@ -1,7 +1,7 @@
 import React from "react";
 import Select from "react-select";
 import { createGlobalStyle } from "styled-components";
-import TopFilterBar from "../components/topFilterBar";
+import TopFilterBar from "./topFilterBar";
 
 const GlobalStyles = createGlobalStyle`
   header#myHeader.navbar.sticky.white {
@@ -41,7 +41,7 @@ const Activity = () => (
   <div>
     <GlobalStyles />
 
-    <section className="padding_zero">
+    <section className="container">
       <div className="row">
         <div className="col-lg-12">
           <div className="items_filter centerEl">
