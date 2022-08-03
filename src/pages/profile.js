@@ -39,11 +39,7 @@ const GlobalStyles = createGlobalStyle`
 
 const Profile = ({}) => {
   const dispatch = useDispatch();
-<<<<<<< HEAD
   // const {loading,error,data} = useQuery(tokensURI)
-=======
-  const { loading, error, data } = useQuery(tokensURI);
->>>>>>> c22544b374e3257ee0af1dd58386dd3e95c1f678
 
   const { openMenu, openMenu1, openMenu2, openMenu3 } = useSelector(
     (state) => state.profileOperation
@@ -52,7 +48,6 @@ const Profile = ({}) => {
     ProfileActions();
   const { userNfts } = useSelector((state) => state.userNfts);
 
-<<<<<<< HEAD
   // useEffect( () => {
   //   // const prepare = async () => {
   //   //   const { getTokenURI } = GetTokenURI();
@@ -77,30 +72,6 @@ const Profile = ({}) => {
   //   console.log("data",data)
     
   // }, [loading]);
-=======
-  useEffect(() => {
-    // const prepare = async () => {
-    //   const { getTokenURI } = GetTokenURI();
-    //   const events = await ownerTokens();
-
-    //   var arr = [];
-    //   for (let index = 0; index < events.length; index++) {
-    //     var metadata = await getTokenURI(
-    //       events[index].contract_address,
-    //       hexToDecimalString(events[index].token_id)
-    //     );
-    //     arr.push(metadata);
-
-    //   }
-    // }
-    // prepare()
-    if (!loading) {
-      dispatch(setUserNfts(data.getTokensURI));
-    }
-
-    console.log("data", data);
-  }, [loading]);
->>>>>>> c22544b374e3257ee0af1dd58386dd3e95c1f678
 
   return (
     <div>
