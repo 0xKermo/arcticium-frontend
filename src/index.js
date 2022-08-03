@@ -24,6 +24,7 @@ import ItemDetail from "./pages/itemDetail";
 import Profile from "./pages/profile";
 import Faucet from "./pages/faucet";
 import Mint from "./pages/mint";
+import Sell from "./pages/sell";
 import { ApolloClient, InMemoryCache, ApolloProvider, gql } from '@apollo/client';
 const client = new ApolloClient({
   uri: 'http://localhost:4000/graphql',
@@ -41,6 +42,7 @@ root.render(
         <Route path="/collections" element={<Collections />} />
         <Route path="/collection" element={<Collection />} />
         <Route path="/:contract/:id" element={<ItemDetail />} />
+        <Route path="/:contract/:id/sell" element={<Sell />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/faucet" element={<Faucet />} />
         <Route path="/mint" element={<Mint />} />
