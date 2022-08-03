@@ -1,5 +1,5 @@
 import React from "react";
-import ColumnNew from "../components/ColumnNew";
+import ColumnSwap from "../components/explorerColumnSwap";
 import { createGlobalStyle } from "styled-components";
 import TopFilterBar from "../components/topFilterBar";
 
@@ -62,7 +62,7 @@ const Explore = () => (
           <TopFilterBar />
         </div>
       </div>
-      <ColumnNew />
+      <ColumnSwap />
     </section>
   </div>
 );
