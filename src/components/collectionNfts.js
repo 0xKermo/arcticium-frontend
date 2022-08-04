@@ -43,11 +43,7 @@ const CollectionNfts = function () {
       <GlobalStyles />
       <section className="padding_zero">
         <div className="row">
-          <div className="col-md-2">
-            <LeftFilterBar />
-          </div>
-
-          <div className="col-md-10">
+          <div className="col-md-12">
             <TopFilterBar />
             <ColumnNew />
           </div>
