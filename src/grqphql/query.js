@@ -68,3 +68,19 @@ export const GetTradeWithAddresId = gql`
     }
   }
 `;
+
+export const GetOpenTrades = gql`
+  {
+    getOpenTrades {
+      tokenContract
+      tokenId
+      expiration
+      price
+      status
+      targetTokenContract
+      targetTokenId
+      tradeType
+    }
+  }
+
+`

@@ -1,6 +1,12 @@
 import { gql } from "@apollo/client";
 
 export const TradeAdd = gql`
+  input metaDataInput{
+    name:String
+    description:String
+    image:String
+    attributes:String
+  }
   mutation tradeAdd( 
         $tradeId: Int
         $tradeOwnerAddress: String
@@ -14,6 +20,7 @@ export const TradeAdd = gql`
         $targetTokenId: Int
         $transactionHash: String
         $tradeType:Int
+        $metadata:metaDataInput
         ) {
     tradeAdd(
         tradeId: $tradeId,
@@ -28,6 +35,7 @@ export const TradeAdd = gql`
         targetTokenId: $targetTokenId,
         transactionHash: $transactionHash,
         tradeType: $tradeType,
+        metadata: $metadata
      ) {
         tradeId
         tradeOwnerAddress

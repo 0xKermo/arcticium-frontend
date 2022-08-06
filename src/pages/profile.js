@@ -7,7 +7,7 @@ import Favorites from "../components/profileColumnFavorites";
 import { createGlobalStyle } from "styled-components";
 import { dummyData } from "../components/constants/dummy";
 import { setUserNfts } from "../store/slicers/userNfts";
-import { ProfileActions } from "../hooks";
+import { ProfileActions } from "../controller";
 import { useQuery } from "@apollo/client";
 import { tokensURI } from "../grqphql/query";
 import ColumnMyNfts from "../components/profileColumnMyNftsCopy";

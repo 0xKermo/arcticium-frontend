@@ -1,3 +1,4 @@
+import { useQuery } from "@apollo/client";
 import React, { Component } from "react";
 import styled from "styled-components";
 import Clock from "./clock";
@@ -190,6 +191,7 @@ export default class Responsive extends Component {
       height: 0,
     };
     this.onImgLoad = this.onImgLoad.bind(this);
+    console.log(props.data)
   }
 
   loadMore = () => {
@@ -209,7 +211,6 @@ export default class Responsive extends Component {
       });
     }
   }
-
   render() {
     return (
       <div className="row">
@@ -224,26 +225,10 @@ export default class Responsive extends Component {
                   <Clock deadline={nft.deadline} />
                 </div>
               )}
-              <div className="author_list_pp">
-                <span onClick={() => window.open(nft.authorLink, "_self")}>
-                  <img className="lazy" src={nft.authorImg} alt="" />
-                  <i className="fa fa-check"></i>
-                </span>
-              </div>
               <div
                 className="nft__item_wrap"
                 style={{ height: `${this.state.height}px` }}
               >
-                {/* <Outer>
-                  <span>
-                    <img
-                      onLoad={this.onImgLoad}
-                      src={nft.previewImg}
-                      className="lazy nft__item_preview"
-                      alt=""
-                    />
-                  </span>
-                </Outer> */}
                 <Outer>
                   <span>
                     <img

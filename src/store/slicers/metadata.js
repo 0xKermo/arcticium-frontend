@@ -8,6 +8,12 @@ export const metadata = createSlice({
       description: "",
       contract_address: "",
       image: "",
+      attributes: [
+        {
+          trait_type: "",
+          value: "",
+        },
+      ],
     },
     metadataLoading:true,
     metadataError:null 

@@ -22,6 +22,9 @@ export const ListItem = () => {
         },
       ];
       let result;
+        tradeArgs.transactionHash ="sad";
+        _addTrade(tradeArgs);
+      return false
       console.log(_isApprove);
       if (_isApprove == 0) {
         const approveArgs = await approveERC721(tradeArgs.tokenContract, EXCHANGE_ADDRESS, 1);

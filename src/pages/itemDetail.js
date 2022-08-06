@@ -5,19 +5,19 @@ import { GetTokenURI, GetOwnerOf, GetCollectionName } from "../hooks";
 import { useParams } from "react-router-dom";
 import Select from "react-select";
 import { ListItemData } from "../controller/itemDetail/listItem";
-import { GraphqlCollections,GraphqlCurrency } from "../grqphql";
+import { GraphqlCollections, GraphqlCurrency } from "../grqphql";
 import { ItemDetailAction } from "../controller/itemDetail/itemDetailAction";
 import {
   setOpenCheckout,
   setOpenCheckoutBid,
   setChoosenCurrency,
-  setVoyagerLink
+  setVoyagerLink,
 } from "../store/slicers/itemDetailOperations";
+import { setMetadata } from "../store/slicers/metadata";
 import { Toaster } from "react-hot-toast";
-import {Target} from "../controller/itemDetail/target"
+import { Target } from "../controller/itemDetail/target";
 import { GetTradeWithAddresId } from "../grqphql/query";
 import { useQuery } from "@apollo/client";
-
 
 const GlobalStyles = createGlobalStyle`
   header#myHeader.navbar.white {
@@ -83,18 +83,6 @@ const customStyles = {
 
 const ItemDetail = function () {
   const dispatch = useDispatch();
-  const [nftInfo, setNftInfo] = useState({
-    name: "",
-    description: "",
-    contract_address: "",
-    image: "",
-    attributes: [
-      {
-        trait_type: "",
-        value: "",
-      },
-    ],
-  });
   const [is_owner, setIsOwner] = useState(0);
 
   /**
@@ -108,6 +96,7 @@ const ItemDetail = function () {
   /**
    *  Reducer start
    */
+  const { metadata } = useSelector((state) => state.metadata);
   const { walletAddress } = useSelector((state) => state.wallet);
   const { currencyInfo } = useSelector((state) => state.currency);
   const {
@@ -137,18 +126,22 @@ const ItemDetail = function () {
   const { graphqlCollections } = GraphqlCollections();
   const { getCollectionName } = GetCollectionName();
   const { graphqlCurrency } = GraphqlCurrency();
-  const { loading, error, data } = useQuery(GetTradeWithAddresId,{
-    variables:{
+  const { loading, error, data } = useQuery(GetTradeWithAddresId, {
+    variables: {
       contractAddress: contract,
-      tokenId:Number(id)
-    }
+      tokenId: Number(id),
+    },
   });
 
   /**
    * Graphql end
    */
 
-  const { targetNftOnchange, targetCollectionOnchange,currencyAmountOnchange} = Target()
+  const {
+    targetNftOnchange,
+    targetCollectionOnchange,
+    currencyAmountOnchange,
+  } = Target();
   const unlockClick = () => {
     setIsActive(true);
   };
@@ -158,19 +151,19 @@ const ItemDetail = function () {
   };
 
   const open_trade = () => {
-    console.log("open trde")
+    console.log("open trde");
     graphqlCollections();
     graphqlCurrency();
     dispatch(setOpenCheckout(true));
   };
 
   const listItemBtn = async () => {
-    listItemData(contract,id)
+    listItemData(contract, id,metadata);
     dispatch(setOpenCheckout(false));
   };
   useEffect(() => {
-    console.log("tradeData",data)
-  },[loading])
+    console.log("tradeData", data);
+  }, [loading]);
 
   useEffect(() => {
     const prepare = async () => {
@@ -180,22 +173,25 @@ const ItemDetail = function () {
       } else if (walletAddress != null) {
         setIsOwner(2);
       }
-      await getCollectionName(contract);  
+      await getCollectionName(contract);
 
       var _metadata = await getTokenURI(contract, id);
       if (_metadata.name != undefined) {
-        dispatch(setNftInfo(_metadata));
-        dispatch(setVoyagerLink(
-          `https://beta-goerli.voyager.online/contract/${_metadata.contract_address}`
-        ));
+        dispatch(setMetadata(_metadata));
+        console.log(metadata)
+        dispatch(
+          setVoyagerLink(
+            `https://beta-goerli.voyager.online/contract/${_metadata.contract_address}`
+          )
+        );
       }
     };
     prepare();
   }, [walletAddress]);
 
   const attr =
-    nftInfo.attributes != undefined
-      ? nftInfo.attributes.map((item, index) => {
+    metadata.attributes != undefined
+      ? metadata.attributes.map((item, index) => {
           return (
             <div className="col-lg-4 col-md-6 col-sm-6" key={index}>
               <div className="nft_attr">
@@ -215,7 +211,7 @@ const ItemDetail = function () {
         <div className="row mt-md-5 pt-md-4">
           <div className="col-md-4 text-center">
             <img
-              src={nftInfo.image}
+              src={metadata.image}
               className="img-fluid img-rounded mb-sm-30"
               alt=""
             />
@@ -233,7 +229,7 @@ const ItemDetail = function () {
 
                   <div className="p_list">
                     <div className="p_detail">
-                      <span>{nftInfo.description}</span>
+                      <span>{metadata.description}</span>
                     </div>
                   </div>
                 </div>
@@ -283,7 +279,7 @@ const ItemDetail = function () {
           </div>
           <div className="col-md-6">
             <div className="item_info">
-              <h2>{nftInfo.name}</h2>
+              <h2>{metadata.name}</h2>
             </div>
 
             <div className="item_info">
@@ -291,7 +287,7 @@ const ItemDetail = function () {
               <div className="item_author">
                 <div className="author_list_pp">
                   <span>
-                    <img className="lazy" src={nftInfo.image} alt="" />
+                    <img className="lazy" src={metadata.image} alt="" />
                     <i className="fa fa-check"></i>
                   </span>
                 </div>
@@ -517,12 +513,16 @@ const ItemDetail = function () {
               x
             </button>
             <div className="heading">
-              <h3>{nftInfo.name}</h3>
+              <h3>{metadata.name}</h3>
             </div>
             <div className="detailcheckout mt-4">
               <div className="listcheckout">
                 <ul class="activity-filter">
-                  <li id="any" onClick={anyBtn} class="filter_by_sales method_active">
+                  <li
+                    id="any"
+                    onClick={anyBtn}
+                    class="filter_by_sales method_active"
+                  >
                     Any
                   </li>
                   <li
@@ -676,7 +676,7 @@ const ItemDetail = function () {
                   <div className="nft__item_offer">
                     <span>
                       <img
-                        src={nftInfo.image}
+                        src={metadata.image}
                         id="get_file_2"
                         className="lazy nft__item_preview"
                         alt=""

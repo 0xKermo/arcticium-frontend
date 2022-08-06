@@ -2,6 +2,8 @@ import React from "react";
 import ColumnSwap from "../components/explorerColumnSwap";
 import { createGlobalStyle } from "styled-components";
 import TopFilterBar from "../components/topFilterBar";
+import { useQuery } from "@apollo/client";
+import { GetOpenTrades } from "../grqphql/query";
 
 const GlobalStyles = createGlobalStyle`
   header#myHeader.navbar.sticky.white {
@@ -37,7 +39,10 @@ const GlobalStyles = createGlobalStyle`
   }
 `;
 
-const Explore = () => (
+const Nfts = () => {
+  const {loading, error,data} = useQuery(GetOpenTrades)
+
+  return(
   <div>
     <GlobalStyles />
 
@@ -62,8 +67,11 @@ const Explore = () => (
           <TopFilterBar />
         </div>
       </div>
-      <ColumnSwap />
+      {!loading &&
+      <ColumnSwap data={data}/>
+
+      }
     </section>
   </div>
-);
-export default Explore;
+)};
+export default Nfts;

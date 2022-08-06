@@ -11,7 +11,7 @@ export const ListItemData = () => {
     const { getApprove } = GetApprove();
     const { listItem } = ListItem();
 
-  const listItemData = async (_contract, _token_id) => {
+  const listItemData = async (_contract, _token_id,metadata) => {
     const isApproved = await getApprove(walletAddress, _contract);
     let listItemCallData = [];
     const contract_address = _contract;
@@ -68,6 +68,12 @@ export const ListItemData = () => {
       targetTokenId:targetNftId == null ? 0 : Number(targetNftId),
       transactionHash: "result.transaction_hash",
       tradeType:choosen,
+      metadata:{
+        attributes : metadata.attributes == undefined? "":metadata.attributes,
+        name : metadata.name,
+        description : metadata.description,
+        image : metadata.image
+      }
     };
     listItem(listItemCallData, isApproved,tradeArgs)
   };

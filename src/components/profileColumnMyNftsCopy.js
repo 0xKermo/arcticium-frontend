@@ -106,7 +106,7 @@ const ColumnMyNfts = () => {
         <div
           key={index}
           className="d-item col-lg-2 col-md-6 col-sm-6 col-xs-12 mb-4"
-          onClick={() => window.open("0x0557f3d930a209a224e5976202ec66a839779e6bf7c340348e40a62027ab6ee8/16", "_self")}
+          onClick={() => window.open("0x041e478739dc3c8cb8e530b0e2146c3ec4df0f7efaf804131797d39276fde64c/1", "_self")}
         >
           <div className="nft__item m-0">
             <div className="nft__item_wrap" style={{ height: `${height}px` }}>
