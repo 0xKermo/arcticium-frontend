@@ -40,8 +40,6 @@ const GlobalStyles = createGlobalStyle`
 const Activity = () => (
   <div>
     <GlobalStyles />
-
-    <section className="padding_zero">
       <div className="row">
         <div className="col-lg-12">
           <div className="items_filter centerEl">
@@ -308,7 +306,6 @@ const Activity = () => (
           </ul>
         </div>
       </div>
-    </section>
   </div>
 );
 export default Activity;

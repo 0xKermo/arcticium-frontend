@@ -64,38 +64,32 @@ const Collection = function () {
         <div className="mainbreadcumb"></div>
       </section>
 
-      <section className="left_item d_coll no-top no-bottom">
+      <section className="padding_zero d_coll no-top no-bottom">
         <div className="row">
-          <div className="col-md-12">
-            <div className="d_profile">
-              <div className="profile_avatar">
-                <div className="d_profile_img">
-                  <img src="./img/author/author-1.jpg" alt="" />
-                  <i className="fa fa-check"></i>
+          <div className="col-md-8">
+            <div className="d_profile de-flex left">
+              <div className="de-flex-col">
+                <div className="profile_avatar">
+                  <img src="./img/author_single/author_thumbnail.jpg" alt="" />
+                  <div className="profile_name">
+                    <h4>
+                      Monica Lucas
+                      <span className="profile_username">@monicaaa</span>
+                      <span id="wallet" className="profile_wallet">
+                        DdzFFzCqrhshMSxb9oW3mRo4MJrQkusV3fGFSTwaiu4wPBqMryA9DYVJCkW9n7twCffG5f5wX2sSkoDXGiZB1HPa7K7f865Kk4LqnrME
+                      </span>
+                      <button id="btn_copy" title="Copy Text">
+                        copy
+                      </button>
+                    </h4>
+                    <h4>Servet-i Fünun döneminde ön plana çıkan diğer isimler ise Mehmet Rauf ile Hüseyin Cahit Yalçın’dır.</h4>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
-
-      <section className="padding_zero">
-        <div className="row">
-          <div className="col-md-8">
-            <div className="item_filter_group">
-              <h3>BaşlıkBaşlıkBaşlıkBaşlıkBaşlıkBaşlıkBaşlıkBaşlık</h3>
-              <span>
-                <h4>By Başlık</h4>
-              </span>
-              <h4>
-                BaşlıkBaşlıkBaşlıkBaşlıkBaşlıkBaşlıkBaşlıkBaşlıkBaşlıkBaşlıkBaşlıkBaşlıkBaşlıkBaşlıkBaşlıkBaşlık
-                BaşlıkBaşlıkBaşlıkBaşlıkBaşlıkBaşlıkBaşlıkBaşlık
-                BaşlıkBaşlıkBaşlıkBaşlıkBaşlıkBaşlıkBaşlıkBaşlık
-              </h4>
-            </div>
-          </div>
           <div className="col-md-4">
-            <div className="de-flex right">
+          <div className="d_profile de-flex right">
               <div className="de-flex-col">
                 <div className="collection-social-icons">
                   <span onClick={() => window.open("", "_self")}>
@@ -116,7 +110,7 @@ const Collection = function () {
                 </div>
               </div>
             </div>
-          </div>
+            </div>
         </div>
       </section>
 
