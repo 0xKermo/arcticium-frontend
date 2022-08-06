@@ -17,7 +17,7 @@ export const ConnectWallet =  () => {
 
     
     dispatch(setWalletAddress(starknet.selectedAddress));
-    dispatch(setProvider(starknet.provider));
+    // dispatch(setProvider(starknet.provider));
     dispatch(setAccount(starknet));
     return starknet
   }

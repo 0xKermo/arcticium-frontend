@@ -53,3 +53,18 @@ export const getCollections = gql`
     }
   }
 `;
+
+export const GetTradeWithAddresId = gql`
+  query getTradeWithAddresId($contractAddress: String!, $tokenId: Int) {
+    getTradeWithAddresId(contractAdress: $contractAddress, tokenId: $tokenId) {
+      tokenContract
+      tradeId
+      tokenId
+      expiration
+      price
+      targetTokenContract
+      targetTokenId
+      tradeType
+    }
+  }
+`;

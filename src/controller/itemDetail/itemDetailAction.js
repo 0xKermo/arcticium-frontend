@@ -4,8 +4,15 @@ import {
   setOpenMenu1,
   setOpenCheckout,
   setOpenCheckoutBid,
-  setChoosen
+  setChoosen,
+  setTargetNftId,
+  setTargetCollectionAddress,
+  setTargetNftLink,
+  setChoosenCurrency,
+  setVoyagerLink,
+  setCurrencyAmount
 } from "../../store/slicers/itemDetailOperations";
+
 
 export const ItemDetailAction = () => {
   const { openMenu, openMenu1 } = useSelector(
@@ -28,18 +35,38 @@ export const ItemDetailAction = () => {
   };
   const anyBtn = () => {
     dispatch(setChoosen(0));
+    dispatch(setTargetCollectionAddress(0));
+    dispatch(setTargetNftId(0));
+    dispatch(setTargetNftLink(null));
+    dispatch(setVoyagerLink(null));
+    dispatch(setChoosenCurrency(null));
+    dispatch(setCurrencyAmount(0));
     document.getElementById("any").classList.add("method_active");
     document.getElementById("collection").classList.remove("method_active");
     document.getElementById("nft").classList.remove("method_active");
   };
   const collectionBtn = () => {
     dispatch(setChoosen(1));
+    
+    dispatch(setTargetCollectionAddress(0));
+    dispatch(setTargetNftId(0));
+    dispatch(setTargetNftLink(null));
+    dispatch(setVoyagerLink(null));
+    dispatch(setChoosenCurrency(null));
+    dispatch(setCurrencyAmount(0));
     document.getElementById("any").classList.remove("method_active");
     document.getElementById("collection").classList.add("method_active");
     document.getElementById("nft").classList.remove("method_active");
   };
   const nftBtn = () => {
     dispatch(setChoosen(2));
+    
+    dispatch(setTargetCollectionAddress(0));
+    dispatch(setTargetNftId(0));
+    dispatch(setTargetNftLink(null));
+    dispatch(setVoyagerLink(null));
+    dispatch(setCurrencyAmount(0));
+    dispatch(setChoosenCurrency(null));
     document.getElementById("any").classList.remove("method_active");
     document.getElementById("collection").classList.remove("method_active");
     document.getElementById("nft").classList.add("method_active");

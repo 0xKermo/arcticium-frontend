@@ -49,7 +49,7 @@ export const GetTokenURI = () => {
         const arr_len = hexArray.length
         var res
         var metadaURI = ""
-        for (let i = 1; i < arr_len -1; i++) {
+        for (let i = 1; i < arr_len; i++) {
             metadaURI += hex2a(hexArray[i])
         }
         try {

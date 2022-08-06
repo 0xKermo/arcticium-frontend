@@ -25,7 +25,7 @@ import Profile from "./pages/profile";
 import Faucet from "./pages/faucet";
 import Mint from "./pages/mint";
 import Sell from "./pages/sell";
-import { ApolloClient, InMemoryCache, ApolloProvider, gql } from '@apollo/client';
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 const client = new ApolloClient({
   uri: 'http://localhost:4000/graphql',
   cache: new InMemoryCache(),

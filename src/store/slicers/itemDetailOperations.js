@@ -7,7 +7,13 @@ export const itemDetailOperation = createSlice({
     openMenu1: false,
     openCheckout: false,
     openCheckoutBid: false,
-    choosen : 0
+    choosen: 0,
+    targetCollectionAddress: 0,
+    targetNftId: 0,
+    targetNftLink: null,
+    voyagerLink: null,
+    choosenCurrency: null,
+    currencyAmount:0
   },
   reducers: {
     setOpenMenu: (state, action) => {
@@ -25,11 +31,40 @@ export const itemDetailOperation = createSlice({
     setChoosen: (state, action) => {
       state.choosen = action.payload;
     },
+    setTargetCollectionAddress: (state, action) => {
+      state.targetCollectionAddress = action.payload;
+    },
+    setTargetNftId: (state, action) => {
+      state.targetNftId = action.payload;
+    },
+    setTargetNftLink: (state, action) => {
+      state.targetNftLink = action.payload;
+    },
+    setChoosenCurrency: (state, action) => {
+      state.choosenCurrency = action.payload;
+    },
+    setCurrencyAmount: (state, action) => {
+      state.currencyAmount = action.payload;
+    },
+    setVoyagerLink: (state, action) => {
+      state.voyagerLink = action.payload;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setOpenMenu, setOpenMenu1, setOpenCheckout, setOpenCheckoutBid,setChoosen } =
-itemDetailOperation.actions;
+export const {
+  setOpenMenu,
+  setOpenMenu1,
+  setOpenCheckout,
+  setOpenCheckoutBid,
+  setChoosen,
+  setTargetCollectionAddress,
+  setTargetNftId,
+  setTargetNftLink,
+  setChoosenCurrency,
+  setVoyagerLink,
+  setCurrencyAmount
+} = itemDetailOperation.actions;
 
 export default itemDetailOperation.reducer;

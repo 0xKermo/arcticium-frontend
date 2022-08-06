@@ -4,13 +4,21 @@ import { useSelector, useDispatch } from "react-redux";
 import { GetTokenURI, GetOwnerOf, GetCollectionName } from "../hooks";
 import { useParams } from "react-router-dom";
 import Select from "react-select";
-import { GraphqlCollections } from "../grqphql/controller/collectionGraphql";
-import { ItemDetailAction } from "../hooks/Profile/itemDetailAction";
+import { ListItemData } from "../controller/itemDetail/listItem";
+import { GraphqlCollections,GraphqlCurrency } from "../grqphql";
+import { ItemDetailAction } from "../controller/itemDetail/itemDetailAction";
 import {
   setOpenCheckout,
   setOpenCheckoutBid,
+  setChoosenCurrency,
+  setVoyagerLink
 } from "../store/slicers/itemDetailOperations";
-import { GraphqlCurrency } from "../grqphql/controller/currencyGraphql";
+import { Toaster } from "react-hot-toast";
+import {Target} from "../controller/itemDetail/target"
+import { GetTradeWithAddresId } from "../grqphql/query";
+import { useQuery } from "@apollo/client";
+
+
 const GlobalStyles = createGlobalStyle`
   header#myHeader.navbar.white {
     background: #fff;
@@ -47,12 +55,6 @@ const GlobalStyles = createGlobalStyle`
   }
 `;
 
-const options = [
-  { value: "Last 7 days", label: "Last 7 days" },
-  { value: "Last 24 hours", label: "Last 24 hours" },
-  { value: "Last 30 days", label: "Last 30 days" },
-  { value: "All time", label: "All time" },
-];
 const customStyles = {
   option: (base, state) => ({
     ...base,
@@ -81,7 +83,6 @@ const customStyles = {
 
 const ItemDetail = function () {
   const dispatch = useDispatch();
-  const [voyagerLink, setVoyagerLink] = useState(0);
   const [nftInfo, setNftInfo] = useState({
     name: "",
     description: "",
@@ -95,41 +96,82 @@ const ItemDetail = function () {
     ],
   });
   const [is_owner, setIsOwner] = useState(0);
+
+  /**
+   * Contract Start
+   */
   const { getOwnerOf } = GetOwnerOf();
+  /**
+   * Contract End
+   */
+
+  /**
+   *  Reducer start
+   */
   const { walletAddress } = useSelector((state) => state.wallet);
   const { currencyInfo } = useSelector((state) => state.currency);
-  const { openMenu, openMenu1, openCheckout, openCheckoutbid, choosen } =
-    useSelector((state) => state.itemDetailOperation);
+  const {
+    openMenu,
+    openMenu1,
+    openCheckout,
+    openCheckoutbid,
+    choosen,
+    targetNftLink,
+    voyagerLink,
+  } = useSelector((state) => state.itemDetailOperation);
   const { collections, collectionloading, collectionError, collectionName } =
     useSelector((state) => state.collections);
   const { handleBtnClick, handleBtnClick1, anyBtn, collectionBtn, nftBtn } =
     ItemDetailAction();
-
+  /**
+   * Reducer End
+   */
   const { contract, id } = useParams();
+  const { listItemData } = ListItemData();
 
   const [isActive, setIsActive] = useState(false);
+  /**
+   * Graphql start
+   */
   const { getTokenURI } = GetTokenURI();
   const { graphqlCollections } = GraphqlCollections();
   const { getCollectionName } = GetCollectionName();
-  const {graphqlCurrency} = GraphqlCurrency()
+  const { graphqlCurrency } = GraphqlCurrency();
+  const { loading, error, data } = useQuery(GetTradeWithAddresId,{
+    variables:{
+      contractAddress: contract,
+      tokenId:Number(id)
+    }
+  });
+
+  /**
+   * Graphql end
+   */
+
+  const { targetNftOnchange, targetCollectionOnchange,currencyAmountOnchange} = Target()
   const unlockClick = () => {
     setIsActive(true);
   };
   const unlockHide = () => {
     setIsActive(false);
-  };
-
-  const descriptionHandle = (): void => {
-    console.log("ok");
+    dispatch(setChoosenCurrency(null));
   };
 
   const open_trade = () => {
+    console.log("open trde")
     graphqlCollections();
-    graphqlCurrency()
-    console.log(currencyInfo)
+    graphqlCurrency();
     dispatch(setOpenCheckout(true));
   };
-  
+
+  const listItemBtn = async () => {
+    listItemData(contract,id)
+    dispatch(setOpenCheckout(false));
+  };
+  useEffect(() => {
+    console.log("tradeData",data)
+  },[loading])
+
   useEffect(() => {
     const prepare = async () => {
       const res = await getOwnerOf(contract, id);
@@ -138,14 +180,14 @@ const ItemDetail = function () {
       } else if (walletAddress != null) {
         setIsOwner(2);
       }
-      await getCollectionName(contract);
+      await getCollectionName(contract);  
 
       var _metadata = await getTokenURI(contract, id);
       if (_metadata.name != undefined) {
-        setNftInfo(_metadata);
-        setVoyagerLink(
+        dispatch(setNftInfo(_metadata));
+        dispatch(setVoyagerLink(
           `https://beta-goerli.voyager.online/contract/${_metadata.contract_address}`
-        );
+        ));
       }
     };
     prepare();
@@ -168,7 +210,7 @@ const ItemDetail = function () {
   return (
     <div>
       <GlobalStyles />
-
+      <Toaster position="bottom-center" reverseOrder={true} />
       <section className="container">
         <div className="row mt-md-5 pt-md-4">
           <div className="col-md-4 text-center">
@@ -182,10 +224,7 @@ const ItemDetail = function () {
               <div className="de_tab">
                 <div className="tab-1 onStep fadeIn">
                   <div className="p_list">
-                    <div
-                      className="p_detail_header"
-                      onClick={descriptionHandle}
-                    >
+                    <div className="p_detail_header">
                       <span>
                         <h4>Descripton</h4>
                       </span>
@@ -483,7 +522,7 @@ const ItemDetail = function () {
             <div className="detailcheckout mt-4">
               <div className="listcheckout">
                 <ul class="activity-filter">
-                  <li id="any" onClick={anyBtn} class="filter_by_sales active">
+                  <li id="any" onClick={anyBtn} class="filter_by_sales method_active">
                     Any
                   </li>
                   <li
@@ -503,10 +542,12 @@ const ItemDetail = function () {
                     <div className="dropdownSelect one">
                       <h5>Target Collection</h5>
                       <Select
+                        id="targetCollection1"
                         className="select1"
                         styles={customStyles}
                         menuContainerStyle={{ zIndex: 999 }}
                         options={collections}
+                        onChange={targetCollectionOnchange}
                       />
                     </div>
                   </div>
@@ -517,6 +558,8 @@ const ItemDetail = function () {
                       <h5>Target Collection</h5>
                       <Select
                         className="select1"
+                        onChange={targetCollectionOnchange}
+                        id="targetCollection2"
                         styles={customStyles}
                         menuContainerStyle={{ zIndex: 999 }}
                         options={collections}
@@ -536,12 +579,14 @@ const ItemDetail = function () {
                     <div className="spacer-20"></div>
 
                     <div className="dropdownSelect two">
-                      <h5>Target nft</h5>
-                      <Select
-                        className="select1"
-                        styles={customStyles}
-                        menuContainerStyle={{ zIndex: 999 }}
-                        options={options}
+                      <h5>Target nft id</h5>
+                      <input
+                        type="text"
+                        name="targetNft"
+                        id="targetNft"
+                        className="form-control"
+                        placeholder="Type NFT id"
+                        onChange={targetNftOnchange}
                       />
                     </div>
                     <div className="spacer-20"></div>
@@ -580,11 +625,12 @@ const ItemDetail = function () {
                             options={currencyInfo.currencyInfo}
                           />
                           <input
-                            type="text"
-                            name="item_unlock"
-                            id="item_unlock"
+                            type="number"
+                            onChange={currencyAmountOnchange}
+                            name="currencyAmount"
+                            id="currencyAmount"
                             className="form-control"
-                            placeholder="Access key, code to redeem or link to a file..."
+                            placeholder="Currency Amount"
                           />
                         </div>
                       ) : null}
@@ -619,40 +665,35 @@ const ItemDetail = function () {
                 </div>
               </div>
             )}
-            {choosen === 2 && (
-              <div>
-                <div className="heading mt-3">
-                  <p>Your balance</p>
-                  <div className="subtotal">10.67856 ETH</div>
-                </div>
-                <div className="heading">
-                  <p>Service fee 2.5%</p>
-                  <div className="subtotal">0.00325 ETH</div>
-                </div>
-                <div className="heading">
-                  <p>You will pay</p>
-                  <div className="subtotal">0.013325 ETH</div>
-                </div>
-              </div>
-            )}
 
             {choosen === 2 && (
               <div className="nft__item m-0">
-              
-                <div className="nft__item_offer">
-                  <span>
-                    <img
-                      src={nftInfo.image}
-                      id="get_file_2"
-                      className="lazy nft__item_preview"
-                      alt=""
-                    />
-                  </span>
-                </div>
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={targetNftLink}
+                >
+                  <div className="nft__item_offer">
+                    <span>
+                      <img
+                        src={nftInfo.image}
+                        id="get_file_2"
+                        className="lazy nft__item_preview"
+                        alt=""
+                      />
+                    </span>
+                  </div>
+
+                  <div className="heading mt-3">
+                    <p>Click on see NFT</p>
+                  </div>
+                </a>
               </div>
             )}
 
-            <button className="btn-main lead mb-5">List item</button>
+            <button onClick={listItemBtn} className="btn-main lead mb-5">
+              List item
+            </button>
           </div>
         </div>
       )}
