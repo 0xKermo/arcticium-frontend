@@ -19,6 +19,14 @@ export const AddTrade = () => {
         targetTokenId: tradeArgs.targetTokenId,
         transactionHash: tradeArgs.transactionHash,
         tradeType: tradeArgs.tradeType,
+        name: tradeArgs.name,
+        description : tradeArgs.description,
+        image: tradeArgs.image,
+        attributes: tradeArgs.attributes,
+        targetName: tradeArgs.targetNftName,
+        targetDescription: tradeArgs.targetNftDescription,
+        targetImage: tradeArgs.targetNftImage,
+        targetAttributes: tradeArgs.targetNftAttributes
       },
     });
     return result;

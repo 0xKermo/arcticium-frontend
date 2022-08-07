@@ -2,6 +2,10 @@ import { useQuery } from "@apollo/client";
 import React, { Component } from "react";
 import styled from "styled-components";
 import Clock from "./clock";
+import {
+
+  Link,
+} from "react-router-dom";
 
 const Outer = styled.div`
   display: flex;
@@ -187,11 +191,11 @@ export default class Responsive extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      nfts: this.dummyData.slice(0, 12),
+      nfts: props.data.getOpenTrades,
       height: 0,
     };
     this.onImgLoad = this.onImgLoad.bind(this);
-    console.log(props.data)
+    console.log("nfts", this.state.nfts);
   }
 
   loadMore = () => {
@@ -218,60 +222,68 @@ export default class Responsive extends Component {
           <div
             key={index}
             className="d-item col-lg-3 col-md-6 col-sm-6 col-xs-12 mb-4"
-          >
+          > 
+           <Link to={`/${nft.tokenContract}/${nft.tokenId}`}>
             <div className="nft__item m-0">
-              {nft.deadline && (
-                <div className="de_countdown">
-                  <Clock deadline={nft.deadline} />
+              <div className="nft__item_wrap" style={{ height: `225px` }}>
+                <div className="col-md-5">
+                  <Outer>
+                    <span>
+                      <img
+                        height={100}
+                        width={100}
+                        onLoad={this.onImgLoad}
+                        src={nft.image}
+                        className="lazy nft__item_preview"
+                        alt=""
+                      />
+                    </span>
+                  </Outer>
                 </div>
-              )}
-              <div
-                className="nft__item_wrap"
-                style={{ height: `${this.state.height}px` }}
-              >
-                <Outer>
-                  <span>
-                    <img
-                      onLoad={this.onImgLoad}
-                      src={nft.previewImg}
-                      className="lazy nft__item_preview"
-                      alt=""
-                    />
-                  </span>
-                </Outer>
-                <div className="swap-icon">
-                  <i className="fa fa-exchange"></i>
+                <div className="col-md-2">
+                  <div className="swap-icon">
+                    <i className="fa fa-exchange"></i>
+                  </div>
                 </div>
-                <Outer>
-                  <span>
-                    <img
-                      onLoad={this.onImgLoad}
-                      src={nft.previewImg}
-                      className="lazy nft__item_preview"
-                      alt=""
-                    />
-                  </span>
-                </Outer>
+                <div className="col-md-5">
+                  {nft.targetTokenContract != null && nft.targetTokenId != 0 && (
+                    <Outer>
+                      <span>
+                        <img
+                          height={100}
+                          width={100}
+                          onLoad={this.onImgLoad}
+                          src={nft.targetImage}
+                          className="lazy nft__item_preview"
+                          alt=""
+                        />
+                      </span>
+                    </Outer>
+                  )}
+                  {nft.targetTokenContract != null &&
+                    nft.targetTokenId == 0 && (
+                      <div>{nft.targetTokenContract.slice(0, 3)}</div>
+                    )}
+                     {nft.targetTokenContract == null &&
+                    nft.targetTokenId == 0 && (
+                      <div>Make Offer</div>
+                    )}
+                </div>
               </div>
               <div className="nft__item_info">
-                <span onClick={() => window.open(nft.nftLink, "_self")}>
-                  <h4>{nft.title}</h4>
+                <span>
+                  <h4>{nft.name}</h4>
                 </span>
                 <div className="nft__item_price">
                   {nft.price}
-                  <span>{nft.bid}</span>
+                  {/* <span>{nft.bid}</span> */}
                 </div>
                 <div className="nft__item_action">
-                  <span onClick={() => window.open(nft.bidLink, "_self")}>
-                    Place a bid
-                  </span>
-                </div>
-                <div className="nft__item_like">
-                  <i className="fa fa-heart"></i>
-                  <span>{nft.likes}</span>
+                  <span>Place a bid</span>
                 </div>
               </div>
             </div>
+            </Link>
           </div>
         ))}
         {this.state.nfts.length !== this.dummyData.length && (

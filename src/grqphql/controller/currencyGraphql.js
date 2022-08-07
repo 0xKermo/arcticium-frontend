@@ -1,15 +1,16 @@
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { useQuery } from "@apollo/client";
+import { useLazyQuery } from "@apollo/client";
 import { getCurrencies } from '../query';
 import {setCurrencyInfo} from '../../store/slicers/currency'
 
 export const GraphqlCurrency = (_contract,_id) => {
   const dispatch = useDispatch()
-  const { loading, error, data } = useQuery(getCurrencies);
+  const [getDog, { loading, data }] = useLazyQuery(getCurrencies);
   
   const graphqlCurrency = () => {
-    if(!loading){
+    getDog()
+    if(!loading && data != null){
     const currencyInfo = data.getCurrencies.map((item,i) => {
         return {
             value:item.currencyAddress,

@@ -11,14 +11,16 @@ import {
   setOpenCheckout,
   setOpenCheckoutBid,
   setChoosenCurrency,
+  setCurrencyAmount,
   setVoyagerLink,
+  setChoosen
 } from "../store/slicers/itemDetailOperations";
 import { setMetadata } from "../store/slicers/metadata";
 import { Toaster } from "react-hot-toast";
 import { Target } from "../controller/itemDetail/target";
 import { GetTradeWithAddresId } from "../grqphql/query";
 import { useQuery } from "@apollo/client";
-
+import { setTargetMetadata } from "../store/slicers/targetNftMetadata";
 const GlobalStyles = createGlobalStyle`
   header#myHeader.navbar.white {
     background: #fff;
@@ -84,6 +86,7 @@ const customStyles = {
 const ItemDetail = function () {
   const dispatch = useDispatch();
   const [is_owner, setIsOwner] = useState(0);
+  const [targetNftUrl, setTargetNftUrl] = useState("");
 
   /**
    * Contract Start
@@ -107,6 +110,7 @@ const ItemDetail = function () {
     choosen,
     targetNftLink,
     voyagerLink,
+    targetCollectionAddress,
   } = useSelector((state) => state.itemDetailOperation);
   const { collections, collectionloading, collectionError, collectionName } =
     useSelector((state) => state.collections);
@@ -148,6 +152,7 @@ const ItemDetail = function () {
   const unlockHide = () => {
     setIsActive(false);
     dispatch(setChoosenCurrency(null));
+    dispatch(setCurrencyAmount(0));
   };
 
   const open_trade = () => {
@@ -157,9 +162,20 @@ const ItemDetail = function () {
     dispatch(setOpenCheckout(true));
   };
 
+  const targetNftOnfocus = async (e) => {
+    setTargetNftUrl("");
+    console.log("ok");
+    const metadata = await getTokenURI(targetCollectionAddress, e.target.value);
+    dispatch(setTargetMetadata(metadata));
+    const _targetNftLink =
+      "http://localhost:3000/" + targetCollectionAddress + "/" + e.target.value;
+    document.getElementById("targetNft").src = metadata.image;
+    document.getElementById("targetNftsrc").src = _targetNftLink;
+    setTargetNftUrl(metadata.image);
+  };
+
   const listItemBtn = async () => {
-    listItemData(contract, id,metadata);
-    dispatch(setOpenCheckout(false));
+    listItemData(contract, id, metadata);
   };
   useEffect(() => {
     console.log("tradeData", data);
@@ -178,7 +194,7 @@ const ItemDetail = function () {
       var _metadata = await getTokenURI(contract, id);
       if (_metadata.name != undefined) {
         dispatch(setMetadata(_metadata));
-        console.log(metadata)
+        console.log(metadata);
         dispatch(
           setVoyagerLink(
             `https://beta-goerli.voyager.online/contract/${_metadata.contract_address}`
@@ -503,12 +519,16 @@ const ItemDetail = function () {
           </div>
         </div>
       </section>
+
       {openCheckout && (
         <div className="checkout">
           <div className="maincheckout">
             <button
               className="btn-close"
-              onClick={() => dispatch(setOpenCheckout(false))}
+              onClick={() =>{ 
+                dispatch(setOpenCheckout(false))
+                dispatch(setChoosen(0))
+              }}
             >
               x
             </button>
@@ -587,6 +607,7 @@ const ItemDetail = function () {
                         className="form-control"
                         placeholder="Type NFT id"
                         onChange={targetNftOnchange}
+                        onBlur={targetNftOnfocus}
                       />
                     </div>
                     <div className="spacer-20"></div>
@@ -671,13 +692,14 @@ const ItemDetail = function () {
                 <a
                   target="_blank"
                   rel="noopener noreferrer"
+                  id="targetNftsrc"
                   href={targetNftLink}
                 >
                   <div className="nft__item_offer">
                     <span>
                       <img
-                        src={metadata.image}
-                        id="get_file_2"
+                        src={targetNftUrl}
+                        id="targetNft"
                         className="lazy nft__item_preview"
                         alt=""
                       />

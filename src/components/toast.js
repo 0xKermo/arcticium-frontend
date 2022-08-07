@@ -1,11 +1,11 @@
 import toast from 'react-hot-toast';
 
-export const ToastPromise = (myPromise,loadingText,successText,transaction_hash) => {
+export const ToastPromise = (myPromise,loadingText,successText) => {
     toast.promise(
         myPromise,
         {
           loading: loadingText,
-          success: (data) => `${successText} ${transaction_hash}`,
+          success: (data) => successText,
           error: (err) => `This just happened: ${err.toString()}`,
         },
         {

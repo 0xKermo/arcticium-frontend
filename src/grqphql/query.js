@@ -80,6 +80,14 @@ export const GetOpenTrades = gql`
       targetTokenContract
       targetTokenId
       tradeType
+      name
+      description
+      image
+      attributes
+      targetName
+      targetDescription
+      targetImage
+      targetAttributes
     }
   }
 

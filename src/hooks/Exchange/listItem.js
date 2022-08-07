@@ -22,30 +22,31 @@ export const ListItem = () => {
         },
       ];
       let result;
-        tradeArgs.transactionHash ="sad";
-        _addTrade(tradeArgs);
-      return false
-      console.log(_isApprove);
+      
       if (_isApprove == 0) {
-        const approveArgs = await approveERC721(tradeArgs.tokenContract, EXCHANGE_ADDRESS, 1);
+        const approveArgs = await approveERC721(
+          tradeArgs.tokenContract,
+          EXCHANGE_ADDRESS,
+          1
+        );
         listItemArgs.push(approveArgs);
-        console.log(approveArgs)
         result = await account.account.execute(listItemArgs.reverse());
       } else {
-        console.log("ok")
         result = await account.account.execute(listItemArgs[0]);
       }
-      dispatch(setOpenCheckout(true));
+      dispatch(setOpenCheckout(false));
 
       const tx = account.provider.waitForTransaction(result.transaction_hash);
       const mintLoadingText = "Transaction pending...";
       const voyagerLink = `https://beta-goerli.voyager.online/tx/${result.transaction_hash}`;
       const mintSuccessText = `Minted successfully Test arcEth token : <a src=${voyagerLink}>Click and see on Voyager</a>`;
+      ToastPromise(tx, mintLoadingText, mintSuccessText);
       tx.then((res) => {
         tradeArgs.transactionHash = result.transaction_hash;
-        _addTrade(tradeArgs);
+        const resAddTrade = _addTrade(tradeArgs);
+        console.log(resAddTrade);
       });
-      ToastPromise(tx, mintLoadingText, mintSuccessText);
+
       return result;
     } catch (error) {
       console.log(error);

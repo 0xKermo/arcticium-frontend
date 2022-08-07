@@ -5,7 +5,7 @@ import { bnToUint256 } from "../../utils/uint256";
 import { GetTotalSupply } from "./useTotalSupply";
 
 export const MintErc721 = () => {
-    const { walletAddress, account,provider } = useSelector(state => state.wallet)
+    const { walletAddress, account } = useSelector(state => state.wallet)
     const {getTotalSupply} = GetTotalSupply()
     const mintErc721 = async ( metadata) => {
         const _metadata = await metadata
@@ -31,6 +31,7 @@ export const MintErc721 = () => {
                 toFelt(arr[0]), toFelt(arr[1]),toFelt(arr[1]),toFelt(arr[2])
             ]
         }
+        console.log(calldata)
         const result = await account.account.execute({
             contractAddress: ERC721_ADDRESS,
             entrypoint: 'mint',

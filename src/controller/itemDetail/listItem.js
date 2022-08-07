@@ -7,11 +7,12 @@ import { ListItem } from "../../hooks";
 export const ListItemData = () => {
   const { choosen, targetCollectionAddress, targetNftId, currencyAmount } =
     useSelector((state) => state.itemDetailOperation);
-    const { walletAddress } = useSelector((state) => state.wallet);
-    const { getApprove } = GetApprove();
-    const { listItem } = ListItem();
+  const { walletAddress } = useSelector((state) => state.wallet);
+  const { targetMetadata } = useSelector((state) => state.targetMetadata);
+  const { getApprove } = GetApprove();
+  const { listItem } = ListItem();
 
-  const listItemData = async (_contract, _token_id,metadata) => {
+  const listItemData = async (_contract, _token_id, metadata) => {
     const isApproved = await getApprove(walletAddress, _contract);
     let listItemCallData = [];
     const contract_address = _contract;
@@ -19,7 +20,7 @@ export const ListItemData = () => {
     const expiration = 1234;
     const price = currencyAmount;
     const targetTokenId = bnToUint256(targetNftId);
-    
+
     if (choosen === 0) {
       listItemCallData = [
         contract_address,
@@ -54,28 +55,31 @@ export const ListItemData = () => {
         targetTokenId.high,
       ];
     }
-    
+
     const tradeArgs = {
-      tradeId:1,
+      tradeId: 1,
       tradeOwnerAddress: walletAddress,
-      tokenContract:contract_address,
-      tokenId: _token_id == null?0:Number(_token_id),
+      tokenContract: contract_address,
+      tokenId: _token_id == null ? 0 : Number(_token_id),
       expiration: expiration,
-      price: price == null ? 0 :Number(price),
+      price: price == null ? 0 : Number(price),
       status: "Open",
       swapTradeId: 1,
-      targetTokenContract: targetCollectionAddress === 0?null:targetCollectionAddress,
-      targetTokenId:targetNftId == null ? 0 : Number(targetNftId),
+      targetTokenContract:
+      targetCollectionAddress === 0 ? null : targetCollectionAddress,
+      targetTokenId: targetNftId == null ? 0 : Number(targetNftId),
       transactionHash: "result.transaction_hash",
-      tradeType:choosen,
-      metadata:{
-        attributes : metadata.attributes == undefined? "":metadata.attributes,
-        name : metadata.name,
-        description : metadata.description,
-        image : metadata.image
-      }
+      tradeType: choosen,
+      attributes: metadata.attributes ? null : metadata.attributes,
+      name: metadata.name,
+      description: metadata.description,
+      image: metadata.image,
+      targetNftName:targetMetadata.name,
+      targetNftDescription: targetMetadata.description,
+      targetNftImage: targetMetadata.image,
+      targetNftAttributes: null
     };
-    listItem(listItemCallData, isApproved,tradeArgs)
+    listItem(listItemCallData, isApproved, tradeArgs);
   };
 
   return {
