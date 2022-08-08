@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-// import ColumnMyNfts from "../components/columnMyNfts";
 import ColumnSwap from "../components/profileColumnSwap";
 import Activity from "../components/profileActvity";
 import Favorites from "../components/profileColumnFavorites";
