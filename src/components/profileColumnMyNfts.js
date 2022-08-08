@@ -36,7 +36,7 @@ const ColumnMyNfts = () => {
         <div
           key={index}
           className="d-item col-lg-2 col-md-6 col-sm-6 col-xs-12 mb-4"
-          onClick={() => window.open(nft.contract_address+"/"+nft.token_id, "_self")}
+          onClick={() => window.open("/asset/"+nft.contract_address+"/"+nft.token_id, "_self")}
         >
           <div className="nft__item m-0">
             <div className="nft__item_wrap" style={{ height: `${height}px` }}>

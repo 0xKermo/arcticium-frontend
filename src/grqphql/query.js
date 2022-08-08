@@ -65,6 +65,10 @@ export const GetTradeWithAddresId = gql`
       targetTokenContract
       targetTokenId
       tradeType
+      targetName
+      targetDescription
+      targetImage
+      targetAttributes
     }
   }
 `;

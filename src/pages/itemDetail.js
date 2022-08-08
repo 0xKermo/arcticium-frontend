@@ -559,7 +559,7 @@ const ItemDetail = function () {
                 <div className="spacer-40"></div>
                 {choosen === 1 && (
                   <div className="items_filter centerEl">
-                    <div className="dropdownSelect one">
+                    <div className="dropdownSelect one" style={{width:"100%"}}>
                       <h5>Target Collection</h5>
                       <Select
                         id="targetCollection1"
@@ -574,7 +574,7 @@ const ItemDetail = function () {
                 )}
                 {choosen === 2 && (
                   <div className="items_filter centerEl">
-                    <div className="dropdownSelect one">
+                    <div className="dropdownSelect one" style={{width:"100%"}}>
                       <h5>Target Collection</h5>
                       <Select
                         className="select1"
@@ -598,7 +598,7 @@ const ItemDetail = function () {
                     </div>
                     <div className="spacer-20"></div>
 
-                    <div className="dropdownSelect two">
+                    <div className="dropdownSelect two" style={{width:"100%"}}>
                       <h5>Target nft id</h5>
                       <input
                         type="text"

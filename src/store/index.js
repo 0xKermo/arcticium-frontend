@@ -19,4 +19,8 @@ export default configureStore({
     currency:currencyReducer,
     targetMetadata:targetNftMetadataReducer
   },
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 })
