@@ -1,311 +1,312 @@
 import React from "react";
-import Select from "react-select";
-import { createGlobalStyle } from "styled-components";
-import TopFilterBar from "./topFilterBar";
 
-const GlobalStyles = createGlobalStyle`
-  header#myHeader.navbar.sticky.white {
-    background: #403f83;
-    border-bottom: solid 1px #403f83;
-  }
-  header#myHeader.navbar .search #quick_search{
-    color: #fff;
-    background: rgba(255, 255, 255, .1);
-  }
-  header#myHeader.navbar.white .btn, .navbar.white a, .navbar.sticky.white a{
-    color: #fff;
-  }
-  header#myHeader .dropdown-toggle::after{
-    color: rgba(255, 255, 255, .5);;
-  }
-  header#myHeader .logo .d-block{
-    display: none !important;
-  }
-  header#myHeader .logo .d-none{
-    display: block !important;
-  }
-  @media only screen and (max-width: 1199px) {
-    .navbar{
-      background: #403f83;
-    }
-    .navbar .menu-line, .navbar .menu-line1, .navbar .menu-line2{
-      background: #fff;
-    }
-    .item-dropdown .dropdown a{
-      color: #fff !important;
-    }
-  }
-`;
+const Activity = function () {
+  const [openMenu, setOpenMenu] = React.useState(true);
+  const [openMenu1, setOpenMenu1] = React.useState(false);
+  const [openMenu2, setOpenMenu2] = React.useState(false);
+  const [openMenu3, setOpenMenu3] = React.useState(false);
+  const [openMenu4, setOpenMenu4] = React.useState(false);
+  const handleBtnClick = (): void => {
+    setOpenMenu(!openMenu);
+    setOpenMenu1(false);
+    setOpenMenu2(false);
+    setOpenMenu3(false);
+    setOpenMenu4(false);
+    document.getElementById("follow").classList.remove("active");
+    document.getElementById("sale").classList.remove("active");
+    document.getElementById("offer").classList.remove("active");
+    document.getElementById("like").classList.remove("active");
+  };
+  const handleBtnClick1 = (): void => {
+    setOpenMenu1(!openMenu1);
+    setOpenMenu2(false);
+    setOpenMenu(false);
+    setOpenMenu3(false);
+    setOpenMenu4(false);
+    document.getElementById("follow").classList.add("active");
+    document.getElementById("sale").classList.remove("active");
+    document.getElementById("offer").classList.remove("active");
+    document.getElementById("like").classList.remove("active");
+  };
+  const handleBtnClick2 = (): void => {
+    setOpenMenu2(!openMenu2);
+    setOpenMenu(false);
+    setOpenMenu1(false);
+    setOpenMenu3(false);
+    setOpenMenu4(false);
+    document.getElementById("follow").classList.remove("active");
+    document.getElementById("sale").classList.add("active");
+    document.getElementById("offer").classList.remove("active");
+    document.getElementById("like").classList.remove("active");
+  };
+  const handleBtnClick3 = (): void => {
+    setOpenMenu3(!openMenu3);
+    setOpenMenu(false);
+    setOpenMenu1(false);
+    setOpenMenu2(false);
+    setOpenMenu4(false);
+    document.getElementById("follow").classList.remove("active");
+    document.getElementById("sale").classList.remove("active");
+    document.getElementById("offer").classList.remove("active");
+    document.getElementById("like").classList.add("active");
+  };
+  const handleBtnClick4 = (): void => {
+    setOpenMenu4(!openMenu4);
+    setOpenMenu(false);
+    setOpenMenu1(false);
+    setOpenMenu3(false);
+    setOpenMenu2(false);
+    document.getElementById("follow").classList.remove("active");
+    document.getElementById("sale").classList.remove("active");
+    document.getElementById("offer").classList.add("active");
+    document.getElementById("like").classList.remove("active");
+  };
 
-const Activity = () => (
-  <div>
-    <GlobalStyles />
-      <div className="row">
-        <div className="col-lg-12">
-          <div className="items_filter centerEl">
-            <TopFilterBar />
+  return (
+    <div>
+      <section className="padding_zero">
+        <div className="row">
+          <div className="col-md-8">
+            {openMenu && (
+              <ul className="activity-list">
+                <li className="act_follow">
+                  <img
+                    className="lazy"
+                    src="./img/author/author-1.jpg"
+                    alt=""
+                  />
+                  <div className="act_list_text">
+                    <h4>Monica Lucas</h4>
+                    started following <span className="color">Gayle Hicks</span>
+                    <span className="act_list_date">10/07/2021, 12:40</span>
+                  </div>
+                </li>
+                <li className="act_sale">
+                  <img
+                    className="lazy"
+                    src="./img/items/thumbnail-2.jpg"
+                    alt=""
+                  />
+                  <div className="act_list_text">
+                    <h4>Deep Sea Phantasy</h4>1 edition purchased by{" "}
+                    <span className="color">Stacy Long</span>
+                    <span className="act_list_date">10/07/2021, 12:40</span>
+                  </div>
+                </li>
+                <li className="act_follow">
+                  <img
+                    className="lazy"
+                    src="./img/author/author-2.jpg"
+                    alt=""
+                  />
+                  <div className="act_list_text">
+                    <h4>Mamie Barnett</h4>
+                    started following{" "}
+                    <span className="color">Claude Banks</span>
+                    <span className="act_list_date">10/07/2021, 12:40</span>
+                  </div>
+                </li>
+                <li className="act_sale">
+                  <img
+                    className="lazy"
+                    src="./img/items/thumbnail-4.jpg"
+                    alt=""
+                  />
+                  <div className="act_list_text">
+                    <h4>Two Tigers</h4>1 edition purchased by{" "}
+                    <span className="color">Jimmy Wright</span> for 0.02 ETH
+                    <span className="act_list_date">10/07/2021, 12:40</span>
+                  </div>
+                </li>
+                <li className="act_like">
+                  <img
+                    className="lazy"
+                    src="./img/items/thumbnail-7.jpg"
+                    alt=""
+                  />
+                  <div className="act_list_text">
+                    <h4>Cute Astronout</h4>
+                    liked by <span className="color">Nicholas Daniels</span>
+                    <span className="act_list_date">10/07/2021, 12:40</span>
+                  </div>
+                </li>
+                <li className="act_offer">
+                  <img
+                    className="lazy"
+                    src="./img/items/thumbnail-5.jpg"
+                    alt=""
+                  />
+                  <div className="act_list_text">
+                    <h4>Purple Planet</h4>
+                    <span className="color">Franklin Greer</span> offered 0.002
+                    ETH
+                    <span className="act_list_date">10/07/2021, 12:40</span>
+                  </div>
+                </li>
+                <li className="act_like">
+                  <img
+                    className="lazy"
+                    src="./img/items/thumbnail-6.jpg"
+                    alt=""
+                  />
+                  <div className="act_list_text">
+                    <h4>Cute Astronout</h4>
+                    liked by <span className="color">Nicholas Daniels</span>
+                    <span className="act_list_date">10/07/2021, 12:40</span>
+                  </div>
+                </li>
+              </ul>
+            )}
+
+            {openMenu1 && (
+              <ul className="activity-list">
+                <li className="act_follow">
+                  <img
+                    className="lazy"
+                    src="./img/author/author-1.jpg"
+                    alt=""
+                  />
+                  <div className="act_list_text">
+                    <h4>Monica Lucas</h4>
+                    started following <span className="color">Gayle Hicks</span>
+                    <span className="act_list_date">10/07/2021, 12:40</span>
+                  </div>
+                </li>
+                <li className="act_follow">
+                  <img
+                    className="lazy"
+                    src="./img/author/author-2.jpg"
+                    alt=""
+                  />
+                  <div className="act_list_text">
+                    <h4>Mamie Barnett</h4>
+                    started following{" "}
+                    <span className="color">Claude Banks</span>
+                    <span className="act_list_date">10/07/2021, 12:40</span>
+                  </div>
+                </li>
+              </ul>
+            )}
+
+            {openMenu2 && (
+              <ul className="activity-list">
+                <li className="act_sale">
+                  <img
+                    className="lazy"
+                    src="./img/items/thumbnail-2.jpg"
+                    alt=""
+                  />
+                  <div className="act_list_text">
+                    <h4>Deep Sea Phantasy</h4>1 edition purchased by{" "}
+                    <span className="color">Stacy Long</span>
+                    <span className="act_list_date">10/07/2021, 12:40</span>
+                  </div>
+                </li>
+                <li className="act_sale">
+                  <img
+                    className="lazy"
+                    src="./img/items/thumbnail-4.jpg"
+                    alt=""
+                  />
+                  <div className="act_list_text">
+                    <h4>Two Tigers</h4>1 edition purchased by{" "}
+                    <span className="color">Jimmy Wright</span> for 0.02 ETH
+                    <span className="act_list_date">10/07/2021, 12:40</span>
+                  </div>
+                </li>
+              </ul>
+            )}
+
+            {openMenu3 && (
+              <ul className="activity-list">
+                <li className="act_like">
+                  <img
+                    className="lazy"
+                    src="./img/items/thumbnail-7.jpg"
+                    alt=""
+                  />
+                  <div className="act_list_text">
+                    <h4>Cute Astronout</h4>
+                    liked by <span className="color">Nicholas Daniels</span>
+                    <span className="act_list_date">10/07/2021, 12:40</span>
+                  </div>
+                </li>
+                <li className="act_like">
+                  <img
+                    className="lazy"
+                    src="./img/items/thumbnail-6.jpg"
+                    alt=""
+                  />
+                  <div className="act_list_text">
+                    <h4>Cute Astronout</h4>
+                    liked by <span className="color">Nicholas Daniels</span>
+                    <span className="act_list_date">10/07/2021, 12:40</span>
+                  </div>
+                </li>
+              </ul>
+            )}
+
+            {openMenu4 && (
+              <ul className="activity-list">
+                <li className="act_offer">
+                  <img
+                    className="lazy"
+                    src="./img/items/thumbnail-5.jpg"
+                    alt=""
+                  />
+                  <div className="act_list_text">
+                    <h4>Purple Planet</h4>
+                    <span className="color">Franklin Greer</span> offered 0.002
+                    ETH
+                    <span className="act_list_date">10/07/2021, 12:40</span>
+                  </div>
+                </li>
+              </ul>
+            )}
           </div>
 
-          <table className="table de-table table-rank">
-            <thead>
-              <tr>
-                <th scope="col">Collection</th>
-                <th scope="col">Volume</th>
-                <th scope="col">24h %</th>
-                <th scope="col">7d %</th>
-                <th scope="col">Floor Price</th>
-                <th scope="col">Owners</th>
-                <th scope="col">Assets</th>
-              </tr>
-              <tr></tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">
-                  <div className="coll_list_pp">
-                    <img
-                      className="lazy"
-                      src="./img/author/author-1.jpg"
-                      alt=""
-                    />
-                    <i className="fa fa-check"></i>
-                  </div>
-                  Abstraction
-                </th>
-                <td>15,225.87</td>
-                <td className="d-plus">+87.54%</td>
-                <td className="d-plus">+309.49%</td>
-                <td>5.9</td>
-                <td>2.8k</td>
-                <td>58.5k</td>
-              </tr>
-              <tr>
-                <th scope="row">
-                  <div className="coll_list_pp">
-                    <img
-                      className="lazy"
-                      src="./img/author/author-2.jpg"
-                      alt=""
-                    />
-                    <i className="fa fa-check"></i>
-                  </div>
-                  Sketchify
-                </th>
-                <td>14,304.78</td>
-                <td className="d-plus">+35.11%</td>
-                <td className="d-plus">+239.83%</td>
-                <td>2.9</td>
-                <td>2.3k</td>
-                <td>28.4k</td>
-              </tr>
-              <tr>
-                <th scope="row">
-                  <div className="coll_list_pp">
-                    <img
-                      className="lazy"
-                      src="./img/author/author-3.jpg"
-                      alt=""
-                    />
-                    <i className="fa fa-check"></i>
-                  </div>
-                  Cartoonism
-                </th>
-                <td>13,705.58</td>
-                <td className="d-min">-33.56%</td>
-                <td className="d-plus">+307.97%</td>
-                <td>4.5</td>
-                <td>2.2k</td>
-                <td>48.8k</td>
-              </tr>
-              <tr>
-                <th scope="row">
-                  <div className="coll_list_pp">
-                    <img
-                      className="lazy"
-                      src="./img/author/author-4.jpg"
-                      alt=""
-                    />
-                    <i className="fa fa-check"></i>
-                  </div>
-                  Papercut
-                </th>
-                <td>12,516.75</td>
-                <td className="d-plus">+23.45%</td>
-                <td className="d-plus">+171.25%</td>
-                <td>6.3</td>
-                <td>5.3k</td>
-                <td>54.2k</td>
-              </tr>
-              <tr>
-                <th scope="row">
-                  <div className="coll_list_pp">
-                    <img
-                      className="lazy"
-                      src="./img/author/author-5.jpg"
-                      alt=""
-                    />
-                    <i className="fa fa-check"></i>
-                  </div>
-                  Virtuland
-                </th>
-                <td>11,586.26</td>
-                <td className="d-plus">+80.91%</td>
-                <td className="d-plus">+241.18%</td>
-                <td>2.2</td>
-                <td>1.8k</td>
-                <td>23.9k</td>
-              </tr>
-              <tr>
-                <th scope="row">
-                  <div className="coll_list_pp">
-                    <img
-                      className="lazy"
-                      src="./img/author/author-6.jpg"
-                      alt=""
-                    />
-                    <i className="fa fa-check"></i>
-                  </div>
-                  CoolThings
-                </th>
-                <td>10,645.96</td>
-                <td className="d-plus">+51.99%</td>
-                <td className="d-min">-29.82%</td>
-                <td>6.6</td>
-                <td>1.8k</td>
-                <td>23.6k</td>
-              </tr>
-              <tr>
-                <th scope="row">
-                  <div className="coll_list_pp">
-                    <img
-                      className="lazy"
-                      src="./img/author/author-7.jpg"
-                      alt=""
-                    />
-                    <i className="fa fa-check"></i>
-                  </div>
-                  DigiPunks
-                </th>
-                <td>9,219.13</td>
-                <td className="d-plus">+42.24%</td>
-                <td className="d-plus">+95.45%</td>
-                <td>1.2</td>
-                <td>3.8k</td>
-                <td>58.4k</td>
-              </tr>
-              <tr>
-                <th scope="row">
-                  <div className="coll_list_pp">
-                    <img
-                      className="lazy"
-                      src="./img/author/author-8.jpg"
-                      alt=""
-                    />
-                    <i className="fa fa-check"></i>
-                  </div>
-                  RockToonz
-                </th>
-                <td>8,436.15</td>
-                <td className="d-plus">+61.31%</td>
-                <td className="d-plus">+347.19%</td>
-                <td>2.4</td>
-                <td>1.4k</td>
-                <td>63.3k</td>
-              </tr>
-              <tr>
-                <th scope="row">
-                  <div className="coll_list_pp">
-                    <img
-                      className="lazy"
-                      src="./img/author/author-9.jpg"
-                      alt=""
-                    />
-                    <i className="fa fa-check"></i>
-                  </div>
-                  BeeFriends
-                </th>
-                <td>7,505.16</td>
-                <td className="d-plus">+64.46%</td>
-                <td className="d-plus">+240.94%</td>
-                <td>2.3</td>
-                <td>5.2k</td>
-                <td>70.3k</td>
-              </tr>
-              <tr>
-                <th scope="row">
-                  <div className="coll_list_pp">
-                    <img
-                      className="lazy"
-                      src="./img/author/author-10.jpg"
-                      alt=""
-                    />
-                    <i className="fa fa-check"></i>
-                  </div>
-                  Patternlicious
-                </th>
-                <td>6,593.91</td>
-                <td className="d-min">-33.78%</td>
-                <td className="d-plus">+82.32%</td>
-                <td>4.5</td>
-                <td>6.5k</td>
-                <td>53.3k</td>
-              </tr>
-              <tr>
-                <th scope="row">
-                  <div className="coll_list_pp">
-                    <img
-                      className="lazy"
-                      src="./img/author/author-11.jpg"
-                      alt=""
-                    />
-                    <i className="fa fa-check"></i>
-                  </div>
-                  FlyingFox
-                </th>
-                <td>5,605.97</td>
-                <td className="d-plus">+48.67%</td>
-                <td className="d-plus">+101.33%</td>
-                <td>4.6</td>
-                <td>5.1k</td>
-                <td>36.2k</td>
-              </tr>
-              <tr>
-                <th scope="row">
-                  <div className="coll_list_pp">
-                    <img
-                      className="lazy"
-                      src="./img/author/author-12.jpg"
-                      alt=""
-                    />
-                    <i className="fa fa-check"></i>
-                  </div>
-                  Autoglyphs
-                </th>
-                <td>4,904.27</td>
-                <td className="d-plus">+86.15%</td>
-                <td className="d-plus">+391.49%</td>
-                <td>4.5</td>
-                <td>6.2k</td>
-                <td>21.1k</td>
-              </tr>
-            </tbody>
-          </table>
-
-          <div className="spacer-double"></div>
-
-          <ul className="pagination justify-content-center">
-            <li className="active">
-              <span>1 - 20</span>
-            </li>
-            <li>
-              <span>21 - 40</span>
-            </li>
-            <li>
-              <span>41 - 60</span>
-            </li>
-          </ul>
+          <div className="col-md-4">
+            <span className="filter__l">Filter</span>
+            <span className="filter__r" onClick={handleBtnClick}>
+              Reset
+            </span>
+            <div className="spacer-half"></div>
+            <div className="clearfix"></div>
+            <ul className="activity-filter">
+              <li
+                id="sale"
+                className="filter_by_sales"
+                onClick={handleBtnClick2}
+              >
+                <i className="fa fa-shopping-basket"></i>Sale
+              </li>
+              <li
+                id="like"
+                className="filter_by_likes"
+                onClick={handleBtnClick3}
+              >
+                <i className="fa fa-heart"></i>Like
+              </li>
+              <li
+                id="offer"
+                className="filter_by_offers"
+                onClick={handleBtnClick4}
+              >
+                <i className="fa fa-gavel"></i>Offer
+              </li>
+              <li
+                id="follow"
+                className="filter_by_followings"
+                onClick={handleBtnClick1}
+              >
+                <i className="fa fa-check"></i>Follow
+              </li>
+            </ul>
+          </div>
         </div>
-      </div>
-  </div>
-);
+      </section>
+    </div>
+  );
+};
+
 export default Activity;

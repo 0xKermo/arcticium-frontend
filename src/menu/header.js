@@ -201,9 +201,13 @@ const Header = function ({ className }) {
                               <div className="d-line"></div>
                               <ul className="de-submenu-profile">
                                 <li>
-                                  <NavLink to="/profile">
-                                    <i className="fa fa-user"></i> My profile
-                                  </NavLink>
+                                <span
+                                  onClick={() =>
+                                    window.open("/profile", "_self")
+                                  }
+                                >
+                                  <i className="fa fa-user"></i> My profile
+                                </span>
                                 </li>
                                 <li>
                                   <span>
@@ -329,7 +333,7 @@ const Header = function ({ className }) {
                                     window.open("/profile", "_self")
                                   }
                                 >
-                                  <i className="fa fa-pencil"></i> Edit profile
+                                  <i className="fa fa-user"></i> My profile
                                 </span>
                               </li>
                               <li>

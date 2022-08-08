@@ -10,7 +10,7 @@ import { setUserNfts } from "../store/slicers/userNfts";
 import { ProfileActions } from "../controller";
 import { useQuery } from "@apollo/client";
 import { tokensURI } from "../grqphql/query";
-import ColumnMyNfts from "../components/profileColumnMyNftsCopy";
+import ColumnMyNfts from "../components/profileColumnMyNfts";
 
 const GlobalStyles = createGlobalStyle`
   header#myHeader.navbar.sticky.white {
@@ -149,7 +149,7 @@ const Profile = ({}) => {
           <div className="col-lg-12">
             <div className="items_filter">
               <ul className="de_nav text-left">
-                <li id="Mainbtn" className="active">
+                <li id="Mainbtn" className="">
                   <span onClick={handleBtnClick}>My Nft's</span>
                 </li>
                 <li id="Mainbtn1" className="">
