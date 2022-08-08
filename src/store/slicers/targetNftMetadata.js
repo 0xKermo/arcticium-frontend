@@ -14,16 +14,20 @@ export const targetNftMetadata = createSlice({
           value: "",
         },
       ],
-    }
+    },
+    targetVoyagerLink:""
   },
   reducers: {
     setTargetMetadata: (state,action) => {
       state.targetMetadata  = action.payload
     },
+    setTargetVoyagerLink: (state,action) => {
+      state.targetVoyagerLink  = action.payload
+    },
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { setTargetMetadata } = targetNftMetadata.actions
+export const { setTargetMetadata,setTargetVoyagerLink } = targetNftMetadata.actions
 
 export default targetNftMetadata.reducer

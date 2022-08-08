@@ -2,7 +2,7 @@ export const dummyData = [
     {
       deadline: "22-08-222",
       avatar: "./img/author/author-1.jpg",
-      preview_image: "./img/items/music-1.jpg",
+      preview_image: "./img/collections/nogame-pfp.png",
       price:"1",
       bid:"2",
       max_bid: "1",

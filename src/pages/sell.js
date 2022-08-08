@@ -1,225 +1,181 @@
-import React, { useState } from "react";
-import Clock from "../components/clock";
+import React, { useState, useEffect } from "react";
 import { createGlobalStyle } from "styled-components";
-import ToAny from "../components/toAny";
+import { useSelector, useDispatch } from "react-redux";
+import { GetTokenURI, GetOwnerOf, GetCollectionName } from "../hooks";
+import { useParams } from "react-router-dom";
+import {
+  setVoyagerLink,
+} from "../store/slicers/itemDetailOperations";
+import { setMetadata } from "../store/slicers/metadata";
+import { Toaster } from "react-hot-toast";
+import { GetTradeWithAddresId } from "../grqphql/query";
+import { useQuery } from "@apollo/client";
+import { setTargetMetadata,setTargetVoyagerLink } from "../store/slicers/targetNftMetadata";
+import Item from "../components/item"
 const GlobalStyles = createGlobalStyle`
-  header#myHeader.navbar.sticky.white {
-    background: #403f83;
-    border-bottom: solid 1px #403f83;
-  }
-  header#myHeader.navbar .search #quick_search{
-    color: #fff;
-    background: rgba(255, 255, 255, .1);
-  }
-  header#myHeader.navbar.white .btn, .navbar.white a, .navbar.sticky.white a{
-    color: #fff;
-  }
-  header#myHeader .dropdown-toggle::after{
-    color: rgba(255, 255, 255, .5);
-  }
-  header#myHeader .logo .d-block{
-    display: none !important;
-  }
-  header#myHeader .logo .d-none{
-    display: block !important;
-  }
-  .mainside{
-    .connect-wal{
-      display: none;
-    }
-    .logout{
-      display: flex;
-      align-items: center;
-    }
+  header#myHeader.navbar.white {
+    background: #fff;
+    border-bottom: solid 1px #dddddd;
   }
   @media only screen and (max-width: 1199px) {
     .navbar{
       background: #403f83;
     }
     .navbar .menu-line, .navbar .menu-line1, .navbar .menu-line2{
-      background: #fff;
+      background: #111;
     }
     .item-dropdown .dropdown a{
-      color: #fff !important;
+      color: #111 !important;
+    }
+  }
+  .method_active{
+    background: #8364e2!important;
+    color: #fff;
+  }
+  .p_detail_header{
+    font-weight: 400;
+    padding-left: 5%;
+    text-align: left;
+    border-bottom: 1px solid #8364e2;
+
+  }
+  .p_detail{
+    font-weight: 400;
+    padding-left: 5%;
+    text-align: left;
+      
     }
   }
 `;
-const Sell = () => {
-  const [files, setFiles] = useState();
-  const [isActive, setIsActive] = useState(false);
-  const [swapMethod, setSwapMethod] = useState(0); // 0 = Any, 1 = Collection, 2 = Nft
-  const handleShow = () => {
-    setSwapMethod(0);
-    document.getElementById("btn1").classList.add("active");
-    document.getElementById("btn2").classList.remove("active");
-    document.getElementById("btn3").classList.remove("active");
-  };
-  const handleShow1 = () => {
-    setSwapMethod(1);
-    document.getElementById("btn1").classList.remove("active");
-    document.getElementById("btn2").classList.add("active");
-    document.getElementById("btn3").classList.remove("active");
-  };
-  const handleShow2 = () => {
-    setSwapMethod(2);
-    document.getElementById("btn1").classList.remove("active");
-    document.getElementById("btn2").classList.remove("active");
-    document.getElementById("btn3").classList.add("active");
+
+
+const Sell = function () {
+  const dispatch = useDispatch();
+
+  /**
+   *  Reducer start
+   */
+  const { metadata } = useSelector((state) => state.metadata);
+  const { walletAddress } = useSelector((state) => state.wallet);
+  const { targetMetadata,targetVoyagerLink } = useSelector((state) => state.targetMetadata);
+  const {  collectionName } =
+    useSelector((state) => state.collections);
+  const {
+    voyagerLink,
+  } = useSelector((state) => state.itemDetailOperation);
+
+  /**
+   * Reducer End
+   */
+  const { contract, id } = useParams();
+
+  /**
+   * Graphql start
+   */
+  const { getTokenURI } = GetTokenURI();
+  const { getCollectionName } = GetCollectionName();
+  const { loading, error, data } = useQuery(GetTradeWithAddresId, {
+    variables: {
+      contractAddress: contract,
+      tokenId: Number(id),
+    },
+  });
+
+
+
+  const open_trade = () => {
+    console.log("open trde");
   };
 
-  const unlockClick = () => {
-    setIsActive(true);
-  };
-  const unlockHide = () => {
-    setIsActive(false);
-  };
+  useEffect(() => {
+    console.log(data)
+    if(!loading){
+      dispatch(setTargetMetadata({
+        name:data.getTradeWithAddresId.targetName,
+        contract_address:data.getTradeWithAddresId.targetTokenContract,
+        description: data.getTradeWithAddresId.targetDescription,
+        image:data.getTradeWithAddresId.targetImage,
+        attributes:data.getTradeWithAddresId.targetAttributes == undefined ? null :data.getTradeWithAddresId.targetAttributes,
+          }))
+          const targetVoyager = `https://beta-goerli.voyager.online/contract/${data.getTradeWithAddresId.targetTokenContract}`
+          dispatch(setTargetVoyagerLink(targetVoyager))
+    }
+   
+  }, [loading]);
+
+  useEffect(() => {
+    const prepare = async () => {
+
+      await getCollectionName(contract);
+
+      var _metadata = await getTokenURI(contract, id);
+      if (_metadata.name != undefined) {
+        dispatch(setMetadata(_metadata));
+        console.log(metadata);
+        dispatch(
+          setVoyagerLink(
+            `https://beta-goerli.voyager.online/contract/${_metadata.contract_address}`
+          )
+        );
+      }
+    };
+    prepare();
+  }, [walletAddress]);
+
+  const attr =() => (
+      metadata.attributes != undefined
+      ? metadata.attributes.map((item, index) => {
+          return (
+            <div className="col-lg-4 col-md-6 col-sm-6" key={index}>
+              <div className="nft_attr">
+                <h5>{item.trait_type}</h5>
+                <h4>{item.value}</h4>
+              </div>
+            </div>
+          );
+        })
+      : null
+    )
+  
+    
+
   return (
     <div>
       <GlobalStyles />
-
-      <section
-        className="jumbotron breadcumb no-bg"
-        style={{ backgroundImage: `url(${"./img/background/subheader.jpg"})` }}
-      >
-        <div className="mainbreadcumb">
-          <div className="container">
-            <div className="row m-10-hor">
-              <div className="col-12">
-                <h1 className="text-center">Create 2</h1>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
+      <Toaster position="bottom-center" reverseOrder={true} />
       <section className="container">
-        <div className="row">
-          <div className="col-lg-7 offset-lg-1 mb-5">
-            <form id="form-create-item" className="form-border" action="#">
-              <div className="field-set">
-                <div className="spacer-single"></div>
+        <div className="row mt-md-5 pt-md-4">
+          {metadata.name &&
+          <Item meta={metadata} collectionName={collectionName} attr={attr} voyagerLink={voyagerLink} />
+          }
+          <div className="col-md-2">
+            <div className="p_list">
+              <div className="p_detail">
+                <div
+                  className="swap-icon"
+                  style={{
+                    fontSize: "50px",
+                    textAlign: "center",
+                    marginTop: "150px",
+                  }}
+                >
+                  <i className="fa fa-exchange"></i>
+                </div>
 
-                <h5>Select Swap</h5>
-                <div className="de_tab tab_methods">
-                  <ul className="de_nav">
-                    <li id="btn1" className="active" onClick={handleShow}>
-                      <span>Any</span>
-                    </li>
-                    <li id="btn2" onClick={handleShow1}>
-                      <span>to Collection</span>
-                    </li>
-                    <li id="btn3" onClick={handleShow2}>
-                      <span>to Nft</span>
-                    </li>
-                  </ul>
-                </div>
-                {swapMethod === 0 && (
-                  <div>
-                    <h5>
-                    Anyone can offer <span className="bold">any nft</span>
-                    </h5>
-                  </div>
-                )}
-                {swapMethod === 1 && <ToAny />}
-
-                <div className="spacer-10"></div>
-
-                <input
-                  type="button"
-                  id="submit"
-                  className="btn-main"
-                  value="Create Item"
-                />
-              </div>
-            </form>
-          </div>
-
-          <div className="col-lg-3 col-sm-6 col-xs-12">
-            <h5>Your Nft</h5>
-            <div className="nft__item m-0">
-              <div className="de_countdown">
-                <Clock deadline="December, 30, 2021" />
-              </div>
-              <div className="author_list_pp">
-                <span>
-                  <img
-                    className="lazy"
-                    src="./img/author/author-1.jpg"
-                    alt=""
-                  />
-                  <i className="fa fa-check"></i>
-                </span>
-              </div>
-              <div className="nft__item_wrap">
-                <span>
-                  <img
-                    src="./img/collections/coll-item-3.jpg"
-                    id="get_file_2"
-                    className="lazy nft__item_preview"
-                    alt=""
-                  />
-                </span>
-              </div>
-              <div className="nft__item_info">
-                <span>
-                  <h4>Pinky Ocean</h4>
-                </span>
-                <div className="nft__item_price">
-                  0.08 ETH<span>1/20</span>
-                </div>
-                <div className="nft__item_action">
-                  <span>Place a bid</span>
-                </div>
-                <div className="nft__item_like">
-                  <i className="fa fa-heart"></i>
-                  <span>50</span>
-                </div>
-              </div>
-            </div>
-            <div className="spacer-single"></div>
-
-            <h5>Target Nft</h5>
-            <div className="nft__item m-0">
-              <div className="de_countdown">
-                <Clock deadline="December, 30, 2021" />
-              </div>
-              <div className="author_list_pp">
-                <span>
-                  <img
-                    className="lazy"
-                    src="./img/author/author-1.jpg"
-                    alt=""
-                  />
-                  <i className="fa fa-check"></i>
-                </span>
-              </div>
-              <div className="nft__item_wrap">
-                <span>
-                  <img
-                    src="./img/collections/coll-item-3.jpg"
-                    id="get_file_2"
-                    className="lazy nft__item_preview"
-                    alt=""
-                  />
-                </span>
-              </div>
-              <div className="nft__item_info">
-                <span>
-                  <h4>Pinky Ocean</h4>
-                </span>
-                <div className="nft__item_price">
-                  0.08 ETH<span>1/20</span>
-                </div>
-                <div className="nft__item_action">
-                  <span>Place a bid</span>
-                </div>
-                <div className="nft__item_like">
-                  <i className="fa fa-heart"></i>
-                  <span>50</span>
+                <div
+                  className="swap-icon"
+                  style={{ textAlign: "center", marginTop: "140px" }}
+                >
+                  <span onClick={open_trade} className="btn-main inline lead">
+                    Buy now
+                  </span>
                 </div>
               </div>
             </div>
           </div>
+          {targetMetadata.name &&
+          <Item meta={targetMetadata} collectionName={collectionName} attr={attr} voyagerLink={targetVoyagerLink} />
+          }
         </div>
       </section>
     </div>

@@ -10,7 +10,7 @@ import { setUserNfts } from "../store/slicers/userNfts";
 import { ProfileActions } from "../controller";
 import { useQuery } from "@apollo/client";
 import { tokensURI } from "../grqphql/query";
-import ColumnMyNfts from "../components/profileColumnMyNftsCopy";
+import ColumnMyNfts from "../components/profileColumnMyNfts";
 
 const GlobalStyles = createGlobalStyle`
   header#myHeader.navbar.sticky.white {
@@ -48,7 +48,7 @@ const GlobalStyles = createGlobalStyle`
 
 const Profile = ({}) => {
   const dispatch = useDispatch();
-  // const {loading,error,data} = useQuery(tokensURI)
+  const {loading,error,data} = useQuery(tokensURI)
 
   const { openMenu, openMenu1, openMenu2, openMenu3 } = useSelector(
     (state) => state.profileOperation
@@ -57,30 +57,30 @@ const Profile = ({}) => {
     ProfileActions();
   const { userNfts } = useSelector((state) => state.userNfts);
 
-  // useEffect( () => {
-  //   // const prepare = async () => {
-  //   //   const { getTokenURI } = GetTokenURI();
-  //   //   const events = await ownerTokens();
+  useEffect( () => {
+    // const prepare = async () => {
+    //   const { getTokenURI } = GetTokenURI();
+    //   const events = await ownerTokens();
   
-  //   //   var arr = [];
-  //   //   for (let index = 0; index < events.length; index++) {
-  //   //     var metadata = await getTokenURI(
-  //   //       events[index].contract_address,
-  //   //       hexToDecimalString(events[index].token_id)
-  //   //     );
-  //   //     arr.push(metadata);
+    //   var arr = [];
+    //   for (let index = 0; index < events.length; index++) {
+    //     var metadata = await getTokenURI(
+    //       events[index].contract_address,
+    //       hexToDecimalString(events[index].token_id)
+    //     );
+    //     arr.push(metadata);
         
-  //   //   }
-  //   // }
-  //   // prepare()
-  //   if(!loading){
-  //     dispatch(setUserNfts(data.getTokensURI));
+    //   }
+    // }
+    // prepare()
+    if(!loading){
+      dispatch(setUserNfts(data.getTokensURI));
 
-  //   }
+    }
 
-  //   console.log("data",data)
+    console.log("data",data)
     
-  // }, [loading]);
+  }, [loading]);
 
   return (
     <div>

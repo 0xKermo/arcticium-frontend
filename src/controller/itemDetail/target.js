@@ -8,14 +8,14 @@ export const Target = () => {
        dispatch(setTargetNftId(e.target.value))
 
         const _targetNftLink =
-          "http://localhost:3000/" + targetCollectionAddress + "/" + e.target.value;
+          "http://localhost:3000/asset/" + targetCollectionAddress + "/" + e.target.value;
           dispatch(setTargetNftLink(_targetNftLink));
       };
     
       const targetCollectionOnchange = (e) => {
         dispatch(setTargetCollectionAddress(e.value));
         const _targetNftLink =
-          "http://localhost:3000/" + e.value + "/" + targetNftId;
+          "http://localhost:3000/asset/" + e.value + "/" + targetNftId;
           dispatch(setTargetNftLink(_targetNftLink));
       };
 
