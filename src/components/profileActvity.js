@@ -1,4 +1,8 @@
 import React from "react";
+import { useCallback } from 'react';
+import Select from 'react-select';
+import { activity } from './constants/filters';
+import { useDispatch } from 'react-redux';
 
 const Activity = function () {
   const [openMenu, setOpenMenu] = React.useState(true);
@@ -50,23 +54,65 @@ const Activity = function () {
     document.getElementById("offer").classList.remove("active");
     document.getElementById("like").classList.add("active");
   };
-  const handleBtnClick4 = (): void => {
-    setOpenMenu4(!openMenu4);
-    setOpenMenu(false);
-    setOpenMenu1(false);
-    setOpenMenu3(false);
-    setOpenMenu2(false);
-    document.getElementById("follow").classList.remove("active");
-    document.getElementById("sale").classList.remove("active");
-    document.getElementById("offer").classList.add("active");
-    document.getElementById("like").classList.remove("active");
-  };
+ 
+
+  const customStyles = {
+    option: (base, state) => ({
+        ...base,
+        background: "#fff",
+        color: "#333",
+        borderRadius: state.isFocused ? "0" : 0,
+        "&:hover": {
+            background: "#eee",
+        }
+    }),
+    menu: base => ({
+        ...base,
+        borderRadius: 0,
+        marginTop: 0
+    }),
+    menuList: base => ({
+        ...base,
+        padding: 0
+    }),
+    control: (base, state) => ({
+        ...base,
+        padding: 2
+    })
+};
+
+const dispatch = useDispatch();
+const handleCategory = useCallback((option) => {
+    const { value } = option;
+}, [dispatch]);
+
+const defaultValue = {
+  value: null,
+  label: 'Select Filter'
+};
 
   return (
     <div>
       <section className="padding_zero">
+      <div className="container">
+            <span className="filter__l">Filter</span>
+            <span className="filter__r" onClick={handleBtnClick}>
+              Reset
+            </span> 
+            <div className="spacer-half"></div>
+            <div className="clearfix"></div>
+            <div className='dropdownSelect one'>
+                <Select 
+                    styles={customStyles} 
+                    menuContainerStyle={{'zIndex': 999}}
+                    options={[defaultValue, ...activity]}
+                    onChange={handleCategory}
+                />
+            </div>
+            <div className="spacer-half"></div>
+          </div>
         <div className="row">
-          <div className="col-md-8">
+          <div className="col-md-12">
             {openMenu && (
               <ul className="activity-list">
                 <li className="act_follow">
@@ -263,45 +309,6 @@ const Activity = function () {
                 </li>
               </ul>
             )}
-          </div>
-
-          <div className="col-md-4">
-            <span className="filter__l">Filter</span>
-            <span className="filter__r" onClick={handleBtnClick}>
-              Reset
-            </span>
-            <div className="spacer-half"></div>
-            <div className="clearfix"></div>
-            <ul className="activity-filter">
-              <li
-                id="sale"
-                className="filter_by_sales"
-                onClick={handleBtnClick2}
-              >
-                <i className="fa fa-shopping-basket"></i>Sale
-              </li>
-              <li
-                id="like"
-                className="filter_by_likes"
-                onClick={handleBtnClick3}
-              >
-                <i className="fa fa-heart"></i>Like
-              </li>
-              <li
-                id="offer"
-                className="filter_by_offers"
-                onClick={handleBtnClick4}
-              >
-                <i className="fa fa-gavel"></i>Offer
-              </li>
-              <li
-                id="follow"
-                className="filter_by_followings"
-                onClick={handleBtnClick1}
-              >
-                <i className="fa fa-check"></i>Follow
-              </li>
-            </ul>
           </div>
         </div>
       </section>
