@@ -48,10 +48,11 @@ const Activity = () => (
             <TopFilterBar />
           </div>
 
-          <table className="table de-table table-rank">
+          <table className="table de-table table-rank ">
             <thead>
               <tr>
                 <th scope="col">Collection</th>
+                <th scope="col">Type</th>
                 <th scope="col">Volume</th>
                 <th scope="col">24h %</th>
                 <th scope="col">7d %</th>
@@ -74,6 +75,9 @@ const Activity = () => (
                   </div>
                   Abstraction
                 </th>
+                <td>
+                  <i className="fa fa-shopping-basket"></i>
+                </td>
                 <td>15,225.87</td>
                 <td className="d-plus">+87.54%</td>
                 <td className="d-plus">+309.49%</td>
