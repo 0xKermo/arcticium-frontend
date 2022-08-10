@@ -85,3 +85,14 @@ export const collections = [
         label: 'Papercut'
     }
 ];
+
+export const activity = [
+    {
+        value: 'Sales',
+        label: 'Sales'
+    },
+    {
+        value: 'Offers',
+        label: 'Offers'
+    }
+];

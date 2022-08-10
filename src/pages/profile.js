@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-// import ColumnMyNfts from "../components/columnMyNfts";
 import ColumnSwap from "../components/profileColumnSwap";
 import Activity from "../components/profileActvity";
 import Favorites from "../components/profileColumnFavorites";
@@ -170,7 +169,7 @@ const Profile = ({}) => {
           <div className="col-lg-12">
             <div className="items_filter">
               <ul className="de_nav text-left">
-                <li id="Mainbtn" className="active">
+                <li id="Mainbtn" className="">
                   <span onClick={handleBtnClick}>My Nft's</span>
                 </li>
                 <li id="Mainbtn1" className="">
