@@ -7,7 +7,6 @@ import { createGlobalStyle } from "styled-components";
 import { setUserNfts } from "../store/slicers/userNfts";
 import { ProfileActions } from "../controller";
 import { useQuery } from "@apollo/client";
-import { tokensURI } from "../grqphql/query";
 import ColumnMyNfts from "../components/profileColumnMyNfts";
 import { AddUserAsset } from "../grqphql";
 
@@ -47,7 +46,6 @@ const GlobalStyles = createGlobalStyle`
 
 const Profile = ({}) => {
   const dispatch = useDispatch();
-  const {loading,error,data} = useQuery(tokensURI)
   const {walletAddress} = useSelector((state) => state.wallet)
   const { openMenu, openMenu1, openMenu2, openMenu3 } = useSelector(
     (state) => state.profileOperation
@@ -56,11 +54,11 @@ const Profile = ({}) => {
     ProfileActions();
   const { userNfts } = useSelector((state) => state.userNfts);
   const { _addUserAsset} = AddUserAsset()
-  useEffect( () => {
-    if(!loading){
-      dispatch(setUserNfts(data.getTokensURI));
-    }    
-  }, [loading]);
+  // useEffect( () => {
+  //   if(!loading){
+  //     dispatch(setUserNfts(data.getTokensURI));
+  //   }    
+  // }, [loading]);
 
   useEffect(() => {
     if(walletAddress != null){
