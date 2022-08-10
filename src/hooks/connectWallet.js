@@ -1,3 +1,4 @@
+import { BigNumber } from "ethers";
 import { getStarknet } from "get-starknet"
 import {useDispatch } from "react-redux";
 import {
@@ -16,7 +17,7 @@ export const ConnectWallet =  () => {
     await starknet.enable()
 
     
-    dispatch(setWalletAddress(starknet.selectedAddress));
+    dispatch(setWalletAddress(BigNumber.from(starknet.selectedAddress)._hex ));
     // dispatch(setProvider(starknet.provider));
     dispatch(setAccount(starknet));
     return starknet

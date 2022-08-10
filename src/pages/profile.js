@@ -48,7 +48,7 @@ const GlobalStyles = createGlobalStyle`
 const Profile = ({}) => {
   const dispatch = useDispatch();
   const {loading,error,data} = useQuery(tokensURI)
-
+  const {walletAddress} = useSelector((state) => state.wallet)
   const { openMenu, openMenu1, openMenu2, openMenu3 } = useSelector(
     (state) => state.profileOperation
   );
@@ -57,50 +57,21 @@ const Profile = ({}) => {
   const { userNfts } = useSelector((state) => state.userNfts);
   const { _addUserAsset} = AddUserAsset()
   useEffect( () => {
-    // const prepare = async () => {
-    //   const { getTokenURI } = GetTokenURI();
-    //   const events = await ownerTokens();
-  
-    //   var arr = [];
-    //   for (let index = 0; index < events.length; index++) {
-    //     var metadata = await getTokenURI(
-    //       events[index].contract_address,
-    //       hexToDecimalString(events[index].token_id)
-    //     );
-    //     arr.push(metadata);
-        
-    //   }
-    // }
-    // prepare()
-    const userAssetsArgs = {
-      walletAddress:"0x123",
-      assetCount:1,
-      assets:[{
-        assetTokenId:1,
-        assetName:"asset name",
-        assetDescription: "asset description",
-        assetContractAddress: "0x112contract",
-        assetExternalUri: "www.external.com",
-        assetAnimationUri: "www.animation.com",
-        assetAttributes:[
-          {
-            trait_type:"trait type",
-            value:"value"
-          }
-        ]
-
-      }]
-    }
-    _addUserAsset(userAssetsArgs)
     if(!loading){
       dispatch(setUserNfts(data.getTokensURI));
-  
-
-    }
-
-    console.log("data",data)
-    
+    }    
   }, [loading]);
+
+  useEffect(() => {
+    if(walletAddress != null){
+      const userAssetsArgs = {
+        assetOwner:walletAddress,
+      }
+      _addUserAsset(userAssetsArgs)
+    }
+  
+  }, [walletAddress])
+  
 
   return (
     <div>

@@ -327,16 +327,7 @@ const Header = function ({ className }) {
                                     window.open("/profile", "_self")
                                   }
                                 >
-<<<<<<< HEAD
                                   <i className="fa fa-pencil"></i> Profile
-=======
-                                  <i className="fa fa-user"></i> My profile
-                                </span>
-                              </li>
-                              <li>
-                                <span>
-                                  <i className="fa fa-pencil"></i> Edit profile
->>>>>>> a79b8c09a8def59a635bd2b4395ea97b6f831f20
                                 </span>
                               </li>
                               <li onClick={handleLogout}>

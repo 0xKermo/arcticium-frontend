@@ -9,26 +9,16 @@ export const collections = gql`
   }
 `;
 
-export const tokensURI = gql`
-  {
-    getTokensURI {
+export const getUserAsset = gql`
+  query getUserAsset($walletAddress: String!) {
+    getAsset(assetOwner: $walletAddress) {
+      assetOwner
+      token_id
       name
       description
-      image
       contract_address
-      token_id
-    }
-  }
-`;
-
-export const tokenURI = gql`
-  query GetTokenURI($contract_address: String!, $token_id: String!) {
-    getTokenURI(contract_address: $contract_address, token_id: $token_id) {
-      name
-      description
       image
-      contract_address
-      token_id
+      attributes
     }
   }
 `;

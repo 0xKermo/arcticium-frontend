@@ -93,7 +93,7 @@ export const BidAdd = gql`
   }
 `;
 gql`
-  type assetMetaData{
+  input assetMetaData{
     assetTokenId: Int
     assetName:String
     assetDescription: String
@@ -102,19 +102,13 @@ gql`
     assetAnimationUri: String
   }`
 export const updateUserAssets = gql`
-
   mutation (
-    $walletAddress: String
-    $assetCount: Int
+    $assetOwner:String
   ) {
-    updateUserAssets(
-      walletAddress: $walletAddress
-      assetCount: $assetCount
-      assets: $assets
+    updateAssets(
+      assetOwner:$assetOwner
     ) {
-      walletAddress
-      assetCount
-      assets
+      assetOwner
     }
   }
 
