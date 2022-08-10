@@ -6,6 +6,7 @@ import {
 
   Link,
 } from "react-router-dom";
+import NftCard from "./nftCard";
 
 const Outer = styled.div`
   display: flex;
@@ -215,15 +216,17 @@ export default class Responsive extends Component {
       });
     }
   }
+
   render() {
     return (
       <div className="row">
         {this.state.nfts.map((nft, index) => (
+
           <div
             key={index}
             className="d-item col-lg-3 col-md-6 col-sm-6 col-xs-12 mb-4"
           > 
-           <Link to={`/asset/${nft.tokenContract}/${nft.tokenId}`}>
+           <Link to={`/asset/${nft.tokenContract}/${nft.tokenId}/swap`}>
             <div className="nft__item m-0">
               <div className="nft__item_wrap" style={{ height: `225px` }}>
                 <div className="col-md-5">

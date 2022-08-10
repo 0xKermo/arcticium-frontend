@@ -1,9 +1,10 @@
 import { useSelector,useDispatch } from "react-redux";
 import { setTargetNftLink,setTargetCollectionAddress,setTargetNftId,setCurrencyAmount } from "../../store/slicers/itemDetailOperations";
 import { GetTokenURI } from "../../hooks";
-export const Target = () => {
+export const TargetNftOperation = () => {
     const dispatch = useDispatch()
     const {targetCollectionAddress, targetNftId} = useSelector((state) => state.itemDetailOperation)
+    
     const targetNftOnchange = async (e) => {
        dispatch(setTargetNftId(e.target.value))
 

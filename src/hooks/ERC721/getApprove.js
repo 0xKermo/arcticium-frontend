@@ -4,9 +4,11 @@ import { ERC721_ADDRESS ,EXCHANGE_ADDRESS} from "../../constants/starknetAddress
 import { hexToDecimalString } from "../../utils/number";
 export const GetApprove = () => {
   const getApprove = async (_owner, _contract) => {
+    console.log("approve owner",_owner)
+    console.log("approve contract",_contract)
     const owner = hexToDecimalString(_owner)
     const operator =hexToDecimalString(EXCHANGE_ADDRESS)
-
+   
     const provider = new Provider();
     const tx = await provider.callContract({
       contractAddress: _contract,

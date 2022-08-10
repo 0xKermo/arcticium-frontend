@@ -57,6 +57,7 @@ export const getCollections = gql`
 export const GetTradeWithAddresId = gql`
   query getTradeWithAddresId($contractAddress: String!, $tokenId: Int) {
     getTradeWithAddresId(contractAdress: $contractAddress, tokenId: $tokenId) {
+      tradeOwnerAddress
       tokenContract
       tradeId
       tokenId
@@ -69,6 +70,32 @@ export const GetTradeWithAddresId = gql`
       targetDescription
       targetImage
       targetAttributes
+      tradeBids {
+        tradeId
+        bidOwner
+        bidContractAddress
+        bidTokenId
+        expiration
+        bidCurrencyType
+        bidPrice
+        status
+        biddedItemOwner
+        biddedItemContractAddress
+        biddedItemId
+        itemBidId
+        bidTradeType
+      }
+    }
+    collections {
+      collectionName
+      collectionAddress
+      profileImgPath
+    }
+    getCurrencies {
+      currencyName
+      currencyAddress
+      currencySymbol
+      currencyImage
     }
   }
 `;
@@ -94,5 +121,4 @@ export const GetOpenTrades = gql`
       targetAttributes
     }
   }
-
-`
+`;

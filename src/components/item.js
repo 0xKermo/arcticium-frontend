@@ -31,11 +31,21 @@ export default class Responsive extends Component {
     return (
     
         <div className="col-md-4 text-center">
-        <img
-          src={this.state.metadata.image}
-          className="img-fluid img-rounded mb-sm-30"
-          alt=""
-        />
+            <div
+              className="nft__item m-0"
+              style={{ width: "auto", height: "400px" }}
+            >
+                <div className="nft__item_offer">
+                  <span>
+                    <img
+                      id="targetNft"
+                      className="lazy nft__item_preview"
+                      alt=""
+                      src={this.state.metadata.image}
+                    />
+                  </span>
+                </div>
+            </div>
         <div className="spacer-40"></div>
         <div className="item_info">
           <div className="de_tab">
@@ -51,7 +61,7 @@ export default class Responsive extends Component {
               <div className="p_list" style={{ display: "flex" }}>
                 <div className="col-md-6">
                   <div className="p_detail">
-                    <h6>Creator</h6>
+                    <h6>Owner</h6>
                     <div className="item_author">
                       <div className="author_list_pp">
                         <span>

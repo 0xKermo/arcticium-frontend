@@ -205,12 +205,6 @@ const Header = function ({ className }) {
                                     <i className="fa fa-user"></i> My profile
                                   </NavLink>
                                 </li>
-                                <li>
-                                  <span>
-                                    <i className="fa fa-pencil"></i> Edit
-                                    profile
-                                  </span>
-                                </li>
                                 <li onClick={handleLogout}>
                                   <span>
                                     <i className="fa fa-sign-out"></i>{" "}
@@ -226,7 +220,7 @@ const Header = function ({ className }) {
                       <div className="connect-wal">
                         <span
                           onClick={connectWallet}
-                          class="btn-main inline lead"
+                          className="btn-main inline lead"
                         >
                           Connect Wallet
                         </span>
@@ -329,12 +323,7 @@ const Header = function ({ className }) {
                                     window.open("/profile", "_self")
                                   }
                                 >
-                                  <i className="fa fa-pencil"></i> Edit profile
-                                </span>
-                              </li>
-                              <li>
-                                <span>
-                                  <i className="fa fa-pencil"></i> Edit profile
+                                  <i className="fa fa-pencil"></i> Profile
                                 </span>
                               </li>
                               <li onClick={handleLogout}>
@@ -352,7 +341,7 @@ const Header = function ({ className }) {
                     <div className="connect-wal">
                       <span
                         onClick={connectWallet}
-                        class="btn-main inline lead"
+                        className="btn-main inline lead"
                       >
                         Connect Wallet
                       </span>

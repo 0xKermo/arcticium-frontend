@@ -5,12 +5,12 @@ import ColumnSwap from "../components/profileColumnSwap";
 import Activity from "../components/profileActvity";
 import Favorites from "../components/profileColumnFavorites";
 import { createGlobalStyle } from "styled-components";
-import { dummyData } from "../components/constants/dummy";
 import { setUserNfts } from "../store/slicers/userNfts";
 import { ProfileActions } from "../controller";
 import { useQuery } from "@apollo/client";
 import { tokensURI } from "../grqphql/query";
 import ColumnMyNfts from "../components/profileColumnMyNfts";
+import { AddUserAsset } from "../grqphql";
 
 const GlobalStyles = createGlobalStyle`
   header#myHeader.navbar.sticky.white {
@@ -56,7 +56,7 @@ const Profile = ({}) => {
   const { handleBtnClick, handleBtnClick1, handleBtnClick2, handleBtnClick3 } =
     ProfileActions();
   const { userNfts } = useSelector((state) => state.userNfts);
-
+  const { _addUserAsset} = AddUserAsset()
   useEffect( () => {
     // const prepare = async () => {
     //   const { getTokenURI } = GetTokenURI();
@@ -73,8 +73,29 @@ const Profile = ({}) => {
     //   }
     // }
     // prepare()
+    const userAssetsArgs = {
+      walletAddress:"0x123",
+      assetCount:1,
+      assets:[{
+        assetTokenId:1,
+        assetName:"asset name",
+        assetDescription: "asset description",
+        assetContractAddress: "0x112contract",
+        assetExternalUri: "www.external.com",
+        assetAnimationUri: "www.animation.com",
+        assetAttributes:[
+          {
+            trait_type:"trait type",
+            value:"value"
+          }
+        ]
+
+      }]
+    }
+    _addUserAsset(userAssetsArgs)
     if(!loading){
       dispatch(setUserNfts(data.getTokensURI));
+  
 
     }
 

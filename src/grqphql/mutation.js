@@ -1,7 +1,6 @@
 import { gql } from "@apollo/client";
 
 export const TradeAdd = gql`
-
   mutation tradeAdd(
     $tradeId: Int
     $tradeOwnerAddress: String
@@ -19,10 +18,10 @@ export const TradeAdd = gql`
     $description: String
     $image: String
     $attributes: String
-    $targetName:String
-    $targetDescription:String
-    $targetImage:String
-    $targetAttributes:String
+    $targetName: String
+    $targetDescription: String
+    $targetImage: String
+    $targetAttributes: String
   ) {
     tradeAdd(
       tradeId: $tradeId
@@ -41,10 +40,10 @@ export const TradeAdd = gql`
       description: $description
       image: $image
       attributes: $attributes
-      targetName:$targetName
-      targetDescription:$targetDescription
-      targetImage:$targetImage
-      targetAttributes:$targetAttributes
+      targetName: $targetName
+      targetDescription: $targetDescription
+      targetImage: $targetImage
+      targetAttributes: $targetAttributes
     ) {
       tradeId
       tradeOwnerAddress
@@ -53,4 +52,70 @@ export const TradeAdd = gql`
       expiration
     }
   }
+`;
+
+export const BidAdd = gql`
+  mutation addBid(
+    $tradeId: Int
+    $bidOwner: String
+    $bidContractAddress: String
+    $bidTokenId: Int
+    $expiration: Date
+    $bidCurrencyType: Int
+    $bidPrice: Int
+    $status: Status
+    $biddedItemOwner: String
+    $biddedItemContractAddress: String
+    $biddedItemId: Int
+    $itemBidId: Int
+    $bidTradeType: Int
+  ) {
+    addBid(
+      tradeId: $tradeId
+      bidOwner: $bidOwner
+      bidContractAddress: $bidContractAddress
+      bidTokenId: $bidTokenId
+      expiration: $expiration
+      bidCurrencyType: $bidCurrencyType
+      bidPrice: $bidPrice
+      status: $status
+      biddedItemOwner: $biddedItemOwner
+      biddedItemContractAddress: $biddedItemContractAddress
+      biddedItemId: $biddedItemId
+      itemBidId: $itemBidId
+      bidTradeType: $bidTradeType
+    ) {
+      tradeId
+      bidContractAddress
+      bidTokenId
+      expiration
+    }
+  }
+`;
+gql`
+  type assetMetaData{
+    assetTokenId: Int
+    assetName:String
+    assetDescription: String
+    assetContractAddress: String
+    assetExternalUri: String
+    assetAnimationUri: String
+  }`
+export const updateUserAssets = gql`
+
+  mutation (
+    $walletAddress: String
+    $assetCount: Int
+  ) {
+    updateUserAssets(
+      walletAddress: $walletAddress
+      assetCount: $assetCount
+      assets: $assets
+    ) {
+      walletAddress
+      assetCount
+      assets
+    }
+  }
+
 `;

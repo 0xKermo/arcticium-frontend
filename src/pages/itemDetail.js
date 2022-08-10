@@ -2,25 +2,31 @@ import React, { useState, useEffect } from "react";
 import { createGlobalStyle } from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { GetTokenURI, GetOwnerOf, GetCollectionName } from "../hooks";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Select from "react-select";
-import { ListItemData } from "../controller/itemDetail/listItem";
+import { ListItemData, TargetNftOperation } from "../controller";
 import { GraphqlCollections, GraphqlCurrency } from "../grqphql";
 import { ItemDetailAction } from "../controller/itemDetail/itemDetailAction";
 import {
   setOpenCheckout,
-  setOpenCheckoutBid,
   setChoosenCurrency,
   setCurrencyAmount,
   setVoyagerLink,
-  setChoosen
+  setChoosen,
 } from "../store/slicers/itemDetailOperations";
 import { setMetadata } from "../store/slicers/metadata";
 import { Toaster } from "react-hot-toast";
-import { Target } from "../controller/itemDetail/target";
 import { GetTradeWithAddresId } from "../grqphql/query";
 import { useQuery } from "@apollo/client";
 import { setTargetMetadata } from "../store/slicers/targetNftMetadata";
+import {
+  setBidItemBidTime,
+  setBidItemCollectionAddress,
+  setBidItemImage,
+  setBidItemOwner,
+  setBidItemTokenId
+} from "../store/slicers/bidsOfItem";
+import { itemsType } from "../components/constants/filters";
 const GlobalStyles = createGlobalStyle`
   header#myHeader.navbar.white {
     background: #fff;
@@ -106,7 +112,6 @@ const ItemDetail = function () {
     openMenu,
     openMenu1,
     openCheckout,
-    openCheckoutbid,
     choosen,
     targetNftLink,
     voyagerLink,
@@ -114,6 +119,14 @@ const ItemDetail = function () {
   } = useSelector((state) => state.itemDetailOperation);
   const { collections, collectionloading, collectionError, collectionName } =
     useSelector((state) => state.collections);
+  const {
+    bidItemCollectionAddress,
+    bidItemOwner,
+    bidItemImage,
+    bidtemBidTime,
+    bidItemTokenId,
+  } = useSelector((state) => state.bidsOfItem);
+
   const { handleBtnClick, handleBtnClick1, anyBtn, collectionBtn, nftBtn } =
     ItemDetailAction();
   /**
@@ -145,7 +158,7 @@ const ItemDetail = function () {
     targetNftOnchange,
     targetCollectionOnchange,
     currencyAmountOnchange,
-  } = Target();
+  } = TargetNftOperation();
   const unlockClick = () => {
     setIsActive(true);
   };
@@ -157,6 +170,8 @@ const ItemDetail = function () {
 
   const open_trade = () => {
     console.log("open trde");
+    console.log("bidContract", bidItemCollectionAddress);
+
     graphqlCollections();
     graphqlCurrency();
     dispatch(setOpenCheckout(true));
@@ -177,8 +192,38 @@ const ItemDetail = function () {
   const listItemBtn = async () => {
     listItemData(contract, id, metadata);
   };
+  
   useEffect(() => {
     console.log("tradeData", data);
+    if (!loading) {
+      const itemBids = data.getTradeWithAddresId[0].tradeBids;
+      const test = itemBids.map((item, i) => {
+        return item.bidContractAddress;
+      });
+      dispatch(setBidItemCollectionAddress(test));
+
+      dispatch(
+        setBidItemBidTime(
+          itemBids.map((item, i) => {
+            return item.expiration;
+          })
+        )
+      );
+      dispatch(
+        setBidItemOwner(
+          itemBids.map((item, i) => {
+            return item.bidOwner;
+          })
+        )
+      );
+      dispatch(
+        setBidItemTokenId(
+          itemBids.map((item, i) => {
+            return item.bidTokenId;
+          })
+        )
+      );
+    }
   }, [loading]);
 
   useEffect(() => {
@@ -194,7 +239,7 @@ const ItemDetail = function () {
       var _metadata = await getTokenURI(contract, id);
       if (_metadata.name != undefined) {
         dispatch(setMetadata(_metadata));
-        console.log(metadata);
+        console.log("metadta", metadata);
         dispatch(
           setVoyagerLink(
             `https://beta-goerli.voyager.online/contract/${_metadata.contract_address}`
@@ -226,11 +271,23 @@ const ItemDetail = function () {
       <section className="container">
         <div className="row mt-md-5 pt-md-4">
           <div className="col-md-4 text-center">
-            <img
-              src={metadata.image}
-              className="img-fluid img-rounded mb-sm-30"
-              alt=""
-            />
+            <div
+              className="nft__item m-0"
+              style={{ width: "auto", height: "400px" }}
+            >
+              <div className="nft__item_offer">
+                <span>
+                  <img
+                    id="targetNft"
+                    className="lazy nft__item_preview"
+                    alt=""
+                    src={metadata.image}
+                    width="200px"
+                    height="250px"
+                  />
+                </span>
+              </div>
+            </div>
             <div className="spacer-40"></div>
             <div className="item_info">
               <div className="de_tab">
@@ -337,81 +394,28 @@ const ItemDetail = function () {
                 <div className="de_tab_content">
                   {openMenu && (
                     <div className="tab-1 onStep fadeIn">
-                      <div className="p_list">
-                        <div className="p_list_pp">
-                          <span>
-                            <img
-                              className="lazy"
-                              src="./img/author/author-2.jpg"
-                              alt=""
-                            />
-                            <i className="fa fa-check"></i>
-                          </span>
+                      {bidItemCollectionAddress.map((item, index) => (
+                        <div className="p_list" key={index}>
+                          <div className="p_list_pp">
+                            <span>
+                              <img
+                                className="lazy"
+                                src={metadata.image}
+                                alt=""
+                              />
+                              <i className="fa fa-check"></i>
+                            </span>
+                          </div>
+                          <div className="p_list_info" onClick={() =>
+                                    window.open(`/asset/${bidItemCollectionAddress}/${bidItemTokenId[index]}`, "_self")
+                                  }>
+                            Bid <b>{bidItemTokenId[index]}</b>
+                            <span>
+                              by <b>{item.slice(0,6)}</b> at 6/15/2021, 3:20 AM
+                            </span>
+                          </div>                       
                         </div>
-                        <div className="p_list_info">
-                          Bid accepted <b>0.005 ETH</b>
-                          <span>
-                            by <b>Monica Lucas</b> at 6/15/2021, 3:20 AM
-                          </span>
-                        </div>
-                      </div>
-
-                      <div className="p_list">
-                        <div className="p_list_pp">
-                          <span>
-                            <img
-                              className="lazy"
-                              src="./img/author/author-2.jpg"
-                              alt=""
-                            />
-                            <i className="fa fa-check"></i>
-                          </span>
-                        </div>
-                        <div className="p_list_info">
-                          Bid <b>0.005 ETH</b>
-                          <span>
-                            by <b>Mamie Barnett</b> at 6/14/2021, 5:40 AM
-                          </span>
-                        </div>
-                      </div>
-
-                      <div className="p_list">
-                        <div className="p_list_pp">
-                          <span>
-                            <img
-                              className="lazy"
-                              src="./img/author/author-3.jpg"
-                              alt=""
-                            />
-                            <i className="fa fa-check"></i>
-                          </span>
-                        </div>
-                        <div className="p_list_info">
-                          Bid <b>0.004 ETH</b>
-                          <span>
-                            by <b>Nicholas Daniels</b> at 6/13/2021, 5:03 AM
-                          </span>
-                        </div>
-                      </div>
-
-                      <div className="p_list">
-                        <div className="p_list_pp">
-                          <span>
-                            <img
-                              className="lazy"
-                              src="./img/author/author-4.jpg"
-                              alt=""
-                            />
-                            <i className="fa fa-check"></i>
-                          </span>
-                        </div>
-                        <div className="p_list_info">
-                          Bid <b>0.003 ETH</b>
-                          <span>
-                            by <b>Lori Hart</b> at 6/12/2021, 12:57 AM
-                          </span>
-                        </div>
-                      </div>
+                      ))}
                     </div>
                   )}
 
@@ -525,9 +529,9 @@ const ItemDetail = function () {
           <div className="maincheckout">
             <button
               className="btn-close"
-              onClick={() =>{ 
-                dispatch(setOpenCheckout(false))
-                dispatch(setChoosen(0))
+              onClick={() => {
+                dispatch(setOpenCheckout(false));
+                dispatch(setChoosen(0));
               }}
             >
               x
@@ -559,7 +563,10 @@ const ItemDetail = function () {
                 <div className="spacer-40"></div>
                 {choosen === 1 && (
                   <div className="items_filter centerEl">
-                    <div className="dropdownSelect one" style={{width:"100%"}}>
+                    <div
+                      className="dropdownSelect one"
+                      style={{ width: "100%" }}
+                    >
                       <h5>Target Collection</h5>
                       <Select
                         id="targetCollection1"
@@ -574,7 +581,10 @@ const ItemDetail = function () {
                 )}
                 {choosen === 2 && (
                   <div className="items_filter centerEl">
-                    <div className="dropdownSelect one" style={{width:"100%"}}>
+                    <div
+                      className="dropdownSelect one"
+                      style={{ width: "100%" }}
+                    >
                       <h5>Target Collection</h5>
                       <Select
                         className="select1"
@@ -598,7 +608,10 @@ const ItemDetail = function () {
                     </div>
                     <div className="spacer-20"></div>
 
-                    <div className="dropdownSelect two" style={{width:"100%"}}>
+                    <div
+                      className="dropdownSelect two"
+                      style={{ width: "100%" }}
+                    >
                       <h5>Target nft id</h5>
                       <input
                         type="text"
@@ -716,59 +729,6 @@ const ItemDetail = function () {
             <button onClick={listItemBtn} className="btn-main lead mb-5">
               List item
             </button>
-          </div>
-        </div>
-      )}
-      {openCheckoutbid && (
-        <div className="checkout">
-          <div className="maincheckout">
-            <button
-              className="btn-close"
-              onClick={() => dispatch(setOpenCheckoutBid(false))}
-            >
-              x
-            </button>
-            <div className="heading">
-              <h3>Place a Bid</h3>
-            </div>
-            <p>
-              You are about to purchase a{" "}
-              <span className="bold">AnimeSailorClub #304</span>
-              <span className="bold">from Monica Lucas</span>
-            </p>
-            <div className="detailcheckout mt-4">
-              <div className="listcheckout">
-                <h6>Your bid (ETH)</h6>
-                <input type="text" className="form-control" />
-              </div>
-            </div>
-            <div className="detailcheckout mt-3">
-              <div className="listcheckout">
-                <h6>
-                  Enter quantity.
-                  <span className="color">10 available</span>
-                </h6>
-                <input
-                  type="text"
-                  name="buy_now_qty"
-                  id="buy_now_qty"
-                  className="form-control"
-                />
-              </div>
-            </div>
-            <div className="heading mt-3">
-              <p>Your balance</p>
-              <div className="subtotal">10.67856 ETH</div>
-            </div>
-            <div className="heading">
-              <p>Service fee 2.5%</p>
-              <div className="subtotal">0.00325 ETH</div>
-            </div>
-            <div className="heading">
-              <p>You will pay</p>
-              <div className="subtotal">0.013325 ETH</div>
-            </div>
-            <button className="btn-main lead mb-5">Checkout</button>
           </div>
         </div>
       )}
