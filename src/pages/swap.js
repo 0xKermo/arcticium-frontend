@@ -8,14 +8,11 @@ import { setMetadata } from "../store/slicers/metadata";
 import { Toaster } from "react-hot-toast";
 import { GetTradeWithAddresId } from "../grqphql/query";
 import { useQuery } from "@apollo/client";
-import {
-  setTargetMetadata,
-  setTargetVoyagerLink,
-} from "../store/slicers/targetNftMetadata";
 import { BidActions } from "../controller";
 import Item from "../components/item";
+import TargetItem from "../components/targetItem"
 import SwapToAnyItem from "../components/swapToAnyItem";
-
+import SwapToCollectionItem from "../components/swapToCollectionItem";
 const GlobalStyles = createGlobalStyle`
   header#myHeader.navbar.white {
     background: #fff;
@@ -59,21 +56,20 @@ const Swap = function () {
    */
   const { metadata } = useSelector((state) => state.metadata);
   const { walletAddress } = useSelector((state) => state.wallet);
-  const { targetMetadata, targetVoyagerLink } = useSelector(
-    (state) => state.targetMetadata
-  );
-  const { collectionName } = useSelector(
-    (state) => state.collections
-  );
-  const { bidCollectionAddress, bidItemId, bidCurrencyType, bidCurrencyAmount } = useSelector(
-    (state) => state.bid
-  );
+
+  const { collectionName } = useSelector((state) => state.collections);
+  const {
+    bidCollectionAddress,
+    bidItemId,
+    bidCurrencyType,
+    bidCurrencyAmount,
+  } = useSelector((state) => state.bid);
   const { voyagerLink } = useSelector((state) => state.itemDetailOperation);
- /**
+  /**
    * Reducer End
    */
   const { contract, id } = useParams();
-  const {makeOffer} = BidActions()
+  const { makeOffer } = BidActions();
   /**
    * Graphql start
    */
@@ -86,65 +82,55 @@ const Swap = function () {
       tokenId: Number(id),
     },
   });
-  const buy_now = ()=> {
-
-  }
+  const buy_now = () => {};
   const make_offer = () => {
     const bidData = {
-      bidOwner:walletAddress,
-      bidContractAddress:bidCollectionAddress,
-      bidTokenId:bidItemId,
-      bidCurrencyType:1 ,
-      bidPrice:Number(bidCurrencyAmount),
-      tradeId:9,
-      biddedItemOwner:data.getTradeWithAddresId.tradeOwnerAddress,
-      biddedItemContractAddress:data.getTradeWithAddresId.tokenContract,
-      biddedItemId:data.getTradeWithAddresId.tokenId,
-      status:"Open",
-      bidTradeType:data.getTradeWithAddresId.tradeType,
-      expiration:123,
-      itemBidId:1,
-    }
-    makeOffer(bidData)    
+      bidOwner: walletAddress,
+      bidContractAddress: bidCollectionAddress,
+      bidTokenId: bidItemId,
+      bidCurrencyType: 1,
+      bidPrice: Number(bidCurrencyAmount),
+      tradeId: 9,
+      biddedItemOwner: data.getTradeWithAddresId.tradeOwnerAddress,
+      biddedItemContractAddress: data.getTradeWithAddresId.tokenContract,
+      biddedItemId: data.getTradeWithAddresId.tokenId,
+      status: "Open",
+      bidTradeType: data.getTradeWithAddresId.tradeType,
+      expiration: 123,
+      itemBidId: 1,
+    };
+    makeOffer(bidData);
   };
 
   useEffect(() => {
-    console.log(data);
+    const prepare = async (assetInfo) => {
+      await getCollectionName(contract);
+      if (assetInfo != null) {
+        dispatch(setMetadata(assetInfo));
+        dispatch(
+          setVoyagerLink(
+            `https://beta-goerli.voyager.online/contract/${assetInfo.contract_address}`
+          )
+        );
+      } else {
+        var _metadata = await getTokenURI(contract, id);
+        if (_metadata.name != undefined) {
+          dispatch(setMetadata(_metadata));
+          console.log(metadata);
+          dispatch(
+            setVoyagerLink(
+              `https://beta-goerli.voyager.online/contract/${_metadata.contract_address}`
+            )
+          );
+        }
+      }
+    };
     if (!loading) {
-      dispatch(
-        setTargetMetadata({
-          name: data.getTradeWithAddresId.targetName,
-          contract_address: data.getTradeWithAddresId.targetTokenContract,
-          description: data.getTradeWithAddresId.targetDescription,
-          image: data.getTradeWithAddresId.targetImage,
-          attributes:
-            data.getTradeWithAddresId.targetAttributes == undefined
-              ? null
-              : data.getTradeWithAddresId.targetAttributes,
-        })
-      );
-      const targetVoyager = `https://beta-goerli.voyager.online/contract/${data.getTradeWithAddresId.targetTokenContract}`;
-      dispatch(setTargetVoyagerLink(targetVoyager));
+      prepare(data.getAsset);
+      console.log(data);
     }
   }, [loading]);
 
-  useEffect(() => {
-    const prepare = async () => {
-      await getCollectionName(contract);
-
-      var _metadata = await getTokenURI(contract, id);
-      if (_metadata.name != undefined) {
-        dispatch(setMetadata(_metadata));
-        console.log(metadata);
-        dispatch(
-          setVoyagerLink(
-            `https://beta-goerli.voyager.online/contract/${_metadata.contract_address}`
-          )
-        );
-      }
-    };
-    prepare();
-  }, []);
 
   const attr = (_metadata) =>
     _metadata.attributes != undefined
@@ -200,24 +186,28 @@ const Swap = function () {
               </div>
             </div>
           </div>
-          {!loading && data.getTradeWithAddresId.tradeType == 0 && (
-            <SwapToAnyItem collections={data.collections} currency={data.getCurrencies}
-            makeOffer={make_offer}
+          {!loading && data.getTradeWithAddresId.tradeType === 0 && (
+            <SwapToAnyItem
+              collections={data.collections}
+              currency={data.getCurrencies}
+              makeOffer={make_offer}
+              data={data.getTradeWithAddresId}
             />
           )}
-          {!loading && data.getTradeWithAddresId.tradeType == 1 && (
-            <SwapToAnyItem collections={data.collections} currency={data.getCurrencies} makeOffer={make_offer}/>
+          {!loading && data.getTradeWithAddresId.tradeType === 1 && (
+            <SwapToCollectionItem
+              collections={data.collections}
+              currency={data.getCurrencies}
+              makeOffer={make_offer}
+              data={data.getTradeWithAddresId}
+            />
           )}
-          {!loading && data.getTradeWithAddresId.tradeType == 2 && (
-            <Item
-              meta={targetMetadata}
-              collectionName={collectionName}
-              attr={attr(targetMetadata)}
-              voyagerLink={targetVoyagerLink}
+          {!loading && data.getTradeWithAddresId.tradeType === 2 && (
+            <TargetItem
+              targetItemData={data.getTradeWithAddresId.targetAssetInfo[0]}
             />
           )}
         </div>
-        
       </section>
     </div>
   );

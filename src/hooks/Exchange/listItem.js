@@ -22,7 +22,10 @@ export const ListItem = () => {
         },
       ];
       let result;
-      
+      tradeArgs.transactionHash = "result.transaction_hash";
+      const resAddTrade = await _addTrade(tradeArgs);
+      console.log(resAddTrade);
+      return false
       if (_isApprove == 0) {
         const approveArgs = await approveERC721(
           tradeArgs.tokenContract,

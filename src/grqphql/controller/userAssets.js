@@ -1,39 +1,42 @@
-import { useMutation, useQuery } from "@apollo/client";
+import { useMutation, useLazyQuery } from "@apollo/client";
 import { updateUserAssets } from "../mutation";
-import {
-  setMetadata,
-  setMetadataLoading,
-  setMetadataError,
-} from "../../store/slicers/metadata";
-import { useDispatch } from "react-redux";
+
+import { useDispatch,useSelector } from "react-redux";
 import { getUserAsset } from "../query";
 import { useEffect } from "react";
+import { setUserAssets } from "../../store/slicers/userAssets";
 
 export const AddUserAsset = () => {
   const [_AddUserAsset] = useMutation(updateUserAssets);
-  
+  const {walletAddress} = useSelector((state) => state.wallet)
+
+  const [getAsset, { loading, data }] = useLazyQuery(getUserAsset
+    );
+
   const dispatch = useDispatch();
 
   const _addUserAsset = (assetsArgs) => {
-    console.log(assetsArgs);
     const result = _AddUserAsset({
       variables: assetsArgs,
     });
     return result;
   };
 
-  const GetUserAssets = (walletAddress) => {
-    const { loading, error, data } = useQuery(getUserAsset, {
-      variables: {
-        walletAddress: walletAddress
-      },
-    });
-    if (!loading) {
-      dispatch(setMetadata(data.getTokenURI));
-      dispatch(setMetadataLoading(loading));
-    }
+  const getUserAssets = () => {
 
-    dispatch(setMetadataError(error));
+    getAsset({ variables: { walletAddress: walletAddress } })
+   
   };
-  return { _addUserAsset, GetUserAssets };
+
+  useEffect(() => {
+    if (!loading) {
+      if (data != undefined) {
+        dispatch(setUserAssets(data.getUserAsset));
+        console.log("data",data.getUserAsset)
+        
+      }
+    } 
+  }, [loading])
+
+  return { _addUserAsset,getUserAssets };
 };

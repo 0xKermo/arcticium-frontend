@@ -9,6 +9,7 @@ import currencyReducer from './slicers/currency'
 import targetNftMetadataReducer from './slicers/targetNftMetadata'
 import bidReducer from './slicers/bid'
 import bidsOfItemReducer from './slicers/bidsOfItem'
+import userAssetsReducer from './slicers/userAssets'
 export default configureStore({
   reducer: {
     wallet : walletReducer,
@@ -20,7 +21,8 @@ export default configureStore({
     currency:currencyReducer,
     targetMetadata:targetNftMetadataReducer,
     bid:bidReducer,
-    bidsOfItem:bidsOfItemReducer
+    bidsOfItem:bidsOfItemReducer,
+    userAssets:userAssetsReducer
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

@@ -2,10 +2,7 @@ import { useQuery } from "@apollo/client";
 import React, { Component } from "react";
 import styled from "styled-components";
 import Clock from "./clock";
-import {
-
-  Link,
-} from "react-router-dom";
+import { Link } from "react-router-dom";
 import NftCard from "./nftCard";
 
 const Outer = styled.div`
@@ -221,71 +218,70 @@ export default class Responsive extends Component {
     return (
       <div className="row">
         {this.state.nfts.map((nft, index) => (
-
           <div
             key={index}
             className="d-item col-lg-3 col-md-6 col-sm-6 col-xs-12 mb-4"
-          > 
-           <Link to={`/asset/${nft.tokenContract}/${nft.tokenId}/swap`}>
-            <div className="nft__item m-0">
-              <div className="nft__item_wrap" style={{ height: `225px` }}>
-                <div className="col-md-5">
-                  <Outer>
-                    <span>
-                      <img
-                        height={100}
-                        width={100}
-                        onLoad={this.onImgLoad}
-                        src={nft.image}
-                        className="lazy nft__item_preview"
-                        alt=""
-                      />
-                    </span>
-                  </Outer>
-                </div>
-                <div className="col-md-2">
-                  <div className="swap-icon">
-                    <i className="fa fa-exchange"></i>
-                  </div>
-                </div>
-                <div className="col-md-5">
-                  {nft.targetTokenContract != null && nft.targetTokenId != 0 && (
+          >
+            <Link
+              to={`/asset/${nft.assetInfo.contract_address}/${nft.assetInfo.token_id}/swap`}
+            >
+              <div className="nft__item m-0">
+                <div className="nft__item_wrap" style={{ height: `225px` }}>
+                  <div className="col-md-5">
                     <Outer>
                       <span>
                         <img
                           height={100}
                           width={100}
                           onLoad={this.onImgLoad}
-                          src={nft.targetImage}
+                          src={nft.assetInfo.image}
                           className="lazy nft__item_preview"
                           alt=""
                         />
                       </span>
                     </Outer>
-                  )}
-                  {nft.targetTokenContract != null &&
-                    nft.targetTokenId == 0 && (
-                      <div>{nft.targetTokenContract.slice(0, 3)}</div>
+                  </div>
+                  <div className="col-md-2">
+                    <div className="swap-icon">
+                      <i className="fa fa-exchange"></i>
+                    </div>
+                  </div>
+                  <div className="col-md-5">
+                    {nft.targetTokenContract != null && nft.targetTokenId != 0 && (
+                      <Outer>
+                        <span>
+                          <img
+                            height={100}
+                            width={100}
+                            onLoad={this.onImgLoad}
+                            src={nft.targetAssetInfo[0].image}
+                            className="lazy nft__item_preview"
+                            alt=""
+                          />
+                        </span>
+                      </Outer>
                     )}
-                     {nft.targetTokenContract == null &&
-                    nft.targetTokenId == 0 && (
-                      <div>Make Offer</div>
-                    )}
+                    {nft.targetTokenContract != null &&
+                      nft.targetTokenId == 0 && (
+                        <div>{nft.targetTokenContract.slice(0, 3)}</div>
+                      )}
+                    {nft.targetTokenContract == null &&
+                      nft.targetTokenId == 0 && <div>Make Offer</div>}
+                  </div>
+                </div>
+                <div className="nft__item_info">
+                  <span>
+                    <h4>{nft.assetInfo.name}</h4>
+                  </span>
+                  <div className="nft__item_price">
+                    {nft.price}
+                    {/* <span>{nft.bid}</span> */}
+                  </div>
+                  <div className="nft__item_action">
+                    <span>Place a bid</span>
+                  </div>
                 </div>
               </div>
-              <div className="nft__item_info">
-                <span>
-                  <h4>{nft.name}</h4>
-                </span>
-                <div className="nft__item_price">
-                  {nft.price}
-                  {/* <span>{nft.bid}</span> */}
-                </div>
-                <div className="nft__item_action">
-                  <span>Place a bid</span>
-                </div>
-              </div>
-            </div>
             </Link>
           </div>
         ))}

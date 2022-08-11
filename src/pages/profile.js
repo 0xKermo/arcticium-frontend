@@ -4,9 +4,7 @@ import ColumnSwap from "../components/profileColumnSwap";
 import Activity from "../components/profileActvity";
 import Favorites from "../components/profileColumnFavorites";
 import { createGlobalStyle } from "styled-components";
-import { setUserNfts } from "../store/slicers/userNfts";
 import { ProfileActions } from "../controller";
-import { useQuery } from "@apollo/client";
 import ColumnMyNfts from "../components/profileColumnMyNfts";
 import { AddUserAsset } from "../grqphql";
 
@@ -52,8 +50,9 @@ const Profile = ({}) => {
   );
   const { handleBtnClick, handleBtnClick1, handleBtnClick2, handleBtnClick3 } =
     ProfileActions();
-  const { userNfts } = useSelector((state) => state.userNfts);
-  const { _addUserAsset} = AddUserAsset()
+  const { _addUserAsset,getUserAssets} = AddUserAsset()
+
+
   // useEffect( () => {
   //   if(!loading){
   //     dispatch(setUserNfts(data.getTokensURI));
@@ -66,6 +65,8 @@ const Profile = ({}) => {
         assetOwner:walletAddress,
       }
       _addUserAsset(userAssetsArgs)
+      getUserAssets()
+      
     }
   
   }, [walletAddress])
@@ -156,7 +157,7 @@ const Profile = ({}) => {
         </div>
         {openMenu && (
           <div id="zero2" className="onStep fadeIn">
-            <ColumnMyNfts nfts={userNfts} />
+            <ColumnMyNfts />
           </div>
         )}
 

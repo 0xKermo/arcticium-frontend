@@ -1,12 +1,11 @@
 import React from "react";
 import { createGlobalStyle } from "styled-components";
-import { useBalanceOf, MintErc20, GetAmmOut } from "../hooks";
+import { MintErc20 } from "../hooks";
 import { useSelector } from "react-redux";
 import { Toaster } from "react-hot-toast";
 import { ToastPromise } from "../components/toast";
 import { Provider } from "starknet";
-import { useQuery } from "@apollo/client";
-import { collections } from "../grqphql/query";
+
 const GlobalStyles = createGlobalStyle`
   header#myHeader.navbar.sticky.white {
     background: #403f83;
@@ -45,8 +44,7 @@ const Faucet = () => {
   const { walletAddress } = useSelector((state) => state.wallet);
 
   const { mintErc20 } = MintErc20();
-  const {loading,error,data} = useQuery(collections)
-  console.log(data)
+
   const requestFaucet = async () => {
     const mintErc20Promise = mintErc20();
     const provider = new Provider();

@@ -16,7 +16,7 @@ import {
 } from "../store/slicers/itemDetailOperations";
 import { setMetadata } from "../store/slicers/metadata";
 import { Toaster } from "react-hot-toast";
-import { GetTradeWithAddresId } from "../grqphql/query";
+import { getAsset, GetTradeWithAddresId } from "../grqphql/query";
 import { useQuery } from "@apollo/client";
 import { setTargetMetadata } from "../store/slicers/targetNftMetadata";
 import {
@@ -24,9 +24,12 @@ import {
   setBidItemCollectionAddress,
   setBidItemImage,
   setBidItemOwner,
-  setBidItemTokenId
+  setBidItemTokenId,
 } from "../store/slicers/bidsOfItem";
 import { itemsType } from "../components/constants/filters";
+import { setCollections } from "../store/slicers/collections";
+import { setCurrencyInfo } from "../store/slicers/currency";
+
 const GlobalStyles = createGlobalStyle`
   header#myHeader.navbar.white {
     background: #fff;
@@ -140,9 +143,7 @@ const ItemDetail = function () {
    * Graphql start
    */
   const { getTokenURI } = GetTokenURI();
-  const { graphqlCollections } = GraphqlCollections();
   const { getCollectionName } = GetCollectionName();
-  const { graphqlCurrency } = GraphqlCurrency();
   const { loading, error, data } = useQuery(GetTradeWithAddresId, {
     variables: {
       contractAddress: contract,
@@ -159,6 +160,7 @@ const ItemDetail = function () {
     targetCollectionOnchange,
     currencyAmountOnchange,
   } = TargetNftOperation();
+
   const unlockClick = () => {
     setIsActive(true);
   };
@@ -171,36 +173,73 @@ const ItemDetail = function () {
   const open_trade = () => {
     console.log("open trde");
     console.log("bidContract", bidItemCollectionAddress);
-
-    graphqlCollections();
-    graphqlCurrency();
     dispatch(setOpenCheckout(true));
   };
 
   const targetNftOnfocus = async (e) => {
     setTargetNftUrl("");
     console.log("ok");
-    const metadata = await getTokenURI(targetCollectionAddress, e.target.value);
+    const targetMetadata = await getTokenURI(targetCollectionAddress, e.target.value);
     dispatch(setTargetMetadata(metadata));
     const _targetNftLink =
       "http://localhost:3000/" + targetCollectionAddress + "/" + e.target.value;
-    document.getElementById("targetNft").src = metadata.image;
+    document.getElementById("targetNft").src = targetMetadata.image;
     document.getElementById("targetNftsrc").src = _targetNftLink;
-    setTargetNftUrl(metadata.image);
+    setTargetNftUrl(targetMetadata.image);
   };
 
   const listItemBtn = async () => {
     listItemData(contract, id, metadata);
   };
-  
+
   useEffect(() => {
-    console.log("tradeData", data);
+    const prepare = async (dataGetAsset) => {
+      console.log(dataGetAsset)
+      await getCollectionName(contract);
+      if (dataGetAsset == null) {
+        await getTokenURI(contract, id).then((res) => {
+          dispatch(setMetadata(res));
+          dispatch(
+            setVoyagerLink(
+              `https://beta-goerli.voyager.online/contract/${res.contract_address}`
+            )
+          );
+        });
+      } else {
+        dispatch(setMetadata(dataGetAsset));
+        dispatch(
+          setVoyagerLink(
+            `https://beta-goerli.voyager.online/contract/${dataGetAsset.contract_address}`
+          )
+        );
+      }
+    };
     if (!loading) {
-      const itemBids = data.getTradeWithAddresId[0].tradeBids;
+      const itemBids =
+        data.getTradeWithAddresId != null && data.getTradeWithAddresId.tradeBids.length > 0 
+          ? data.getTradeWithAddresId[0].tradeBids
+          : [];
       const test = itemBids.map((item, i) => {
         return item.bidContractAddress;
       });
       dispatch(setBidItemCollectionAddress(test));
+
+      const _collections = data.collections.map((item, i) => {
+        const collectionSelect = {
+          value: item.collectionAddress,
+          label: item.collectionName,
+        };
+        return collectionSelect;
+      });
+      dispatch(setCollections(_collections));
+
+      const currencyInfo = data.getCurrencies.map((item,i) => {
+        return {
+            value:item.currencyAddress,
+            label:item.currencyName
+        }
+    }) 
+      dispatch(setCurrencyInfo({currencyInfo}))
 
       dispatch(
         setBidItemBidTime(
@@ -223,32 +262,9 @@ const ItemDetail = function () {
           })
         )
       );
+      prepare(data.getAsset != null ? data.getAsset: null );
     }
   }, [loading]);
-
-  useEffect(() => {
-    const prepare = async () => {
-      const res = await getOwnerOf(contract, id);
-      if (walletAddress != null && res.result[0] === walletAddress) {
-        setIsOwner(1);
-      } else if (walletAddress != null) {
-        setIsOwner(2);
-      }
-      await getCollectionName(contract);
-
-      var _metadata = await getTokenURI(contract, id);
-      if (_metadata.name != undefined) {
-        dispatch(setMetadata(_metadata));
-        console.log("metadta", metadata);
-        dispatch(
-          setVoyagerLink(
-            `https://beta-goerli.voyager.online/contract/${_metadata.contract_address}`
-          )
-        );
-      }
-    };
-    prepare();
-  }, [walletAddress]);
 
   const attr =
     metadata.attributes != undefined
@@ -278,7 +294,6 @@ const ItemDetail = function () {
               <div className="nft__item_offer">
                 <span>
                   <img
-                    id="targetNft"
                     className="lazy nft__item_preview"
                     alt=""
                     src={metadata.image}
@@ -295,7 +310,7 @@ const ItemDetail = function () {
                   <div className="p_list">
                     <div className="p_detail_header">
                       <span>
-                        <h4>Descripton</h4>
+                        <h4>Description</h4>
                       </span>
                     </div>
                   </div>
@@ -356,16 +371,38 @@ const ItemDetail = function () {
             </div>
 
             <div className="item_info">
-              <h6>Creator</h6>
-              <div className="item_author">
-                <div className="author_list_pp">
-                  <span>
-                    <img className="lazy" src={metadata.image} alt="" />
-                    <i className="fa fa-check"></i>
-                  </span>
+              <div className="p_list" style={{ display: "flex" }}>
+                <div className="col-md-4  ">
+                  <div className="p_detail">
+                    <h6>Owner</h6>
+                    <div className="item_author">
+                      <div className="author_list_pp">
+                        <span>
+                          <img className="lazy" src={metadata.image} alt="" />
+                          <i className="fa fa-check"></i>
+                        </span>
+                      </div>
+                      <div className="author_list_info">
+                        <span>test</span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div className="author_list_info">
-                  <span>{collectionName}</span>
+                <div className="col-md-4">
+                  <div className="p_detail">
+                    <h6>Creator</h6>
+                    <div className="item_author">
+                      <div className="author_list_pp">
+                        <span>
+                          <img className="lazy" src={metadata.image} alt="" />
+                          <i className="fa fa-check"></i>
+                        </span>
+                      </div>
+                      <div className="author_list_info">
+                        <span>{collectionName}</span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -406,14 +443,20 @@ const ItemDetail = function () {
                               <i className="fa fa-check"></i>
                             </span>
                           </div>
-                          <div className="p_list_info" onClick={() =>
-                                    window.open(`/asset/${bidItemCollectionAddress}/${bidItemTokenId[index]}`, "_self")
-                                  }>
+                          <div
+                            className="p_list_info"
+                            onClick={() =>
+                              window.open(
+                                `/asset/${bidItemCollectionAddress}/${bidItemTokenId[index]}`,
+                                "_self"
+                              )
+                            }
+                          >
                             Bid <b>{bidItemTokenId[index]}</b>
                             <span>
-                              by <b>{item.slice(0,6)}</b> at 6/15/2021, 3:20 AM
+                              by <b>{item.slice(0, 6)}</b> at 6/15/2021, 3:20 AM
                             </span>
-                          </div>                       
+                          </div>
                         </div>
                       ))}
                     </div>

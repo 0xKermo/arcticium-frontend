@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
 
 import Select from "react-select";
 import { BidActions } from "../controller";
+import { getUserAssetByContract } from "../grqphql/query";
+import { useLazyQuery } from "@apollo/client";
+import { setUserNfts } from "../store/slicers/userNfts";
 
 const customStyles = {
   option: (base, state) => ({
@@ -29,12 +32,16 @@ const customStyles = {
     padding: 2,
   }),
 };
-const SwapToAnyItem = (props) => {
+const SwapToCollectionItem = (props) => {
+  const dispatch = useDispatch()
   const [isActive, setIsActive] = useState(false);
   const { _nfts } = useSelector((state) => state.userNfts);
+  const { walletAddress } = useSelector((state) => state.wallet);
+
+  const [GetUserAssetByContract, { loading, data }] = useLazyQuery(getUserAssetByContract
+    );
 
   const {
-    bidCollectionOnchange,
     bidNftOnchange,
     bidCurrencyTypeOnchange,
     bidCurrencyAmountOnchange,
@@ -46,7 +53,29 @@ const SwapToAnyItem = (props) => {
   const unlockHide = () => {
     setIsActive(false);
   };
+  useEffect(() => {
+    if(!loading){
+      if(data != null){
+        dispatch(setUserNfts(data.getUserAssetByContractAddress.map((item,i) => {
+          return{
+            label:item.name,
+            value:item.token_id
+          }
+        })))
+      }
+    }
+  
+    
+  }, [loading])
+  
+  useEffect(() => {
+    if(walletAddress != null){
 
+      GetUserAssetByContract({ variables: { walletAddress: walletAddress, contract_address: props.data.targetTokenContract } })
+    }
+    
+  }, [walletAddress])
+  
 
   return (
     <div className="col-md-4 text-center">
@@ -79,18 +108,11 @@ const SwapToAnyItem = (props) => {
               <div className="items_filter centerEl ">
                 <div className="dropdownSelect one" style={{ width: "100%" }}>
                   <h5>Collection</h5>
-                  <Select
-                    id="targetCollection1"
-                    className="select1"
-                    onChange={bidCollectionOnchange}
-                    styles={customStyles}
-                    menuContainerStyle={{ zIndex: 999 }}
-                    options={props.collections.map((item, i) => {
-                      return {
-                        value: item.collectionAddress,
-                        label: item.collectionName,
-                      };
-                    })}
+                    <input
+                    type="text"
+                    disabled
+                    className="form-control"
+                    value={ props.collections.filter(x => x.collectionAddress == props.data.targetTokenContract)[0].collectionName}
                   />
                 </div>
               </div>
@@ -168,4 +190,4 @@ const SwapToAnyItem = (props) => {
     </div>
   );
 };
-export default SwapToAnyItem;
+export default SwapToCollectionItem;
