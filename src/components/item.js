@@ -70,6 +70,7 @@ export default class Responsive extends Component {
                             src={this.state.metadata.image}
                             alt=""
                           />
+                          <i className="fa fa-check"></i>
                         </span>
                       </div>
                       <div className="author_list_info">
@@ -89,6 +90,7 @@ export default class Responsive extends Component {
                             src={this.state.metadata.image}
                             alt=""
                           />
+                          <i className="fa fa-check"></i>
                         </span>
                       </div>
                       <div className="author_list_info">

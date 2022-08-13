@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { createGlobalStyle } from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
-import { GetTokenURI, GetCollectionName, GetOwnerOf } from "../hooks";
+import { GetTokenURI, GetCollectionName } from "../hooks";
 import { useParams } from "react-router-dom";
 import { setVoyagerLink } from "../store/slicers/itemDetailOperations";
 import { setMetadata } from "../store/slicers/metadata";
@@ -10,10 +10,9 @@ import { GetTradeWithAddresId } from "../grqphql/query";
 import { useQuery } from "@apollo/client";
 import { BidActions } from "../controller";
 import Item from "../components/item";
-import TargetItem from "../components/targetItem";
+import TargetItem from "../components/targetItem"
 import SwapToAnyItem from "../components/swapToAnyItem";
 import SwapToCollectionItem from "../components/swapToCollectionItem";
-
 const GlobalStyles = createGlobalStyle`
   header#myHeader.navbar.white {
     background: #fff;
@@ -52,7 +51,6 @@ const GlobalStyles = createGlobalStyle`
 
 const Swap = function () {
   const dispatch = useDispatch();
-  const [isItemOwner, setIsItemOwner] = useState(false);
   /**
    *  Reducer start
    */
@@ -77,7 +75,6 @@ const Swap = function () {
    */
 
   const { getTokenURI } = GetTokenURI();
-  const { getOwnerOf } = GetOwnerOf();
   const { getCollectionName } = GetCollectionName();
   const { loading, error, data } = useQuery(GetTradeWithAddresId, {
     variables: {
@@ -119,6 +116,7 @@ const Swap = function () {
         var _metadata = await getTokenURI(contract, id);
         if (_metadata.name != undefined) {
           dispatch(setMetadata(_metadata));
+          console.log(metadata);
           dispatch(
             setVoyagerLink(
               `https://beta-goerli.voyager.online/contract/${_metadata.contract_address}`
@@ -129,24 +127,10 @@ const Swap = function () {
     };
     if (!loading) {
       prepare(data.getAsset);
+      console.log(data);
     }
   }, [loading]);
 
-  useEffect(() => {
-    const prepare = async () => {
-      const itemOwner = await getOwnerOf(contract, id);
-      return itemOwner;
-    };
-    if (walletAddress != undefined) {
-      prepare().then((res) => {
-        if (res.result.toString() == walletAddress) {
-          setIsItemOwner(true);
-        } else {
-          setIsItemOwner(false);
-        }
-      });
-    }
-  }, [walletAddress]);
 
   const attr = (_metadata) =>
     _metadata.attributes != undefined
@@ -189,18 +173,16 @@ const Swap = function () {
                 >
                   <i className="fa fa-exchange"></i>
                 </div>
-                {!loading &&
-                  data.getTradeWithAddresId.tradeType === 2 &&
-                  isItemOwner && (
-                    <div
-                      className="swap-icon"
-                      style={{ textAlign: "center", marginTop: "140px" }}
-                    >
-                      <span onClick={buy_now} className="btn-main inline lead">
-                        Buy now
-                      </span>
-                    </div>
-                  )}
+                {!loading && data.getTradeWithAddresId.tradeType === 2 && (
+                  <div
+                    className="swap-icon"
+                    style={{ textAlign: "center", marginTop: "140px" }}
+                  >
+                    <span onClick={buy_now} className="btn-main inline lead">
+                      Buy now
+                    </span>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -216,7 +198,6 @@ const Swap = function () {
             <SwapToCollectionItem
               collections={data.collections}
               currency={data.getCurrencies}
-              targetCollection={data.getTradeWithAddresId.targetTokenContract}
               makeOffer={make_offer}
               data={data.getTradeWithAddresId}
             />

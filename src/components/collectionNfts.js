@@ -2,7 +2,6 @@ import React from "react";
 import ColumnNew from "../components/ColumnNew";
 import { createGlobalStyle } from "styled-components";
 import TopFilterBar from "../components/topFilterBar";
-import LeftFilterBar from "../components/leftFilterBar";
 
 const GlobalStyles = createGlobalStyle`
   header#myHeader.navbar.sticky.white {
@@ -41,14 +40,13 @@ const CollectionNfts = function () {
   return (
     <div>
       <GlobalStyles />
-      <section className="padding_zero">
-        <div className="row">
-          <div className="col-md-12">
-            <TopFilterBar />
-            <ColumnNew />
-          </div>
+
+      <div className="row">
+        <div className="col-md-12">
+          <TopFilterBar />
+          <ColumnNew />
         </div>
-      </section>
+      </div>
     </div>
   );
 };

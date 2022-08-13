@@ -6,7 +6,6 @@ import { BidActions } from "../controller";
 import { getUserAssetByContract } from "../grqphql/query";
 import { useLazyQuery } from "@apollo/client";
 import { setUserNfts } from "../store/slicers/userNfts";
-import { setBidCollectionAddress, setBidItemId } from "../store/slicers/bid";
 
 const customStyles = {
   option: (base, state) => ({
@@ -43,6 +42,7 @@ const SwapToCollectionItem = (props) => {
     );
 
   const {
+    bidNftOnchange,
     bidCurrencyTypeOnchange,
     bidCurrencyAmountOnchange,
   } = BidActions();
@@ -53,17 +53,6 @@ const SwapToCollectionItem = (props) => {
   const unlockHide = () => {
     setIsActive(false);
   };
-
-  const bidNftOnchange = (e) => {
-    document.getElementById("biddedNft").src =""
-
-    console.log(data);
-    dispatch(setBidItemId(e.value));
-    const filteredAsset = data.getUserAssetByContractAddress.filter(x => x.contract_address == props.targetCollection && x.token_id == e.value );
-    console.log(filteredAsset)
-    document.getElementById("biddedNft").src = filteredAsset[0].image
-  };
-
   useEffect(() => {
     if(!loading){
       if(data != null){
@@ -73,8 +62,6 @@ const SwapToCollectionItem = (props) => {
             value:item.token_id
           }
         })))
-            dispatch(setBidCollectionAddress(props.targetCollection));
-
       }
     }
   
