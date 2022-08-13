@@ -217,9 +217,8 @@ const ItemDetail = function () {
     if (!loading) {
       const itemBids =
         data.getTradeWithAddresId != null && data.getTradeWithAddresId.tradeBids.length > 0 
-          ? data.getTradeWithAddresId.tradeBids
+          ? data.getTradeWithAddresId[0].tradeBids
           : [];
-
       const test = itemBids.map((item, i) => {
         return item.bidContractAddress;
       });
@@ -373,28 +372,30 @@ const ItemDetail = function () {
 
             <div className="item_info">
               <div className="p_list" style={{ display: "flex" }}>
-                <div className="col-md-6 ">
+                <div className="col-md-4  ">
                   <div className="p_detail">
                     <h6>Owner</h6>
                     <div className="item_author">
                       <div className="author_list_pp">
                         <span>
                           <img className="lazy" src={metadata.image} alt="" />
+                          <i className="fa fa-check"></i>
                         </span>
                       </div>
                       <div className="author_list_info">
-                        <span>{data.getTradeWithAddresId.tradeOwnerAddress.slice(0,6)}...{data.getTradeWithAddresId.tradeOwnerAddress.slice(-6)}</span>
+                        <span>test</span>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div className="col-md-6">
+                <div className="col-md-4">
                   <div className="p_detail">
                     <h6>Creator</h6>
                     <div className="item_author">
                       <div className="author_list_pp">
                         <span>
                           <img className="lazy" src={metadata.image} alt="" />
+                          <i className="fa fa-check"></i>
                         </span>
                       </div>
                       <div className="author_list_info">
@@ -432,13 +433,14 @@ const ItemDetail = function () {
                     <div className="tab-1 onStep fadeIn">
                       {bidItemCollectionAddress.map((item, index) => (
                         <div className="p_list" key={index}>
-                          <div className="author_list_pp">
+                          <div className="p_list_pp">
                             <span>
                               <img
                                 className="lazy"
                                 src={metadata.image}
                                 alt=""
                               />
+                              <i className="fa fa-check"></i>
                             </span>
                           </div>
                           <div
@@ -450,9 +452,9 @@ const ItemDetail = function () {
                               )
                             }
                           >
-                             <b>{bidItemTokenId[index]}</b> item offered
+                            Bid <b>{bidItemTokenId[index]}</b>
                             <span>
-                              from <b>{item.slice(0,6)}...{item.slice(-6)}</b> at 6/15/2021, 3:20 AM
+                              by <b>{item.slice(0, 6)}</b> at 6/15/2021, 3:20 AM
                             </span>
                           </div>
                         </div>
@@ -486,6 +488,44 @@ const ItemDetail = function () {
                           <span>
                             <img
                               className="lazy"
+                              src="./img/author/author-1.jpg"
+                              alt=""
+                            />
+                            <i className="fa fa-check"></i>
+                          </span>
+                        </div>
+                        <div className="p_list_info">
+                          Bid accepted <b>0.005 ETH</b>
+                          <span>
+                            by <b>Monica Lucas</b> at 6/15/2021, 3:20 AM
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="p_list">
+                        <div className="p_list_pp">
+                          <span>
+                            <img
+                              className="lazy"
+                              src="./img/author/author-2.jpg"
+                              alt=""
+                            />
+                            <i className="fa fa-check"></i>
+                          </span>
+                        </div>
+                        <div className="p_list_info">
+                          Bid <b>0.005 ETH</b>
+                          <span>
+                            by <b>Mamie Barnett</b> at 6/14/2021, 5:40 AM
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="p_list">
+                        <div className="p_list_pp">
+                          <span>
+                            <img
+                              className="lazy"
                               src="./img/author/author-3.jpg"
                               alt=""
                             />
@@ -496,6 +536,25 @@ const ItemDetail = function () {
                           Bid <b>0.004 ETH</b>
                           <span>
                             by <b>Nicholas Daniels</b> at 6/13/2021, 5:03 AM
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="p_list">
+                        <div className="p_list_pp">
+                          <span>
+                            <img
+                              className="lazy"
+                              src="./img/author/author-4.jpg"
+                              alt=""
+                            />
+                            <i className="fa fa-check"></i>
+                          </span>
+                        </div>
+                        <div className="p_list_info">
+                          Bid <b>0.003 ETH</b>
+                          <span>
+                            by <b>Lori Hart</b> at 6/12/2021, 12:57 AM
                           </span>
                         </div>
                       </div>
