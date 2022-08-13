@@ -50,34 +50,16 @@ const Profile = ({}) => {
   );
   const { handleBtnClick, handleBtnClick1, handleBtnClick2, handleBtnClick3 } =
     ProfileActions();
-<<<<<<< HEAD
-  const { userNfts } = useSelector((state) => state.userNfts);
-  const { _addUserAsset } = AddUserAsset();
-=======
-  const { _addUserAsset,getUserAssets} = AddUserAsset()
 
-
->>>>>>> cc4e12f52c99fa645e9aadd370a28df167aa0b96
-  // useEffect( () => {
-  //   if(!loading){
-  //     dispatch(setUserNfts(data.getTokensURI));
-  //   }
-  // }, [loading]);
+  const { _addUserAsset, getUserAssets } = AddUserAsset();
 
   useEffect(() => {
     if (walletAddress != null) {
       const userAssetsArgs = {
-<<<<<<< HEAD
         assetOwner: walletAddress,
       };
       _addUserAsset(userAssetsArgs);
-=======
-        assetOwner:walletAddress,
-      }
-      _addUserAsset(userAssetsArgs)
-      getUserAssets()
-      
->>>>>>> cc4e12f52c99fa645e9aadd370a28df167aa0b96
+      getUserAssets();
     }
   }, [walletAddress]);
 
