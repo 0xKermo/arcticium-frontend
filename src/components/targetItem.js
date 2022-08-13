@@ -6,7 +6,7 @@ export default class Responsive extends Component {
     super(props);
     this.state = {
       targetItemData: this.props.targetItemData,
-      targetItemvoyagerLink: `https://beta-goerli.voyager.online/contract/${this.props.targetItemData.contract_address}`,
+      targetItemVoyagerLink: `https://beta-goerli.voyager.online/contract/${this.props.targetItemData.contract_address}`,
       collectionName : this.props.targetItemData.contract_address,
     };
 }
@@ -69,7 +69,6 @@ _metadata.attributes != undefined
                             src={this.state.targetItemData.image}
                             alt=""
                           />
-                          <i className="fa fa-check"></i>
                         </span>
                       </div>
                       <div className="author_list_info">
@@ -89,7 +88,6 @@ _metadata.attributes != undefined
                             src={this.state.targetItemData.image}
                             alt=""
                           />
-                          <i className="fa fa-check"></i>
                         </span>
                       </div>
                       <div className="author_list_info">
@@ -137,7 +135,7 @@ _metadata.attributes != undefined
                         <a
                           target="_blank"
                           rel="noopener noreferrer"
-                          href={this.state.voyagerLink}
+                          href={this.state.targetItemVoyagerLink}
                         >
                           <b>Voyager Link</b>
                         </a>
