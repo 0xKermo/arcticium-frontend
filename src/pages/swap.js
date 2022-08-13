@@ -1,20 +1,18 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { createGlobalStyle } from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
-import { GetTokenURI, GetCollectionName } from "../hooks";
+import { GetTokenURI, GetCollectionName, GetOwnerOf } from "../hooks";
 import { useParams } from "react-router-dom";
 import { setVoyagerLink } from "../store/slicers/itemDetailOperations";
 import { setMetadata } from "../store/slicers/metadata";
 import { Toaster } from "react-hot-toast";
 import { GetTradeWithAddresId } from "../grqphql/query";
 import { useQuery } from "@apollo/client";
-import {
-  setTargetMetadata,
-  setTargetVoyagerLink,
-} from "../store/slicers/targetNftMetadata";
 import { BidActions } from "../controller";
 import Item from "../components/item";
+import TargetItem from "../components/targetItem";
 import SwapToAnyItem from "../components/swapToAnyItem";
+import SwapToCollectionItem from "../components/swapToCollectionItem";
 
 const GlobalStyles = createGlobalStyle`
   header#myHeader.navbar.white {
@@ -54,31 +52,32 @@ const GlobalStyles = createGlobalStyle`
 
 const Swap = function () {
   const dispatch = useDispatch();
+  const [isItemOwner, setIsItemOwner] = useState(false);
   /**
    *  Reducer start
    */
   const { metadata } = useSelector((state) => state.metadata);
   const { walletAddress } = useSelector((state) => state.wallet);
-  const { targetMetadata, targetVoyagerLink } = useSelector(
-    (state) => state.targetMetadata
-  );
-  const { collectionName } = useSelector(
-    (state) => state.collections
-  );
-  const { bidCollectionAddress, bidItemId, bidCurrencyType, bidCurrencyAmount } = useSelector(
-    (state) => state.bid
-  );
+
+  const { collectionName } = useSelector((state) => state.collections);
+  const {
+    bidCollectionAddress,
+    bidItemId,
+    bidCurrencyType,
+    bidCurrencyAmount,
+  } = useSelector((state) => state.bid);
   const { voyagerLink } = useSelector((state) => state.itemDetailOperation);
- /**
+  /**
    * Reducer End
    */
   const { contract, id } = useParams();
-  const {makeOffer} = BidActions()
+  const { makeOffer } = BidActions();
   /**
    * Graphql start
    */
 
   const { getTokenURI } = GetTokenURI();
+  const { getOwnerOf } = GetOwnerOf();
   const { getCollectionName } = GetCollectionName();
   const { loading, error, data } = useQuery(GetTradeWithAddresId, {
     variables: {
@@ -86,65 +85,68 @@ const Swap = function () {
       tokenId: Number(id),
     },
   });
-  const buy_now = ()=> {
-
-  }
+  const buy_now = () => {};
   const make_offer = () => {
     const bidData = {
-      bidOwner:walletAddress,
-      bidContractAddress:bidCollectionAddress,
-      bidTokenId:bidItemId,
-      bidCurrencyType:1 ,
-      bidPrice:Number(bidCurrencyAmount),
-      tradeId:9,
-      biddedItemOwner:data.getTradeWithAddresId.tradeOwnerAddress,
-      biddedItemContractAddress:data.getTradeWithAddresId.tokenContract,
-      biddedItemId:data.getTradeWithAddresId.tokenId,
-      status:"Open",
-      bidTradeType:data.getTradeWithAddresId.tradeType,
-      expiration:123,
-      itemBidId:1,
-    }
-    makeOffer(bidData)    
+      bidOwner: walletAddress,
+      bidContractAddress: bidCollectionAddress,
+      bidTokenId: bidItemId,
+      bidCurrencyType: 1,
+      bidPrice: Number(bidCurrencyAmount),
+      tradeId: 9,
+      biddedItemOwner: data.getTradeWithAddresId.tradeOwnerAddress,
+      biddedItemContractAddress: data.getTradeWithAddresId.tokenContract,
+      biddedItemId: data.getTradeWithAddresId.tokenId,
+      status: "Open",
+      bidTradeType: data.getTradeWithAddresId.tradeType,
+      expiration: 123,
+      itemBidId: 1,
+    };
+    makeOffer(bidData);
   };
 
   useEffect(() => {
-    console.log(data);
+    const prepare = async (assetInfo) => {
+      await getCollectionName(contract);
+      if (assetInfo != null) {
+        dispatch(setMetadata(assetInfo));
+        dispatch(
+          setVoyagerLink(
+            `https://beta-goerli.voyager.online/contract/${assetInfo.contract_address}`
+          )
+        );
+      } else {
+        var _metadata = await getTokenURI(contract, id);
+        if (_metadata.name != undefined) {
+          dispatch(setMetadata(_metadata));
+          dispatch(
+            setVoyagerLink(
+              `https://beta-goerli.voyager.online/contract/${_metadata.contract_address}`
+            )
+          );
+        }
+      }
+    };
     if (!loading) {
-      dispatch(
-        setTargetMetadata({
-          name: data.getTradeWithAddresId.targetName,
-          contract_address: data.getTradeWithAddresId.targetTokenContract,
-          description: data.getTradeWithAddresId.targetDescription,
-          image: data.getTradeWithAddresId.targetImage,
-          attributes:
-            data.getTradeWithAddresId.targetAttributes == undefined
-              ? null
-              : data.getTradeWithAddresId.targetAttributes,
-        })
-      );
-      const targetVoyager = `https://beta-goerli.voyager.online/contract/${data.getTradeWithAddresId.targetTokenContract}`;
-      dispatch(setTargetVoyagerLink(targetVoyager));
+      prepare(data.getAsset);
     }
   }, [loading]);
 
   useEffect(() => {
     const prepare = async () => {
-      await getCollectionName(contract);
-
-      var _metadata = await getTokenURI(contract, id);
-      if (_metadata.name != undefined) {
-        dispatch(setMetadata(_metadata));
-        console.log(metadata);
-        dispatch(
-          setVoyagerLink(
-            `https://beta-goerli.voyager.online/contract/${_metadata.contract_address}`
-          )
-        );
-      }
+      const itemOwner = await getOwnerOf(contract, id);
+      return itemOwner;
     };
-    prepare();
-  }, []);
+    if (walletAddress != undefined) {
+      prepare().then((res) => {
+        if (res.result.toString() == walletAddress) {
+          setIsItemOwner(true);
+        } else {
+          setIsItemOwner(false);
+        }
+      });
+    }
+  }, [walletAddress]);
 
   const attr = (_metadata) =>
     _metadata.attributes != undefined
@@ -187,37 +189,44 @@ const Swap = function () {
                 >
                   <i className="fa fa-exchange"></i>
                 </div>
-                {!loading && data.getTradeWithAddresId.tradeType === 2 && (
-                  <div
-                    className="swap-icon"
-                    style={{ textAlign: "center", marginTop: "140px" }}
-                  >
-                    <span onClick={buy_now} className="btn-main inline lead">
-                      Buy now
-                    </span>
-                  </div>
-                )}
+                {!loading &&
+                  data.getTradeWithAddresId.tradeType === 2 &&
+                  isItemOwner && (
+                    <div
+                      className="swap-icon"
+                      style={{ textAlign: "center", marginTop: "140px" }}
+                    >
+                      <span onClick={buy_now} className="btn-main inline lead">
+                        Buy now
+                      </span>
+                    </div>
+                  )}
               </div>
             </div>
           </div>
-          {!loading && data.getTradeWithAddresId.tradeType == 0 && (
-            <SwapToAnyItem collections={data.collections} currency={data.getCurrencies}
-            makeOffer={make_offer}
+          {!loading && data.getTradeWithAddresId.tradeType === 0 && (
+            <SwapToAnyItem
+              collections={data.collections}
+              currency={data.getCurrencies}
+              makeOffer={make_offer}
+              data={data.getTradeWithAddresId}
             />
           )}
-          {!loading && data.getTradeWithAddresId.tradeType == 1 && (
-            <SwapToAnyItem collections={data.collections} currency={data.getCurrencies} makeOffer={make_offer}/>
+          {!loading && data.getTradeWithAddresId.tradeType === 1 && (
+            <SwapToCollectionItem
+              collections={data.collections}
+              currency={data.getCurrencies}
+              targetCollection={data.getTradeWithAddresId.targetTokenContract}
+              makeOffer={make_offer}
+              data={data.getTradeWithAddresId}
+            />
           )}
-          {!loading && data.getTradeWithAddresId.tradeType == 2 && (
-            <Item
-              meta={targetMetadata}
-              collectionName={collectionName}
-              attr={attr(targetMetadata)}
-              voyagerLink={targetVoyagerLink}
+          {!loading && data.getTradeWithAddresId.tradeType === 2 && (
+            <TargetItem
+              targetItemData={data.getTradeWithAddresId.targetAssetInfo[0]}
             />
           )}
         </div>
-        
       </section>
     </div>
   );

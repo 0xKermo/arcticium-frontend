@@ -1,31 +1,30 @@
 import React, { Component } from "react";
-import styled from "styled-components";
-import Clock from "./clock";
-
-const Outer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  align-items: center;
-  overflow: hidden;
-  border-radius: 8px;
-`;
+import { GetCollectionName } from "../hooks";
 
 export default class Responsive extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      metadata: this.props.meta,
-      voyagerLink: this.props.voyagerLink,
-      collectionName : this.props.collectionName,
-      attr: this.props.attr
+      targetItemData: this.props.targetItemData,
+      targetItemVoyagerLink: `https://beta-goerli.voyager.online/contract/${this.props.targetItemData.contract_address}`,
+      collectionName : this.props.targetItemData.contract_address,
     };
-    console.log("target",this.state.metadata)
-
-
 }
 
 
+attr = (_metadata) =>
+_metadata.attributes != undefined
+  ? _metadata.attributes.map((item, index) => {
+      return (
+        <div className="col-lg-4 col-md-6 col-sm-6" key={index}>
+          <div className="nft_attr">
+            <h5>{item.trait_type}</h5>
+            <h4>{item.value}</h4>
+          </div>
+        </div>
+      );
+    })
+  : null;
 
   render() {
     return (
@@ -41,7 +40,7 @@ export default class Responsive extends Component {
                       id="targetNft"
                       className="lazy nft__item_preview"
                       alt=""
-                      src={this.state.metadata.image}
+                      src={this.state.targetItemData.image}
                     />
                   </span>
                 </div>
@@ -53,7 +52,7 @@ export default class Responsive extends Component {
               <div className="p_list">
                 <div className="p_detail_header">
                   <span>
-                    <h2>{this.state.metadata.name}</h2>
+                    <h2>{this.state.targetItemData.name}</h2>
                   </span>
                 </div>
               </div>
@@ -67,7 +66,7 @@ export default class Responsive extends Component {
                         <span>
                           <img
                             className="lazy"
-                            src={this.state.metadata.image}
+                            src={this.state.targetItemData.image}
                             alt=""
                           />
                         </span>
@@ -86,13 +85,13 @@ export default class Responsive extends Component {
                         <span>
                           <img
                             className="lazy"
-                            src={this.state.metadata.image}
+                            src={this.state.targetItemData.image}
                             alt=""
                           />
                         </span>
                       </div>
                       <div className="author_list_info">
-                        <span>{this.state.collectionName}</span>
+                        <span>{this.state.collectionName.slice(0,6)}</span>
                       </div>
                     </div>
                   </div>
@@ -112,7 +111,7 @@ export default class Responsive extends Component {
 
                     <div className="p_list">
                       <div className="p_detail">
-                        <span>{this.state.metadata.description}</span>
+                        <span>{this.state.targetItemData.description}</span>
                       </div>
                     </div>
                   </div>
@@ -136,7 +135,7 @@ export default class Responsive extends Component {
                         <a
                           target="_blank"
                           rel="noopener noreferrer"
-                          href={this.state.voyagerLink}
+                          href={this.state.targetItemVoyagerLink}
                         >
                           <b>Voyager Link</b>
                         </a>
@@ -156,7 +155,7 @@ export default class Responsive extends Component {
                       </span>
                     </div>
                   </div>
-                  <div className="row mt-5">{this.state.attr}</div>
+                  <div className="row mt-5">{this.attr(this.state.targetItemData.attributes)}</div>
                 </div>
               </div>
             </div>

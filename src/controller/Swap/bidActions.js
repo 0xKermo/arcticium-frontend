@@ -7,25 +7,40 @@ import {
   setBidId,
   setBidItemId,
 } from "../../store/slicers/bid";
-import { useMutation } from "@apollo/client";
+import { useMutation,useLazyQuery } from "@apollo/client";
 import { BidAdd } from "../../grqphql/mutation";
 import { GetApprove } from "../../hooks";
 import { bnToUint256 } from "../../utils/uint256";
 import { BidToItem } from "../../hooks/Exchange/bidToItem";
+import { getUserAssetByContract } from "../../grqphql/query";
+import { useEffect } from "react";
+import { setUserNfts } from "../../store/slicers/userNfts";
 
 export const BidActions = () => {
   const dispatch = useDispatch();
   const [_BidAdd] = useMutation(BidAdd);
   const { walletAddress } = useSelector((state) => state.wallet);
-   const { getApprove } = GetApprove();
+  const { bidCollectionAddress } = useSelector((state) => state.bid);
+  const { getApprove } = GetApprove();
   const {bidToItem} = BidToItem()
+  
+  const [GetUserAssetByContract, { loading, data }] = useLazyQuery(getUserAssetByContract
+    );
+
   const bidCollectionOnchange = (e) => {
     console.log(e.value);
+    GetUserAssetByContract({ variables: { walletAddress: walletAddress, contract_address: e.value } })
+
+
     dispatch(setBidCollectionAddress(e.value));
   };
   const bidNftOnchange = (e) => {
-    console.log(e.target.value);
-    dispatch(setBidItemId(e.target.value));
+    document.getElementById("biddedNft").src =""
+
+    console.log(e.value);
+    dispatch(setBidItemId(e.value));
+    const filteredAsset = data.getUserAssetByContractAddress.filter(x => x.contract_address == bidCollectionAddress && x.token_id == e.value );
+    document.getElementById("biddedNft").src = filteredAsset[0].image
   };
   const bidCurrencyTypeOnchange = (e) => {
     console.log(e.value);
@@ -56,7 +71,19 @@ export const BidActions = () => {
     //   variables: bidData,
     // });
     // console.log(result);
-  };
+  };  
+useEffect(() => {
+  if(data != null){
+    dispatch(setUserNfts(data.getUserAssetByContractAddress.map((item,i) => {
+      return{
+        label:item.name,
+        value:item.token_id
+      }
+    })))
+  }
+
+  
+}, [data])
 
   return {
     makeOffer,

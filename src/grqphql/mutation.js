@@ -14,14 +14,6 @@ export const TradeAdd = gql`
     $targetTokenId: Int
     $transactionHash: String
     $tradeType: Int
-    $name: String
-    $description: String
-    $image: String
-    $attributes: String
-    $targetName: String
-    $targetDescription: String
-    $targetImage: String
-    $targetAttributes: String
   ) {
     tradeAdd(
       tradeId: $tradeId
@@ -36,14 +28,6 @@ export const TradeAdd = gql`
       targetTokenId: $targetTokenId
       transactionHash: $transactionHash
       tradeType: $tradeType
-      name: $name
-      description: $description
-      image: $image
-      attributes: $attributes
-      targetName: $targetName
-      targetDescription: $targetDescription
-      targetImage: $targetImage
-      targetAttributes: $targetAttributes
     ) {
       tradeId
       tradeOwnerAddress

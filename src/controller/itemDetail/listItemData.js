@@ -8,7 +8,6 @@ export const ListItemData = () => {
   const { choosen, targetCollectionAddress, targetNftId, currencyAmount } =
     useSelector((state) => state.itemDetailOperation);
   const { walletAddress } = useSelector((state) => state.wallet);
-  const { targetMetadata } = useSelector((state) => state.targetMetadata);
   const { getApprove } = GetApprove();
   const { listItem } = ListItem();
 
@@ -57,27 +56,18 @@ export const ListItemData = () => {
     }
 
     const tradeArgs = {
-      tradeId: 1,
+      tradeId:4,
       tradeOwnerAddress: walletAddress,
       tokenContract: contract_address,
       tokenId: _token_id == null ? 0 : Number(_token_id),
       expiration: expiration,
       price: price == null ? 0 : Number(price),
       status: "Open",
-      swapTradeId: 1,
+      swapTradeId: 4,
       targetTokenContract:
       targetCollectionAddress === 0 ? null : targetCollectionAddress,
       targetTokenId: targetNftId == null ? 0 : Number(targetNftId),
-      transactionHash: "result.transaction_hash",
-      tradeType: choosen,
-      attributes: metadata.attributes ? null : metadata.attributes,
-      name: metadata.name,
-      description: metadata.description,
-      image: metadata.image,
-      targetNftName:targetMetadata.name,
-      targetNftDescription: targetMetadata.description,
-      targetNftImage: targetMetadata.image,
-      targetNftAttributes: null
+      tradeType: choosen
     };
     listItem(listItemCallData, isApproved, tradeArgs);
   };

@@ -11,14 +11,41 @@ export const collections = gql`
 
 export const getUserAsset = gql`
   query getUserAsset($walletAddress: String!) {
-    getAsset(assetOwner: $walletAddress) {
+    getUserAsset(assetOwner: $walletAddress) {
       assetOwner
       token_id
       name
-      description
       contract_address
       image
-      attributes
+    }
+  }
+`;
+
+export const getUserAssetByContract = gql`
+  query getUserAssetByContract(
+    $walletAddress: String!
+    $contract_address: String!
+  ) {
+    getUserAssetByContractAddress(
+      assetOwner: $walletAddress
+      contract_address: $contract_address
+    ) {
+      assetOwner
+      token_id
+      name
+      contract_address
+      image
+    }
+  }
+`;
+export const getAsset = gql`
+  query getAsset($contract_address: String!, $token_id: Int) {
+    getUserAsset(contract_address: $contract_address, token_id: $token_id) {
+      assetOwner
+      token_id
+      name
+      contract_address
+      image
     }
   }
 `;
@@ -56,10 +83,6 @@ export const GetTradeWithAddresId = gql`
       targetTokenContract
       targetTokenId
       tradeType
-      targetName
-      targetDescription
-      targetImage
-      targetAttributes
       tradeBids {
         tradeId
         bidOwner
@@ -75,6 +98,18 @@ export const GetTradeWithAddresId = gql`
         itemBidId
         bidTradeType
       }
+      targetAssetInfo {
+        assetOwner
+        token_id
+        name
+        image
+        description
+        contract_address
+        attributes {
+          trait_type
+          value
+        }
+      }
     }
     collections {
       collectionName
@@ -86,6 +121,18 @@ export const GetTradeWithAddresId = gql`
       currencyAddress
       currencySymbol
       currencyImage
+    }
+    getAsset(contract_address: $contractAddress, token_id: $tokenId) {
+      assetOwner
+      token_id
+      name
+      description
+      image
+      contract_address
+      attributes {
+        trait_type
+        value
+      }
     }
   }
 `;
@@ -101,14 +148,20 @@ export const GetOpenTrades = gql`
       targetTokenContract
       targetTokenId
       tradeType
-      name
-      description
-      image
-      attributes
-      targetName
-      targetDescription
-      targetImage
-      targetAttributes
+      assetInfo {
+        assetOwner
+        token_id
+        name
+        image
+        contract_address
+      }
+      targetAssetInfo {
+        assetOwner
+        token_id
+        name
+        image
+        contract_address
+      }
     }
   }
 `;

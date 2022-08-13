@@ -1,10 +1,8 @@
 import React from "react";
 import { createGlobalStyle } from "styled-components";
-import { MintErc20 } from "../hooks";
 import { useSelector } from "react-redux";
 import { Toaster } from "react-hot-toast";
-import { ToastPromise } from "../components/toast";
-import { Provider } from "starknet";
+import { hash, number, starknet } from "starknet";
 
 const GlobalStyles = createGlobalStyle`
   header#myHeader.navbar.sticky.white {
@@ -40,19 +38,40 @@ const GlobalStyles = createGlobalStyle`
   }
 `;
 
-const Faucet = () => {
-  const { walletAddress } = useSelector((state) => state.wallet);
+const Test = () => {
+  const { walletAddress,account } = useSelector((state) => state.wallet);
 
-  const { mintErc20 } = MintErc20();
 
   const requestFaucet = async () => {
-    const mintErc20Promise = mintErc20();
-    const provider = new Provider();
-    const tx = provider.waitForTransaction(mintErc20Promise.transaction_hash);
-    const mintLoadingText = "Transaction pending...";
-    const voyagerLink = `https://beta-goerli.voyager.online/tx/${mintErc20Promise.transaction_hash}`;
-    const mintSuccessText = `Minted successfully Test arcEth token : <a src=${voyagerLink}>Click and see on Voyager</a>`;
-    ToastPromise(tx, mintLoadingText, mintSuccessText);
+    console.log(account.account.signer)
+    const NETWORK_NAME = "SN_GOERLI"
+    let longTitle = "This is a very, very, very, very, very, very long title.";
+  let hashedMsg = number.toHex(hash.starknetKeccak(longTitle));
+  console.log(hashedMsg);
+  let signableMessage = {
+    domain: {
+      name: "Almanac",
+      chainId: (NETWORK_NAME == 'mainnet-alpha') ? "SN_MAIN" : "SN_GOERLI",
+      version: "0.0.1",
+    },
+    types: {
+      StarkNetDomain: [
+        { name: "name", type: "felt" },
+        { name: "chainId", type: "felt" },
+        { name: "version", type: "felt" },
+      ],
+      Message: [{ name: "msg", type: "felt" }],
+    },
+      primaryType: "Message",
+      message: {
+        msg: hashedMsg
+      }
+    };
+    let signature = await account.account.signMessage(signableMessage);
+    console.log(signature);
+    // const keyPair = account.account.signer.signTransaction(tut)
+
+
   };
   return (
     <div>
@@ -99,4 +118,4 @@ const Faucet = () => {
     </div>
   );
 };
-export default Faucet;
+export default Test;

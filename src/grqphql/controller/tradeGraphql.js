@@ -1,10 +1,19 @@
 import { useMutation } from "@apollo/client";
+import toast from "react-hot-toast";
 import { TradeAdd } from "../mutation";
+
 export const AddTrade = () => {
-  const [_TradeAdd] = useMutation(TradeAdd);
+  const [_TradeAdd] = useMutation(TradeAdd, {
+    onSuccess: async(data, context) => {
+      console.log("success",data)
+      toast.success(data)
+    },
+    onError: async(data, context) => {
+      toast.error(data)
+    },
+  });
 
   const _addTrade = (tradeArgs) => {
-    console.log(tradeArgs);
     const result = _TradeAdd({
       variables: {
         tradeId: tradeArgs.tradeId,
@@ -27,6 +36,14 @@ export const AddTrade = () => {
         targetDescription: tradeArgs.targetNftDescription,
         targetImage: tradeArgs.targetNftImage,
         targetAttributes: tradeArgs.targetNftAttributes
+      },
+    }, {
+      onSuccess: async(data, context) => {
+        console.log("success",data)
+        toast.success(data)
+      },
+      onError: async(data, context) => {
+        toast.error(data)
       },
     });
     return result;

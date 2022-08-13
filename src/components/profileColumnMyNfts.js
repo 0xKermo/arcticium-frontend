@@ -14,6 +14,7 @@ const Outer = styled.div`
 const ColumnMyNfts = () => {
   const [height, setHeight] = useState(0);
   const { _nfts } = useSelector((state) => state.userNfts);
+  const { userAssets } = useSelector((state) => state.userAssets);
 
   const onImgLoad = ({ target: img }) => {
     let currentHeight = height;
@@ -22,8 +23,8 @@ const ColumnMyNfts = () => {
     }
   };
   const loadMore = () => {
-    console.log(_nfts);
-    let nftState = _nfts;
+    console.log(userAssets);
+    let nftState = userAssets;
     let start = nftState.length;
     let end = nftState.length + 4;
     // this.setState({
@@ -32,7 +33,7 @@ const ColumnMyNfts = () => {
   };
   return (
     <div className="row">
-      {_nfts.map((nft, index) => (
+      {userAssets.map((nft, index) => (
         <div
           key={index}
           className="d-item col-lg-2 col-md-6 col-sm-6 col-xs-12 mb-4"
