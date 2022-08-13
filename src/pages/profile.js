@@ -46,30 +46,28 @@ const GlobalStyles = createGlobalStyle`
 
 const Profile = ({}) => {
   const dispatch = useDispatch();
-  const {walletAddress} = useSelector((state) => state.wallet)
+  const { walletAddress } = useSelector((state) => state.wallet);
   const { openMenu, openMenu1, openMenu2, openMenu3 } = useSelector(
     (state) => state.profileOperation
   );
   const { handleBtnClick, handleBtnClick1, handleBtnClick2, handleBtnClick3 } =
     ProfileActions();
   const { userNfts } = useSelector((state) => state.userNfts);
-  const { _addUserAsset} = AddUserAsset()
+  const { _addUserAsset } = AddUserAsset();
   // useEffect( () => {
   //   if(!loading){
   //     dispatch(setUserNfts(data.getTokensURI));
-  //   }    
+  //   }
   // }, [loading]);
 
   useEffect(() => {
-    if(walletAddress != null){
+    if (walletAddress != null) {
       const userAssetsArgs = {
-        assetOwner:walletAddress,
-      }
-      _addUserAsset(userAssetsArgs)
+        assetOwner: walletAddress,
+      };
+      _addUserAsset(userAssetsArgs);
     }
-  
-  }, [walletAddress])
-  
+  }, [walletAddress]);
 
   return (
     <div>
@@ -83,7 +81,7 @@ const Profile = ({}) => {
         <div className="mainbreadcumb"></div>
       </section>
 
-      <section className="padding_zero d_coll no-top no-bottom">
+      <section className="container d_coll no-top no-bottom">
         <div className="row">
           <div className="col-md-8">
             <div className="d_profile de-flex left">
@@ -101,14 +99,17 @@ const Profile = ({}) => {
                         copy
                       </button>
                     </h4>
-                    <h4>Servet-i Fünun döneminde ön plana çıkan diğer isimler ise Mehmet Rauf ile Hüseyin Cahit Yalçın’dır.</h4>
+                    <h4>
+                      Servet-i Fünun döneminde ön plana çıkan diğer isimler ise
+                      Mehmet Rauf ile Hüseyin Cahit Yalçın’dır.
+                    </h4>
                   </div>
                 </div>
               </div>
             </div>
           </div>
           <div className="col-md-4">
-          <div className="d_profile de-flex right">
+            <div className="d_profile de-flex right">
               <div className="de-flex-col">
                 <div className="collection-social-icons">
                   <span onClick={() => window.open("", "_self")}>
@@ -129,11 +130,11 @@ const Profile = ({}) => {
                 </div>
               </div>
             </div>
-            </div>
+          </div>
         </div>
       </section>
 
-      <section className="padding_zero">
+      <section className="container">
         <div className="row">
           <div className="col-lg-12">
             <div className="items_filter">
