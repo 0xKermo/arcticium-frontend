@@ -53,6 +53,8 @@ export default class Responsive extends Component {
       height: 0,
     };
     this.onImgLoad = this.onImgLoad.bind(this);
+    this.state.collections = this.props.collections
+    console.log(this.state.collections)
   }
 
   loadMore = () => {
@@ -76,43 +78,43 @@ export default class Responsive extends Component {
   render() {
     return (
       <div className="row">
-        {this.state.nfts.map((nft, index) => (
+        {this.state.collections.map((collection, index) => (
           <div
             key={index}
             className="d-item col-lg-3 col-md-6 col-sm-6 col-xs-12 mb-4"
           >
             <div
               className="nft_coll m-0"
-              onClick={() => window.open(nft.authorLink, "_self")}
+              onClick={() => window.open(`collection/${collection.collectionAddress}`, "_self")}
             >
               <div
                 className="nft_wrap"
-                onClick={() => window.open(nft.authorLink, "_self")}
+                onClick={() => window.open(`collection/${collection.collectionAddress}`, "_self")}
               >
-                <span onClick={() => window.open(nft.authorLink, "_self")}>
+                <span onClick={() => window.open(`collection/${collection.collectionAddress}`, "_self")}>
                   <img
                     onLoad={this.onImgLoad}
-                    src={nft.previewImg}
+                    src={collection.profileImgPath}
                     className="lazy img-fluid"
                     alt=""
                   />
                 </span>
               </div>
               <div className="nft_coll_pp">
-                <span onClick={() => window.open(nft.authorLink, "_self")}>
-                  <img className="lazy" src={nft.authorImg} alt="" />
+                <span onClick={() => window.open(`collection/${collection.collectionAddress}`, "_self")}>
+                  <img className="lazy" src={collection.authorImg} alt="" />
                 </span>
               </div>
               <div className="nft_coll_info">
-                <span onClick={() => window.open(nft.authorLink, "_self")}>
-                  <h4>{nft.name}</h4>
+                <span onClick={() => window.open(`collection/${collection.collectionAddress}`, "_self")}>
+                  <h4>{collection.name}</h4>
                 </span>
-                <span>{nft.description}</span>
+                <span>{collection.description}</span>
               </div>
             </div>
           </div>
         ))}
-        {this.state.nfts.length !== this.dummyData.length && (
+        {this.state.collections.length !== this.dummyData.length && (
           <div className="col-lg-12">
             <div className="spacer-single"></div>
             <span

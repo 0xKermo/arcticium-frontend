@@ -42,7 +42,7 @@ root.render(
         <Route path="/" element={<Home />} />
         <Route path="/nfts" element={<Nfts />} />
         <Route path="/collections" element={<Collections />} />
-        <Route path="/collection" element={<Collection />} />
+        <Route path="/collection/:contract" element={<Collection />} />
         <Route path="/asset/:contract/:id" element={<ItemDetail />} />
         <Route path="/asset/:contract/:id/swap" element={<Swap />} />
         <Route path="/profile" element={<Profile />} />

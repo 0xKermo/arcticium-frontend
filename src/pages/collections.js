@@ -1,7 +1,8 @@
-import React from 'react';
-import Select from 'react-select'
-import { createGlobalStyle } from 'styled-components';
+import { useQuery } from "@apollo/client";
+import React, {useEffect, useState} from "react";
+import { createGlobalStyle } from "styled-components";
 import CollectionsColumnCollection from "../components/explorerColumnCollecetion";
+import { getCollections } from "../grqphql/query";
 
 const GlobalStyles = createGlobalStyle`
   header#myHeader.navbar.sticky.white {
@@ -37,30 +38,40 @@ const GlobalStyles = createGlobalStyle`
   }
 `;
 
+const Collections = () => {
+  const {loading, error, data} = useQuery(getCollections)
 
-const Collections= () => (
-<div>
-<GlobalStyles/>
-  <section className='jumbotron breadcumb no-bg' style={{backgroundImage: `url(${'./img/background/subheader.jpg'})`}}>
-    <div className='mainbreadcumb'>
-      <div className='container'>
-        <div className='row m-10-hor'>
-          <div className='col-12'>
-            <h1 className='text-center'>Top Collections</h1>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+  
 
-  <section className='container'>
-        <div className='row'>
-          <div className='col-lg-12'>
-           <CollectionsColumnCollection />
+  return (
+    <div>
+      <GlobalStyles />
+      <section
+        className="jumbotron breadcumb no-bg"
+        style={{ backgroundImage: `url(${"./img/background/subheader.jpg"})` }}
+      >
+        <div className="mainbreadcumb">
+          <div className="container">
+            <div className="row m-10-hor">
+              <div className="col-12">
+                <h1 className="text-center">Top Collections</h1>
+              </div>
+            </div>
           </div>
         </div>
       </section>
-</div>
 
-);
+      <section className="container">
+        <div className="row">
+          {!loading &&
+          <div className="col-lg-12">
+            <CollectionsColumnCollection collections={data.collections} />
+          </div>
+          
+          }
+        </div>
+      </section>
+    </div>
+  );
+};
 export default Collections;

@@ -1,7 +1,10 @@
+import { useQuery } from "@apollo/client";
 import React from "react";
+import { useParams } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
 import Activity from "../components/collectionActivity";
 import CollectionNfts from "../components/collectionNfts";
+import { getCollection } from "../grqphql/query";
 
 const GlobalStyles = createGlobalStyle`
   header#myHeader.navbar.sticky.white {
@@ -37,6 +40,12 @@ const GlobalStyles = createGlobalStyle`
   }
 `;
 const Collection = function () {
+  const { contract } = useParams();
+  const {loading, error, data } = useQuery(getCollection,{
+    variables:{
+      collectionAddress: contract
+    }
+  })
   const [openMenu, setOpenMenu] = React.useState(true);
   const [openMenu1, setOpenMenu1] = React.useState(false);
   const handleBtnClick = (): void => {
@@ -59,7 +68,7 @@ const Collection = function () {
       <section
         id="profile_banner"
         className="jumbotron breadcumb no-bg"
-        style={{ backgroundImage: `url(${"./img/background/subheader.jpg"})` }}
+        style={{ backgroundImage: `url(${!loading ? data.collection.bannerPath : null})` }}
       >
         <div className="mainbreadcumb"></div>
       </section>
@@ -70,13 +79,13 @@ const Collection = function () {
             <div className="d_profile de-flex left">
               <div className="de-flex-col">
                 <div className="profile_avatar">
-                  <img src="./img/author_single/author_thumbnail.jpg" alt="" />
+                  <img src={!loading ? data.collection.profileImgPath : null} alt="" />
                   <div className="profile_name">
                     <h4>
-                      Monica Lucas
+                    {!loading ? data.collection.collectionName : null}
                       <span className="profile_username">@monicaaa</span>
                       <span id="wallet" className="profile_wallet">
-                        DdzFFzCqrhshMSxb9oW3mRo4MJrQkusV3fGFSTwaiu4wPBqMryA9DYVJCkW9n7twCffG5f5wX2sSkoDXGiZB1HPa7K7f865Kk4LqnrME
+                      {!loading ? data.collection.collectionAddress : null}
                       </span>
                       <button id="btn_copy" title="Copy Text">
                         copy

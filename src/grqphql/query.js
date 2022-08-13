@@ -1,13 +1,13 @@
 import { gql } from "@apollo/client";
 
-export const collections = gql`
-  {
-    collections {
-      collectionAddress
-      collectionOwner
-    }
-  }
-`;
+// export const collections = gql`
+//   {
+//     collections {
+//       collectionAddress
+//       collectionOwner
+//     }
+//   }
+// `;
 
 export const getUserAsset = gql`
   query getUserAsset($walletAddress: String!) {
@@ -67,6 +67,22 @@ export const getCollections = gql`
       collectionName
       collectionAddress
       profileImgPath
+    }
+  }
+`;
+
+export const getCollection = gql`
+  query getCollection($collectionAddress: String!){
+    collection(collectionAddress: $collectionAddress) {
+      collectionName
+      collectionAddress
+      collectionOwner
+      collectionType
+      bannerPath
+      profileImgPath
+      bio
+      numberOfItems
+      socialMediaHandles
     }
   }
 `;
