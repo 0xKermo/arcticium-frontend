@@ -68,7 +68,7 @@ const Nfts = () => {
         </div>
       </div>
       {!loading &&
-      <ColumnSwap data={data}/>
+      <ColumnSwap data={data.getOpenTrades}/>
 
       }
     </section>

@@ -692,6 +692,41 @@ a {
   text-decoration: none;
   color: inherit;
 }
+
+.btn-cancel {
+  display: block;
+  width: max-content;
+  text-align: center;
+  color: #8364e2 !important;
+  background: #8364e2;
+  border-radius: 6px;
+  letter-spacing: normal;
+  outline: 0;
+  font-weight: 800;
+  text-decoration: none;
+  padding: 8px 40px;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 2px 2px 20px 0px rgba(131, 100, 226, 0);
+  transition: all 0.3s ease;
+  &:hover {
+    box-shadow: 2px 2px 20px 0px rgba(131, 100, 226, 0.5);
+    transition: all 0.3s ease;
+  }
+  &.inline {
+    display: inline-block;
+    margin-right: 15px;
+    &.white {
+      color: $color_more !important;
+      background: $white;
+    }
+  }
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
 /* dropdown */
 .dropdown-custom.btn {
   font-size: 14px;
@@ -2817,13 +2852,47 @@ i.font60 {
     margin-right: 5px;
   }
 }
+
+.listedInfo {
+  position: relative;
+  font-size: 0.7rem;
+  position: absolute;
+  background: #ffffff;
+  padding: 6px 10px;
+  border-radius: 30px;
+  -moz-border-radius: 30px;
+  -webkit-border-radius: 30px;
+  border: solid 2px $color;
+  z-index: 1;
+  color: #0d0c22;
+  .Clock-days {
+    font-weight: bold;
+    display: inline-block;
+    margin-right: 5px;
+  }
+  .Clock-hours {
+    font-weight: bold;
+    display: inline-block;
+    margin-right: 5px;
+  }
+  .Clock-minutes {
+    font-weight: bold;
+    display: inline-block;
+    margin-right: 5px;
+  }
+  .Clock-seconds {
+    font-weight: bold;
+    display: inline-block;
+    margin-right: 5px;
+  }
+}
 .author_list_pp {
   cursor: pointer;
   position: absolute;
   display: inline-block;
   width: 50px;
   height: auto;
-  background: $color;
+  // background: $color;
   margin-left: 0;
   margin-top: -3px;
   border-radius: 100% !important;

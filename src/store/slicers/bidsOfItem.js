@@ -3,38 +3,38 @@ import { createSlice } from "@reduxjs/toolkit";
 export const bidsOfItem = createSlice({
   name: "bidsOfItem",
   initialState: {
-    bidItemOwner: [],
-    bidItemCollectionAddress:["0x123"],
-    bidItemImage: [],
-    bidtemBidTime: [],
-    bidItemTokenId:[],
+    bidedItemOwner: [],
+    bidedItemAddress:[],
+    bidedItemImage: [],
+    bidedtemBidTime: [],
+    bidedItemId:[],
   },
   reducers: {
-    setBidItemOwner: (state, action) => {
-      state.bidItemOwner = action.payload;
+    setBidedItemOwner: (state, action) => {
+      state.bidedItemOwner = action.payload;
     },
-    setBidItemCollectionAddress: (state, action) => {
-      state.bidItemCollectionAddress = action.payload;
+    setBidedItemAddress: (state, action) => {
+      state.bidedItemAddress = action.payload;
     },
-    setBidItemImage: (state, action) => {
-      state.bidItemImage = action.payload;
+    setBidedItemImage: (state, action) => {
+      state.bidedItemImage = action.payload;
     },
-    setBidItemBidTime: (state, action) => {
-      state.bidItemBidTime = action.payload;
+    setBidedItemBidTime: (state, action) => {
+      state.bidedtemBidTime = action.payload;
     },
-    setBidItemTokenId: (state, action) => {
-        state.bidItemTokenId = action.payload;
+    setBidedItemId: (state, action) => {
+        state.bidedItemId = action.payload;
       },
   },
 });
 
 // Action creators are generated for each case reducer function
 export const {
-    setBidItemOwner,
-    setBidItemCollectionAddress,
-    setBidItemImage,
-    setBidItemBidTime,
-    setBidItemTokenId
+  setBidedItemOwner,
+  setBidedItemAddress,
+  setBidedItemImage,
+  setBidedItemBidTime,
+  setBidedItemId
 } = bidsOfItem.actions;
 
 export default bidsOfItem.reducer;

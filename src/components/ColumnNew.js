@@ -186,10 +186,11 @@ export default class Responsive extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      nfts: this.dummyData.slice(0, 12),
+      nfts: this.props.imgUrls,
       height: 0,
     };
     this.onImgLoad = this.onImgLoad.bind(this);
+    console.log("t", this.state.nfts)
   }
 
   loadMore = () => {
@@ -219,14 +220,10 @@ export default class Responsive extends Component {
             className="d-item col-lg-2 col-md-6 col-sm-6 col-xs-12 mb-4"
           >
             <div className="nft__item m-0">
-              {nft.deadline && (
-                <div className="de_countdown">
-                  <Clock deadline={nft.deadline} />
-                </div>
-              )}
+            
               <div className="author_list_pp">
-                <span onClick={() => window.open(nft.authorLink, "_self")}>
-                  <img className="lazy" src={nft.authorImg} alt="" />
+                <span >
+                  <img className="lazy" alt="" />
                   <i className="fa fa-check"></i>
                 </span>
               </div>
@@ -238,7 +235,7 @@ export default class Responsive extends Component {
                   <span>
                     <img
                       onLoad={this.onImgLoad}
-                      src={nft.previewImg}
+                      src={nft}
                       className="lazy nft__item_preview"
                       alt=""
                     />
@@ -246,37 +243,23 @@ export default class Responsive extends Component {
                 </Outer>
               </div>
               <div className="nft__item_info">
-                <span onClick={() => window.open(nft.nftLink, "_self")}>
-                  <h4>{nft.title}</h4>
+                <span>
+                  <h4>test</h4>
                 </span>
-                <div className="nft__item_price">
-                  {nft.price}
-                  <span>{nft.bid}</span>
-                </div>
+            
                 <div className="nft__item_action">
-                  <span onClick={() => window.open(nft.bidLink, "_self")}>
+                  <span >
                     Place a bid
                   </span>
                 </div>
                 <div className="nft__item_like">
                   <i className="fa fa-heart"></i>
-                  <span>{nft.likes}</span>
                 </div>
               </div>
             </div>
           </div>
         ))}
-        {this.state.nfts.length !== this.dummyData.length && (
-          <div className="col-lg-12">
-            <div className="spacer-single"></div>
-            <span
-              onClick={() => this.loadMore()}
-              className="btn-main lead m-auto"
-            >
-              Load More
-            </span>
-          </div>
-        )}
+
       </div>
     );
   }

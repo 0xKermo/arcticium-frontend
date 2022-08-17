@@ -6,6 +6,7 @@ export const userAssets = createSlice({
     userAssets: [],
     userAssetsLoading: true,
     userAssetsError: null,
+    profileInfo:null
   },
   reducers: {
     setUserAssets: (state, action) => {
@@ -17,11 +18,14 @@ export const userAssets = createSlice({
     setUserAssetsError: (state, action) => {
       state.userAssetsError = action.payload;
     },
+    setProfileInfo:(state, action) => {
+      state.profileInfo = action.payload;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setUserAssets, setUserAssetsLoading, setUserAssetsError } =
+export const { setUserAssets, setUserAssetsLoading, setUserAssetsError,setProfileInfo } =
   userAssets.actions;
 
 export default userAssets.reducer;

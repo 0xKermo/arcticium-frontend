@@ -69,7 +69,6 @@ _metadata.attributes != undefined
                             src={this.state.targetItemData.image}
                             alt=""
                           />
-                          <i className="fa fa-check"></i>
                         </span>
                       </div>
                       <div className="author_list_info">
@@ -89,7 +88,7 @@ _metadata.attributes != undefined
                             src={this.state.targetItemData.image}
                             alt=""
                           />
-                          <i className="fa fa-check"></i>
+                          
                         </span>
                       </div>
                       <div className="author_list_info">

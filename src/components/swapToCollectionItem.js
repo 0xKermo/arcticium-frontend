@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { useSelector,useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import Select from "react-select";
 import { BidActions } from "../controller";
 import { getUserAssetByContract } from "../grqphql/query";
 import { useLazyQuery } from "@apollo/client";
 import { setUserNfts } from "../store/slicers/userNfts";
+import { setBidCollectionAddress, setBidCurrencyType, setBidItemId } from "../store/slicers/bid";
+import { currencyAddresses } from "../constants/CurrencyAddresses";
+import { computeHashOnElements } from "starknet/utils/hash";
 
 const customStyles = {
   option: (base, state) => ({
@@ -33,49 +36,94 @@ const customStyles = {
   }),
 };
 const SwapToCollectionItem = (props) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const [isActive, setIsActive] = useState(false);
   const { _nfts } = useSelector((state) => state.userNfts);
   const { walletAddress } = useSelector((state) => state.wallet);
-
-  const [GetUserAssetByContract, { loading, data }] = useLazyQuery(getUserAssetByContract
-    );
-
   const {
-    bidNftOnchange,
-    bidCurrencyTypeOnchange,
-    bidCurrencyAmountOnchange,
-  } = BidActions();
+    bidCollectionAddress,
+    bidItemId,
+    bidCurrencyType,
+    bidCurrencyAmount,
+  } = useSelector((state) => state.bid);
+
+  const [GetUserAssetByContract, { loading, data }] = useLazyQuery(
+    getUserAssetByContract
+  );
+
+  const { bidCurrencyTypeOnchange, bidCurrencyAmountOnchange, makeOffer } =
+    BidActions();
 
   const unlockClick = () => {
     setIsActive(true);
   };
   const unlockHide = () => {
+    dispatch(setBidCurrencyType(0))
     setIsActive(false);
   };
   useEffect(() => {
-    if(!loading){
-      if(data != null){
-        dispatch(setUserNfts(data.getUserAssetByContractAddress.map((item,i) => {
-          return{
-            label:item.name,
-            value:item.token_id
-          }
-        })))
+    if (!loading) {
+      if (data != null) {
+        dispatch(
+          setUserNfts(
+            data.getUserAssetByContractAddress.map((item, i) => {
+              return {
+                label: item.name,
+                value: item.token_id,
+              };
+            })
+          )
+        );
       }
     }
-  
-    
-  }, [loading])
-  
-  useEffect(() => {
-    if(walletAddress != null){
+  }, [loading]);
 
-      GetUserAssetByContract({ variables: { walletAddress: walletAddress, contract_address: props.data.targetTokenContract } })
+  useEffect(() => {
+    dispatch(setBidCollectionAddress(props.data.targetTokenContract));
+  }, []);
+
+  const bidNftOnchange = (e) => {
+    document.getElementById("biddedNft").src = "";
+
+    console.log("s", bidCollectionAddress);
+    dispatch(setBidItemId(e.value));
+    const filteredAsset = data.getUserAssetByContractAddress.filter(
+      (x) => x.contract_address == bidCollectionAddress && x.token_id == e.value
+    );
+    console.log(filteredAsset);
+    document.getElementById("biddedNft").src = filteredAsset[0].image;
+  };
+
+  const make_offer = () => {
+    const bidData = {
+      bidOwner: walletAddress,
+      bidContractAddress: bidCollectionAddress,
+      bidTokenId: bidItemId,
+      bidCurrencyType: currencyAddresses[bidCurrencyType],
+      bidPrice: Number(bidCurrencyAmount),
+      tradeId: props.data.tradeId,
+      biddedItemOwner: props.data.tradeOwnerAddress,
+      biddedItemContractAddress: props.data.tokenContract,
+      biddedItemId: props.data.tokenId,
+      status: "Open",
+      bidTradeType: props.data.tradeType,
+      expiration: 123,
+      itemBidId: 1,
+    };
+    console.log("bidData",bidData)
+    makeOffer(bidData);
+  };
+
+  useEffect(() => {
+    if (walletAddress != null) {
+      GetUserAssetByContract({
+        variables: {
+          walletAddress: walletAddress,
+          contract_address: props.data.targetTokenContract,
+        },
+      });
     }
-    
-  }, [walletAddress])
-  
+  }, [walletAddress]);
 
   return (
     <div className="col-md-4 text-center">
@@ -108,11 +156,16 @@ const SwapToCollectionItem = (props) => {
               <div className="items_filter centerEl ">
                 <div className="dropdownSelect one" style={{ width: "100%" }}>
                   <h5>Collection</h5>
-                    <input
+                  <input
                     type="text"
                     disabled
                     className="form-control"
-                    value={ props.collections.filter(x => x.collectionAddress == props.data.targetTokenContract)[0].collectionName}
+                    value={
+                      props.collections.filter(
+                        (x) =>
+                          x.collectionAddress == props.data.targetTokenContract
+                      )[0].collectionName
+                    }
                   />
                 </div>
               </div>
@@ -181,7 +234,7 @@ const SwapToCollectionItem = (props) => {
             </div>
             <div className="spacer-40"></div>
 
-            <span onClick={props.makeOffer} className="btn-main inline lead">
+            <span onClick={make_offer} className="btn-main inline lead">
               Make Offer
             </span>
           </div>

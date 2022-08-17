@@ -1,17 +1,16 @@
 import { useMutation, useLazyQuery } from "@apollo/client";
 import { updateUserAssets } from "../mutation";
 
-import { useDispatch,useSelector } from "react-redux";
-import { getUserAsset } from "../query";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserProfile } from "../query";
 import { useEffect } from "react";
-import { setUserAssets } from "../../store/slicers/userAssets";
+import { setProfileInfo, setUserAssets } from "../../store/slicers/userAssets";
 
 export const AddUserAsset = () => {
   const [_AddUserAsset] = useMutation(updateUserAssets);
-  const {walletAddress} = useSelector((state) => state.wallet)
+  // const {walletAddress} = useSelector((state) => state.wallet)
 
-  const [getAsset, { loading, data }] = useLazyQuery(getUserAsset
-    );
+  const [getAsset, { loading, data }] = useLazyQuery(getUserProfile);
 
   const dispatch = useDispatch();
 
@@ -22,21 +21,19 @@ export const AddUserAsset = () => {
     return result;
   };
 
-  const getUserAssets = () => {
-
-    getAsset({ variables: { walletAddress: walletAddress } })
-   
+  const getUserAssets = (walletAddress) => {
+    getAsset({ variables: { walletAddress: walletAddress } });
   };
 
   useEffect(() => {
     if (!loading) {
       if (data != undefined) {
         dispatch(setUserAssets(data.getUserAsset));
-        console.log("data",data.getUserAsset)
-        
+        dispatch(setProfileInfo(data.getUserProfile));
+        console.log(data.getUserProfile)
       }
-    } 
-  }, [loading])
+    }
+  }, [loading]);
 
-  return { _addUserAsset,getUserAssets };
+  return { _addUserAsset, getUserAssets };
 };

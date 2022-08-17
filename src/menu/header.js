@@ -203,7 +203,7 @@ const Header = function ({ className }) {
                                 <li>
                                   <span
                                     onClick={() =>
-                                      window.open("/profile", "_self")
+                                      window.open(`/${walletAddress}`, "_self")
                                     }
                                   >
                                     <i className="fa fa-user"></i> My profile
@@ -324,7 +324,7 @@ const Header = function ({ className }) {
                               <li>
                                 <span
                                   onClick={() =>
-                                    window.open("/profile", "_self")
+                                    window.open(`/${walletAddress}`, "_self")
                                   }
                                 >
                                   <i className="fa fa-user"></i>My Profile

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Particle from "../components/particle";
 import SliderMainParticle from "../components/sliderMainParticle";
 import FeatureBox from "../components/featureBox";
@@ -6,6 +6,8 @@ import CarouselCollection from "../components/carouselCollection";
 import CarouselSwap from "../components/carouselSwap";
 import { createGlobalStyle } from "styled-components";
 
+import { useQuery } from "@apollo/client";
+import { GetOpenTrades } from "../grqphql/query";
 
 
 const GlobalStyles = createGlobalStyle`
@@ -42,7 +44,11 @@ const GlobalStyles = createGlobalStyle`
   }
 `;
 
-const Home = () => (
+const Home = () => {
+  const {loading,error,data} = useQuery(GetOpenTrades)
+
+
+  return(
   <div>
     <GlobalStyles />
     <section
@@ -62,7 +68,10 @@ const Home = () => (
           </div>
         </div>
       </div>
-      <CarouselSwap />
+      {!loading && (
+        <CarouselSwap swapData={data}/>
+
+      )}
     </section>
 
     <section className="container-fluid bg-gray">
@@ -97,5 +106,5 @@ const Home = () => (
       </div>
     </section>
   </div>
-);
+)};
 export default Home;

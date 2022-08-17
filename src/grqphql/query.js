@@ -1,13 +1,24 @@
 import { gql } from "@apollo/client";
 
-// export const collections = gql`
-//   {
-//     collections {
-//       collectionAddress
-//       collectionOwner
-//     }
-//   }
-// `;
+export const getUserProfile = gql`
+  query getUserProfile($walletAddress: String!) {
+    getUserProfile(walletAddress: $walletAddress) {
+      walletAddress
+      name
+      bannerPath
+      profileImgPath
+      bio
+      socialMediaHandles
+    }
+    getUserAsset(assetOwner: $walletAddress) {
+      assetOwner
+      token_id
+      name
+      contract_address
+      image
+    }
+  }
+`;
 
 export const getUserAsset = gql`
   query getUserAsset($walletAddress: String!) {
@@ -67,12 +78,13 @@ export const getCollections = gql`
       collectionName
       collectionAddress
       profileImgPath
+      bannerPath
     }
   }
 `;
 
 export const getCollection = gql`
-  query getCollection($collectionAddress: String!){
+  query getCollection($collectionAddress: String!) {
     collection(collectionAddress: $collectionAddress) {
       collectionName
       collectionAddress
@@ -83,6 +95,36 @@ export const getCollection = gql`
       bio
       numberOfItems
       socialMediaHandles
+    }
+    getTradeWithContractAddress(contractAdress: $collectionAddress) {
+      tradeId
+      tradeOwnerAddress
+      tokenContract
+      tokenId
+      expiration
+      price
+      status
+      swapTradeId
+      targetTokenContract
+      targetTokenId
+      transactionHash
+      tradeType
+      assetInfo {
+        assetOwner
+        token_id
+        name
+        description
+        contract_address
+        image
+      }
+      targetAssetInfo {
+        assetOwner
+        token_id
+        name
+        description
+        contract_address
+        image
+      }
     }
   }
 `;
@@ -113,6 +155,14 @@ export const GetTradeWithAddresId = gql`
         biddedItemId
         itemBidId
         bidTradeType
+        bidAsset {
+          assetOwner
+          token_id
+          name
+          description
+          contract_address
+          image
+        }
       }
       targetAssetInfo {
         assetOwner

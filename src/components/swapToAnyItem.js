@@ -32,6 +32,7 @@ const customStyles = {
 const SwapToAnyItem = (props) => {
   const [isActive, setIsActive] = useState(false);
   const { _nfts } = useSelector((state) => state.userNfts);
+  const { bidItemId } = useSelector((state) => state.bid);
 
   const {
     bidCollectionOnchange,
@@ -80,7 +81,6 @@ const SwapToAnyItem = (props) => {
                 <div className="dropdownSelect one" style={{ width: "100%" }}>
                   <h5>Collection</h5>
                   <Select
-                    id="targetCollection1"
                     className="select1"
                     onChange={bidCollectionOnchange}
                     styles={customStyles}
@@ -105,6 +105,7 @@ const SwapToAnyItem = (props) => {
                     onChange={bidNftOnchange}
                     styles={customStyles}
                     menuContainerStyle={{ zIndex: 999 }}
+                    // value={bidItemId}
                     options={_nfts}
                   />
                 </div>

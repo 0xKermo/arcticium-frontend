@@ -31,8 +31,10 @@ export const BidActions = () => {
     console.log(e.value);
     GetUserAssetByContract({ variables: { walletAddress: walletAddress, contract_address: e.value } })
 
-
+    console.log(document.getElementById("bidNft"))
     dispatch(setBidCollectionAddress(e.value));
+    // dispatch(setBidItemId(null));
+
   };
   const bidNftOnchange = (e) => {
     document.getElementById("biddedNft").src =""
@@ -67,11 +69,17 @@ export const BidActions = () => {
     ]
     console.log(bidItemCallData)
     const {result,tx} = await bidToItem(bidItemCallData,isApprove, bidData.bidContractAddress)
-    // const result = _BidAdd({
-    //   variables: bidData,
-    // });
-    // console.log(result);
-  };  
+    tx.then((res) => {
+      if(res.code === "TRANSACTION_RECEIVED"){
+        const res = _BidAdd({
+          variables: bidData,
+        });
+      }else{
+
+      }
+      
+    })
+   };  
 useEffect(() => {
   if(data != null){
     dispatch(setUserNfts(data.getUserAssetByContractAddress.map((item,i) => {

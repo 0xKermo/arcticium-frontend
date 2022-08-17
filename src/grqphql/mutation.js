@@ -77,23 +77,44 @@ export const BidAdd = gql`
   }
 `;
 gql`
-  input assetMetaData{
+  input assetMetaData {
     assetTokenId: Int
-    assetName:String
+    assetName: String
     assetDescription: String
     assetContractAddress: String
     assetExternalUri: String
     assetAnimationUri: String
-  }`
+  }
+`;
 export const updateUserAssets = gql`
-  mutation (
-    $assetOwner:String
-  ) {
-    updateAssets(
-      assetOwner:$assetOwner
-    ) {
+  mutation ($assetOwner: String) {
+    updateAssets(assetOwner: $assetOwner) {
       assetOwner
     }
   }
+`;
 
+export const updateUserProfile = gql`
+  mutation updateUserProfile(
+    $walletAddress: String
+    $name: String
+    $bio: String
+  ) {
+    updateProfile(walletAddress: $walletAddress, name: $name, bio: $bio) {
+      walletAddress
+    }
+  }
+`;
+
+
+export const updateTradeStatus = gql`
+  mutation tradeStatus(
+    $tokenContract: String
+    $tokenId: String
+    ) {
+    updateProfile(tokenContract: $tokenContract, tokenId: $tokenId) {
+      tradeId
+      status
+    }
+  }
 `;

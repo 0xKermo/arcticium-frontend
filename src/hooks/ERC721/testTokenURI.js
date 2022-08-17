@@ -4,13 +4,14 @@ import { hexToDecimalString } from "../../utils/number";
 import { hex2a } from "../../utils/util";
 import axios from "axios";
 
-export const GetTokenURI = () => {
+export const GetTestTokenURI = () => {
+
   const requestToMetadataURL = async (
     metadataURL,
     _contract_address,
     _token_id
   ) => {
-    const isPinata = urlCheck(metadataURL);
+    const isPinata = urlCheck(metadataURL)
     const resFile = await axios({
       method: "get",
       url: isPinata,
@@ -31,7 +32,7 @@ export const GetTokenURI = () => {
     return res;
   };
 
-  const getTokenURI = async (_contract_address, _token_id) => {
+  const getTestTokenURI = async (_contract_address, _token_id) => {
     let token_id = bnToUint256(_token_id);
     const low = hexToDecimalString(token_id.low);
     const high = hexToDecimalString(token_id.high);
@@ -42,9 +43,9 @@ export const GetTokenURI = () => {
       entrypoint: "tokenURI",
       calldata: [low, high],
     });
-    const res = await joinTokenURI(tx.result, _contract_address, _token_id);
+    const res = await joinTokenURI(tx.result,_contract_address,_token_id);
     // console.log(res)
-    return res;
+    return res
   };
 
   const joinTokenURI = async (hexArray, _contract_address, _token_id) => {
@@ -53,32 +54,30 @@ export const GetTokenURI = () => {
     for (let i = 1; i <= arr_len; i++) {
       metadaURI += hex2a(hexArray[i]);
     }
-    const res = await requestToMetadataURL(
-      metadaURI,
-      _contract_address,
-      _token_id
-    );
+    // const res = await requestToMetadataURL(metadaURI,_contract_address,_token_id)
+    const parsed = JSON.parse(metadaURI.slice(36))
+    console.log(parsed.image)
+    const parser = new DOMParser();
+    const svgDoc = parser.parseFromString(parsed.image.slice(14), 'image/svg+xml');
+    console.log(svgDoc)
 
-    return res;
+    return metadaURI
   };
+
   const urlCheck = (metaDataUrl) => {
-    const ipfs = "ipfs/";
-    const ipfs2 = "ipfs://";
+    const ipfs = "ipfs://";
     const ipfsGateway = "https://arcswap.mypinata.cloud/ipfs/";
-    const isIpfs = metaDataUrl.indexOf(ipfs);
-    const isIpfs2 = metaDataUrl.indexOf(ipfs2);
-    if (isIpfs2 === -1 && isIpfs !== -1) {
-
-      return ipfsGateway + metaDataUrl.slice(isIpfs + ipfs.length);
-    } else if (isIpfs2 !== -1 && isIpfs === -1) {
-
-      return ipfsGateway + metaDataUrl.slice(isIpfs2 + ipfs2.length);
+    const isIpfs = metaDataUrl.startsWith(ipfs);
+    const isGatewayIpfs = metaDataUrl.startsWith(ipfsGateway);
+    if (isIpfs) {
+        return ipfsGateway + metaDataUrl.slice(7);
     } else {
       return metaDataUrl;
     }
+    
   };
 
   return {
-    getTokenURI,
+    getTestTokenURI,
   };
 };

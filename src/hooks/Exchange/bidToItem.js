@@ -41,11 +41,7 @@ export const BidToItem = () => {
       const voyagerLink = `https://beta-goerli.voyager.online/tx/${result.transaction_hash}`;
       const mintSuccessText = `<a src=${voyagerLink}>Bid successfully apply Click and see on Voyager</a>`;
       ToastPromise(tx, mintLoadingText, mintSuccessText);
-      tx.then((res) => {
-        console.log(result)
-        console.log(res)
-        console.log(tx)
-      })
+
       return {
         result,
         tx,

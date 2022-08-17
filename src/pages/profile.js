@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import ColumnSwap from "../components/profileColumnSwap";
 import Activity from "../components/profileActvity";
@@ -7,6 +7,10 @@ import { createGlobalStyle } from "styled-components";
 import { ProfileActions } from "../controller";
 import ColumnMyNfts from "../components/profileColumnMyNfts";
 import { AddUserAsset } from "../grqphql";
+import { useParams } from "react-router-dom";
+import { updateUserProfile } from "../grqphql/mutation";
+import { useMutation } from "@apollo/client";
+import { BigNumber } from "ethers";
 
 const GlobalStyles = createGlobalStyle`
   header#myHeader.navbar.sticky.white {
@@ -42,24 +46,49 @@ const GlobalStyles = createGlobalStyle`
   }
 `;
 
-const Profile = ({}) => {
+const Profile = () => {
+  const [isEditProfile, setEditProfile] = useState(false);
+  const [isOwner, setIsOwner] = useState(false);
+  const { wallet } = useParams();
+
   const dispatch = useDispatch();
   const { walletAddress } = useSelector((state) => state.wallet);
   const { openMenu, openMenu1, openMenu2, openMenu3 } = useSelector(
     (state) => state.profileOperation
   );
+  const { userAssets,profileInfo } = useSelector((state) => state.userAssets);
+
   const { handleBtnClick, handleBtnClick1, handleBtnClick2, handleBtnClick3 } =
     ProfileActions();
 
   const { _addUserAsset, getUserAssets } = AddUserAsset();
+  const openEditProfile = () => {
+    setEditProfile(true);
+  };
 
+  const [updateProfile] = useMutation(updateUserProfile);
+
+  const submitProfile = () => {
+    
+    const name = document.getElementById("username").value;
+    const bio = document.getElementById("bio").value;
+
+    updateProfile({
+      variables: {
+        walletAddress: wallet,
+        name: name,
+        bio: bio,
+      },
+    });
+  };
   useEffect(() => {
     if (walletAddress != null) {
       const userAssetsArgs = {
-        assetOwner: walletAddress,
+        assetOwner: wallet.toLowerCase(),
       };
       _addUserAsset(userAssetsArgs);
-      getUserAssets();
+      getUserAssets(wallet.toLowerCase());
+      setIsOwner(BigNumber.from(wallet).eq(walletAddress));
     }
   }, [walletAddress]);
 
@@ -84,44 +113,31 @@ const Profile = ({}) => {
                   <img src="./img/author_single/author_thumbnail.jpg" alt="" />
                   <div className="profile_name">
                     <h4>
-                      Monica Lucas
-                      <span className="profile_username">@monicaaa</span>
+                      {profileInfo ? profileInfo.name:null}
+                      <span className="profile_username"></span>
                       <span id="wallet" className="profile_wallet">
-                        DdzFFzCqrhshMSxb9oW3mRo4MJrQkusV3fGFSTwaiu4wPBqMryA9DYVJCkW9n7twCffG5f5wX2sSkoDXGiZB1HPa7K7f865Kk4LqnrME
+                        {wallet.slice(0, 6)}...{wallet.slice(-6)}
                       </span>
                       <button id="btn_copy" title="Copy Text">
                         copy
                       </button>
                     </h4>
                     <h4>
-                      Servet-i Fünun döneminde ön plana çıkan diğer isimler ise
-                      Mehmet Rauf ile Hüseyin Cahit Yalçın’dır.
+                    {profileInfo ? profileInfo.bio:null}
                     </h4>
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-4">
-            <div className="d_profile de-flex right">
-              <div className="de-flex-col">
-                <div className="collection-social-icons">
-                  <span onClick={() => window.open("", "_self")}>
-                    <i className="fa fa-facebook fa-lg"></i>
-                  </span>
-                  <span onClick={() => window.open("", "_self")}>
-                    <i className="fa fa-twitter fa-lg"></i>
-                  </span>
-                  <span onClick={() => window.open("", "_self")}>
-                    <i className="fa fa-linkedin fa-lg"></i>
-                  </span>
-                  <span onClick={() => window.open("", "_self")}>
-                    <i className="fa fa-pinterest fa-lg"></i>
-                  </span>
-                  <span onClick={() => window.open("", "_self")}>
-                    <i className="fa fa-rss fa-lg"></i>
-                  </span>
-                </div>
+                {isOwner && (
+                  <div
+                    className="d_profile de-flex right"
+                    style={{ cursor: "pointer" }}
+                    onClick={openEditProfile}
+                  >
+                    <div className="de_countdown">
+                      <span>Edit Profile</span>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -142,13 +158,11 @@ const Profile = ({}) => {
                 <li id="Mainbtn2" className="">
                   <span onClick={handleBtnClick2}>Activity</span>
                 </li>
-                <li id="Mainbtn3" className="">
-                  <span onClick={handleBtnClick3}>Favorites</span>
-                </li>
               </ul>
             </div>
           </div>
         </div>
+
         {openMenu && (
           <div id="zero2" className="onStep fadeIn">
             <ColumnMyNfts />
@@ -165,9 +179,75 @@ const Profile = ({}) => {
             <Activity />
           </div>
         )}
-        {openMenu3 && (
-          <div id="zero3" className="onStep fadeIn">
-            <Favorites />
+
+        {isEditProfile && (
+          <div className="checkout">
+            <div className="maincheckout">
+              <button
+                className="btn-close"
+                onClick={() => {
+                  setEditProfile(false);
+                }}
+              >
+                x
+              </button>
+              <div className="heading">
+                <h3>Edit Profile</h3>
+              </div>
+              <div className="detailcheckout mt-4">
+                <div className="listcheckout">
+                  <div className="spacer-40"></div>
+
+                  <div className="items_filter centerEl">
+                    <div
+                      className="dropdownSelect two"
+                      style={{ width: "100%" }}
+                    >
+                      <h5>Username</h5>
+                      <input
+                        type="text"
+                        id="username"
+                        className="form-control"
+                        placeholder="username"
+                      />
+                    </div>
+                    <div className="spacer-20"></div>
+                    <div
+                      className="dropdownSelect two"
+                      style={{ width: "100%" }}
+                    >
+                      <h5>Bio</h5>
+                      <textarea
+                        type="text"
+                        id="bio"
+                        className="form-control"
+                        placeholder="bio"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <button
+                style={{ margin: "0", width: "30%" }}
+                className="btn-main lead mb-2 right"
+                onClick={submitProfile}
+              >
+                Save
+              </button>
+              <button
+                style={{
+                  margin: "0",
+                  color: "rgb(131, 100, 226) !important",
+                  backgroundColor: "#f0f0f0",
+                  width: "30%",
+                  marginRight: "10px",
+                }}
+                className="btn-cancel lead mb-2 right"
+                  onClick={() => {setEditProfile(false)}}
+              >
+                cancel
+              </button>
+            </div>
           </div>
         )}
       </section>

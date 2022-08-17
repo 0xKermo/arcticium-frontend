@@ -36,7 +36,7 @@ const GlobalStyles = createGlobalStyle`
     }
   }
 `;
-const CollectionNfts = function () {
+const CollectionNfts = function (props) {
   return (
     <div>
       <GlobalStyles />
@@ -44,7 +44,7 @@ const CollectionNfts = function () {
       <div className="row">
         <div className="col-md-12">
           <TopFilterBar />
-          <ColumnNew />
+          <ColumnNew imgUrls={props.imgUrls}/>
         </div>
       </div>
     </div>

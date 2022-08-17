@@ -13,7 +13,8 @@ export const itemDetailOperation = createSlice({
     targetNftLink: null,
     voyagerLink: null,
     choosenCurrency: null,
-    currencyAmount:0
+    currencyAmount:0,
+    makeOfferBtn:false,
   },
   reducers: {
     setOpenMenu: (state, action) => {
@@ -49,6 +50,9 @@ export const itemDetailOperation = createSlice({
     setVoyagerLink: (state, action) => {
       state.voyagerLink = action.payload;
     },
+    setMakeOfferBtn: (state, action) => {
+      state.makeOfferBtn = action.payload;
+    },
   },
 });
 
@@ -64,7 +68,8 @@ export const {
   setTargetNftLink,
   setChoosenCurrency,
   setVoyagerLink,
-  setCurrencyAmount
+  setCurrencyAmount,
+  setMakeOfferBtn
 } = itemDetailOperation.actions;
 
 export default itemDetailOperation.reducer;
