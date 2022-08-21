@@ -53,8 +53,8 @@ export default class Responsive extends Component {
       height: 0,
     };
     this.onImgLoad = this.onImgLoad.bind(this);
-    this.state.collections = this.props.collections
-    console.log(this.state.collections)
+    this.state.collections = this.props.collections;
+    console.log(this.state.collections);
   }
 
   loadMore = () => {
@@ -85,13 +85,30 @@ export default class Responsive extends Component {
           >
             <div
               className="nft_coll m-0"
-              onClick={() => window.open(`collection/${collection.collectionAddress}`, "_self")}
+              onClick={() =>
+                window.open(
+                  `collection/${collection.collectionAddress}`,
+                  "_self"
+                )
+              }
             >
               <div
                 className="nft_wrap"
-                onClick={() => window.open(`collection/${collection.collectionAddress}`, "_self")}
+                onClick={() =>
+                  window.open(
+                    `collection/${collection.collectionAddress}`,
+                    "_self"
+                  )
+                }
               >
-                <span onClick={() => window.open(`collection/${collection.collectionAddress}`, "_self")}>
+                <span
+                  onClick={() =>
+                    window.open(
+                      `collection/${collection.collectionAddress}`,
+                      "_self"
+                    )
+                  }
+                >
                   <img
                     onLoad={this.onImgLoad}
                     src={collection.profileImgPath}
@@ -101,12 +118,26 @@ export default class Responsive extends Component {
                 </span>
               </div>
               <div className="nft_coll_pp">
-                <span onClick={() => window.open(`collection/${collection.collectionAddress}`, "_self")}>
+                <span
+                  onClick={() =>
+                    window.open(
+                      `collection/${collection.collectionAddress}`,
+                      "_self"
+                    )
+                  }
+                >
                   <img className="lazy" src={collection.authorImg} alt="" />
                 </span>
               </div>
               <div className="nft_coll_info">
-                <span onClick={() => window.open(`collection/${collection.collectionAddress}`, "_self")}>
+                <span
+                  onClick={() =>
+                    window.open(
+                      `collection/${collection.collectionAddress}`,
+                      "_self"
+                    )
+                  }
+                >
                   <h4>{collection.name}</h4>
                 </span>
                 <span>{collection.description}</span>
