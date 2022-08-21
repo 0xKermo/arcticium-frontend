@@ -2585,6 +2585,9 @@ i.font60 {
   margin: 10px;
   img {
     transition: 0.7s;
+    width: 410px;
+    height: 300px;
+    object-fit: cover;
   }
   &:hover {
     img {
@@ -2615,7 +2618,8 @@ i.font60 {
 }
 .nft_coll_pp img {
   width: 60px;
-  height: auto;
+  height: 60px;
+  object-fit: contain;
   border-radius: 100%;
   -moz-border-radius: 100%;
   -webkit-border-radius: 100%;
@@ -2785,6 +2789,9 @@ i.font60 {
   font-weight: 800;
   font-size: 15px;
   margin-bottom: 5px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 .nft__item_price {
   font-size: 14px;
@@ -2955,6 +2962,7 @@ i.font60 {
 .nft__item img {
   width: 128px;
   height: 128px;
+  object-fit: cover;
   border-radius: 8px;
   -moz-border-radius: 8px;
   -webkit-border-radius: 8px;
