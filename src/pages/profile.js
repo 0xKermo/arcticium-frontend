@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import ColumnSwap from "../components/profileColumnSwap";
 import Activity from "../components/profileActvity";
-import Favorites from "../components/profileColumnFavorites";
 import { createGlobalStyle } from "styled-components";
 import { ProfileActions } from "../controller";
 import ColumnMyNfts from "../components/profileColumnMyNfts";
@@ -56,7 +55,7 @@ const Profile = () => {
   const { openMenu, openMenu1, openMenu2, openMenu3 } = useSelector(
     (state) => state.profileOperation
   );
-  const { userAssets,profileInfo } = useSelector((state) => state.userAssets);
+  const { userAssets, profileInfo } = useSelector((state) => state.userAssets);
 
   const { handleBtnClick, handleBtnClick1, handleBtnClick2, handleBtnClick3 } =
     ProfileActions();
@@ -68,7 +67,6 @@ const Profile = () => {
   const [updateProfile] = useMutation(updateUserProfile);
 
   const submitProfile = () => {
-    
     const name = document.getElementById("username").value;
     const bio = document.getElementById("bio").value;
 
@@ -112,7 +110,7 @@ const Profile = () => {
                   <img src="./img/author_single/author_thumbnail.jpg" alt="" />
                   <div className="profile_name">
                     <h4>
-                      {profileInfo ? profileInfo.name:null}
+                      {profileInfo ? profileInfo.name : null}
                       <span className="profile_username"></span>
                       <span id="wallet" className="profile_wallet">
                         {wallet.slice(0, 6)}...{wallet.slice(-6)}
@@ -121,9 +119,7 @@ const Profile = () => {
                         copy
                       </button>
                     </h4>
-                    <h4>
-                    {profileInfo ? profileInfo.bio:null}
-                    </h4>
+                    <h4>{profileInfo ? profileInfo.bio : null}</h4>
                   </div>
                 </div>
                 {isOwner && (
@@ -242,7 +238,9 @@ const Profile = () => {
                   marginRight: "10px",
                 }}
                 className="btn-cancel lead mb-2 right"
-                  onClick={() => {setEditProfile(false)}}
+                onClick={() => {
+                  setEditProfile(false);
+                }}
               >
                 cancel
               </button>
