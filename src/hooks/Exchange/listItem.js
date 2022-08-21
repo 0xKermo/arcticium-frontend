@@ -7,7 +7,7 @@ import { AddTrade } from "../../grqphql";
 
 export const ListItem = () => {
   const { walletAddress, account } = useSelector((state) => state.wallet);
-  const { choosen } = useSelector((state) => state.itemDetailOperation);
+  const { listType } = useSelector((state) => state.itemDetailOperation);
   const dispatch = useDispatch();
   const { approveERC721 } = ApproveERC721();
   const { _addTrade } = AddTrade();
@@ -21,12 +21,14 @@ export const ListItem = () => {
           calldata: _itemCallData,
         },
       ];
-      let result;
       tradeArgs.transactionHash = "result.transaction_hash";
-      const resAddTrade = await _addTrade(tradeArgs);
-      console.log(resAddTrade);
+
+      const resAddTrade = _addTrade(tradeArgs);
       return false
+      let result;
+
       if (_isApprove == 0) {
+        console.log(0)
         const approveArgs = await approveERC721(
           tradeArgs.tokenContract,
           EXCHANGE_ADDRESS,
@@ -35,6 +37,8 @@ export const ListItem = () => {
         listItemArgs.push(approveArgs);
         result = await account.account.execute(listItemArgs.reverse());
       } else {
+        console.log(1)
+
         result = await account.account.execute(listItemArgs[0]);
       }
       dispatch(setOpenCheckout(false));
@@ -43,13 +47,14 @@ export const ListItem = () => {
       const mintLoadingText = "Transaction pending...";
       const voyagerLink = `https://beta-goerli.voyager.online/tx/${result.transaction_hash}`;
       const mintSuccessText = `Minted successfully Test arcEth token : <a src=${voyagerLink}>Click and see on Voyager</a>`;
-      ToastPromise(tx, mintLoadingText, mintSuccessText);
-      tx.then((res) => {
+    
+     ToastPromise(tx, mintLoadingText, mintSuccessText);
+      tx.then(res => {
+        console.log("test")
         tradeArgs.transactionHash = result.transaction_hash;
         const resAddTrade = _addTrade(tradeArgs);
         console.log(resAddTrade);
-      });
-
+      })
       return result;
     } catch (error) {
       console.log(error);

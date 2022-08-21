@@ -1,45 +1,45 @@
 import { useMutation } from "@apollo/client";
-import { BigNumber } from "ethers";
-import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { ItemDetailAction } from "../controller";
 import { updateTradeStatus } from "../grqphql/mutation";
-import { GetOwnerOf } from "../hooks";
+import { AcceptBid} from "../hooks";
 import {
   setMakeOfferBtn,
   setOpenCheckout,
+  setItemOwner
 } from "../store/slicers/itemDetailOperations";
+import { ListedItemAction } from "../controller/itemDetail/listedItemAction";
 
 const ItemDetailShowItem = (props) => {
   const dispatch = useDispatch();
-  const [is_owner, setIsOwner] = useState(0); // beginng = 0, 1 = owner on page, 2 = anyone on page, 3 = owner on page and item listed
-  const { getOwnerOf } = GetOwnerOf();
   /**
-   *    Redux start
+   *    Redux
    */
-  const { metadata } = useSelector((state) => state.metadata);
-  const { openMenu, openMenu1, voyagerLink, openCheckout } = useSelector(
+  const { openMenu, openMenu1, voyagerLink, itemOwner } = useSelector(
     (state) => state.itemDetailOperation
   );
   const { collectionName } = useSelector((state) => state.collections);
-  const { walletAddress } = useSelector((state) => state.wallet);
+
   /**
-   * Redux End
+   * Contract Functions
    */
-  
-    const  [tradeStatus] = useMutation(updateTradeStatus)
+  const { cancelItemListing } = ListedItemAction();
+  const {acceptBid} = AcceptBid()
   /**
-   * Functions start
+   * Graphql
+   */
+  const [tradeStatus] = useMutation(updateTradeStatus);
+  /**
+   * Functions
    */
   const { handleBtnClick, handleBtnClick1 } = ItemDetailAction();
-  
+
   const open_trade = () => {
     dispatch(setOpenCheckout(true));
   };
-
   const attr =
-    metadata.attributes != undefined
-      ? metadata.attributes.map((item, index) => {
+  props.data.getAsset.attributes != null
+      ? props.data.getAsset.attributes.map((item, index) => {
           return (
             <div className="col-lg-4 col-md-6 col-sm-6" key={index}>
               <div className="nft_attr">
@@ -55,32 +55,21 @@ const ItemDetailShowItem = (props) => {
     dispatch(setMakeOfferBtn(true));
   };
 
-  const cancelListing = () => {
-    tradeStatus({
-      variables:{
-        tokenContract:props.contract,
-        tokenId:props.id
-
-      }
-    })
+  const cancelListing = async () => {
+    const tradeId = props.data.getTradeWithAddresId.tradeId;
+    cancelItemListing(tradeId, props.contract, props.id)
   };
 
-  useEffect(() => {
-    const prepare = async () => {
-      if (walletAddress != undefined) {
-        const itemOwner = await getOwnerOf(props.contract, props.id);
-        const checkItemOwner = BigNumber.from(walletAddress).eq(
-          itemOwner.result[0]
-        );
-        console.log();
-        checkItemOwner == true ? setIsOwner(1) : setIsOwner(2);
-      }
-    };
-    prepare();
-  }, [walletAddress]);
- /**
-  * Function End
-  */
+  const bidAccept = async (e) => {
+      const res = acceptBid(e.tradeId, e.itemBidId)
+      console.log(res)
+  }
+
+
+
+  /**
+   * Function End
+   */
   return (
     <>
       <div className="col-md-4 text-center">
@@ -93,9 +82,7 @@ const ItemDetailShowItem = (props) => {
               <img
                 className="lazy nft__item_preview"
                 alt=""
-                src={metadata.image}
-                width="200px"
-                height="250px"
+                src={props.data.getAsset.image}
               />
             </span>
           </div>
@@ -114,7 +101,7 @@ const ItemDetailShowItem = (props) => {
 
               <div className="p_list">
                 <div className="p_detail">
-                  <span>{metadata.description}</span>
+                  <span>{props.data.getAsset.description}</span>
                 </div>
               </div>
             </div>
@@ -164,7 +151,7 @@ const ItemDetailShowItem = (props) => {
       </div>
       <div className="col-md-6">
         <div className="item_info">
-          <h2>{metadata.name}</h2>
+          <h2>{props.data.getAsset.name}</h2>
         </div>
 
         <div className="item_info">
@@ -175,7 +162,7 @@ const ItemDetailShowItem = (props) => {
                 <div className="item_author">
                   <div className="author_list_pp">
                     <span>
-                      <img className="lazy" src={metadata.image} alt="" />
+                      <img className="lazy" src={props.data.getAsset.image} alt="" />
                     </span>
                   </div>
                   <div className="author_list_info">
@@ -190,7 +177,7 @@ const ItemDetailShowItem = (props) => {
                 <div className="item_author">
                   <div className="author_list_pp">
                     <span>
-                      <img className="lazy" src={metadata.image} alt="" />
+                      <img className="lazy" src={props.data.getAsset.image} alt="" />
                     </span>
                   </div>
                   <div className="author_list_info">
@@ -209,9 +196,14 @@ const ItemDetailShowItem = (props) => {
         </div>
 
         <div className="spacer-40"></div>
-        {is_owner == 1 && (
+        {itemOwner === 1 && (
+          <span onClick={open_trade} className="btn-main inline lead">
+            Open Trade
+          </span>
+        )}
+        {itemOwner === 2 && (
           <div className="item_info">
-            {props.data.getTradeWithAddresId !== null ? (
+            {props.data.getTradeWithAddresId !== null && (
               <>
                 <div className="listedInfo">
                   <span>
@@ -251,14 +243,11 @@ const ItemDetailShowItem = (props) => {
                   </button>
                 </div>
               </>
-            ) : (
-              <span onClick={open_trade} className="btn-main inline lead">
-                Open Trade
-              </span>
             )}
           </div>
         )}
-        {is_owner == 2 && (
+
+        {itemOwner === 3 && (
           <div className="item_info">
             <div className="de_countdown">
               <span onClick={make_offer} className="btn-main inline lead">
@@ -293,31 +282,55 @@ const ItemDetailShowItem = (props) => {
                         <div
                           className="p_list"
                           key={index}
-                          onClick={() =>
+                          
+                        >
+                          <div className="p_list_pp" onClick={() =>
                             window.open(
                               `/asset/${item.bidAsset.contract_address}/${item.bidAsset.token_id}`,
                               "_self"
                             )
-                          }
-                        >
-                          <div className="p_list_pp">
+                          }>
                             <span>
                               <img
                                 className="lazy"
                                 src={item.bidAsset.image}
                                 alt=""
+                                style={{ cursor: "pointer" }}
                               />
                             </span>
                           </div>
-                          <div className="p_list_info">
-                            Offered <b>{item.bidAsset.name}</b>
-                            <span>
-                              by{" "}
-                              <b>
-                                {item.bidAsset.contract_address.slice(0, 6)}
-                              </b>{" "}
-                              at 6/15/2021, 3:20 AM
-                            </span>
+                          <div className="p_list_info"  style={{ cursor: "pointer" }}>
+                            <div className="row">
+                              <div className="col-md-10" onClick={() =>
+                            window.open(
+                              `/asset/${item.bidAsset.contract_address}/${item.bidAsset.token_id}`,
+                              "_self"
+                            )
+                          }>
+                                Offered <b>{item.bidAsset.name}</b>
+                                <span>
+                                  by{" "}
+                                  <b>
+                                    {item.bidAsset.contract_address.slice(0, 6)}
+                                  </b>{" "}
+                                  at 6/15/2021, 3:20 AM
+                                </span>
+                              </div>
+                              <div className="col-md-2">
+                                <button
+                                  className="btn-main lead mb-2 right"
+                                  onClick={() => {bidAccept(item)}}
+                                  style={{ padding: "6px 5px",margin:"10px" }}
+                                >
+                                  Accept
+                                </button>
+                               
+                              </div>
+
+                              <div className="col-md-2">
+                               
+                              </div>
+                            </div>
                           </div>
                         </div>
                       )

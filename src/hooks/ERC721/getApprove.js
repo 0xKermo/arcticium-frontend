@@ -1,6 +1,6 @@
 import { Provider } from "starknet";
 import { toBN } from "starknet/utils/number";
-import { ERC721_ADDRESS ,EXCHANGE_ADDRESS} from "../../constants/starknetAddress";
+import { EXCHANGE_ADDRESS} from "../../constants/starknetAddress";
 import { hexToDecimalString } from "../../utils/number";
 export const GetApprove = () => {
   const getApprove = async (_owner, _contract) => {

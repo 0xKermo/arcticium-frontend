@@ -35,5 +35,5 @@ export const AddUserAsset = () => {
     }
   }, [loading]);
 
-  return { _addUserAsset, getUserAssets };
+  return {  _addUserAsset, getUserAssets };
 };

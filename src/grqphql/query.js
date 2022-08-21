@@ -137,6 +137,7 @@ export const GetTradeWithAddresId = gql`
       tradeId
       tokenId
       expiration
+      currencyType
       price
       targetTokenContract
       targetTokenId

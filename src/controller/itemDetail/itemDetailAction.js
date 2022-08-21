@@ -4,7 +4,7 @@ import {
   setOpenMenu1,
   setOpenCheckout,
   setOpenCheckoutBid,
-  setChoosen,
+  setListType,
   setTargetNftId,
   setTargetCollectionAddress,
   setTargetNftLink,
@@ -34,7 +34,7 @@ export const ItemDetailAction = () => {
     
   };
   const anyBtn = () => {
-    dispatch(setChoosen(0));
+    dispatch(setListType(0));
     dispatch(setTargetCollectionAddress(0));
     dispatch(setTargetNftId(0));
     dispatch(setTargetNftLink(null));
@@ -46,7 +46,7 @@ export const ItemDetailAction = () => {
     document.getElementById("nft").classList.remove("method_active");
   };
   const collectionBtn = () => {
-    dispatch(setChoosen(1));
+    dispatch(setListType(1));
     
     dispatch(setTargetCollectionAddress(0));
     dispatch(setTargetNftId(0));
@@ -59,7 +59,7 @@ export const ItemDetailAction = () => {
     document.getElementById("nft").classList.remove("method_active");
   };
   const nftBtn = () => {
-    dispatch(setChoosen(2));
+    dispatch(setListType(2));
     
     dispatch(setTargetCollectionAddress(0));
     dispatch(setTargetNftId(0));

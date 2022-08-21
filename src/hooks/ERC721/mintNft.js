@@ -1,37 +1,22 @@
 import { useSelector } from "react-redux";
 import { ERC721_ADDRESS } from "../../constants/starknetAddress";
+import { strToShortStringFelt } from "../../utils/encode";
 import { hexToDecimalString, toFelt } from "../../utils/number";
 import { bnToUint256 } from "../../utils/uint256";
-import { GetTotalSupply } from "./useTotalSupply";
 
 export const MintErc721 = () => {
     const { walletAddress, account } = useSelector(state => state.wallet)
-    const {getTotalSupply} = GetTotalSupply()
     const mintErc721 = async ( metadata) => {
-        const _metadata = await metadata
+        const _ipfsMetadata = await metadata
+        const _metadata = splitStrtoFeltArray(_ipfsMetadata)
         const arr_len = _metadata.length
         const arr = _metadata
-        let calldata = []
         const address = hexToDecimalString(walletAddress)
-        const totalSupply = await getTotalSupply()
-        let next_token_id = hexToDecimalString(totalSupply.result[0])
-        next_token_id = bnToUint256(next_token_id)
-        if (arr_len > 0 && arr_len == 2) {
-            calldata = [
-                address,
-                next_token_id.low, next_token_id.high,
-                arr_len,
-                toFelt(arr[0]), toFelt(arr[1])
-            ]
-        }else if(arr_len == 3){
-            calldata = [
-                address,
-                next_token_id.low, next_token_id.high,
-                arr_len,
-                toFelt(arr[0]), toFelt(arr[1]),toFelt(arr[1]),toFelt(arr[2])
-            ]
-        }
-        console.log(calldata)
+        const calldata = [
+            address,
+            arr_len,
+            ...arr
+        ]
         const result = await account.account.execute({
             contractAddress: ERC721_ADDRESS,
             entrypoint: 'mint',
@@ -41,6 +26,26 @@ export const MintErc721 = () => {
         return result
     };
 
+    const splitStrtoFeltArray = (string) => {
+        const max_felt_length = 31;
+        const string_langth = string.length;
+        console.log(string_langth);
+        const feltArray = [];
+        var k = 0;
+        if (string_langth > max_felt_length) {
+          const iterasyon = Math.floor(string_langth / max_felt_length);
+      
+          for (var i = 0; i <= iterasyon; i++) {
+            feltArray.push(
+              toFelt(strToShortStringFelt(string.slice(k, k + max_felt_length)))
+            );
+            k += max_felt_length;
+          }
+        } else {
+          feltArray.push(string);
+        }
+        return feltArray;
+      };
     return {
         mintErc721,
     };

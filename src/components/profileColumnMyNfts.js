@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
-
+import axios from "axios";
 const Outer = styled.div`
   display: flex;
   justify-content: center;
@@ -31,6 +31,8 @@ const ColumnMyNfts = () => {
     //   nfts: [...nftState, ...this.dummyData.slice(start, end)],
     // });
   };
+
+    
   return (
     <div className="row">
       {userAssets.map((nft, index) => (

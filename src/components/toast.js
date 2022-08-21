@@ -5,7 +5,10 @@ export const ToastPromise = (myPromise,loadingText,successText) => {
         myPromise,
         {
           loading: loadingText,
-          success: (data) => successText,
+          success: (data) => function(){
+            console.log("data",data)
+            return successText
+          },
           error: (err) => `This just happened: ${err.toString()}`,
         },
         {

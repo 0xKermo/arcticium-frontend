@@ -7,6 +7,7 @@ export const TradeAdd = gql`
     $tokenContract: String
     $tokenId: Int
     $expiration: Date
+    $currencyType: Int
     $price: Int
     $status: String
     $swapTradeId: Int
@@ -21,6 +22,7 @@ export const TradeAdd = gql`
       tokenContract: $tokenContract
       tokenId: $tokenId
       expiration: $expiration
+      currencyType: $currencyType
       price: $price
       status: $status
       swapTradeId: $swapTradeId
@@ -76,16 +78,7 @@ export const BidAdd = gql`
     }
   }
 `;
-gql`
-  input assetMetaData {
-    assetTokenId: Int
-    assetName: String
-    assetDescription: String
-    assetContractAddress: String
-    assetExternalUri: String
-    assetAnimationUri: String
-  }
-`;
+
 export const updateUserAssets = gql`
   mutation ($assetOwner: String) {
     updateAssets(assetOwner: $assetOwner) {
@@ -106,15 +99,21 @@ export const updateUserProfile = gql`
   }
 `;
 
-
 export const updateTradeStatus = gql`
-  mutation tradeStatus(
-    $tokenContract: String
-    $tokenId: String
-    ) {
-    updateProfile(tokenContract: $tokenContract, tokenId: $tokenId) {
+  mutation tradeStatus($tradeId: Int, $status: String, $buyer: String) {
+    tradeStatus(tradeId: $tradeId, status: $status, buyer: $buyer) {
       tradeId
       status
+    }
+  }
+`;
+
+
+
+export const uploadToMetadata = gql`
+  mutation uploadMetadata($assetOwner: String!, $token_id: Int, $name: String, $description: String, $image: String ) {
+    uploadMetadata(assetOwner: $assetOwner, token_id: $token_id, name: $name, description: $description, image: $image) {
+      image
     }
   }
 `;

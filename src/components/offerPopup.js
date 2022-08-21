@@ -6,7 +6,7 @@ import {
 } from "../controller";
 import {
   setOpenCheckout,
-  setChoosen,
+  setListType,
   setChoosenCurrency,
   setCurrencyAmount,
 } from "../store/slicers/itemDetailOperations";
@@ -45,21 +45,26 @@ const OfferPopup = (props) => {
   const [isActive, setIsActive] = useState(false);
   const [targetNftUrl, setTargetNftUrl] = useState("");
   const { getTokenURI } = GetTokenURI();
+  const { listItemData} = ListItemData()
   const dispatch = useDispatch();
-  const { choosen, targetNftLink, targetCollectionAddress } = useSelector(
+  const { listType, targetNftLink, targetCollectionAddress } = useSelector(
     (state) => state.itemDetailOperation
   );
   const { currencyInfo } = useSelector((state) => state.currency);
 
   const { collections } = useSelector((state) => state.collections);
   const { anyBtn, collectionBtn, nftBtn } = ItemDetailAction();
+
   const listItemBtn = async () => {
-    ListItemData(props.contract, props.id, props.metadata);
+  
+    listItemData(props.contract, props.id);
   };
+  
   const {
     targetNftOnchange,
     targetCollectionOnchange,
     currencyAmountOnchange,
+    currencyTypeOnchange
   } = TargetNftOperation();
 
   const targetNftOnfocus = async (e) => {
@@ -92,7 +97,7 @@ const OfferPopup = (props) => {
           className="btn-close"
           onClick={() => {
             dispatch(setOpenCheckout(false));
-            dispatch(setChoosen(0));
+            dispatch(setListType(0));
           }}
         >
           x
@@ -122,7 +127,7 @@ const OfferPopup = (props) => {
               </li>
             </ul>
             <div className="spacer-40"></div>
-            {choosen === 1 && (
+            {listType === 1 && (
               <div className="items_filter centerEl">
                 <div className="dropdownSelect one" style={{ width: "100%" }}>
                   <h5>Target Collection</h5>
@@ -137,7 +142,7 @@ const OfferPopup = (props) => {
                 </div>
               </div>
             )}
-            {choosen === 2 && (
+            {listType === 2 && (
               <div className="items_filter centerEl">
                 <div className="dropdownSelect one" style={{ width: "100%" }}>
                   <h5>Target Collection</h5>
@@ -206,6 +211,7 @@ const OfferPopup = (props) => {
                       <Select
                         className="select1"
                         styles={customStyles}
+                        onChange={currencyTypeOnchange}
                         menuContainerStyle={{ zIndex: 999 }}
                         defaultValue={currencyInfo[0]}
                         options={currencyInfo.currencyInfo}
@@ -225,7 +231,7 @@ const OfferPopup = (props) => {
             )}
           </div>
         </div>
-        {choosen === 0 && (
+        {listType === 0 && (
           <div>
             <div className="heading">
               <p>Service fee 0%</p>
@@ -238,7 +244,7 @@ const OfferPopup = (props) => {
             </div>
           </div>
         )}
-        {choosen === 1 && (
+        {listType === 1 && (
           <div>
             <div className="heading mt-3">
               <p>
@@ -252,7 +258,7 @@ const OfferPopup = (props) => {
           </div>
         )}
 
-        {choosen === 2 && (
+        {listType === 2 && (
           <div className="nft__item m-0">
             <a
               target="_blank"

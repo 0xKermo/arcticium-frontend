@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import { createGlobalStyle } from "styled-components";
 import $ from "jquery";
-import { uploadMetadata } from "../utils/apiRequest/ipfs";
+import { uploadImage, UploadMetadata } from "../utils/apiRequest/ipfs";
 import { MintErc721 } from "../hooks";
 import { ToastPromise } from "../components/toast";
 import { Toaster } from "react-hot-toast";
 import { Provider } from "starknet";
+import { useMutation } from "@apollo/client";
+import { uploadToMetadata } from "../grqphql/mutation";
+import { useSelector } from "react-redux";
 
 const GlobalStyles = createGlobalStyle`
   header#myHeader.navbar.sticky.white {
@@ -53,8 +56,12 @@ const GlobalStyles = createGlobalStyle`
 const Mint = () => {
   const [files, setFiles] = useState();
   const [fileName, setFileName] = useState();
-  const { mintErc721 } = MintErc721();
+  const { walletAddress } = useSelector((state) => state.wallet);
+  const { imageIpfsUrl } = useSelector((state) => state.userAssets);
 
+  const { mintErc721 } = MintErc721();
+  const { uploadMetadata } = UploadMetadata();
+  const [addAsset] = useMutation(uploadToMetadata);
   const onChange = (e) => {
     var file = e.target.files;
     document.getElementById("file_name").style.display = "none";
@@ -75,18 +82,31 @@ const Mint = () => {
     const name = $("#item_name").val();
     const description = $("#item_desc").val();
     const fileImg = files[0];
-    const metadata = uploadMetadata(fileImg, name, description);
+    const image = await uploadImage(fileImg);
+    const metadata = uploadMetadata(fileImg, name, description,image);
     const loadingText = "Uploading to IPFS";
     const successText = "Uploaded to IPFS";
-    ToastPromise(metadata, loadingText, successText);
+    const ipfsFunc = () => {}
+    ToastPromise(metadata, loadingText, successText,ipfsFunc);
     const mintPromise = await mintErc721(metadata);
     const mintLoadingText = "Transaction pending...";
     const voyagerLink = `https://beta-goerli.voyager.online/tx/${mintPromise.tr}`;
     const mintSuccessText = `NFT succesfully minted : <a src=${voyagerLink}>Click and see on Voyager</a>`;
     const provider = new Provider();
     const tx = provider.waitForTransaction(mintPromise.transaction_hash);
+    const imageUrl = `https://arcswap.mypinata.cloud/ipfs/${image.data.IpfsHash}`
+    const addAssetFunc = () => {
+      addAsset({
+        variables: {
+          assetOwner: walletAddress,
+          name: name,
+          description: description,
+          image: imageUrl,
+        },
+      });
+    }
+    ToastPromise(tx, mintLoadingText, mintSuccessText,addAssetFunc);
 
-    ToastPromise(tx, mintLoadingText, mintSuccessText);
   };
 
   return (
@@ -146,7 +166,6 @@ const Mint = () => {
                   name="item_name"
                   id="item_name"
                   className="form-control"
-
                 />
 
                 <div className="spacer-10"></div>
@@ -160,7 +179,7 @@ const Mint = () => {
                 ></textarea>
 
                 <div className="spacer-10"></div>
-                
+
                 <input
                   type="button"
                   id="submit"

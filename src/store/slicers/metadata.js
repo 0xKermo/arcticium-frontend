@@ -3,18 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 export const metadata = createSlice({
   name: 'metadata',
   initialState: {
-    metadata:{
-      name: "",
-      description: "",
-      contract_address: "",
-      image: "",
-      attributes: [
-        {
-          trait_type: "",
-          value: "",
-        },
-      ],
-    },
+    metadata:null,
     metadataLoading:true,
     metadataError:null 
   },

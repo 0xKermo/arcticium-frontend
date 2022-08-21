@@ -60,7 +60,6 @@ const Profile = () => {
 
   const { handleBtnClick, handleBtnClick1, handleBtnClick2, handleBtnClick3 } =
     ProfileActions();
-
   const { _addUserAsset, getUserAssets } = AddUserAsset();
   const openEditProfile = () => {
     setEditProfile(true);
@@ -83,10 +82,10 @@ const Profile = () => {
   };
   useEffect(() => {
     if (walletAddress != null) {
-      const userAssetsArgs = {
-        assetOwner: wallet.toLowerCase(),
-      };
-      _addUserAsset(userAssetsArgs);
+      // const userAssetsArgs = {
+      //   assetOwner: wallet.toLowerCase(),
+      // };
+      // _addUserAsset(userAssetsArgs);
       getUserAssets(wallet.toLowerCase());
       setIsOwner(BigNumber.from(wallet).eq(walletAddress));
     }

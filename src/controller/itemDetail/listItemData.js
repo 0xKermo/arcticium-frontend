@@ -3,71 +3,47 @@ import { bnToUint256 } from "../../utils/uint256";
 import { useSelector } from "react-redux";
 import { ToastPromise } from "../../components/toast";
 import { ListItem } from "../../hooks";
+import {currencyAddresses} from "../../constants/CurrencyAddresses"
+import { toHex } from "../../utils/number";
 
 export const ListItemData = () => {
-  const { choosen, targetCollectionAddress, targetNftId, currencyAmount } =
+  const { listType, targetCollectionAddress, targetNftId, currencyAmount,choosenCurrency } =
     useSelector((state) => state.itemDetailOperation);
   const { walletAddress } = useSelector((state) => state.wallet);
   const { getApprove } = GetApprove();
   const { listItem } = ListItem();
 
-  const listItemData = async (_contract, _token_id, metadata) => {
+  const listItemData = async (_contract, _token_id) => {
     const isApproved = await getApprove(walletAddress, _contract);
-    let listItemCallData = [];
     const contract_address = _contract;
     const token_id = bnToUint256(_token_id);
-    const expiration = 1234;
-    const price = currencyAmount;
+    const expiration = 1665179996;
+    const price = Number(currencyAmount) * 10**18;
+    const priceUint = bnToUint256(price.toString())
     const targetTokenId = bnToUint256(targetNftId);
 
-    if (choosen === 0) {
-      listItemCallData = [
+     const listItemCallData = [
         contract_address,
         token_id.low,
         token_id.high,
         expiration,
-        price,
+        choosenCurrency == null ? 0 :  currencyAddresses[choosenCurrency],
+        priceUint.low,
         targetCollectionAddress,
         targetTokenId.low,
         targetTokenId.high,
-      ];
-    } else if (choosen === 1) {
-      listItemCallData = [
-        contract_address,
-        token_id.low,
-        token_id.high,
-        expiration,
-        price,
-        targetCollectionAddress,
-        targetTokenId.low,
-        targetTokenId.high,
-      ];
-    } else if (choosen === 2) {
-      listItemCallData = [
-        contract_address,
-        token_id.low,
-        token_id.high,
-        expiration,
-        price,
-        targetCollectionAddress,
-        targetTokenId.low,
-        targetTokenId.high,
-      ];
-    }
-
+      ];       
     const tradeArgs = {
-      tradeId:4,
       tradeOwnerAddress: walletAddress,
       tokenContract: contract_address,
       tokenId: _token_id == null ? 0 : Number(_token_id),
       expiration: expiration,
-      price: price == null ? 0 : Number(price),
+      currencyType: choosenCurrency == null ? null: currencyAddresses[choosenCurrency] ,
+      price: currencyAmount == null ? 0 : Number(currencyAmount),
       status: "Open",
-      swapTradeId: 4,
-      targetTokenContract:
-      targetCollectionAddress === 0 ? null : targetCollectionAddress,
+      targetTokenContract: targetCollectionAddress === 0 ? null : targetCollectionAddress,
       targetTokenId: targetNftId == null ? 0 : Number(targetNftId),
-      tradeType: choosen
+      tradeType: listType
     };
     listItem(listItemCallData, isApproved, tradeArgs);
   };

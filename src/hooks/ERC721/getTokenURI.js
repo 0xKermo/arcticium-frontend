@@ -61,7 +61,7 @@ export const GetTokenURI = () => {
 
     return res;
   };
-  const urlCheck = (metaDataUrl) => {
+ const urlCheck = (metaDataUrl) => {
     const ipfs = "ipfs/";
     const ipfs2 = "ipfs://";
     const ipfsGateway = "https://arcswap.mypinata.cloud/ipfs/";
@@ -80,5 +80,6 @@ export const GetTokenURI = () => {
 
   return {
     getTokenURI,
+    urlCheck
   };
 };

@@ -17,35 +17,30 @@ export default class Responsive extends Component {
     this.state = {
       metadata: this.props.meta,
       voyagerLink: this.props.voyagerLink,
-      collectionName : this.props.collectionName,
-      attr: this.props.attr
+      collectionName: this.props.collectionName,
+      attr: this.props.attr,
     };
-    console.log("target",this.state.metadata)
-
-
-}
-
-
+    console.log("targets", this.state.metadata);
+  }
 
   render() {
     return (
-    
-        <div className="col-md-4 text-center">
-            <div
-              className="nft__item m-0"
-              style={{ width: "auto", height: "400px" }}
-            >
-                <div className="nft__item_offer">
-                  <span>
-                    <img
-                      id="targetNft"
-                      className="lazy nft__item_preview"
-                      alt=""
-                      src={this.state.metadata.image}
-                    />
-                  </span>
-                </div>
-            </div>
+      <div className="col-md-4 text-center">
+        <div
+          className="nft__item m-0"
+          style={{ width: "auto", height: "400px" }}
+        >
+          <div className="nft__item_offer">
+            <span>
+              <img
+                id="targetNft"
+                className="lazy nft__item_preview"
+                alt=""
+                src={this.state.metadata.image}
+              />
+            </span>
+          </div>
+        </div>
         <div className="spacer-40"></div>
         <div className="item_info">
           <div className="de_tab">

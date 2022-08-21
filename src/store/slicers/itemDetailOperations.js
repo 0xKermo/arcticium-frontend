@@ -7,7 +7,7 @@ export const itemDetailOperation = createSlice({
     openMenu1: false,
     openCheckout: false,
     openCheckoutBid: false,
-    choosen: 0,
+    listType: 0,
     targetCollectionAddress: 0,
     targetNftId: 0,
     targetNftLink: null,
@@ -15,7 +15,8 @@ export const itemDetailOperation = createSlice({
     choosenCurrency: null,
     currencyAmount:0,
     makeOfferBtn:false,
-  },
+    itemOwner:0  // beginng = 0, 1 = owner on page, 2 = owner on page and item listed, 3 = anyone on page
+  }, 
   reducers: {
     setOpenMenu: (state, action) => {
       state.openMenu = action.payload;
@@ -29,8 +30,8 @@ export const itemDetailOperation = createSlice({
     setOpenCheckoutBid: (state, action) => {
       state.openCheckoutBid = action.payload;
     },
-    setChoosen: (state, action) => {
-      state.choosen = action.payload;
+    setListType: (state, action) => {
+      state.listType = action.payload;
     },
     setTargetCollectionAddress: (state, action) => {
       state.targetCollectionAddress = action.payload;
@@ -53,6 +54,9 @@ export const itemDetailOperation = createSlice({
     setMakeOfferBtn: (state, action) => {
       state.makeOfferBtn = action.payload;
     },
+    setItemOwner: (state, action) => {
+      state.itemOwner = action.payload;
+    },
   },
 });
 
@@ -62,14 +66,15 @@ export const {
   setOpenMenu1,
   setOpenCheckout,
   setOpenCheckoutBid,
-  setChoosen,
+  setListType,
   setTargetCollectionAddress,
   setTargetNftId,
   setTargetNftLink,
   setChoosenCurrency,
   setVoyagerLink,
   setCurrencyAmount,
-  setMakeOfferBtn
+  setMakeOfferBtn,
+  setItemOwner
 } = itemDetailOperation.actions;
 
 export default itemDetailOperation.reducer;

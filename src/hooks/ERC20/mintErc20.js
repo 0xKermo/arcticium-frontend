@@ -9,7 +9,7 @@ export const MintErc20 = () => {
   const mintErc20 = async () => {
     try {
       const address = hexToDecimalString(walletAddress)
-      const amount = bnToUint256("10")
+      const amount = bnToUint256("10000000000000000000")
       const result = await account.account.execute({
         contractAddress: ERC20_ADDRESS,
         entrypoint: 'mint',

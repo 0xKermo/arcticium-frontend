@@ -7,45 +7,54 @@ export default class Responsive extends Component {
     this.state = {
       targetItemData: this.props.targetItemData,
       targetItemvoyagerLink: `https://beta-goerli.voyager.online/contract/${this.props.targetItemData.contract_address}`,
-      collectionName : this.props.targetItemData.contract_address,
+      collectionName: this.props.targetItemData.contract_address,
     };
-}
+  }
 
-
-attr = (_metadata) =>
-_metadata.attributes != undefined
-  ? _metadata.attributes.map((item, index) => {
-      return (
-        <div className="col-lg-4 col-md-6 col-sm-6" key={index}>
-          <div className="nft_attr">
-            <h5>{item.trait_type}</h5>
-            <h4>{item.value}</h4>
-          </div>
-        </div>
-      );
-    })
-  : null;
+  attr = (_attributes) =>
+    _attributes != null
+      ? _attributes.map((item, index) => {
+          return (
+            <div className="col-lg-4 col-md-6 col-sm-6" key={index}>
+              <div className="nft_attr">
+                <h5>{item.trait_type}</h5>
+                <h4>{item.value}</h4>
+              </div>
+            </div>
+          );
+        })
+      : null;
 
   render() {
     return (
-    
-        <div className="col-md-4 text-center">
-            <div
-              className="nft__item m-0"
-              style={{ width: "auto", height: "400px" }}
+      <div className="col-md-4 text-center">
+        <div
+          className="nft__item m-0"
+          style={{ width: "auto", height: "400px" }}
+        >
+          <div className="nft__item_offer">
+            <span>
+              <img
+                id="targetNft"
+                className="lazy nft__item_preview"
+                alt=""
+                src={this.state.targetItemData.image}
+              />
+            </span>
+          </div>
+        </div>
+        <div className="spacer-40">
+          {this.props.price > 0 && (
+            <span
+              style={{
+                fontSize: "20px",
+                textAlign: "center",
+              }}
             >
-                <div className="nft__item_offer">
-                  <span>
-                    <img
-                      id="targetNft"
-                      className="lazy nft__item_preview"
-                      alt=""
-                      src={this.state.targetItemData.image}
-                    />
-                  </span>
-                </div>
-            </div>
-        <div className="spacer-40"></div>
+              + {this.props.price} ETH{" "}
+            </span>
+          )}
+        </div>
         <div className="item_info">
           <div className="de_tab">
             <div className="tab-1 onStep fadeIn">
@@ -88,11 +97,10 @@ _metadata.attributes != undefined
                             src={this.state.targetItemData.image}
                             alt=""
                           />
-                          
                         </span>
                       </div>
                       <div className="author_list_info">
-                        <span>{this.state.collectionName.slice(0,6)}</span>
+                        <span>{this.state.collectionName.slice(0, 6)}</span>
                       </div>
                     </div>
                   </div>
@@ -156,7 +164,13 @@ _metadata.attributes != undefined
                       </span>
                     </div>
                   </div>
-                  <div className="row mt-5">{this.attr(this.state.targetItemData.attributes)}</div>
+                  <div className="row mt-5">
+                    {this.attr(
+                      this.state.targetItemData.attributes === null
+                        ? null
+                        : this.state.targetItemData.attributes
+                    )}
+                  </div>
                 </div>
               </div>
             </div>

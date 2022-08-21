@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { createGlobalStyle } from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
-import { GetTokenURI, GetOwnerOf, GetCollectionName } from "../hooks";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { setVoyagerLink } from "../store/slicers/itemDetailOperations";
+import { GetTokenURI, GetOwnerOf, GetCollectionName, BuyItem } from "../hooks";
+import { useNavigate, useParams } from "react-router-dom";
+import {
+  setItemOwner,
+  setVoyagerLink,
+} from "../store/slicers/itemDetailOperations";
 import { setMetadata } from "../store/slicers/metadata";
 import { Toaster } from "react-hot-toast";
 import { GetTradeWithAddresId } from "../grqphql/query";
-import { useQuery } from "@apollo/client";
-
+import { useMutation, useQuery } from "@apollo/client";
 import Item from "../components/item";
-
 import { setCurrencyInfo } from "../store/slicers/currency";
 import { setCollections } from "../store/slicers/collections";
 import OfferPopup from "../components/offerPopup";
@@ -18,6 +19,12 @@ import ItemDetailShowItem from "../components/itemDetailShowItem";
 import SwapToAnyItem from "../components/swapToAnyItem";
 import SwapToCollectionItem from "../components/swapToCollectionItem";
 import TargetItem from "../components/targetItem";
+import { BigNumber } from "ethers";
+import { ListedItemAction } from "../controller/itemDetail/listedItemAction";
+import { currencyAddresses } from "../constants/CurrencyAddresses";
+import { updateTradeStatus } from "../grqphql/mutation";
+
+
 const GlobalStyles = createGlobalStyle`
   header#myHeader.navbar.white {
     background: #fff;
@@ -70,9 +77,18 @@ const ItemDetail = function () {
    *  Reducer start
    */
   const { metadata } = useSelector((state) => state.metadata);
-  const { openMenu, openMenu1, voyagerLink, openCheckout, makeOfferBtn } =
-    useSelector((state) => state.itemDetailOperation);
+  const {
+    openMenu,
+    openMenu1,
+    voyagerLink,
+    openCheckout,
+    makeOfferBtn,
+    itemOwner,
+  } = useSelector((state) => state.itemDetailOperation);
   const { collectionName } = useSelector((state) => state.collections);
+  const { walletAddress } = useSelector((state) => state.wallet);
+
+  const { cancelItemListing } = ListedItemAction();
 
   /**
    * Reducer End
@@ -82,22 +98,57 @@ const ItemDetail = function () {
   /**
    * Graphql start
    */
-  const { getTokenURI } = GetTokenURI();
-  const { getCollectionName } = GetCollectionName();
   const { loading, error, data } = useQuery(GetTradeWithAddresId, {
     variables: {
       contractAddress: contract,
       tokenId: Number(id),
     },
   });
+  const [tradeStatus] = useMutation(updateTradeStatus);
+
 
   /**
-   * Graphql end
+   * Contract
    */
+  const { getTokenURI } = GetTokenURI();
+  const { getOwnerOf } = GetOwnerOf();
+  const { getCollectionName } = GetCollectionName();
+  const { buyItem } = BuyItem()
+  
+
+  const cancelListing = async () => {
+    const tradeId = data.getTradeWithAddresId.tradeId;
+    cancelItemListing(tradeId, contract, id);
+  };
+
+  function getKeyByValue(object, value) {
+    return Object.keys(object).find(key => object[key] === value);
+  }
+  
+  
+  const buyNow = () => {
+    const tradeId = data.getTradeWithAddresId.tradeId
+    
+    const targetItemContract = data.getTradeWithAddresId.targetAssetInfo[0].contract_address
+    const targetAssetOwner = data.getTradeWithAddresId.targetAssetInfo[0].assetOwner
+    const price = data.getTradeWithAddresId.price
+    const status = "Executed"
+    const tokenContract = getKeyByValue(currencyAddresses,Number(data.getTradeWithAddresId.currencyType))
+    const tradeStatusChange = () => {
+      tradeStatus({
+        variables:{
+          tradeId:tradeId,
+          status:status,
+          buyer:targetAssetOwner
+        }
+      })
+    }
+    debugger
+    buyItem(tradeId,targetItemContract, price, tokenContract,tradeStatusChange)
+  };
 
   useEffect(() => {
     const prepare = async (dataGetAsset) => {
-      console.log(dataGetAsset);
       await getCollectionName(contract);
       if (dataGetAsset == null) {
         await getTokenURI(contract, id).then((res) => {
@@ -138,8 +189,27 @@ const ItemDetail = function () {
     }
   }, [loading]);
 
+  useEffect(() => {
+    const prepare = async () => {
+      if (walletAddress != undefined && !loading) {
+        const itemOwner = await getOwnerOf(contract, id);
+        const checkItemOwner = BigNumber.from(walletAddress).eq(
+          itemOwner.result[0]
+        );
+        if (checkItemOwner && data.getTradeWithAddresId === null) {
+          dispatch(setItemOwner(1));
+        } else if (checkItemOwner && data.getTradeWithAddresId !== null) {
+          dispatch(setItemOwner(2));
+        } else if (!checkItemOwner) {
+          dispatch(setItemOwner(3));
+        }
+      }
+    };
+    prepare();
+  }, [walletAddress, loading]);
+
   const attr = (_metadata) =>
-    _metadata.attributes != undefined
+    _metadata.attributes != null
       ? _metadata.attributes.map((item, index) => {
           return (
             <div className="col-lg-4 col-md-6 col-sm-6" key={index}>
@@ -158,7 +228,6 @@ const ItemDetail = function () {
       <Toaster position="bottom-center" reverseOrder={true} />
       <section className="container">
         <div className="row mt-md-5 pt-md-4">
-
           {!loading && data.getTradeWithAddresId === null && !makeOfferBtn && (
             <ItemDetailShowItem data={data} contract={contract} id={id} />
           )}
@@ -195,114 +264,144 @@ const ItemDetail = function () {
             </>
           )}
 
-          {!loading && data.getTradeWithAddresId !== null && data.getTradeWithAddresId.tradeType === 0 && (
-            <>
-              {!makeOfferBtn && (
-                <ItemDetailShowItem data={data} contract={contract} id={id} />
-              )}
-              {makeOfferBtn && (
-                <>
-                  <Item
-                    meta={metadata}
-                    collectionName={collectionName}
-                    attr={attr(metadata)}
-                    voyagerLink={voyagerLink}
-                  />
-                  <div className="col-md-2">
-                    <div className="p_list">
-                      <div className="p_detail">
-                        <div
-                          className="swap-icon"
-                          style={{
-                            fontSize: "50px",
-                            textAlign: "center",
-                            marginTop: "150px",
-                          }}
-                        >
-                          <i className="fa fa-exchange"></i>
+          {!loading &&
+            data.getTradeWithAddresId !== null &&
+            data.getTradeWithAddresId.tradeType === 0 && (
+              <>
+                {!makeOfferBtn && (
+                  <ItemDetailShowItem data={data} contract={contract} id={id} />
+                )}
+                {makeOfferBtn && (
+                  <>
+                    <Item
+                      meta={metadata}
+                      collectionName={collectionName}
+                      attr={attr(metadata)}
+                      voyagerLink={voyagerLink}
+                    />
+                    <div className="col-md-2">
+                      <div className="p_list">
+                        <div className="p_detail">
+                          <div
+                            className="swap-icon"
+                            style={{
+                              fontSize: "50px",
+                              textAlign: "center",
+                              marginTop: "150px",
+                            }}
+                          >
+                            <i className="fa fa-exchange"></i>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <SwapToAnyItem
-                    collections={data.collections}
-                    currency={data.getCurrencies}
-                    data={data.getTradeWithAddresId}
-                  />
-                </>
-              )}
-            </>
-          )}
+                    <SwapToAnyItem
+                      collections={data.collections}
+                      currency={data.getCurrencies}
+                      data={data.getTradeWithAddresId}
+                    />
+                  </>
+                )}
+              </>
+            )}
 
-          {!loading && data.getTradeWithAddresId !== null && data.getTradeWithAddresId.tradeType === 1 && (
-            <>
-              {!makeOfferBtn && (
-                <ItemDetailShowItem data={data} contract={contract} id={id} />
-              )}
-              {makeOfferBtn && (
-                <>
-                  <Item
-                    meta={metadata}
-                    collectionName={collectionName}
-                    attr={attr(metadata)}
-                    voyagerLink={voyagerLink}
-                  />
-                  <div className="col-md-2">
-                    <div className="p_list">
-                      <div className="p_detail">
-                        <div
-                          className="swap-icon"
-                          style={{
-                            fontSize: "50px",
-                            textAlign: "center",
-                            marginTop: "150px",
-                          }}
-                        >
-                          <i className="fa fa-exchange"></i>
+          {!loading &&
+            data.getTradeWithAddresId !== null &&
+            data.getTradeWithAddresId.tradeType === 1 && (
+              <>
+                {!makeOfferBtn && (
+                  <ItemDetailShowItem data={data} contract={contract} id={id} />
+                )}
+                {makeOfferBtn && (
+                  <>
+                    <Item
+                      meta={metadata}
+                      collectionName={collectionName}
+                      attr={attr(metadata)}
+                      voyagerLink={voyagerLink}
+                    />
+                    <div className="col-md-2">
+                      <div className="p_list">
+                        <div className="p_detail">
+                          <div
+                            className="swap-icon"
+                            style={{
+                              fontSize: "50px",
+                              textAlign: "center",
+                              marginTop: "150px",
+                            }}
+                          >
+                            <i className="fa fa-exchange"></i>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <SwapToCollectionItem
-                    collections={data.collections}
-                    currency={data.getCurrencies}
-                    data={data.getTradeWithAddresId}
-                  />
-                </>
-              )}
-            </>
-          )}
+                    <SwapToCollectionItem
+                      collections={data.collections}
+                      currency={data.getCurrencies}
+                      data={data.getTradeWithAddresId}
+                    />
+                  </>
+                )}
+              </>
+            )}
 
-          {!loading && data.getTradeWithAddresId !== null   && data.getTradeWithAddresId.tradeType === 2 && (
-            <>
-              <Item
-                meta={metadata}
-                collectionName={collectionName}
-                attr={attr(metadata)}
-                voyagerLink={voyagerLink}
-              />
-              <div className="col-md-2">
-                <div className="p_list">
-                  <div className="p_detail">
-                    <div
-                      className="swap-icon"
-                      style={{
-                        fontSize: "50px",
-                        textAlign: "center",
-                        marginTop: "150px",
-                      }}
-                    >
-                      <i className="fa fa-exchange"></i>
+          {!loading &&
+            metadata !== null &&
+            data.getTradeWithAddresId !== null &&
+            data.getTradeWithAddresId.tradeType === 2 && (
+              <>
+                <Item
+                  meta={metadata}
+                  collectionName={collectionName}
+                  attr={attr(metadata)}
+                  voyagerLink={voyagerLink}
+                />
+                <div className="col-md-2">
+                  <div className="p_list">
+                    <div className="p_detail">
+                      <div
+                        className="swap-icon"
+                        style={{
+                          fontSize: "50px",
+                          textAlign: "center",
+                          marginTop: "150px",
+                        }}
+                      >
+                        <i className="fa fa-exchange"></i>
+                      </div>
+                      {itemOwner == 2 && (
+                        <div className="item_info">
+                          <button
+                            style={{
+                              margin: "0",
+                              color: "rgb(131, 100, 226) !important",
+                              backgroundColor: "#f0f0f0",
+                            }}
+                            className="btn-cancel lead mb-2"
+                            onClick={cancelListing}
+                          >
+                            Cancel listing
+                          </button>
+                        </div>
+                      )}
+                      {itemOwner === 3 && (
+                      <div className="item_info">
+                        <button className="btn-main lead mb-2" onClick={buyNow}>
+                          Buy now
+                        </button>
+                      </div>
+                 
+                      )}
                     </div>
                   </div>
                 </div>
-              </div>
-              <TargetItem
-                targetItemData={data.getTradeWithAddresId.targetAssetInfo[0]}
-              />
-            </>
-          )}
-
+                <TargetItem
+                  targetItemData={data.getTradeWithAddresId.targetAssetInfo[0]}
+                  price={data.getTradeWithAddresId.price}
+                />
+              </>
+            )}
         </div>
       </section>
 

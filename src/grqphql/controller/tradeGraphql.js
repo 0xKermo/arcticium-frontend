@@ -1,45 +1,19 @@
 import { useMutation } from "@apollo/client";
 import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { setItemOwner } from "../../store/slicers/itemDetailOperations";
 import { TradeAdd } from "../mutation";
 
 export const AddTrade = () => {
-  const [_TradeAdd] = useMutation(TradeAdd, {
-    onSuccess: async(data, context) => {
-      console.log("success",data)
-      toast.success(data)
-    },
-    onError: async(data, context) => {
-      toast.error(data)
-    },
-  });
-
+  const [_TradeAdd] = useMutation(TradeAdd);
+  const dispatch = useDispatch()
   const _addTrade = (tradeArgs) => {
     const result = _TradeAdd({
-      variables: {
-        tradeId: tradeArgs.tradeId,
-        tradeOwnerAddress: tradeArgs.tradeOwnerAddress,
-        tokenContract: tradeArgs.tokenContract,
-        tokenId: tradeArgs.tokenId,
-        expiration: tradeArgs.expiration,
-        price: tradeArgs.price,
-        status: tradeArgs.status,
-        swapTradeId: tradeArgs.swapTradeId,
-        targetTokenContract: tradeArgs.targetTokenContract,
-        targetTokenId: tradeArgs.targetTokenId,
-        transactionHash: tradeArgs.transactionHash,
-        tradeType: tradeArgs.tradeType,
-        name: tradeArgs.name,
-        description : tradeArgs.description,
-        image: tradeArgs.image,
-        attributes: tradeArgs.attributes,
-        targetName: tradeArgs.targetNftName,
-        targetDescription: tradeArgs.targetNftDescription,
-        targetImage: tradeArgs.targetNftImage,
-        targetAttributes: tradeArgs.targetNftAttributes
-      },
+      variables: tradeArgs
     }, {
-      onSuccess: async(data, context) => {
+      onCompleted: async(data, context) => {
         console.log("success",data)
+        dispatch(setItemOwner(2))
         toast.success(data)
       },
       onError: async(data, context) => {
