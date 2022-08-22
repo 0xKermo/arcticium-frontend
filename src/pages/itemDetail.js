@@ -143,13 +143,12 @@ const ItemDetail = function () {
         }
       })
     }
-    debugger
     buyItem(tradeId,targetItemContract, price, tokenContract,tradeStatusChange)
   };
 
   useEffect(() => {
     const prepare = async (dataGetAsset) => {
-      await getCollectionName(contract);
+      await getCollectionName(contract); // set collection name collections redux
       if (dataGetAsset == null) {
         await getTokenURI(contract, id).then((res) => {
           dispatch(setMetadata(res));
@@ -266,7 +265,7 @@ const ItemDetail = function () {
 
           {!loading &&
             data.getTradeWithAddresId !== null &&
-            data.getTradeWithAddresId.tradeType === 0 && (
+            data.getTradeWithAddresId.tradeType != 2  && (
               <>
                 {!makeOfferBtn && (
                   <ItemDetailShowItem data={data} contract={contract} id={id} />
@@ -305,7 +304,7 @@ const ItemDetail = function () {
               </>
             )}
 
-          {!loading &&
+          {/* {!loading &&
             data.getTradeWithAddresId !== null &&
             data.getTradeWithAddresId.tradeType === 1 && (
               <>
@@ -344,7 +343,7 @@ const ItemDetail = function () {
                   </>
                 )}
               </>
-            )}
+            )} */}
 
           {!loading &&
             metadata !== null &&

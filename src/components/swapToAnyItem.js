@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 
 import Select from "react-select";
+import { currencyAddresses } from "../constants/CurrencyAddresses";
 import { BidActions } from "../controller";
 
 const customStyles = {
@@ -32,13 +33,20 @@ const customStyles = {
 const SwapToAnyItem = (props) => {
   const [isActive, setIsActive] = useState(false);
   const { _nfts } = useSelector((state) => state.userNfts);
-  const { bidItemId } = useSelector((state) => state.bid);
+  const {
+    bidCollectionAddress,
+    bidItemId,
+    bidCurrencyType,
+    bidCurrencyAmount,
+  } = useSelector((state) => state.bid);
+  const { walletAddress } = useSelector((state) => state.wallet);
 
   const {
     bidCollectionOnchange,
     bidNftOnchange,
     bidCurrencyTypeOnchange,
     bidCurrencyAmountOnchange,
+    makeOffer,
   } = BidActions();
 
   const unlockClick = () => {
@@ -48,6 +56,24 @@ const SwapToAnyItem = (props) => {
     setIsActive(false);
   };
 
+  const make_offer = () => {
+    const bidData = {
+      bidOwner: walletAddress,
+      bidContractAddress: props.data.targetTokenContract == null? bidCollectionAddress : props.data.targetTokenContract,
+      bidTokenId: bidItemId,
+      bidCurrencyType: currencyAddresses[bidCurrencyType],
+      bidPrice: parseFloat(bidCurrencyAmount),
+      tradeId: props.data.tradeId,
+      biddedItemOwner: props.data.tradeOwnerAddress,
+      biddedItemContractAddress: props.data.tokenContract,
+      biddedItemId: props.data.tokenId,
+      status: "Open",
+      bidTradeType: props.data.tradeType,
+      expiration: 1665179996,
+    };
+    console.log("bidData", bidData);
+    makeOffer(bidData);
+  };
 
   return (
     <div className="col-md-4 text-center">
@@ -80,18 +106,34 @@ const SwapToAnyItem = (props) => {
               <div className="items_filter centerEl ">
                 <div className="dropdownSelect one" style={{ width: "100%" }}>
                   <h5>Collection</h5>
-                  <Select
-                    className="select1"
-                    onChange={bidCollectionOnchange}
-                    styles={customStyles}
-                    menuContainerStyle={{ zIndex: 999 }}
-                    options={props.collections.map((item, i) => {
-                      return {
-                        value: item.collectionAddress,
-                        label: item.collectionName,
-                      };
-                    })}
-                  />
+                  {props.data.targetTokenContract != null && (
+                    <input
+                      type="text"
+                      disabled
+                      className="form-control"
+                      value={
+                        props.collections.filter(
+                          (x) =>
+                            x.collectionAddress ==
+                            props.data.targetTokenContract
+                        )[0].collectionName
+                      }
+                    />
+                  )}
+                  {props.data.targetTokenContract == null && (
+                    <Select
+                      className="select1"
+                      onChange={bidCollectionOnchange}
+                      styles={customStyles}
+                      menuContainerStyle={{ zIndex: 999 }}
+                      options={props.collections.map((item, i) => {
+                        return {
+                          value: item.collectionAddress,
+                          label: item.collectionName,
+                        };
+                      })}
+                    />
+                  )}
                 </div>
               </div>
             </div>
@@ -160,7 +202,7 @@ const SwapToAnyItem = (props) => {
             </div>
             <div className="spacer-40"></div>
 
-            <span onClick={props.makeOffer} className="btn-main inline lead">
+            <span onClick={make_offer} className="btn-main inline lead">
               Make Offer
             </span>
           </div>

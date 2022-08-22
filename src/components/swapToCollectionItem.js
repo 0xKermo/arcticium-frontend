@@ -8,7 +8,6 @@ import { useLazyQuery } from "@apollo/client";
 import { setUserNfts } from "../store/slicers/userNfts";
 import { setBidCollectionAddress, setBidCurrencyType, setBidItemId } from "../store/slicers/bid";
 import { currencyAddresses } from "../constants/CurrencyAddresses";
-import { computeHashOnElements } from "starknet/utils/hash";
 
 const customStyles = {
   option: (base, state) => ({
@@ -35,6 +34,7 @@ const customStyles = {
     padding: 2,
   }),
 };
+
 const SwapToCollectionItem = (props) => {
   const dispatch = useDispatch();
   const [isActive, setIsActive] = useState(false);

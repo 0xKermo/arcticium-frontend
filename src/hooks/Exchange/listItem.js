@@ -21,10 +21,6 @@ export const ListItem = () => {
           calldata: _itemCallData,
         },
       ];
-      tradeArgs.transactionHash = "result.transaction_hash";
-
-      const resAddTrade = _addTrade(tradeArgs);
-      return false
       let result;
 
       if (_isApprove == 0) {
@@ -50,7 +46,7 @@ export const ListItem = () => {
     
      ToastPromise(tx, mintLoadingText, mintSuccessText);
       tx.then(res => {
-        console.log("test")
+        console.log("test",res)
         tradeArgs.transactionHash = result.transaction_hash;
         const resAddTrade = _addTrade(tradeArgs);
         console.log(resAddTrade);

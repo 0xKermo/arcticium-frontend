@@ -24,7 +24,7 @@ export const BidToItem = () => {
       if (_isApprove == 0) {
         console.log(" a 0")
         const approveArgs = await approveERC721(
-          "0x041e478739dc3c8cb8e530b0e2146c3ec4df0f7efaf804131797d39276fde64c",
+          _bidContractAddress,
           EXCHANGE_ADDRESS,
           1
         );

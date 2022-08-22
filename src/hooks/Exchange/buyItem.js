@@ -26,8 +26,7 @@ export const BuyItem = () => {
         entrypoint: "approve",
         calldata: [EXCHANGE_ADDRESS, priceUint.low, priceUint.high],
     };
-    tradeStatusChange()
-    return false
+   
     const acceptBidArgs = [
       {
         contractAddress: EXCHANGE_ADDRESS,

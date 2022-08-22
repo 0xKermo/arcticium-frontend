@@ -39,7 +39,7 @@ export const ListItemData = () => {
       tokenId: _token_id == null ? 0 : Number(_token_id),
       expiration: expiration,
       currencyType: choosenCurrency == null ? null: currencyAddresses[choosenCurrency] ,
-      price: currencyAmount == null ? 0 : Number(currencyAmount),
+      price: currencyAmount == null ? 0 : parseFloat(currencyAmount),
       status: "Open",
       targetTokenContract: targetCollectionAddress === 0 ? null : targetCollectionAddress,
       targetTokenId: targetNftId == null ? 0 : Number(targetNftId),

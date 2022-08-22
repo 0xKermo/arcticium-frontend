@@ -2,13 +2,14 @@ import { useMutation } from "@apollo/client";
 import { useSelector, useDispatch } from "react-redux";
 import { ItemDetailAction } from "../controller";
 import { updateTradeStatus } from "../grqphql/mutation";
-import { AcceptBid} from "../hooks";
+import { AcceptBid } from "../hooks";
 import {
   setMakeOfferBtn,
   setOpenCheckout,
-  setItemOwner
+  setItemOwner,
 } from "../store/slicers/itemDetailOperations";
 import { ListedItemAction } from "../controller/itemDetail/listedItemAction";
+import { walletAddressSlice } from "../utils/walletAddressSlice";
 
 const ItemDetailShowItem = (props) => {
   const dispatch = useDispatch();
@@ -24,7 +25,7 @@ const ItemDetailShowItem = (props) => {
    * Contract Functions
    */
   const { cancelItemListing } = ListedItemAction();
-  const {acceptBid} = AcceptBid()
+  const { acceptBid } = AcceptBid();
   /**
    * Graphql
    */
@@ -38,7 +39,7 @@ const ItemDetailShowItem = (props) => {
     dispatch(setOpenCheckout(true));
   };
   const attr =
-  props.data.getAsset.attributes != null
+    props.data.getAsset.attributes != null
       ? props.data.getAsset.attributes.map((item, index) => {
           return (
             <div className="col-lg-4 col-md-6 col-sm-6" key={index}>
@@ -57,15 +58,13 @@ const ItemDetailShowItem = (props) => {
 
   const cancelListing = async () => {
     const tradeId = props.data.getTradeWithAddresId.tradeId;
-    cancelItemListing(tradeId, props.contract, props.id)
+    cancelItemListing(tradeId, props.contract, props.id);
   };
 
   const bidAccept = async (e) => {
-      const res = acceptBid(e.tradeId, e.itemBidId)
-      console.log(res)
-  }
-
-
+    const res = acceptBid(e.tradeId, e.itemBidId);
+    console.log(res);
+  };
 
   /**
    * Function End
@@ -156,17 +155,29 @@ const ItemDetailShowItem = (props) => {
 
         <div className="item_info">
           <div className="p_list" style={{ display: "flex" }}>
-            <div className="col-md-4  ">
+            <div className="col-md-5  ">
               <div className="p_detail">
                 <h6>Owner</h6>
                 <div className="item_author">
                   <div className="author_list_pp">
                     <span>
-                      <img className="lazy" src={props.data.getAsset.image} alt="" />
+                      <img
+                        className="lazy"
+                        src={
+                          props.data.getAsset.user.profileImgPath == null
+                            ? "../../img/author/author.svg"
+                            : props.data.getAsset.user.profileImgPath
+                        }
+                        alt=""
+                      />
                     </span>
                   </div>
                   <div className="author_list_info">
-                    <span>test</span>
+                    <span>
+                      {props.data.getAsset.user.length > 0
+                        ? props.data.getAsset.user.name
+                        : walletAddressSlice(props.data.getAsset.assetOwner)}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -177,7 +188,19 @@ const ItemDetailShowItem = (props) => {
                 <div className="item_author">
                   <div className="author_list_pp">
                     <span>
-                      <img className="lazy" src={props.data.getAsset.image} alt="" />
+                      <img
+                        className="lazy"
+                        src={
+                          props.data.collections.filter(
+                            (x) => x.collectionAddress == props.contract
+                          )[0].profileImgPath == null
+                            ? "../../img/author/author.svg"
+                            : props.data.collections.filter(
+                                (x) => x.collectionAddress == props.contract
+                              )[0].profileImgPath
+                        }
+                        alt=""
+                      />
                     </span>
                   </div>
                   <div className="author_list_info">
@@ -279,17 +302,16 @@ const ItemDetailShowItem = (props) => {
                   {props.data.getTradeWithAddresId != null &&
                     props.data.getTradeWithAddresId.tradeBids.map(
                       (item, index) => (
-                        <div
-                          className="p_list"
-                          key={index}
-                          
-                        >
-                          <div className="p_list_pp" onClick={() =>
-                            window.open(
-                              `/asset/${item.bidAsset.contract_address}/${item.bidAsset.token_id}`,
-                              "_self"
-                            )
-                          }>
+                        <div className="p_list" key={index}>
+                          <div
+                            className="p_list_pp"
+                            onClick={() =>
+                              window.open(
+                                `/asset/${item.bidAsset.contract_address}/${item.bidAsset.token_id}`,
+                                "_self"
+                              )
+                            }
+                          >
                             <span>
                               <img
                                 className="lazy"
@@ -299,14 +321,20 @@ const ItemDetailShowItem = (props) => {
                               />
                             </span>
                           </div>
-                          <div className="p_list_info"  style={{ cursor: "pointer" }}>
+                          <div
+                            className="p_list_info"
+                            style={{ cursor: "pointer" }}
+                          >
                             <div className="row">
-                              <div className="col-md-10" onClick={() =>
-                            window.open(
-                              `/asset/${item.bidAsset.contract_address}/${item.bidAsset.token_id}`,
-                              "_self"
-                            )
-                          }>
+                              <div
+                                className="col-md-10"
+                                onClick={() =>
+                                  window.open(
+                                    `/asset/${item.bidAsset.contract_address}/${item.bidAsset.token_id}`,
+                                    "_self"
+                                  )
+                                }
+                              >
                                 Offered <b>{item.bidAsset.name}</b>
                                 <span>
                                   by{" "}
@@ -316,20 +344,27 @@ const ItemDetailShowItem = (props) => {
                                   at 6/15/2021, 3:20 AM
                                 </span>
                               </div>
-                              <div className="col-md-2">
-                                <button
-                                  className="btn-main lead mb-2 right"
-                                  onClick={() => {bidAccept(item)}}
-                                  style={{ padding: "6px 5px",margin:"10px" }}
-                                >
-                                  Accept
-                                </button>
-                               
-                              </div>
+                              {(() => {
+                                if (itemOwner == 2 || itemOwner == 1) {
+                                  return    <div className="col-md-2">
+                                  <button
+                                    className="btn-main lead mb-2 right"
+                                    onClick={() => {
+                                      bidAccept(item);
+                                    }}
+                                    style={{
+                                      padding: "6px 5px",
+                                      margin: "10px",
+                                    }}
+                                  >
+                                    Accept
+                                  </button>
+                                </div>
+                                }
+                              })()}
+                            
 
-                              <div className="col-md-2">
-                               
-                              </div>
+                              <div className="col-md-2"></div>
                             </div>
                           </div>
                         </div>

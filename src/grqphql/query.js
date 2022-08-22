@@ -200,6 +200,12 @@ export const GetTradeWithAddresId = gql`
         trait_type
         value
       }
+      user {
+        walletAddress
+        name
+        bannerPath
+        profileImgPath
+      }
     }
   }
 `;
