@@ -26,7 +26,6 @@ export const BuyItem = () => {
         entrypoint: "approve",
         calldata: [EXCHANGE_ADDRESS, priceUint.low, priceUint.high],
     };
-   
     const acceptBidArgs = [
       {
         contractAddress: EXCHANGE_ADDRESS,
@@ -56,6 +55,8 @@ export const BuyItem = () => {
     const voyagerLink = `https://beta-goerli.voyager.online/tx/${result.transaction_hash}`;
     const mintSuccessText = `<a src=${voyagerLink}>Listing cancelled, click and see on Voyager</a>`;
     tx.then(res => {
+    tradeStatusChange()
+
     })
     ToastPromise(tx, mintLoadingText, mintSuccessText);
     return tx;

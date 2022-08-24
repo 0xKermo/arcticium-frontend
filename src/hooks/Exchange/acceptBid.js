@@ -1,11 +1,22 @@
 import { useSelector, useDispatch } from "react-redux";
 import { EXCHANGE_ADDRESS } from "../../constants/starknetAddress";
 import { ToastPromise } from "../../components/toast";
+import { updateBidStatus } from "../../grqphql/mutation";
+import { useMutation } from "@apollo/client";
 
 export const AcceptBid = () => {
   const { account } = useSelector((state) => state.wallet);
+  const [bidStatus] = useMutation(updateBidStatus);
 
-  const acceptBid = async (_tradeId,_bidId) => {
+  const acceptBid = async (_tradeId,_bidId, _bidOwner) => {
+    bidStatus({
+      variables:{
+        tradeId:_tradeId,
+        itemBidId: _bidId,
+        status:"Executed",
+      }
+    })
+    return false
     try {
       const acceptBidArgs = [
         {
@@ -22,6 +33,17 @@ export const AcceptBid = () => {
       const voyagerLink = `https://beta-goerli.voyager.online/tx/${result.transaction_hash}`;
       const mintSuccessText = `<a src=${voyagerLink}>Listing cancelled, click and see on Voyager</a>`;
       ToastPromise(tx, mintLoadingText, mintSuccessText);
+      const status = "Executed"
+
+      tx.then((res) => {
+        bidStatus({
+          variables:{
+            tradeId:_tradeId,
+            itemBidId: _bidId,
+            status:"Executed",
+          }
+        })
+      })
       return tx;
     } catch (error) {
       console.log(error);

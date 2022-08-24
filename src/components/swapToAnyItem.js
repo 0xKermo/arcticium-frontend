@@ -61,7 +61,7 @@ const SwapToAnyItem = (props) => {
       bidOwner: walletAddress,
       bidContractAddress: props.data.targetTokenContract == null? bidCollectionAddress : props.data.targetTokenContract,
       bidTokenId: bidItemId,
-      bidCurrencyType: currencyAddresses[bidCurrencyType],
+      bidCurrencyType: bidCurrencyType == null ? 0 : currencyAddresses[bidCurrencyType],
       bidPrice: parseFloat(bidCurrencyAmount),
       tradeId: props.data.tradeId,
       biddedItemOwner: props.data.tradeOwnerAddress,
@@ -106,7 +106,7 @@ const SwapToAnyItem = (props) => {
               <div className="items_filter centerEl ">
                 <div className="dropdownSelect one" style={{ width: "100%" }}>
                   <h5>Collection</h5>
-                  {props.data.targetTokenContract != null && (
+                   {props.data != null && props.data.targetTokenContract != null ? (
                     <input
                       type="text"
                       disabled
@@ -119,21 +119,18 @@ const SwapToAnyItem = (props) => {
                         )[0].collectionName
                       }
                     />
-                  )}
-                  {props.data.targetTokenContract == null && (
-                    <Select
-                      className="select1"
-                      onChange={bidCollectionOnchange}
-                      styles={customStyles}
-                      menuContainerStyle={{ zIndex: 999 }}
-                      options={props.collections.map((item, i) => {
-                        return {
-                          value: item.collectionAddress,
-                          label: item.collectionName,
-                        };
-                      })}
-                    />
-                  )}
+                  ):(   <Select
+                    className="select1"
+                    onChange={bidCollectionOnchange}
+                    styles={customStyles}
+                    menuContainerStyle={{ zIndex: 999 }}
+                    options={props.collections.map((item, i) => {
+                      return {
+                        value: item.collectionAddress,
+                        label: item.collectionName,
+                      };
+                    })}
+                  />)}
                 </div>
               </div>
             </div>

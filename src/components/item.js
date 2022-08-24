@@ -20,15 +20,15 @@ export default class Responsive extends Component {
       collectionName: this.props.collectionName,
       attr: this.props.attr,
     };
-    console.log("targets", this.state.metadata);
+    console.log("targets", this.props.ownerWalle);
   }
 
   render() {
     return (
       <div className="col-md-4 text-center">
         <div
-          className="nft__item m-0"
-          style={{ width: "auto", height: "400px" }}
+          className="nft_detail_item m-0"
+          style={{ padding:"0px" }}
         >
           <div className="nft__item_offer">
             <span>
@@ -62,13 +62,13 @@ export default class Responsive extends Component {
                         <span>
                           <img
                             className="lazy"
-                            src={this.state.metadata.image}
+                            src={this.state.metadata.ownerPP}
                             alt=""
                           />
                         </span>
                       </div>
                       <div className="author_list_info">
-                        <span>test</span>
+                        <span>{this.props.ownerWallet}</span>
                       </div>
                     </div>
                   </div>
@@ -81,13 +81,13 @@ export default class Responsive extends Component {
                         <span>
                           <img
                             className="lazy"
-                            src={this.state.metadata.image}
+                            src={this.state.metadata.collectionPP}
                             alt=""
                           />
                         </span>
                       </div>
                       <div className="author_list_info">
-                        <span>{this.state.collectionName}</span>
+                        <span>{this.state.metadata.collectionName}</span>
                       </div>
                     </div>
                   </div>
@@ -131,7 +131,7 @@ export default class Responsive extends Component {
                         <a
                           target="_blank"
                           rel="noopener noreferrer"
-                          href={this.state.voyagerLink}
+                          href={`https://beta-goerli.voyager.online/contract/${this.props.contract}`}
                         >
                           <b>Voyager Link</b>
                         </a>
