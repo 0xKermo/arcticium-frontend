@@ -108,6 +108,15 @@ export const updateTradeStatus = gql`
   }
 `;
 
+export const updateBidStatus = gql`
+  mutation bidStatus($tradeId: Int, $itemBidId:Int, $status: String) {
+    bidStatus(tradeId: $tradeId, itemBidId: $itemBidId, status: $status) {
+      tradeId
+      status
+    }
+  }
+`;
+
 
 
 export const uploadToMetadata = gql`

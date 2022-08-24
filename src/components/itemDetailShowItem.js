@@ -6,16 +6,26 @@ import { AcceptBid } from "../hooks";
 import {
   setMakeOfferBtn,
   setOpenCheckout,
-  setItemOwner,
 } from "../store/slicers/itemDetailOperations";
 import { ListedItemAction } from "../controller/itemDetail/listedItemAction";
 import { walletAddressSlice } from "../utils/walletAddressSlice";
+import { useEffect, useState } from "react";
 
 const ItemDetailShowItem = (props) => {
+  const [assetInfo,setAssetInfo] = useState({
+    image: null,
+    description:null,
+    name: null,
+    ownerPP:null,
+    ownerWallet: null,
+    creatorPP : null,
+  }) 
   const dispatch = useDispatch();
   /**
    *    Redux
    */
+   const { metadata,ownerWallet } = useSelector((state) => state.metadata);
+
   const { openMenu, openMenu1, voyagerLink, itemOwner } = useSelector(
     (state) => state.itemDetailOperation
   );
@@ -29,17 +39,20 @@ const ItemDetailShowItem = (props) => {
   /**
    * Graphql
    */
-  const [tradeStatus] = useMutation(updateTradeStatus);
+
+
   /**
    * Functions
    */
+console.log("metadata",metadata)
   const { handleBtnClick, handleBtnClick1 } = ItemDetailAction();
 
   const open_trade = () => {
     dispatch(setOpenCheckout(true));
   };
+
   const attr =
-    props.data.getAsset.attributes != null
+    props.data.getAsset != null && props.data.getAsset.attributes != null
       ? props.data.getAsset.attributes.map((item, index) => {
           return (
             <div className="col-lg-4 col-md-6 col-sm-6" key={index}>
@@ -62,9 +75,10 @@ const ItemDetailShowItem = (props) => {
   };
 
   const bidAccept = async (e) => {
-    const res = acceptBid(e.tradeId, e.itemBidId);
+    const res = acceptBid(e.tradeId, e.itemBidId,e.biddedItemOwner);
     console.log(res);
   };
+
 
   /**
    * Function End
@@ -73,16 +87,12 @@ const ItemDetailShowItem = (props) => {
     <>
       <div className="col-md-4 text-center">
         <div
-          className="nft__item m-0"
+          className="nft_detail_item m-0"
           style={{ width: "auto", height: "400px", padding: "0" }}
         >
           <div className="nft__item_offer">
             <span>
-              <img
-                className="lazy nft__item_preview"
-                alt=""
-                src={props.data.getAsset.image}
-              />
+              <img className="lazy nft__item_preview" alt="" src={metadata.image} />
             </span>
           </div>
         </div>
@@ -100,7 +110,7 @@ const ItemDetailShowItem = (props) => {
 
               <div className="p_list">
                 <div className="p_detail">
-                  <span>{props.data.getAsset.description}</span>
+                  <span>{metadata.description}</span>
                 </div>
               </div>
             </div>
@@ -124,7 +134,7 @@ const ItemDetailShowItem = (props) => {
                   <a
                     target="_blank"
                     rel="noopener noreferrer"
-                    href={voyagerLink}
+                    href={`https://beta-goerli.voyager.online/contract/${props.contract}`}
                   >
                     <b>Voyager Link</b>
                   </a>
@@ -150,7 +160,7 @@ const ItemDetailShowItem = (props) => {
       </div>
       <div className="col-md-6">
         <div className="item_info">
-          <h2>{props.data.getAsset.name}</h2>
+          <h2>{metadata.name}</h2>
         </div>
 
         <div className="item_info">
@@ -158,25 +168,19 @@ const ItemDetailShowItem = (props) => {
             <div className="col-md-5  ">
               <div className="p_detail">
                 <h6>Owner</h6>
-                <div className="item_author">
+                <div className="item_author"  onClick={() => window.open(`${props.data.getAsset.assetOwner}`, "_self")}  style={{ cursor: "pointer" }}> 
                   <div className="author_list_pp">
                     <span>
                       <img
                         className="lazy"
-                        src={
-                          props.data.getAsset.user.profileImgPath == null
-                            ? "../../img/author/author.svg"
-                            : props.data.getAsset.user.profileImgPath
-                        }
+                        src={metadata.ownerPP }
                         alt=""
                       />
                     </span>
                   </div>
                   <div className="author_list_info">
                     <span>
-                      {props.data.getAsset.user.length > 0
-                        ? props.data.getAsset.user.name
-                        : walletAddressSlice(props.data.getAsset.assetOwner)}
+                      {walletAddressSlice(ownerWallet,5,3)}
                     </span>
                   </div>
                 </div>
@@ -185,19 +189,13 @@ const ItemDetailShowItem = (props) => {
             <div className="col-md-4">
               <div className="p_detail">
                 <h6>Creator</h6>
-                <div className="item_author">
+                <div className="item_author" onClick={() => window.open(`/collection/${props.contract}`, "_self")}  style={{ cursor: "pointer" }}>
                   <div className="author_list_pp">
                     <span>
                       <img
                         className="lazy"
                         src={
-                          props.data.collections.filter(
-                            (x) => x.collectionAddress == props.contract
-                          )[0].profileImgPath == null
-                            ? "../../img/author/author.svg"
-                            : props.data.collections.filter(
-                                (x) => x.collectionAddress == props.contract
-                              )[0].profileImgPath
+                          metadata.collectionPP
                         }
                         alt=""
                       />
@@ -205,8 +203,8 @@ const ItemDetailShowItem = (props) => {
                   </div>
                   <div className="author_list_info">
                     <span>
-                      {collectionName
-                        ? collectionName
+                      {metadata.collectionName
+                        ? metadata.collectionName
                         : props.contract.slice(0, 6) +
                           "..." +
                           props.contract.slice(-6)}
@@ -339,30 +337,31 @@ const ItemDetailShowItem = (props) => {
                                 <span>
                                   by{" "}
                                   <b>
-                                    {item.bidAsset.contract_address.slice(0, 6)}
+                                    {item.bidAsset.assetOwner.slice(0, 6)}
                                   </b>{" "}
                                   at 6/15/2021, 3:20 AM
                                 </span>
                               </div>
                               {(() => {
                                 if (itemOwner == 2 || itemOwner == 1) {
-                                  return    <div className="col-md-2">
-                                  <button
-                                    className="btn-main lead mb-2 right"
-                                    onClick={() => {
-                                      bidAccept(item);
-                                    }}
-                                    style={{
-                                      padding: "6px 5px",
-                                      margin: "10px",
-                                    }}
-                                  >
-                                    Accept
-                                  </button>
-                                </div>
+                                  return (
+                                    <div className="col-md-2">
+                                      <button
+                                        className="btn-main lead mb-2 right"
+                                        onClick={() => {
+                                          bidAccept(item);
+                                        }}
+                                        style={{
+                                          padding: "6px 5px",
+                                          margin: "10px",
+                                        }}
+                                      >
+                                        Accept
+                                      </button>
+                                    </div>
+                                  );
                                 }
                               })()}
-                            
 
                               <div className="col-md-2"></div>
                             </div>

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { GetCollectionName } from "../hooks";
+import { walletAddressSlice } from "../utils/walletAddressSlice";
 
 export default class Responsive extends Component {
   constructor(props) {
@@ -9,6 +10,7 @@ export default class Responsive extends Component {
       targetItemvoyagerLink: `https://beta-goerli.voyager.online/contract/${this.props.targetItemData.contract_address}`,
       collectionName: this.props.targetItemData.contract_address,
     };
+    console.log(this.state.targetItemData)
   }
 
   attr = (_attributes) =>
@@ -29,8 +31,8 @@ export default class Responsive extends Component {
     return (
       <div className="col-md-4 text-center">
         <div
-          className="nft__item m-0"
-          style={{ width: "auto", height: "400px" }}
+          className="nft_detail_item m-0"
+          style={{ padding:"0px" }}
         >
           <div className="nft__item_offer">
             <span>
@@ -75,13 +77,13 @@ export default class Responsive extends Component {
                         <span>
                           <img
                             className="lazy"
-                            src={this.state.targetItemData.image}
+                            src="../../img/author/author.svg"
                             alt=""
                           />
                         </span>
                       </div>
                       <div className="author_list_info">
-                        <span>test</span>
+                        <span>{walletAddressSlice(this.state.targetItemData.assetOwner,5,4)}</span>
                       </div>
                     </div>
                   </div>
@@ -94,13 +96,25 @@ export default class Responsive extends Component {
                         <span>
                           <img
                             className="lazy"
-                            src={this.state.targetItemData.image}
+                            src={
+                              this.props.collections.filter(
+                                (x) =>
+                                  x.collectionAddress ==
+                                  this.state.targetItemData.contract_address
+                              )[0].profileImgPath
+                            }
                             alt=""
                           />
                         </span>
                       </div>
                       <div className="author_list_info">
-                        <span>{this.state.collectionName.slice(0, 6)}</span>
+                        <span>{
+                              this.props.collections.filter(
+                                (x) =>
+                                  x.collectionAddress ==
+                                  this.state.targetItemData.contract_address
+                              )[0].collectionName
+                            }</span>
                       </div>
                     </div>
                   </div>
@@ -144,7 +158,7 @@ export default class Responsive extends Component {
                         <a
                           target="_blank"
                           rel="noopener noreferrer"
-                          href={this.state.voyagerLink}
+                          href={this.state.targetItemvoyagerLink}
                         >
                           <b>Voyager Link</b>
                         </a>

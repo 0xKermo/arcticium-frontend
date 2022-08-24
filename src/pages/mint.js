@@ -57,7 +57,6 @@ const Mint = () => {
   const [files, setFiles] = useState();
   const [fileName, setFileName] = useState();
   const { walletAddress } = useSelector((state) => state.wallet);
-  const { imageIpfsUrl } = useSelector((state) => state.userAssets);
 
   const { mintErc721 } = MintErc721();
   const { uploadMetadata } = UploadMetadata();

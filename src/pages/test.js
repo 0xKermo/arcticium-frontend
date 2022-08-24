@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { Toaster } from "react-hot-toast";
 import { Provider } from "starknet";
 import { GetTestTokenURI } from "../hooks/ERC721/testTokenURI";
+import ContentLoader from "react-content-loader";
 
 const GlobalStyles = createGlobalStyle`
   header#myHeader.navbar.sticky.white {
@@ -90,6 +91,8 @@ const Test = () => {
             </div>
           </div>
         </div>
+      </section>
+      <section>
       </section>
     </div>
   );

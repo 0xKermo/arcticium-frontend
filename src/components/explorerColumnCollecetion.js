@@ -85,6 +85,7 @@ export default class Responsive extends Component {
           >
             <div
               className="nft_coll m-0"
+              style={{ cursor: "pointer" }}
               onClick={() =>
                 window.open(
                   `collection/${collection.collectionAddress}`,
@@ -94,24 +95,13 @@ export default class Responsive extends Component {
             >
               <div
                 className="nft_wrap"
-                onClick={() =>
-                  window.open(
-                    `collection/${collection.collectionAddress}`,
-                    "_self"
-                  )
-                }
+               
               >
                 <span
-                  onClick={() =>
-                    window.open(
-                      `collection/${collection.collectionAddress}`,
-                      "_self"
-                    )
-                  }
+                 
                 >
                   <img
-                    onLoad={this.onImgLoad}
-                    src={collection.profileImgPath}
+                    src={collection.bannerPath}
                     className="lazy img-fluid"
                     alt=""
                   />
@@ -119,28 +109,17 @@ export default class Responsive extends Component {
               </div>
               <div className="nft_coll_pp">
                 <span
-                  onClick={() =>
-                    window.open(
-                      `collection/${collection.collectionAddress}`,
-                      "_self"
-                    )
-                  }
+                 
                 >
-                  <img className="lazy" src={collection.authorImg} alt="" />
+                  <img className="lazy" src={collection.profileImgPath} alt="" />
                 </span>
               </div>
               <div className="nft_coll_info">
                 <span
-                  onClick={() =>
-                    window.open(
-                      `collection/${collection.collectionAddress}`,
-                      "_self"
-                    )
-                  }
+                 
                 >
-                  <h4>{collection.name}</h4>
+                  <h4>{collection.collectionName}</h4>
                 </span>
-                <span>{collection.description}</span>
               </div>
             </div>
           </div>

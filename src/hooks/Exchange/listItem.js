@@ -13,6 +13,8 @@ export const ListItem = () => {
   const { _addTrade } = AddTrade();
 
   const listItem = async (_itemCallData, _isApprove, tradeArgs) => {
+    tradeArgs.transactionHash = "result.transaction_hash";
+    const resAddTrade = _addTrade(tradeArgs); return false
     try {
       let listItemArgs = [
         {

@@ -10,6 +10,8 @@ import { useParams } from "react-router-dom";
 import { updateUserProfile } from "../grqphql/mutation";
 import { useMutation } from "@apollo/client";
 import { BigNumber } from "ethers";
+import ProfileNftsLoader from "../components/loader/profileNfts";
+import { ToastPromise } from "../components/toast";
 
 const GlobalStyles = createGlobalStyle`
   header#myHeader.navbar.sticky.white {
@@ -49,17 +51,17 @@ const Profile = () => {
   const [isEditProfile, setEditProfile] = useState(false);
   const [isOwner, setIsOwner] = useState(false);
   const { wallet } = useParams();
+  const { userAssets } = useSelector((state) => state.userAssets);
 
-  const dispatch = useDispatch();
   const { walletAddress } = useSelector((state) => state.wallet);
-  const { openMenu, openMenu1, openMenu2, openMenu3 } = useSelector(
+  const { openMenu, openMenu1, openMenu2 } = useSelector(
     (state) => state.profileOperation
   );
-  const { userAssets, profileInfo } = useSelector((state) => state.userAssets);
+  const {  profileInfo } = useSelector((state) => state.userAssets);
 
-  const { handleBtnClick, handleBtnClick1, handleBtnClick2, handleBtnClick3 } =
+  const { handleBtnClick, handleBtnClick1, handleBtnClick2 } =
     ProfileActions();
-  const { _addUserAsset, getUserAssets } = AddUserAsset();
+  const {  getUserAssets } = AddUserAsset();
   const openEditProfile = () => {
     setEditProfile(true);
   };
@@ -70,13 +72,19 @@ const Profile = () => {
     const name = document.getElementById("username").value;
     const bio = document.getElementById("bio").value;
 
-    updateProfile({
+    const updatedProfile =updateProfile({
       variables: {
         walletAddress: wallet,
         name: name,
         bio: bio,
       },
     });
+    const mintLoadingText = "Profile updating...";
+    const successText = "Profile succesfully updated";
+
+    ToastPromise(updatedProfile, mintLoadingText, successText);
+    setEditProfile(false)
+    console.log("ok",updatedProfile)
   };
   useEffect(() => {
     if (walletAddress != null) {
@@ -158,10 +166,15 @@ const Profile = () => {
           </div>
         </div>
 
+        {userAssets.length <1 &&
+          <ProfileNftsLoader />
+        }
         {openMenu && (
+        
           <div id="zero2" className="onStep fadeIn">
             <ColumnMyNfts />
           </div>
+          
         )}
 
         {openMenu1 && (
@@ -204,6 +217,7 @@ const Profile = () => {
                         id="username"
                         className="form-control"
                         placeholder="username"
+                        defaultValue={profileInfo ? profileInfo.name : null}
                       />
                     </div>
                     <div className="spacer-20"></div>
@@ -217,6 +231,7 @@ const Profile = () => {
                         id="bio"
                         className="form-control"
                         placeholder="bio"
+                        defaultValue={profileInfo ? profileInfo.bio : null}
                       />
                     </div>
                   </div>

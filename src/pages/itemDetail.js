@@ -2,12 +2,9 @@ import React, { useState, useEffect } from "react";
 import { createGlobalStyle } from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { GetTokenURI, GetOwnerOf, GetCollectionName, BuyItem } from "../hooks";
-import { useNavigate, useParams } from "react-router-dom";
-import {
-  setItemOwner,
-  setVoyagerLink,
-} from "../store/slicers/itemDetailOperations";
-import { setMetadata } from "../store/slicers/metadata";
+import { useParams } from "react-router-dom";
+import { setItemOwner } from "../store/slicers/itemDetailOperations";
+import { setMetadata, setOwnerWallet } from "../store/slicers/metadata";
 import { Toaster } from "react-hot-toast";
 import { GetTradeWithAddresId } from "../grqphql/query";
 import { useMutation, useQuery } from "@apollo/client";
@@ -17,13 +14,14 @@ import { setCollections } from "../store/slicers/collections";
 import OfferPopup from "../components/offerPopup";
 import ItemDetailShowItem from "../components/itemDetailShowItem";
 import SwapToAnyItem from "../components/swapToAnyItem";
-import SwapToCollectionItem from "../components/swapToCollectionItem";
 import TargetItem from "../components/targetItem";
 import { BigNumber } from "ethers";
 import { ListedItemAction } from "../controller/itemDetail/listedItemAction";
 import { currencyAddresses } from "../constants/CurrencyAddresses";
 import { updateTradeStatus } from "../grqphql/mutation";
-
+import { walletAddressSlice } from "../utils/walletAddressSlice";
+import ItemLoader from "../components/loader/itemLoader";
+import { setItemDetailLoader } from "../store/slicers/loader";
 
 const GlobalStyles = createGlobalStyle`
   header#myHeader.navbar.white {
@@ -67,26 +65,17 @@ const GlobalStyles = createGlobalStyle`
 const ItemDetail = function () {
   const dispatch = useDispatch();
 
-  const navigate = useNavigate();
-
-  const navigateTo = (link) => {
-    navigate(link);
-  };
-
   /**
    *  Reducer start
    */
-  const { metadata } = useSelector((state) => state.metadata);
-  const {
-    openMenu,
-    openMenu1,
-    voyagerLink,
-    openCheckout,
-    makeOfferBtn,
-    itemOwner,
-  } = useSelector((state) => state.itemDetailOperation);
+  const { metadata, ownerWallet } = useSelector((state) => state.metadata);
+  const { voyagerLink, openCheckout, makeOfferBtn, itemOwner } = useSelector(
+    (state) => state.itemDetailOperation
+  );
   const { collectionName } = useSelector((state) => state.collections);
   const { walletAddress } = useSelector((state) => state.wallet);
+  const { itemDetailLoader } = useSelector((state) => state.loader);
+
 
   const { cancelItemListing } = ListedItemAction();
 
@@ -106,15 +95,13 @@ const ItemDetail = function () {
   });
   const [tradeStatus] = useMutation(updateTradeStatus);
 
-
   /**
    * Contract
    */
   const { getTokenURI } = GetTokenURI();
   const { getOwnerOf } = GetOwnerOf();
   const { getCollectionName } = GetCollectionName();
-  const { buyItem } = BuyItem()
-  
+  const { buyItem } = BuyItem();
 
   const cancelListing = async () => {
     const tradeId = data.getTradeWithAddresId.tradeId;
@@ -122,49 +109,92 @@ const ItemDetail = function () {
   };
 
   function getKeyByValue(object, value) {
-    return Object.keys(object).find(key => object[key] === value);
+    return Object.keys(object).find((key) => object[key] === value);
   }
-  
-  
+
   const buyNow = () => {
-    const tradeId = data.getTradeWithAddresId.tradeId
-    
-    const targetItemContract = data.getTradeWithAddresId.targetAssetInfo[0].contract_address
-    const targetAssetOwner = data.getTradeWithAddresId.targetAssetInfo[0].assetOwner
-    const price = data.getTradeWithAddresId.price
-    const status = "Executed"
-    const tokenContract = getKeyByValue(currencyAddresses,Number(data.getTradeWithAddresId.currencyType))
+    const tradeId = data.getTradeWithAddresId.tradeId;
+
+    const targetItemContract =
+      data.getTradeWithAddresId.targetAssetInfo[0].contract_address;
+    const targetAssetOwner =
+      data.getTradeWithAddresId.targetAssetInfo[0].assetOwner;
+    const price = data.getTradeWithAddresId.price;
+    const status = "Executed";
+    const tokenContract = getKeyByValue(
+      currencyAddresses,
+      Number(data.getTradeWithAddresId.currencyType)
+    );
     const tradeStatusChange = () => {
       tradeStatus({
-        variables:{
-          tradeId:tradeId,
-          status:status,
-          buyer:targetAssetOwner
-        }
-      })
-    }
-    buyItem(tradeId,targetItemContract, price, tokenContract,tradeStatusChange)
+        variables: {
+          tradeId: tradeId,
+          status: status,
+          buyer: targetAssetOwner,
+        },
+      });
+    };
+    buyItem(
+      tradeId,
+      targetItemContract,
+      price,
+      tokenContract,
+      tradeStatusChange
+    );
   };
 
   useEffect(() => {
     const prepare = async (dataGetAsset) => {
-      await getCollectionName(contract); // set collection name collections redux
+      const _collectionName =  data.collections.filter((x) => x.collectionAddress == contract)[0]
+      .collectionName == null
+      ? await getCollectionName(contract) // set collection name collections redux
+      : data.collections.filter(
+          (x) => x.collectionAddress == contract
+        )[0].collectionName
       if (dataGetAsset == null) {
         await getTokenURI(contract, id).then((res) => {
-          dispatch(setMetadata(res));
+          console.log("res",res.attributes)
+
           dispatch(
-            setVoyagerLink(
-              `https://beta-goerli.voyager.online/contract/${res.contract_address}`
-            )
+            setMetadata({
+              name: res.name,
+              description: res.description,
+              image: res.image,
+              attributes: attr(res.attributes),
+              ownerPP: "../../img/author/author.svg",
+              collectionPP:
+                data.collections.filter(
+                  (x) => x.collectionAddress == contract
+                )[0] == null
+                  ? "../../img/author/author.svg"
+                  : data.collections.filter(
+                      (x) => x.collectionAddress == contract
+                    )[0].profileImgPath,
+              collectionName: _collectionName
+            })
           );
+          dispatch(setItemDetailLoader(true))
         });
       } else {
-        dispatch(setMetadata(dataGetAsset));
         dispatch(
-          setVoyagerLink(
-            `https://beta-goerli.voyager.online/contract/${dataGetAsset.contract_address}`
-          )
+          setMetadata({
+            name: dataGetAsset.name,
+            description: dataGetAsset.description,
+            image: dataGetAsset.image,
+            attributes: dataGetAsset.attributes,
+            ownerPP: "../../img/author/author.svg",
+            collectionPP:
+              data.collections.filter((x) => x.collectionAddress == contract)[0]
+                 == null
+                ? "../../img/author/author.svg"
+                : data.collections.filter(
+                    (x) => x.collectionAddress == contract
+                  )[0].profileImgPath,
+            collectionName:_collectionName
+          })
         );
+        dispatch(setItemDetailLoader(true))
+
       }
     };
     if (!loading) {
@@ -192,6 +222,7 @@ const ItemDetail = function () {
     const prepare = async () => {
       if (walletAddress != undefined && !loading) {
         const itemOwner = await getOwnerOf(contract, id);
+        dispatch(setOwnerWallet(itemOwner.result[0]));
         const checkItemOwner = BigNumber.from(walletAddress).eq(
           itemOwner.result[0]
         );
@@ -207,7 +238,8 @@ const ItemDetail = function () {
     prepare();
   }, [walletAddress, loading]);
 
-  const attr = (_metadata) =>
+  const attr = (_metadata) =>(
+  
     _metadata.attributes != null
       ? _metadata.attributes.map((item, index) => {
           return (
@@ -219,7 +251,7 @@ const ItemDetail = function () {
             </div>
           );
         })
-      : null;
+      : null)
 
   return (
     <div>
@@ -227,9 +259,15 @@ const ItemDetail = function () {
       <Toaster position="bottom-center" reverseOrder={true} />
       <section className="container">
         <div className="row mt-md-5 pt-md-4">
-          {!loading && data.getTradeWithAddresId === null && !makeOfferBtn && (
-            <ItemDetailShowItem data={data} contract={contract} id={id} />
-          )}
+          {!itemDetailLoader&&
+          <ItemLoader />
+          }
+          {!loading &&
+            data.getTradeWithAddresId === null &&
+            !makeOfferBtn &&
+            metadata != null && (
+              <ItemDetailShowItem data={data} contract={contract} id={id} />
+            )}
 
           {!loading && data.getTradeWithAddresId === null && makeOfferBtn && (
             <>
@@ -238,6 +276,8 @@ const ItemDetail = function () {
                 collectionName={collectionName}
                 attr={attr(metadata)}
                 voyagerLink={voyagerLink}
+                ownerWallet={walletAddressSlice(ownerWallet, 5, 3)}
+                contract={contract}
               />
               <div className="col-md-2">
                 <div className="p_list">
@@ -265,7 +305,7 @@ const ItemDetail = function () {
 
           {!loading &&
             data.getTradeWithAddresId !== null &&
-            data.getTradeWithAddresId.tradeType != 2  && (
+            data.getTradeWithAddresId.tradeType != 2 && (
               <>
                 {!makeOfferBtn && (
                   <ItemDetailShowItem data={data} contract={contract} id={id} />
@@ -277,6 +317,8 @@ const ItemDetail = function () {
                       collectionName={collectionName}
                       attr={attr(metadata)}
                       voyagerLink={voyagerLink}
+                      ownerWallet={walletAddressSlice(ownerWallet, 5, 3)}
+                      contract={contract}
                     />
                     <div className="col-md-2">
                       <div className="p_list">
@@ -304,47 +346,6 @@ const ItemDetail = function () {
               </>
             )}
 
-          {/* {!loading &&
-            data.getTradeWithAddresId !== null &&
-            data.getTradeWithAddresId.tradeType === 1 && (
-              <>
-                {!makeOfferBtn && (
-                  <ItemDetailShowItem data={data} contract={contract} id={id} />
-                )}
-                {makeOfferBtn && (
-                  <>
-                    <Item
-                      meta={metadata}
-                      collectionName={collectionName}
-                      attr={attr(metadata)}
-                      voyagerLink={voyagerLink}
-                    />
-                    <div className="col-md-2">
-                      <div className="p_list">
-                        <div className="p_detail">
-                          <div
-                            className="swap-icon"
-                            style={{
-                              fontSize: "50px",
-                              textAlign: "center",
-                              marginTop: "150px",
-                            }}
-                          >
-                            <i className="fa fa-exchange"></i>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <SwapToCollectionItem
-                      collections={data.collections}
-                      currency={data.getCurrencies}
-                      data={data.getTradeWithAddresId}
-                    />
-                  </>
-                )}
-              </>
-            )} */}
-
           {!loading &&
             metadata !== null &&
             data.getTradeWithAddresId !== null &&
@@ -355,6 +356,8 @@ const ItemDetail = function () {
                   collectionName={collectionName}
                   attr={attr(metadata)}
                   voyagerLink={voyagerLink}
+                  contract={contract}
+                  ownerWallet={walletAddressSlice(ownerWallet, 5, 3)}
                 />
                 <div className="col-md-2">
                   <div className="p_list">
@@ -385,12 +388,14 @@ const ItemDetail = function () {
                         </div>
                       )}
                       {itemOwner === 3 && (
-                      <div className="item_info">
-                        <button className="btn-main lead mb-2" onClick={buyNow}>
-                          Buy now
-                        </button>
-                      </div>
-                 
+                        <div className="item_info">
+                          <button
+                            className="btn-main lead mb-2"
+                            onClick={buyNow}
+                          >
+                            Buy now
+                          </button>
+                        </div>
                       )}
                     </div>
                   </div>
@@ -398,6 +403,7 @@ const ItemDetail = function () {
                 <TargetItem
                   targetItemData={data.getTradeWithAddresId.targetAssetInfo[0]}
                   price={data.getTradeWithAddresId.price}
+                  collections={data.collections}
                 />
               </>
             )}

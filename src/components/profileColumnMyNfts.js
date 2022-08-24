@@ -1,7 +1,8 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
-import axios from "axios";
+import ProfileNftsLoader from "./loader/profileNfts";
+
 const Outer = styled.div`
   display: flex;
   justify-content: center;
@@ -39,13 +40,15 @@ const ColumnMyNfts = () => {
         <div
           key={index}
           className="d-item col-lg-2 col-md-6 col-sm-6 col-xs-12 mb-4"
+          style={{width:"20%"}}
           onClick={() => window.open("/asset/"+nft.contract_address+"/"+nft.token_id, "_self")}
         >
-          <div className="nft__item m-0">
-            <div className="nft__item_wrap" style={{ height: `${height}px` }}>
+          <div className="nft__item m-0"   style={{padding:"0px"}}>
+            <div className="nft__item_wrap" >
               <Outer>
                 <span>
                   <img
+                  style={{width:"240px"}}
                     onLoad={onImgLoad}
                     src={nft.image}
                     className="lazy nft__item_preview"
@@ -54,7 +57,7 @@ const ColumnMyNfts = () => {
                 </span>
               </Outer>
             </div>
-            <div className="nft__item_info">
+            <div className="nft__item_info"  style={{padding:"15px"}}>
               <span onClick={() => window.open(nft.nftLink, "_self")}>
                 <h4>{nft.name}</h4>
               </span>
@@ -63,11 +66,11 @@ const ColumnMyNfts = () => {
                 ...
                 {nft.contract_address.slice(-7)}
               </div>
-              <div className="nft__item_action">
+              {/* <div className="nft__item_action">
                 <span onClick={() => window.open(nft.contract_address+"/"+nft.token_id, "_self")}>
                   ...
                 </span>
-              </div>
+              </div> */}
               <div className="nft__item_like">
                 <span>Unlisted</span>
               </div>
