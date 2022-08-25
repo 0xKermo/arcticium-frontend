@@ -3,7 +3,7 @@ import { createGlobalStyle } from "styled-components";
 import { useSelector } from "react-redux";
 import { Toaster } from "react-hot-toast";
 import { Provider } from "starknet";
-import { GetTestTokenURI } from "../hooks/ERC721/testTokenURI";
+import { GetPixelTokenURI } from "../hooks/ERC721/pixelTokenUri";
 import ContentLoader from "react-content-loader";
 
 const GlobalStyles = createGlobalStyle`
@@ -43,12 +43,12 @@ const GlobalStyles = createGlobalStyle`
 const Test = () => {
   const { walletAddress } = useSelector((state) => state.wallet);
 
-  const { getTestTokenURI } = GetTestTokenURI();
+  const { getPixelTokenURI } = GetPixelTokenURI();
 
   const requestFaucet = async () => {
     const contract_address = "0x07ffe4bd0b457e10674a2842164b91fea646ed4027d3b606a0fcbf056a4c8827"
     const token_id = "1"
-    getTestTokenURI(contract_address,token_id)
+    getPixelTokenURI(contract_address,token_id)
   };
   return (
     <div>

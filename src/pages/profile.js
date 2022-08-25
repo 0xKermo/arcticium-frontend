@@ -52,6 +52,8 @@ const Profile = () => {
   const [isOwner, setIsOwner] = useState(false);
   const { wallet } = useParams();
   const { userAssets } = useSelector((state) => state.userAssets);
+  const { userAssetLoader } = useSelector((state) => state.loader);
+
 
   const { walletAddress } = useSelector((state) => state.wallet);
   const { openMenu, openMenu1, openMenu2 } = useSelector(
@@ -166,8 +168,15 @@ const Profile = () => {
           </div>
         </div>
 
-        {userAssets.length <1 &&
+        {userAssetLoader &&
           <ProfileNftsLoader />
+        }
+        {userAssets.length < 1 && !userAssetLoader &&
+        <div style={{textAlign: "center"}}>
+          <span>
+          Sorry! There were no Nfts found.
+          </span>
+        </div>
         }
         {openMenu && (
         

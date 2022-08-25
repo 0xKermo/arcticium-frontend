@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getUserProfile } from "../query";
 import { useEffect } from "react";
 import { setProfileInfo, setUserAssets } from "../../store/slicers/userAssets";
+import { setUserAssetLoader } from "../../store/slicers/loader";
 
 export const AddUserAsset = () => {
   const [_AddUserAsset] = useMutation(updateUserAssets);
@@ -27,6 +28,10 @@ export const AddUserAsset = () => {
 
   useEffect(() => {
     if (!loading) {
+      setTimeout(() => {
+        dispatch(setUserAssetLoader(false))
+        
+      }, 1000);
       if (data != undefined) {
         dispatch(setUserAssets(data.getUserAsset));
         dispatch(setProfileInfo(data.getUserProfile));

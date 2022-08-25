@@ -55,7 +55,7 @@ export default class Responsive extends Component {
                 <Link
                   to={`/asset/${nft.assetInfo.contract_address}/${nft.assetInfo.token_id}`}
                 >
-                  <div className="nft__item m-0">
+                  <div className="nft_popular_item m-0">
                     <div className="nft__item_wrap">
                       <div className="col-md-5">
                         <Outer>
@@ -96,7 +96,7 @@ export default class Responsive extends Component {
                           nft.targetTokenId == 0 && <div>Make Offer</div>}
                       </div>
                     </div>
-                    <div className="nft__item_info">
+                    <div className="nft__item_info" style={{padding:"10px"}}>
                       <span>
                         <h4>{nft.assetInfo.name}</h4>
                       </span>
@@ -105,7 +105,7 @@ export default class Responsive extends Component {
                         {/* <span>{nft.bid}</span> */}
                       </div>
                       <div className="nft__item_action">
-                        <span>Place a bid</span>
+                        <span>Make offer</span>
                       </div>
                     </div>
                   </div>
@@ -113,17 +113,6 @@ export default class Responsive extends Component {
               </div>
             ))
           : null}
-        {/* {this.state.nfts.length !== this.dummyData.length && (
-          <div className="col-lg-12">
-            <div className="spacer-single"></div>
-            <span
-              onClick={() => this.loadMore()}
-              className="btn-main lead m-auto"
-            >
-              Load More
-            </span>
-          </div>
-        )} */}
       </div>
     );
   }

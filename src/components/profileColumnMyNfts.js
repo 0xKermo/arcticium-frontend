@@ -40,21 +40,19 @@ const ColumnMyNfts = () => {
         <div
           key={index}
           className="d-item col-lg-2 col-md-6 col-sm-6 col-xs-12 mb-4"
-          style={{width:"20%"}}
+          // style={{width:"20%"}}
           onClick={() => window.open("/asset/"+nft.contract_address+"/"+nft.token_id, "_self")}
         >
           <div className="nft__item m-0"   style={{padding:"0px"}}>
             <div className="nft__item_wrap" >
               <Outer>
-                <span>
                   <img
-                  style={{width:"240px"}}
+                  style={{width:"100%"}}
                     onLoad={onImgLoad}
                     src={nft.image}
                     className="lazy nft__item_preview"
                     alt=""
                   />
-                </span>
               </Outer>
             </div>
             <div className="nft__item_info"  style={{padding:"15px"}}>

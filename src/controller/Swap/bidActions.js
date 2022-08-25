@@ -56,8 +56,9 @@ export const BidActions = () => {
     const isApprove = await getApprove(walletAddress, bidData.bidContractAddress)
     const token_id = bnToUint256(bidData.bidTokenId) 
     const biddedItemId = bnToUint256(bidData.biddedItemId)
+    debugger
     let priceUint = bnToUint256("0")
-    if(bidData.bidCurrencyType != 0 && bidData.price != 0){
+    if(bidData.bidCurrencyType != 0 && bidData.bidPrice != 0){
       const _price = bidData.price * 10**18
       priceUint = bnToUint256(_price.toString())
 

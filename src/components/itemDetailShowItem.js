@@ -168,7 +168,7 @@ console.log("metadata",metadata)
             <div className="col-md-5  ">
               <div className="p_detail">
                 <h6>Owner</h6>
-                <div className="item_author"  onClick={() => window.open(`${props.data.getAsset.assetOwner}`, "_self")}  style={{ cursor: "pointer" }}> 
+                <div className="item_author"  onClick={() => window.open(`/${props.data.getAsset.assetOwner}`, "_self")}  style={{ cursor: "pointer" }}> 
                   <div className="author_list_pp">
                     <span>
                       <img

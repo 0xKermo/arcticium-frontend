@@ -29,8 +29,8 @@ const CarouselNewRedux = (props) => {
         {props.swapData.getOpenTrades &&
           props.swapData.getOpenTrades.map((nft, index) => (
             <div className="itm" index={index + 1} key={index}>
-              <div className="d-item" onClick={() => window.open(`/asset/${nft.tokenContract}/${nft.tokenId}`, "_self")}>
-                <div className="nft__item">
+              <div className="d-item" onClick={() => window.open(`/asset/${nft.tokenContract}/${nft.tokenId}`, "_self")} style={{ cursor: "pointer" }}>
+                <div className="nft_popular_item">
                   <div className="author_list_pp">
                     <span >
                       {nft.image && (
@@ -71,7 +71,7 @@ const CarouselNewRedux = (props) => {
                       </span>
                     </Outer>
                   </div>
-                  <div className="nft__item_info">
+                  <div className="nft__item_info" style={{padding:"10px"}}>
                     <span onClick={() => window.open("/#", "_self")}>
                       <h4>{nft.assetInfo.name}</h4>
                     </span>

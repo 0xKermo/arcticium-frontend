@@ -51,6 +51,18 @@ const GlobalStyles = createGlobalStyle`
       color: #fff !important;
     }
   }
+  .nft_preview_item {
+    width: 100%;
+    height:100%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .nft_preview_item img{
+    width: 100%;
+    height:100%
+  }
 `;
 
 const Mint = () => {
@@ -71,7 +83,7 @@ const Mint = () => {
       var reader = new FileReader();
 
       reader.onload = function (e) {
-        $("#get_file_2").attr("src", e.target.result).width(250).height(600);
+        $("#get_file_2").attr("src", e.target.result);
       };
 
       reader.readAsDataURL(file[0]);
@@ -94,17 +106,19 @@ const Mint = () => {
     const provider = new Provider();
     const tx = provider.waitForTransaction(mintPromise.transaction_hash);
     const imageUrl = `https://arcswap.mypinata.cloud/ipfs/${image.data.IpfsHash}`
-    const addAssetFunc = () => {
-      addAsset({
-        variables: {
-          assetOwner: walletAddress,
-          name: name,
-          description: description,
-          image: imageUrl,
-        },
-      });
-    }
-    ToastPromise(tx, mintLoadingText, mintSuccessText,addAssetFunc);
+    tx.then((res) => {
+    console.log("res",res)
+    addAsset({
+      variables: {
+        assetOwner: walletAddress,
+        name: name,
+        description: description,
+        image: imageUrl,
+      },
+    })})
+  
+    
+    ToastPromise(tx, mintLoadingText, mintSuccessText);
 
   };
 
@@ -193,16 +207,14 @@ const Mint = () => {
 
           <div className="col-lg-3 col-sm-6 col-xs-12">
             <h5>Preview item</h5>
-            <div className="nft__item m-0">
-              <div className="nft__item_wrap">
-                <span>
+            <div className="nft__item m-0" style={{height:"300px"}}>
+              <div className="nft_preview_item">
                   <img
                     src="./img/collections/coll-item-3.jpg"
                     id="get_file_2"
-                    className="lazy nft__item_preview"
+                    
                     alt=""
                   />
-                </span>
               </div>
             </div>
           </div>

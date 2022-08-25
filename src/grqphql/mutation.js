@@ -5,14 +5,14 @@ export const TradeAdd = gql`
     $tradeId: Int
     $tradeOwnerAddress: String
     $tokenContract: String
-    $tokenId: Int
+    $tokenId: String
     $expiration: Date
     $currencyType: Int
     $price: Int
     $status: String
     $swapTradeId: Int
     $targetTokenContract: String
-    $targetTokenId: Int
+    $targetTokenId: String
     $transactionHash: String
     $tradeType: Int
   ) {
@@ -45,14 +45,14 @@ export const BidAdd = gql`
     $tradeId: Int
     $bidOwner: String
     $bidContractAddress: String
-    $bidTokenId: Int
+    $bidTokenId: String
     $expiration: Date
     $bidCurrencyType: Int
     $bidPrice: Int
     $status: Status
     $biddedItemOwner: String
     $biddedItemContractAddress: String
-    $biddedItemId: Int
+    $biddedItemId: String
     $itemBidId: Int
     $bidTradeType: Int
   ) {
@@ -120,8 +120,8 @@ export const updateBidStatus = gql`
 
 
 export const uploadToMetadata = gql`
-  mutation uploadMetadata($assetOwner: String!, $token_id: Int, $name: String, $description: String, $image: String ) {
-    uploadMetadata(assetOwner: $assetOwner, token_id: $token_id, name: $name, description: $description, image: $image) {
+  mutation uploadMetadata($assetOwner: String!,  $name: String, $description: String, $image: String ) {
+    uploadMetadata(assetOwner: $assetOwner, name: $name, description: $description, image: $image) {
       image
     }
   }

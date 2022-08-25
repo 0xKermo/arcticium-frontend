@@ -142,8 +142,8 @@ const Header = function ({ className }) {
                               Collections
                             </NavLink>
                             <NavLink
-                              to="/nfts"
-                              onClick={() => btn_icon(!showmenu)}
+                              onClick={() => {window.open(`/nfts`, "_self")
+                              btn_icon(!showmenu)}}
                             >
                               Nfts
                             </NavLink>

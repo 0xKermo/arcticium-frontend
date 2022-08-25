@@ -5,7 +5,6 @@ import { createGlobalStyle } from "styled-components";
 import Activity from "../components/collectionActivity";
 import ColumnSwap from "../components/explorerColumnSwap"
 import { getCollection } from "../grqphql/query";
-import { GetTestTokenURI } from "../hooks/ERC721/testTokenURI";
 
 const GlobalStyles = createGlobalStyle`
   header#myHeader.navbar.sticky.white {
@@ -62,7 +61,6 @@ const Collection = function () {
     document.getElementById("Mainbtn1").classList.add("active");
     document.getElementById("Mainbtn").classList.remove("active");
   };
-  const { getTestTokenURI } = GetTestTokenURI();
 
   useEffect(() => {
     const prepare = async() => {
@@ -87,20 +85,20 @@ const Collection = function () {
       //   "1507915702198516610176871225028484041978735153645812172949637316029882302464",
       //   "3454921725634837575454290506185653191711806784829998865327938588768198459392",
       // ]
-      const tokenIds=[
-        "331",
-        "323",
-        "333","433","533","336","337","338","339","310","311","312","313","314","315","316","317","318","319","320","321"
-      ]
-      const metaDatas= tokenIds.map((tokenId,i) => {
-        const res =  getTestTokenURI(contract,tokenId)
-        return res
-      })
-      const result =await Promise.all(metaDatas)
-      const imageUrls = result.map((item,i) => {
-        return item.image
-      })
-      setImgUrls(imageUrls)
+      // const tokenIds=[
+      //   "331",
+      //   "323",
+      //   "333","433","533","336","337","338","339","310","311","312","313","314","315","316","317","318","319","320","321"
+      // ]
+      // const metaDatas= tokenIds.map((tokenId,i) => {
+      //   const res =  getTestTokenURI(contract,tokenId)
+      //   return res
+      // })
+      // const result =await Promise.all(metaDatas)
+      // const imageUrls = result.map((item,i) => {
+      //   return item.image
+      // })
+      // setImgUrls(imageUrls)
 
     }
 

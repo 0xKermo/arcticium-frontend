@@ -36,13 +36,13 @@ export const ListItemData = () => {
     const tradeArgs = {
       tradeOwnerAddress: walletAddress,
       tokenContract: contract_address,
-      tokenId: _token_id == null ? 0 : Number(_token_id),
+      tokenId: _token_id,
       expiration: expiration,
       currencyType: choosenCurrency == null ? null: currencyAddresses[choosenCurrency] ,
       price: currencyAmount == null ? 0 : parseFloat(currencyAmount),
       status: "Open",
       targetTokenContract: targetCollectionAddress === 0 ? null : targetCollectionAddress,
-      targetTokenId: targetNftId == null ? 0 : Number(targetNftId),
+      targetTokenId: targetNftId,
       tradeType: listType
     };
     listItem(listItemCallData, isApproved, tradeArgs);

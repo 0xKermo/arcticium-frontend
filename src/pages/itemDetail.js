@@ -22,6 +22,7 @@ import { updateTradeStatus } from "../grqphql/mutation";
 import { walletAddressSlice } from "../utils/walletAddressSlice";
 import ItemLoader from "../components/loader/itemLoader";
 import { setItemDetailLoader } from "../store/slicers/loader";
+import { GetPixelTokenURI } from "../hooks/ERC721/pixelTokenUri";
 
 const GlobalStyles = createGlobalStyle`
   header#myHeader.navbar.white {
@@ -64,7 +65,7 @@ const GlobalStyles = createGlobalStyle`
 
 const ItemDetail = function () {
   const dispatch = useDispatch();
-
+  
   /**
    *  Reducer start
    */
@@ -90,7 +91,7 @@ const ItemDetail = function () {
   const { loading, error, data } = useQuery(GetTradeWithAddresId, {
     variables: {
       contractAddress: contract,
-      tokenId: Number(id),
+      tokenId: id,
     },
   });
   const [tradeStatus] = useMutation(updateTradeStatus);
@@ -99,6 +100,7 @@ const ItemDetail = function () {
    * Contract
    */
   const { getTokenURI } = GetTokenURI();
+  const {getPixelTokenURI} = GetPixelTokenURI()
   const { getOwnerOf } = GetOwnerOf();
   const { getCollectionName } = GetCollectionName();
   const { buyItem } = BuyItem();
@@ -146,21 +148,21 @@ const ItemDetail = function () {
   useEffect(() => {
     const prepare = async (dataGetAsset) => {
       const _collectionName =  data.collections.filter((x) => x.collectionAddress == contract)[0]
-      .collectionName == null
+       == null
       ? await getCollectionName(contract) // set collection name collections redux
       : data.collections.filter(
           (x) => x.collectionAddress == contract
         )[0].collectionName
       if (dataGetAsset == null) {
         await getTokenURI(contract, id).then((res) => {
-          console.log("res",res.attributes)
+          console.log("res",res)
 
           dispatch(
             setMetadata({
               name: res.name,
               description: res.description,
               image: res.image,
-              attributes: attr(res.attributes),
+              attributes: attr(res),
               ownerPP: "../../img/author/author.svg",
               collectionPP:
                 data.collections.filter(
@@ -173,7 +175,10 @@ const ItemDetail = function () {
               collectionName: _collectionName
             })
           );
-          dispatch(setItemDetailLoader(true))
+          setTimeout(() => {
+            dispatch(setItemDetailLoader(true))
+            
+          }, 1000);
         });
       } else {
         dispatch(
@@ -193,7 +198,10 @@ const ItemDetail = function () {
             collectionName:_collectionName
           })
         );
-        dispatch(setItemDetailLoader(true))
+        setTimeout(() => {
+          dispatch(setItemDetailLoader(true))
+          
+        }, 1000);
 
       }
     };
@@ -240,7 +248,7 @@ const ItemDetail = function () {
 
   const attr = (_metadata) =>(
   
-    _metadata.attributes != null
+    _metadata.attributes != null && _metadata.attributes != undefined
       ? _metadata.attributes.map((item, index) => {
           return (
             <div className="col-lg-4 col-md-6 col-sm-6" key={index}>
@@ -262,14 +270,14 @@ const ItemDetail = function () {
           {!itemDetailLoader&&
           <ItemLoader />
           }
-          {!loading &&
+          {!loading && itemDetailLoader &&
             data.getTradeWithAddresId === null &&
             !makeOfferBtn &&
             metadata != null && (
               <ItemDetailShowItem data={data} contract={contract} id={id} />
             )}
 
-          {!loading && data.getTradeWithAddresId === null && makeOfferBtn && (
+          {!loading && data.getTradeWithAddresId === null && makeOfferBtn && itemDetailLoader &&(
             <>
               <Item
                 meta={metadata}
@@ -303,7 +311,7 @@ const ItemDetail = function () {
             </>
           )}
 
-          {!loading &&
+          {!loading && itemDetailLoader &&
             data.getTradeWithAddresId !== null &&
             data.getTradeWithAddresId.tradeType != 2 && (
               <>
@@ -346,7 +354,7 @@ const ItemDetail = function () {
               </>
             )}
 
-          {!loading &&
+          {!loading && itemDetailLoader &&
             metadata !== null &&
             data.getTradeWithAddresId !== null &&
             data.getTradeWithAddresId.tradeType === 2 && (

@@ -12,7 +12,6 @@ import { BidActions } from "../controller";
 import Item from "../components/item";
 import TargetItem from "../components/targetItem"
 import SwapToAnyItem from "../components/swapToAnyItem";
-import SwapToCollectionItem from "../components/swapToCollectionItem";
 const GlobalStyles = createGlobalStyle`
   header#myHeader.navbar.white {
     background: #fff;
@@ -194,14 +193,7 @@ const Swap = function () {
               data={data.getTradeWithAddresId}
             />
           )}
-          {!loading && data.getTradeWithAddresId.tradeType === 1 && (
-            <SwapToCollectionItem
-              collections={data.collections}
-              currency={data.getCurrencies}
-              makeOffer={make_offer}
-              data={data.getTradeWithAddresId}
-            />
-          )}
+
           {!loading && data.getTradeWithAddresId.tradeType === 2 && (
             <TargetItem
               targetItemData={data.getTradeWithAddresId.targetAssetInfo[0]}
