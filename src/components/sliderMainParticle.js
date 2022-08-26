@@ -74,12 +74,6 @@ const SliderMainParticle = () => (
           >
             Nft's
           </span>
-          <span
-            onClick={() => window.open("collections", "_self")}
-            className="btn-main inline white lead"
-          >
-            Collection's
-          </span>
           <div className="mb-sm-30"></div>
         </Reveal>
       </div>

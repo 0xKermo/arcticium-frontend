@@ -81,7 +81,7 @@ export default class Responsive extends Component {
         {this.state.collections.map((collection, index) => (
           <div
             key={index}
-            className="d-item col-lg-3 col-md-6 col-sm-6 col-xs-12 mb-4"
+            className="d-item col-lg-4 col-md-6 col-sm-6 col-xs-12 mb-4"
           >
             <div
               className="nft_coll m-0"
@@ -93,13 +93,8 @@ export default class Responsive extends Component {
                 )
               }
             >
-              <div
-                className="nft_wrap"
-               
-              >
-                <span
-                 
-                >
+              <div className="nft_wrap">
+                <span>
                   <img
                     src={collection.bannerPath}
                     className="lazy img-fluid"
@@ -108,16 +103,16 @@ export default class Responsive extends Component {
                 </span>
               </div>
               <div className="nft_coll_pp">
-                <span
-                 
-                >
-                  <img className="lazy" src={collection.profileImgPath} alt="" />
+                <span>
+                  <img
+                    className="lazy"
+                    src={collection.profileImgPath}
+                    alt=""
+                  />
                 </span>
               </div>
               <div className="nft_coll_info">
-                <span
-                 
-                >
+                <span>
                   <h4>{collection.collectionName}</h4>
                 </span>
               </div>

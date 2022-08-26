@@ -3,7 +3,6 @@ import Slider from "react-slick";
 import styled from "styled-components";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import Clock from "./clock";
 import { carouselNew } from "./constants";
 
 const Outer = styled.div`
@@ -29,10 +28,19 @@ const CarouselNewRedux = (props) => {
         {props.swapData.getOpenTrades &&
           props.swapData.getOpenTrades.map((nft, index) => (
             <div className="itm" index={index + 1} key={index}>
-              <div className="d-item" onClick={() => window.open(`/asset/${nft.tokenContract}/${nft.tokenId}`, "_self")} style={{ cursor: "pointer" }}>
+              <div
+                className="d-item"
+                onClick={() =>
+                  window.open(
+                    `/asset/${nft.tokenContract}/${nft.tokenId}`,
+                    "_self"
+                  )
+                }
+                style={{ cursor: "pointer" }}
+              >
                 <div className="nft_popular_item">
                   <div className="author_list_pp">
-                    <span >
+                    <span>
                       {nft.image && (
                         <img
                           className="lazy"
@@ -59,11 +67,7 @@ const CarouselNewRedux = (props) => {
                     <Outer>
                       <span>
                         <img
-                          src={
-                            nft.targetAssetInfo.length > 0
-                              ? nft.targetAssetInfo[0].image
-                              : null
-                          }
+                          src={nft.assetInfo.image}
                           className="lazy nft__item_preview"
                           onLoad={onImgLoad}
                           alt=""
@@ -71,15 +75,13 @@ const CarouselNewRedux = (props) => {
                       </span>
                     </Outer>
                   </div>
-                  <div className="nft__item_info" style={{padding:"10px"}}>
+                  <div className="nft__item_info" style={{ padding: "10px" }}>
                     <span onClick={() => window.open("/#", "_self")}>
                       <h4>{nft.assetInfo.name}</h4>
                     </span>
                     <div className="nft__item_price">{nft.price} ETH</div>
                     <div className="nft__item_action">
-                      <span>
-                        Place a bid
-                      </span>
+                      <span>Place a bid</span>
                     </div>
                   </div>
                 </div>

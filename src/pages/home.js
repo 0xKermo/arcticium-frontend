@@ -9,7 +9,6 @@ import { createGlobalStyle } from "styled-components";
 import { useQuery } from "@apollo/client";
 import { GetOpenTrades } from "../grqphql/query";
 
-
 const GlobalStyles = createGlobalStyle`
   header#myHeader.navbar.sticky.white {
     background: #403f83;
@@ -45,66 +44,63 @@ const GlobalStyles = createGlobalStyle`
 `;
 
 const Home = () => {
-  const {loading,error,data} = useQuery(GetOpenTrades)
+  const { loading, error, data } = useQuery(GetOpenTrades);
 
+  return (
+    <div>
+      <GlobalStyles />
+      <section
+        className="jumbotron no-bg"
+        style={{ backgroundImage: `url(${"./img/background/2.jpg"})` }}
+      >
+        <Particle />
+        <SliderMainParticle />
+      </section>
 
-  return(
-  <div>
-    <GlobalStyles />
-    <section
-      className="jumbotron no-bg"
-      style={{ backgroundImage: `url(${"./img/background/2.jpg"})` }}
-    >
-      <Particle />
-      <SliderMainParticle />
-    </section>
-
-    <section className="container">
-      <div className="row">
-        <div className="col-lg-12">
-          <div className="text-center">
-            <h2>Popular Swap's</h2>
-            <div className="small-border"></div>
-          </div>
-        </div>
-      </div>
-      {!loading && (
-        <CarouselSwap swapData={data}/>
-
-      )}
-    </section>
-
-    <section className="container-fluid bg-gray">
-      <div className="row">
-        <div className="col-lg-12">
-          <div className="text-center">
-            <h2>Hot Collections</h2>
-            <div className="small-border"></div>
-          </div>
-        </div>
-      </div>
-      <div className="container">
+      <section className="container">
         <div className="row">
           <div className="col-lg-12">
-            <CarouselCollection />
+            <div className="text-center">
+              <h2>Create and sell your NFTs</h2>
+              <div className="small-border"></div>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+        <div className="container">
+          <FeatureBox />
+        </div>
+      </section>
 
-    <section className="container">
-      <div className="row">
-        <div className="col-lg-12">
-          <div className="text-center">
-            <h2>Create and sell your NFTs</h2>
-            <div className="small-border"></div>
+      <section className="container">
+        <div className="row">
+          <div className="col-lg-12">
+            <div className="text-center">
+              <h2>Popular Swap's</h2>
+              <div className="small-border"></div>
+            </div>
           </div>
         </div>
-      </div>
-      <div className="container">
-        <FeatureBox />
-      </div>
-    </section>
-  </div>
-)};
+        {!loading && <CarouselSwap swapData={data} />}
+      </section>
+
+      <section className="container">
+        <div className="row">
+          <div className="col-lg-12">
+            <div className="text-center">
+              <h2>Hot Collections</h2>
+              <div className="small-border"></div>
+            </div>
+          </div>
+        </div>
+        <div className="container">
+          <div className="row">
+            <div className="col-lg-12">
+              <CarouselCollection />
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
 export default Home;

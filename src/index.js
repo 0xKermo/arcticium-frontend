@@ -26,33 +26,33 @@ import Faucet from "./pages/faucet";
 import Mint from "./pages/mint";
 import Swap from "./pages/swap";
 
-import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
+import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 import Test from "./pages/test";
 const client = new ApolloClient({
-  uri: 'http://localhost:4000/graphql',
+  uri: "http://localhost:4000/graphql",
   cache: new InMemoryCache(),
 });
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <ApolloProvider client={client}>
-  <Provider store={store}>
-    <BrowserRouter>
-      <Header />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/nfts" element={<Nfts />} />
-        <Route path="/collections" element={<Collections />} />
-        <Route path="/collection/:contract" element={<Collection />} />
-        <Route path="/asset/:contract/:id" element={<ItemDetail />} />
-        <Route path="/asset/:contract/:id/swap" element={<Swap />} />
-        <Route path="/:wallet" element={<Profile />} />
-        <Route path="/faucet" element={<Faucet />} />
-        <Route path="/mint" element={<Mint />} />
-        <Route path="/test" element={<Test />} />
-      </Routes>
-      <Footer />
-    </BrowserRouter>
-  </Provider>
+    <Provider store={store}>
+      <BrowserRouter>
+        <Header />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/nfts" element={<Nfts />} />
+          <Route path="/collections" element={<Collections />} />
+          <Route path="/collection/:contract" element={<Collection />} />
+          <Route path="/asset/:contract/:id" element={<ItemDetail />} />
+          <Route path="/asset/:contract/:id/swap" element={<Swap />} />
+          <Route path="/:wallet" element={<Profile />} />
+          <Route path="/faucet" element={<Faucet />} />
+          <Route path="/mint" element={<Mint />} />
+          <Route path="/test" element={<Test />} />
+        </Routes>
+        <Footer />
+      </BrowserRouter>
+    </Provider>
   </ApolloProvider>
 );
 

@@ -1,5 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faTwitter,
+  faDiscord,
+  faMedium,
+} from "@fortawesome/free-brands-svg-icons";
 
 const Footer = () => (
   <footer className="footer-light">
@@ -25,19 +31,19 @@ const Footer = () => (
               <div className="de-flex-col">
                 <div className="social-icons">
                   <span onClick={() => window.open("", "_self")}>
-                    <i className="fa fa-facebook fa-lg"></i>
+                    <i className="fa-lg">
+                      <FontAwesomeIcon icon={faTwitter} />
+                    </i>
                   </span>
                   <span onClick={() => window.open("", "_self")}>
-                    <i className="fa fa-twitter fa-lg"></i>
+                    <i className="fa-lg">
+                      <FontAwesomeIcon icon={faDiscord} />
+                    </i>
                   </span>
                   <span onClick={() => window.open("", "_self")}>
-                    <i className="fa fa-linkedin fa-lg"></i>
-                  </span>
-                  <span onClick={() => window.open("", "_self")}>
-                    <i className="fa fa-pinterest fa-lg"></i>
-                  </span>
-                  <span onClick={() => window.open("", "_self")}>
-                    <i className="fa fa-rss fa-lg"></i>
+                    <i className="fa-lg">
+                      <FontAwesomeIcon icon={faMedium} />
+                    </i>
                   </span>
                 </div>
               </div>
