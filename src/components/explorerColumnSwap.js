@@ -4,6 +4,8 @@ import styled from "styled-components";
 import Clock from "./clock";
 import { Link } from "react-router-dom";
 import NftCard from "./nftCard";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGavel } from "@fortawesome/free-solid-svg-icons";
 
 const Outer = styled.div`
   display: flex;
@@ -57,46 +59,64 @@ export default class Responsive extends Component {
                 >
                   <div className="nft_popular_item m-0">
                     <div className="nft__item_wrap">
-                      <div className="col-md-5">
-                        <Outer>
-                          <span>
-                            <img
-                              onLoad={this.onImgLoad}
-                              src={nft.assetInfo.image}
-                              className="lazy nft__item_preview"
-                              alt=""
-                            />
-                          </span>
-                        </Outer>
+                      <Outer>
+                        <span>
+                          <img
+                            onLoad={this.onImgLoad}
+                            src={nft.assetInfo.image}
+                            className="lazy nft__item_preview"
+                            alt=""
+                          />
+                        </span>
+                      </Outer>
+                      <div className="swap-icon">
+                        <i className="fa fa-exchange"></i>
                       </div>
-                      <div className="col-md-2">
-                        <div className="swap-icon">
-                          <i className="fa fa-exchange"></i>
-                        </div>
-                      </div>
-                      <div className="col-md-5">
-                        {nft.targetTokenContract != null &&
-                          nft.targetTokenId != 0 && (
+                      <Outer>
+                        <span>
+                          {nft.targetTokenContract != null &&
+                            nft.targetTokenId != 0 && (
+                              <img
+                                onLoad={this.onImgLoad}
+                                src={nft.targetAssetInfo[0].image}
+                                className="lazy nft__item_preview"
+                                alt=""
+                              />
+                            )}
+                        </span>
+                      </Outer>
+                      {nft.targetTokenContract != null &&
+                        nft.targetTokenId == 0 && (
+                          <div>
                             <Outer>
                               <span>
                                 <img
                                   onLoad={this.onImgLoad}
-                                  src={nft.targetAssetInfo[0].image}
+                                  src="img/items/make-offer.png"
                                   className="lazy nft__item_preview"
                                   alt=""
                                 />
                               </span>
                             </Outer>
-                          )}
-                        {nft.targetTokenContract != null &&
-                          nft.targetTokenId == 0 && (
-                            <div>{nft.targetTokenContract.slice(0, 3)}</div>
-                          )}
-                        {nft.targetTokenContract == null &&
-                          nft.targetTokenId == 0 && <div>Make Offer</div>}
-                      </div>
+                          </div>
+                        )}
+                      {nft.targetTokenContract == null &&
+                        nft.targetTokenId == 0 && (
+                          <div>
+                            <Outer>
+                              <span>
+                                <img
+                                  onLoad={this.onImgLoad}
+                                  src="img/items/make-offer-2.png"
+                                  className="lazy nft__item_preview"
+                                  alt=""
+                                />
+                              </span>
+                            </Outer>
+                          </div>
+                        )}
                     </div>
-                    <div className="nft__item_info" style={{padding:"10px"}}>
+                    <div className="nft__item_info">
                       <span>
                         <h4>{nft.assetInfo.name}</h4>
                       </span>

@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faTwitter,
   faDiscord,
-  faMedium,
+  faMediumM,
 } from "@fortawesome/free-brands-svg-icons";
 
 const Footer = () => (
@@ -42,7 +42,7 @@ const Footer = () => (
                   </span>
                   <span onClick={() => window.open("", "_self")}>
                     <i className="fa-lg">
-                      <FontAwesomeIcon icon={faMedium} />
+                      <FontAwesomeIcon icon={faMediumM} />
                     </i>
                   </span>
                 </div>

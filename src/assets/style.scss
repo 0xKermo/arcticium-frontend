@@ -693,6 +693,41 @@ a {
   color: inherit;
 }
 
+.btn-connect {
+  display: block;
+  width: max-content;
+  text-align: center;
+  color: #fff !important;
+  background: #8364e2;
+  border-radius: 6px;
+  letter-spacing: normal;
+  outline: 0;
+  font-weight: 800;
+  text-decoration: none;
+  padding: 8px 20px;
+  font-size: 13px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 2px 2px 20px 0px rgba(131, 100, 226, 0);
+  transition: all 0.3s ease;
+  &:hover {
+    box-shadow: 2px 2px 20px 0px rgba(131, 100, 226, 0.5);
+    transition: all 0.3s ease;
+  }
+  &.inline {
+    display: inline-block;
+    margin-right: 15px;
+    &.white {
+      color: $color_more !important;
+      background: $white;
+    }
+  }
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
 .btn-cancel {
   display: block;
   width: max-content;
@@ -958,7 +993,7 @@ a {
       .mainside {
         position: absolute;
         right: 60px;
-        top: 28px;
+        top: 25px;
       }
       .dropdown-custom.btn {
         color: $gray;
@@ -3020,9 +3055,10 @@ i.font60 {
 .nft__item_wrap span {
   display: block;
 }
+
 .nft__item img {
-  width: auto;
-  height: 250px;
+  width: 150px;
+  height: 150px;
   object-fit: cover;
   border-radius: 8px;
   -moz-border-radius: 8px;
@@ -5529,6 +5565,15 @@ blockquote {
   }
   .profile_avatar i {
     margin-top: -35px;
+  }
+  .nft_popular_item img {
+    width: 150px;
+    height: 150px;
+    max-height: 399px;
+    object-fit: cover;
+    border-radius: 8px;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
   }
   table {
     border: 0;
