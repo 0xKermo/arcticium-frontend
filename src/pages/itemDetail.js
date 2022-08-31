@@ -46,14 +46,12 @@ const GlobalStyles = createGlobalStyle`
   }
   .p_detail_header{
     font-weight: 400;
-    padding-left: 5%;
     text-align: left;
     border-bottom: 1px solid #8364e2;
 
   }
   .p_detail{
     font-weight: 400;
-    padding-left: 5%;
     text-align: left;
       
     }
@@ -65,7 +63,7 @@ const GlobalStyles = createGlobalStyle`
 
 const ItemDetail = function () {
   const dispatch = useDispatch();
-  
+
   /**
    *  Reducer start
    */
@@ -76,7 +74,6 @@ const ItemDetail = function () {
   const { collectionName } = useSelector((state) => state.collections);
   const { walletAddress } = useSelector((state) => state.wallet);
   const { itemDetailLoader } = useSelector((state) => state.loader);
-
 
   const { cancelItemListing } = ListedItemAction();
 
@@ -100,11 +97,10 @@ const ItemDetail = function () {
    * Contract
    */
   const { getTokenURI } = GetTokenURI();
-  const {getPixelTokenURI} = GetPixelTokenURI()
+  const { getPixelTokenURI } = GetPixelTokenURI();
   const { getOwnerOf } = GetOwnerOf();
   const { getCollectionName } = GetCollectionName();
   const { buyItem } = BuyItem();
-
   const cancelListing = async () => {
     const tradeId = data.getTradeWithAddresId.tradeId;
     cancelItemListing(tradeId, contract, id);
@@ -147,15 +143,15 @@ const ItemDetail = function () {
 
   useEffect(() => {
     const prepare = async (dataGetAsset) => {
-      const _collectionName =  data.collections.filter((x) => x.collectionAddress == contract)[0]
-       == null
-      ? await getCollectionName(contract) // set collection name collections redux
-      : data.collections.filter(
-          (x) => x.collectionAddress == contract
-        )[0].collectionName
+      const _collectionName =
+        data.collections.filter((x) => x.collectionAddress == contract)[0] ==
+        null
+          ? await getCollectionName(contract) // set collection name collections redux
+          : data.collections.filter((x) => x.collectionAddress == contract)[0]
+              .collectionName;
       if (dataGetAsset == null) {
         await getTokenURI(contract, id).then((res) => {
-          console.log("res",res)
+          console.log("res", res);
 
           dispatch(
             setMetadata({
@@ -172,12 +168,11 @@ const ItemDetail = function () {
                   : data.collections.filter(
                       (x) => x.collectionAddress == contract
                     )[0].profileImgPath,
-              collectionName: _collectionName
+              collectionName: _collectionName,
             })
           );
           setTimeout(() => {
-            dispatch(setItemDetailLoader(true))
-            
+            dispatch(setItemDetailLoader(true));
           }, 1000);
         });
       } else {
@@ -189,20 +184,19 @@ const ItemDetail = function () {
             attributes: dataGetAsset.attributes,
             ownerPP: "../../img/author/author.svg",
             collectionPP:
-              data.collections.filter((x) => x.collectionAddress == contract)[0]
-                 == null
+              data.collections.filter(
+                (x) => x.collectionAddress == contract
+              )[0] == null
                 ? "../../img/author/author.svg"
                 : data.collections.filter(
                     (x) => x.collectionAddress == contract
                   )[0].profileImgPath,
-            collectionName:_collectionName
+            collectionName: _collectionName,
           })
         );
         setTimeout(() => {
-          dispatch(setItemDetailLoader(true))
-          
+          dispatch(setItemDetailLoader(true));
         }, 1000);
-
       }
     };
     if (!loading) {
@@ -246,8 +240,7 @@ const ItemDetail = function () {
     prepare();
   }, [walletAddress, loading]);
 
-  const attr = (_metadata) =>(
-  
+  const attr = (_metadata) =>
     _metadata.attributes != null && _metadata.attributes != undefined
       ? _metadata.attributes.map((item, index) => {
           return (
@@ -259,7 +252,7 @@ const ItemDetail = function () {
             </div>
           );
         })
-      : null)
+      : null;
 
   return (
     <div>
@@ -267,51 +260,54 @@ const ItemDetail = function () {
       <Toaster position="bottom-center" reverseOrder={true} />
       <section className="container">
         <div className="row mt-md-5 pt-md-4">
-          {!itemDetailLoader&&
-          <ItemLoader />
-          }
-          {!loading && itemDetailLoader &&
+          {!itemDetailLoader && <ItemLoader />}
+          {!loading &&
+            itemDetailLoader &&
             data.getTradeWithAddresId === null &&
             !makeOfferBtn &&
             metadata != null && (
               <ItemDetailShowItem data={data} contract={contract} id={id} />
             )}
 
-          {!loading && data.getTradeWithAddresId === null && makeOfferBtn && itemDetailLoader &&(
-            <>
-              <Item
-                meta={metadata}
-                collectionName={collectionName}
-                attr={attr(metadata)}
-                voyagerLink={voyagerLink}
-                ownerWallet={walletAddressSlice(ownerWallet, 5, 3)}
-                contract={contract}
-              />
-              <div className="col-md-2">
-                <div className="p_list">
-                  <div className="p_detail">
-                    <div
-                      className="swap-icon"
-                      style={{
-                        fontSize: "50px",
-                        textAlign: "center",
-                        marginTop: "150px",
-                      }}
-                    >
-                      <i className="fa fa-exchange"></i>
+          {!loading &&
+            data.getTradeWithAddresId === null &&
+            makeOfferBtn &&
+            itemDetailLoader && (
+              <>
+                <Item
+                  meta={metadata}
+                  collectionName={collectionName}
+                  attr={attr(metadata)}
+                  voyagerLink={voyagerLink}
+                  ownerWallet={walletAddressSlice(ownerWallet, 5, 3)}
+                  contract={contract}
+                />
+                <div className="col-md-2">
+                  <div className="p_list">
+                    <div className="p_detail">
+                      <div
+                        className="swap-icon"
+                        style={{
+                          fontSize: "50px",
+                          textAlign: "center",
+                          marginTop: "150px",
+                        }}
+                      >
+                        <i className="fa fa-exchange"></i>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <SwapToAnyItem
-                collections={data.collections}
-                currency={data.getCurrencies}
-                data={data.getTradeWithAddresId}
-              />
-            </>
-          )}
+                <SwapToAnyItem
+                  collections={data.collections}
+                  currency={data.getCurrencies}
+                  data={data.getTradeWithAddresId}
+                />
+              </>
+            )}
 
-          {!loading && itemDetailLoader &&
+          {!loading &&
+            itemDetailLoader &&
             data.getTradeWithAddresId !== null &&
             data.getTradeWithAddresId.tradeType != 2 && (
               <>
@@ -354,7 +350,8 @@ const ItemDetail = function () {
               </>
             )}
 
-          {!loading && itemDetailLoader &&
+          {!loading &&
+            itemDetailLoader &&
             metadata !== null &&
             data.getTradeWithAddresId !== null &&
             data.getTradeWithAddresId.tradeType === 2 && (

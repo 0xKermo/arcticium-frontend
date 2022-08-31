@@ -2624,7 +2624,7 @@ i.font60 {
   margin: 10px;
   img {
     transition: 0.7s;
-    width: 410px;
+    width: 460px;
     height: 300px;
     object-fit: cover;
   }
@@ -2824,8 +2824,6 @@ i.font60 {
   display: flex;
   flex-direction: column;
   position: relative;
-  padding: 10px;
-  margin: 10px;
   border: solid 1px #ddd;
   border-radius: 15px;
   -moz-border-radius: 15px;
@@ -2833,10 +2831,20 @@ i.font60 {
   margin-bottom: 25px;
   background: #ffffff;
   transition: 0.7s;
+  align-items: center;
   &:hover {
     box-shadow: 2px 2px 30px 0px rgba(10, 10, 10, 0.1);
     transition: 0.7s;
   }
+}
+.nft_detail_item_info {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  border: solid 1px #ddd;
+  border-radius: 15px;
+  -moz-border-radius: 15px;
+  -webkit-border-radius: 15px;
 }
 
 .nft_detail_item h4 {
@@ -3067,8 +3075,7 @@ i.font60 {
 
 .nft_detail_item img {
   width: 412px;
-  height: 397px;
-  max-height: 399px;
+  height: 400px;
   object-fit: cover;
   border-radius: 8px;
   -moz-border-radius: 8px;
@@ -3540,6 +3547,8 @@ i.font60 {
 /*** item details ***/
 .item_info {
   padding-left: 10px;
+  padding-right: 10px;
+  margin-top: 10px;
   .de_countdown {
     position: relative;
     display: inline-block;
@@ -3579,7 +3588,8 @@ i.font60 {
   }
   .item_author .author_list_info {
     padding-top: 10px;
-    padding-left: 70px;
+    padding-left: 60px;
+    padding-right: 20px;
     color: #1a1b1e;
     font-weight: bold;
   }
