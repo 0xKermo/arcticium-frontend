@@ -9,6 +9,8 @@ export const getUserProfile = gql`
       profileImgPath
       bio
       socialMediaHandles
+      nextPage
+      lastIndex
     }
     getUserAsset(assetOwner: $walletAddress) {
       assetOwner
@@ -93,7 +95,6 @@ export const getCollection = gql`
       bannerPath
       profileImgPath
       bio
-      numberOfItems
       socialMediaHandles
     }
     getTradeWithContractAddress(contractAdress: $collectionAddress) {

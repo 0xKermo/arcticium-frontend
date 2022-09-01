@@ -42,6 +42,8 @@ const ColumnMyNfts = () => {
           className="d-item col-lg-2 col-md-6 col-sm-6 col-xs-12 mb-4"
           // style={{width:"20%"}}
           onClick={() => window.open("/asset/"+nft.contract_address+"/"+nft.token_id, "_self")}
+          style={{cursor:"pointer"}}
+
         >
           <div className="nft__item m-0"   style={{padding:"0px"}}>
             <div className="nft__item_wrap" >
@@ -56,13 +58,13 @@ const ColumnMyNfts = () => {
               </Outer>
             </div>
             <div className="nft__item_info"  style={{padding:"15px"}}>
-              <span onClick={() => window.open(nft.nftLink, "_self")}>
+              <span >
                 <h4>{nft.name}</h4>
               </span>
               <div className="nft__item_price">
-                {nft.contract_address.slice(0, 6)}
+                {nft.contract_address ? nft.contract_address.slice(0, 6) : null}
                 ...
-                {nft.contract_address.slice(-7)}
+                {nft.contract_address ? nft.contract_address.slice(-7): null}
               </div>
               {/* <div className="nft__item_action">
                 <span onClick={() => window.open(nft.contract_address+"/"+nft.token_id, "_self")}>

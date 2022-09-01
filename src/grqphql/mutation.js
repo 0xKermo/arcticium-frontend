@@ -8,7 +8,7 @@ export const TradeAdd = gql`
     $tokenId: String
     $expiration: Date
     $currencyType: Int
-    $price: Int
+    $price: String
     $status: String
     $swapTradeId: Int
     $targetTokenContract: String
@@ -79,13 +79,7 @@ export const BidAdd = gql`
   }
 `;
 
-export const updateUserAssets = gql`
-  mutation ($assetOwner: String) {
-    updateAssets(assetOwner: $assetOwner) {
-      assetOwner
-    }
-  }
-`;
+
 
 export const updateUserProfile = gql`
   mutation updateUserProfile(
@@ -123,6 +117,14 @@ export const uploadToMetadata = gql`
   mutation uploadMetadata($assetOwner: String!,  $name: String, $description: String, $image: String ) {
     uploadMetadata(assetOwner: $assetOwner, name: $name, description: $description, image: $image) {
       image
+    }
+  }
+`;
+
+export const status = gql`
+  mutation status($walletAddress: String!,  $index: Int, $lastIndex: Int) {
+    status(walletAddress: $walletAddress, index: $index, lastIndex : $lastIndex) {
+      index
     }
   }
 `;

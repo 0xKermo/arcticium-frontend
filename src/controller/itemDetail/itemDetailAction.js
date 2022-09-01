@@ -36,11 +36,11 @@ export const ItemDetailAction = () => {
   const anyBtn = () => {
     dispatch(setListType(0));
     dispatch(setTargetCollectionAddress(0));
-    dispatch(setTargetNftId(0));
+    dispatch(setTargetNftId(null));
     dispatch(setTargetNftLink(null));
     dispatch(setVoyagerLink(null));
     dispatch(setChoosenCurrency(null));
-    dispatch(setCurrencyAmount(0));
+    dispatch(setCurrencyAmount(null));
     document.getElementById("any").classList.add("method_active");
     document.getElementById("collection").classList.remove("method_active");
     document.getElementById("nft").classList.remove("method_active");
@@ -49,11 +49,11 @@ export const ItemDetailAction = () => {
     dispatch(setListType(1));
     
     dispatch(setTargetCollectionAddress(0));
-    dispatch(setTargetNftId(0));
+    dispatch(setTargetNftId(null));
     dispatch(setTargetNftLink(null));
     dispatch(setVoyagerLink(null));
     dispatch(setChoosenCurrency(null));
-    dispatch(setCurrencyAmount(0));
+    dispatch(setCurrencyAmount(null));
     document.getElementById("any").classList.remove("method_active");
     document.getElementById("collection").classList.add("method_active");
     document.getElementById("nft").classList.remove("method_active");
@@ -61,11 +61,11 @@ export const ItemDetailAction = () => {
   const nftBtn = () => {
     dispatch(setListType(2));
     
-    dispatch(setTargetCollectionAddress(0));
-    dispatch(setTargetNftId(0));
+    dispatch(setTargetCollectionAddress(null));
+    dispatch(setTargetNftId(null));
     dispatch(setTargetNftLink(null));
     dispatch(setVoyagerLink(null));
-    dispatch(setCurrencyAmount(0));
+    dispatch(setCurrencyAmount(null));
     dispatch(setChoosenCurrency(null));
     document.getElementById("any").classList.remove("method_active");
     document.getElementById("collection").classList.remove("method_active");

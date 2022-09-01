@@ -99,9 +99,7 @@ const ItemDetail = function () {
   /**
    * Contract
    */
-  const { getTokenURI } = GetTokenURI();
   const {getPixelTokenURI} = GetPixelTokenURI()
-  const { getOwnerOf } = GetOwnerOf();
   const { getCollectionName } = GetCollectionName();
   const { buyItem } = BuyItem();
 
@@ -115,6 +113,7 @@ const ItemDetail = function () {
   }
 
   const buyNow = () => {
+    debugger
     const tradeId = data.getTradeWithAddresId.tradeId;
 
     const targetItemContract =
@@ -147,40 +146,16 @@ const ItemDetail = function () {
 
   useEffect(() => {
     const prepare = async (dataGetAsset) => {
+      try {
+        
+      
       const _collectionName =  data.collections.filter((x) => x.collectionAddress == contract)[0]
        == null
       ? await getCollectionName(contract) // set collection name collections redux
       : data.collections.filter(
           (x) => x.collectionAddress == contract
         )[0].collectionName
-      if (dataGetAsset == null) {
-        await getTokenURI(contract, id).then((res) => {
-          console.log("res",res)
 
-          dispatch(
-            setMetadata({
-              name: res.name,
-              description: res.description,
-              image: res.image,
-              attributes: attr(res),
-              ownerPP: "../../img/author/author.svg",
-              collectionPP:
-                data.collections.filter(
-                  (x) => x.collectionAddress == contract
-                )[0] == null
-                  ? "../../img/author/author.svg"
-                  : data.collections.filter(
-                      (x) => x.collectionAddress == contract
-                    )[0].profileImgPath,
-              collectionName: _collectionName
-            })
-          );
-          setTimeout(() => {
-            dispatch(setItemDetailLoader(true))
-            
-          }, 1000);
-        });
-      } else {
         dispatch(
           setMetadata({
             name: dataGetAsset.name,
@@ -198,11 +173,13 @@ const ItemDetail = function () {
             collectionName:_collectionName
           })
         );
+
         setTimeout(() => {
           dispatch(setItemDetailLoader(true))
           
         }, 1000);
-
+      } catch (error) {
+        console.log(error)
       }
     };
     if (!loading) {
@@ -229,17 +206,22 @@ const ItemDetail = function () {
   useEffect(() => {
     const prepare = async () => {
       if (walletAddress != undefined && !loading) {
-        const itemOwner = await getOwnerOf(contract, id);
-        dispatch(setOwnerWallet(itemOwner.result[0]));
-        const checkItemOwner = BigNumber.from(walletAddress).eq(
-          itemOwner.result[0]
-        );
-        if (checkItemOwner && data.getTradeWithAddresId === null) {
-          dispatch(setItemOwner(1));
-        } else if (checkItemOwner && data.getTradeWithAddresId !== null) {
-          dispatch(setItemOwner(2));
-        } else if (!checkItemOwner) {
-          dispatch(setItemOwner(3));
+        try {
+          console.log(walletAddress)
+          console.log(data.getAsset.assetOwner)
+          const checkItemOwner = BigNumber.from(walletAddress).eq(
+            data.getAsset.assetOwner
+          );
+          dispatch(setOwnerWallet(data.getAsset.assetOwner))
+          if (checkItemOwner && data.getTradeWithAddresId === null) {
+            dispatch(setItemOwner(1));
+          } else if (checkItemOwner && data.getTradeWithAddresId !== null) {
+            dispatch(setItemOwner(2));
+          } else if (!checkItemOwner) {
+            dispatch(setItemOwner(3));
+          }
+        } catch (error) {
+            console.log(error)
         }
       }
     };

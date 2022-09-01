@@ -70,7 +70,7 @@ export default class Responsive extends Component {
 
               <div className="p_list" style={{ display: "flex" }}>
                 <div className="col-md-6">
-                  <div className="p_detail">
+                  <div className="p_detail" onClick={() => window.open(`/${this.state.targetItemData.assetOwner}`, "_self")} >
                     <h6>Owner</h6>
                     <div className="item_author">
                       <div className="author_list_pp">
@@ -83,13 +83,13 @@ export default class Responsive extends Component {
                         </span>
                       </div>
                       <div className="author_list_info">
-                        <span>{walletAddressSlice(this.state.targetItemData.assetOwner,5,4)}</span>
+                        <span>{walletAddressSlice(this.state.targetItemData.assetOwner,5,3)}</span>
                       </div>
                     </div>
                   </div>
                 </div>
                 <div className="col-md-6">
-                  <div className="p_detail">
+                  <div className="p_detail" onClick={() => window.open(`/collection/${this.state.targetItemData.contract_address}`, "_self")} >
                     <h6>Creator</h6>
                     <div className="item_author">
                       <div className="author_list_pp">
@@ -101,7 +101,11 @@ export default class Responsive extends Component {
                                 (x) =>
                                   x.collectionAddress ==
                                   this.state.targetItemData.contract_address
-                              )[0].profileImgPath
+                              )[0] ?    this.props.collections.filter(
+                                (x) =>
+                                  x.collectionAddress ==
+                                  this.state.targetItemData.contract_address
+                              )[0].profileImgPath:"../../img/author/author.svg"
                             }
                             alt=""
                           />
@@ -113,7 +117,11 @@ export default class Responsive extends Component {
                                 (x) =>
                                   x.collectionAddress ==
                                   this.state.targetItemData.contract_address
-                              )[0].collectionName
+                              )[0] ?   this.props.collections.filter(
+                                (x) =>
+                                  x.collectionAddress ==
+                                  this.state.targetItemData.contract_address
+                              )[0].collectionName: walletAddressSlice( this.state.targetItemData.contract_address, 5,3)
                             }</span>
                       </div>
                     </div>

@@ -12,14 +12,7 @@ import { walletAddressSlice } from "../utils/walletAddressSlice";
 import { useEffect, useState } from "react";
 
 const ItemDetailShowItem = (props) => {
-  const [assetInfo,setAssetInfo] = useState({
-    image: null,
-    description:null,
-    name: null,
-    ownerPP:null,
-    ownerWallet: null,
-    creatorPP : null,
-  }) 
+
   const dispatch = useDispatch();
   /**
    *    Redux
@@ -29,7 +22,6 @@ const ItemDetailShowItem = (props) => {
   const { openMenu, openMenu1, voyagerLink, itemOwner } = useSelector(
     (state) => state.itemDetailOperation
   );
-  const { collectionName } = useSelector((state) => state.collections);
 
   /**
    * Contract Functions
@@ -44,7 +36,7 @@ const ItemDetailShowItem = (props) => {
   /**
    * Functions
    */
-console.log("metadata",metadata)
+
   const { handleBtnClick, handleBtnClick1 } = ItemDetailAction();
 
   const open_trade = () => {
@@ -231,7 +223,7 @@ console.log("metadata",metadata)
                     item listed to{" "}
                     {props.data.getTradeWithAddresId.targetTokenContract == null
                       ? "any collection"
-                      : props.data.getTradeWithAddresId.targetTokenId !== 0
+                      : props.data.getTradeWithAddresId.targetTokenId !== null
                       ? props.data.getTradeWithAddresId.targetAssetInfo[0]
                           .name +
                         "from" +

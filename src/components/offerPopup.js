@@ -14,6 +14,8 @@ import Select from "react-select";
 import { useState } from "react";
 import { setTargetMetadata } from "../store/slicers/targetNftMetadata";
 import { GetTokenURI } from "../hooks";
+import TargetItemLoader from "./loader/targetItemPopupLoader";
+
 
 const customStyles = {
   option: (base, state) => ({
@@ -44,6 +46,8 @@ const customStyles = {
 const OfferPopup = (props) => {
   const [isActive, setIsActive] = useState(false);
   const [targetNftUrl, setTargetNftUrl] = useState("");
+  const [targetNftLoader, setTargetNftLoader] = useState(0);
+
   const { getTokenURI } = GetTokenURI();
   const { listItemData} = ListItemData()
   const dispatch = useDispatch();
@@ -69,11 +73,12 @@ const OfferPopup = (props) => {
 
   const targetNftOnfocus = async (e) => {
     setTargetNftUrl("");
-    console.log("ok");
+    setTargetNftLoader(1)
     const targetMetadata = await getTokenURI(
       targetCollectionAddress,
       e.target.value
     );
+    setTargetNftLoader(2)
     dispatch(setTargetMetadata(props.metadata));
     const _targetNftLink =
       "http://localhost:3000/" + targetCollectionAddress + "/" + e.target.value;
@@ -266,15 +271,20 @@ const OfferPopup = (props) => {
               id="targetNftsrc"
               href={targetNftLink}
             >
-              <div className="nft__item_offer">
-                <span>
+              <div className="nft_target_item">
+                {targetNftLoader == 1 &&
+                <TargetItemLoader />
+                }
+                {targetNftLoader ==2 &&
+                
                   <img
                     src={targetNftUrl}
                     id="targetNft"
                     className="lazy nft__item_preview"
                     alt=""
+                    style={{ width: "auto", height: "400px", padding: "0" }}
                   />
-                </span>
+                }
               </div>
 
               <div className="heading mt-3">

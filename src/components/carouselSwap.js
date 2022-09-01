@@ -67,7 +67,11 @@ const CarouselNewRedux = (props) => {
                     <Outer>
                       <span>
                         <img
-                          src={nft.assetInfo.image}
+                          src={
+                            nft.targetAssetInfo.length > 0
+                              ? nft.targetAssetInfo[0].image
+                              : null
+                          }
                           className="lazy nft__item_preview"
                           onLoad={onImgLoad}
                           alt=""
@@ -75,14 +79,37 @@ const CarouselNewRedux = (props) => {
                       </span>
                     </Outer>
                   </div>
-                  <div className="nft__item_info" style={{ padding: "10px" }}>
-                    <span onClick={() => window.open("/#", "_self")}>
-                      <h4>{nft.assetInfo.name}</h4>
-                    </span>
-                    <div className="nft__item_price">{nft.price} ETH</div>
-                    <div className="nft__item_action">
-                      <span>Place a bid</span>
+                  <div className="row">
+                    <div className="col-md-6">
+                      <div
+                        className="nft__item_info"
+                        style={{ padding: "10px" }}
+                      >
+                        <span onClick={() => window.open("/#", "_self")}>
+                          <h4>{nft.assetInfo.name}</h4>
+                        </span>
+                        <div className="nft__item_price"><span></span></div>
+                        <div className="nft__item_action">
+                          <span>Place a bid</span>
+                        </div>
+                      </div>
                     </div>
+                    {nft.targetAssetInfo.length > 0 && (
+                      <div className="col-md-6">
+                        <div
+                          className="nft__item_info"
+                          style={{ padding: "10px" }}
+                        >
+                          <span onClick={() => window.open("/#", "_self")}>
+                            <h4>{nft.targetAssetInfo[0].name}</h4>
+                          </span>
+                          <div className="nft__item_price">+ {nft.price} ETH</div>
+                          <div className="nft__item_action">
+                            <span>Buy now</span>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>

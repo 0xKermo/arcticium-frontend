@@ -7,6 +7,7 @@ export const profileOperation = createSlice({
     openMenu1: false,
     openMenu2: false,
     openMenu3: false,
+    profileCreated : true,
   },
   reducers: {
     setOpenMenu: (state, action) => {
@@ -21,11 +22,17 @@ export const profileOperation = createSlice({
     setOpenMenu3: (state, action) => {
       state.openMenu3 = action.payload;
     },
+    setOpenMenu3: (state, action) => {
+      state.openMenu3 = action.payload;
+    },
+    setProfileCreated: (state, action) => {
+      state.profileCreated = action.payload;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setOpenMenu, setOpenMenu1, setOpenMenu2, setOpenMenu3 } =
+export const { setOpenMenu, setOpenMenu1, setOpenMenu2, setOpenMenu3,setProfileCreated } =
 profileOperation.actions;
 
 export default profileOperation.reducer;

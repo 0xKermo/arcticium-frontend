@@ -21,6 +21,8 @@ export const BuyItem = () => {
     let result;
     const price = _price * 10 ** 18;
     const priceUint = bnToUint256(price.toString());
+    tradeStatusChange()
+return false
     const approveArgs = {
         contractAddress: _token_contract,
         entrypoint: "approve",
@@ -55,7 +57,6 @@ export const BuyItem = () => {
     const voyagerLink = `https://beta-goerli.voyager.online/tx/${result.transaction_hash}`;
     const mintSuccessText = `<a src=${voyagerLink}>Listing cancelled, click and see on Voyager</a>`;
     tx.then(res => {
-    tradeStatusChange()
 
     })
     ToastPromise(tx, mintLoadingText, mintSuccessText);

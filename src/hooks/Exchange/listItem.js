@@ -1,9 +1,10 @@
 import { useSelector, useDispatch } from "react-redux";
-import { EXCHANGE_ADDRESS } from "../../constants/starknetAddress";
+import { EXCHANGE_ADDRESS, PROXY_ADDRESS } from "../../constants/starknetAddress";
 import { ApproveERC721 } from "../ERC721/approve";
 import { ToastPromise } from "../../components/toast";
 import { setOpenCheckout } from "../../store/slicers/itemDetailOperations";
 import { AddTrade } from "../../grqphql";
+import { getSelectorFromName } from "starknet/utils/hash";
 
 export const ListItem = () => {
   const { walletAddress, account } = useSelector((state) => state.wallet);
@@ -14,6 +15,9 @@ export const ListItem = () => {
 
   const listItem = async (_itemCallData, _isApprove, tradeArgs) => {
     try {
+      const listItemSelector = getSelectorFromName("open_swap_trade")
+      console.log(listItemSelector)
+      
       let listItemArgs = [
         {
           contractAddress: EXCHANGE_ADDRESS,
@@ -46,7 +50,7 @@ export const ListItem = () => {
         console.log("test", res);
         tradeArgs.transactionHash = result.transaction_hash;
         const resAddTrade = _addTrade(tradeArgs);
-        console.log(resAddTrade);
+        window.location.reload()
       });
       return result;
     } catch (error) {

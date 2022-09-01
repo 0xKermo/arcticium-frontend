@@ -61,8 +61,8 @@ const SwapToAnyItem = (props) => {
       bidOwner: walletAddress,
       bidContractAddress: props.data.targetTokenContract == null? bidCollectionAddress : props.data.targetTokenContract,
       bidTokenId: bidItemId,
-      bidCurrencyType: bidCurrencyType == null ? 0 : currencyAddresses[bidCurrencyType],
-      bidPrice: parseFloat(bidCurrencyAmount),
+      bidCurrencyType: bidCurrencyType == null ? null : currencyAddresses[bidCurrencyType],
+      bidPrice: bidCurrencyAmount == null ? null : parseFloat(bidCurrencyAmount),
       tradeId: props.data.tradeId,
       biddedItemOwner: props.data.tradeOwnerAddress,
       biddedItemContractAddress: props.data.tokenContract,
@@ -80,9 +80,10 @@ const SwapToAnyItem = (props) => {
       <div className="item_info">
         <div className="de_tab">
           <div className="tab-1 onStep fadeIn">
+  
             <div
-              className="nft__item m-0"
-              style={{ width: "auto", height: "400px" }}
+              className="nft_detail_item m-0"
+              style={{ width: "auto", height: "400px", padding: "0" }}
             >
               <a target="_blank" rel="noopener noreferrer" id="targetNftsrc">
                 <div className="nft__item_offer">
@@ -93,10 +94,6 @@ const SwapToAnyItem = (props) => {
                       alt=""
                     />
                   </span>
-                </div>
-
-                <div className="heading mt-3">
-                  <p>Click on see NFT</p>
                 </div>
               </a>
             </div>

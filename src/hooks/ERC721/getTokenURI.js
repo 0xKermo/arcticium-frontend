@@ -32,19 +32,24 @@ export const GetTokenURI = () => {
   };
 
   const getTokenURI = async (_contract_address, _token_id) => {
-    let token_id = bnToUint256(_token_id);
-    const low = hexToDecimalString(token_id.low);
-    const high = hexToDecimalString(token_id.high);
-    const provider = new Provider();
-
-    const tx = await provider.callContract({
-      contractAddress: _contract_address,
-      entrypoint: "tokenURI",
-      calldata: [low, high],
-    });
-    const res = await joinTokenURI(tx.result, _contract_address, _token_id);
-    // console.log(res)
-    return res;
+    try {
+      
+      let token_id = bnToUint256(_token_id);
+      const low = hexToDecimalString(token_id.low);
+      const high = hexToDecimalString(token_id.high);
+      const provider = new Provider();
+  
+      const tx = await provider.callContract({
+        contractAddress: _contract_address,
+        entrypoint: "tokenURI",
+        calldata: [low, high],
+      });
+      const res = await joinTokenURI(tx.result, _contract_address, _token_id);
+      console.log("res",res)
+      return res;
+    } catch (error) {
+      return null
+    }
   };
 
   const joinTokenURI = async (hexArray, _contract_address, _token_id) => {

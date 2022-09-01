@@ -52,21 +52,19 @@ export const BidActions = () => {
     console.log(e.target.value);
     dispatch(setBidCurrencyAmount(e.target.value));
   };
+
   const makeOffer = async (bidData) => {
     const isApprove = await getApprove(walletAddress, bidData.bidContractAddress)
     const token_id = bnToUint256(bidData.bidTokenId) 
     const biddedItemId = bnToUint256(bidData.biddedItemId)
     debugger
     let priceUint = bnToUint256("0")
-    if(bidData.bidCurrencyType != 0 && bidData.bidPrice != 0){
+    if(bidData.bidCurrencyType && bidData.bidPrice){
       const _price = bidData.price * 10**18
       priceUint = bnToUint256(_price.toString())
 
     }
-    _BidAdd({
-      variables: bidData,
-    });
-    return false
+
     const bidItemCallData = [
       bidData.tradeId,
       bidData.bidContractAddress,
@@ -74,6 +72,7 @@ export const BidActions = () => {
       bidData.expiration,
       bidData.bidCurrencyType,
       priceUint.low,
+      priceUint.high,
       bidData.biddedItemContractAddress,
       biddedItemId.low,biddedItemId.high
       

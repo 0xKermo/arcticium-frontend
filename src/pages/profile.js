@@ -56,14 +56,14 @@ const Profile = () => {
 
 
   const { walletAddress } = useSelector((state) => state.wallet);
-  const { openMenu, openMenu1, openMenu2 } = useSelector(
+  const { openMenu, openMenu1, openMenu2, profileCreated } = useSelector(
     (state) => state.profileOperation
   );
   const {  profileInfo } = useSelector((state) => state.userAssets);
 
   const { handleBtnClick, handleBtnClick1, handleBtnClick2 } =
     ProfileActions();
-  const {  getUserAssets } = AddUserAsset();
+  const {  getUserAssets } = AddUserAsset(BigNumber.from(wallet)._hex.toLowerCase());
   const openEditProfile = () => {
     setEditProfile(true);
   };
@@ -76,7 +76,7 @@ const Profile = () => {
 
     const updatedProfile =updateProfile({
       variables: {
-        walletAddress: wallet,
+        walletAddress:  BigNumber.from(wallet)._hex.toLowerCase(),
         name: name,
         bio: bio,
       },
@@ -90,12 +90,9 @@ const Profile = () => {
   };
   useEffect(() => {
     if (walletAddress != null) {
-      // const userAssetsArgs = {
-      //   assetOwner: wallet.toLowerCase(),
-      // };
-      // _addUserAsset(userAssetsArgs);
-      getUserAssets(wallet.toLowerCase());
+      getUserAssets( BigNumber.from(wallet)._hex.toLowerCase());
       setIsOwner(BigNumber.from(wallet).eq(walletAddress));
+      
     }
   }, [walletAddress]);
 
@@ -168,17 +165,24 @@ const Profile = () => {
           </div>
         </div>
 
-        {userAssetLoader &&
+        {userAssetLoader && profileCreated &&
           <ProfileNftsLoader />
         }
-        {userAssets.length < 1 && !userAssetLoader &&
+        {userAssets.length < 1 && !userAssetLoader && profileCreated &&
         <div style={{textAlign: "center"}}>
           <span>
           Sorry! There were no Nfts found.
           </span>
         </div>
         }
-        {openMenu && (
+          {!profileCreated &&
+        <div style={{textAlign: "center"}}>
+          <span>
+          Profile creating...
+          </span>
+        </div>
+        }
+        {openMenu && profileCreated && !userAssetLoader &&(
         
           <div id="zero2" className="onStep fadeIn">
             <ColumnMyNfts />

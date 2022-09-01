@@ -2813,6 +2813,26 @@ i.font60 {
   text-overflow: ellipsis;
 }
 
+.nft_target_item {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background: #ffffff;
+  transition: 0.7s;
+  &:hover {
+    box-shadow: 2px 2px 30px 0px rgba(10, 10, 10, 0.1);
+    transition: 0.7s;
+  }
+}
+
+.nft_target_item h4 {
+  font-weight: 800;
+  font-size: 15px;
+  margin-bottom: 5px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
 .nft_popular_item {
   display: flex;
   flex-direction: column;
@@ -3030,6 +3050,16 @@ i.font60 {
 }
 
 .nft_detail_item img {
+  width: 412px;
+  height: 397px;
+  max-height: 399px;
+  object-fit: cover;
+  border-radius: 8px;
+  -moz-border-radius: 8px;
+  -webkit-border-radius: 8px;
+}
+
+.nft_target_item img {
   width: 412px;
   height: 397px;
   max-height: 399px;

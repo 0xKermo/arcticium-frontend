@@ -5,14 +5,18 @@ import { setCollectionName } from "../../store/slicers/collections";
 export const GetCollectionName = () => {
     const dispatch = useDispatch()
     const getCollectionName = async (_contract_address) => {     
-
-        const provider = new Provider()
-        const tx = await provider.callContract({
-            contractAddress: _contract_address,
-            entrypoint: 'name',
-        })
-        const collectionName = hex2a(tx.result.toString())
-        dispatch(setCollectionName(collectionName))
+        try {
+            const provider = new Provider()
+            const tx = await provider.callContract({
+                contractAddress: _contract_address,
+                entrypoint: 'name',
+            })
+            const collectionName = hex2a(tx.result.toString())
+            dispatch(setCollectionName(collectionName))
+            
+        } catch (error) {
+            dispatch(setCollectionName(null))
+        }
     };
 
     return {

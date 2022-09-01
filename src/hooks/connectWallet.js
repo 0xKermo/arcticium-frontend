@@ -15,7 +15,7 @@ export const ConnectWallet =  () => {
     }
     
     await starknet.enable()
-
+    console.log("sd",starknet.selectedAddress)
     
     dispatch(setWalletAddress(BigNumber.from(starknet.selectedAddress)._hex ));
     // dispatch(setProvider(starknet.provider));
