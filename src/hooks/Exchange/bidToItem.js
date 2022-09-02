@@ -2,14 +2,20 @@ import { useSelector, useDispatch } from "react-redux";
 import { EXCHANGE_ADDRESS } from "../../constants/starknetAddress";
 import { ApproveERC721 } from "../ERC721/approve";
 import { ToastPromise } from "../../components/toast";
+import { ApproveERC20 } from "../ERC20/approve";
 
 export const BidToItem = () => {
   const { walletAddress, account } = useSelector((state) => state.wallet);
+   const {
+    bidCurrencyType,
+  } = useSelector((state) => state.bid);
   const { approveERC721 } = ApproveERC721();
+  const {approveERC20} = ApproveERC20();
   const bidToItem = async (
     _bidItemCallData,
     _isApprove,
-    _bidContractAddress
+    _bidContractAddress,
+    _allowance
   ) => {
     try {
       let bidtoItemArgs = [
@@ -20,6 +26,11 @@ export const BidToItem = () => {
         },
       ];
       let result;
+      debugger
+      if(_allowance != 0){
+        const allowanceArgs = await approveERC20(bidCurrencyType, _allowance)
+        bidtoItemArgs.push(allowanceArgs);
+      }       
 
       if (_isApprove == 0) {
         console.log(" a 0")

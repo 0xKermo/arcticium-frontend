@@ -4,6 +4,9 @@ import styled from "styled-components";
 import Clock from "./clock";
 import { Link } from "react-router-dom";
 import NftCard from "./nftCard";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGavel } from "@fortawesome/free-solid-svg-icons";
+import { walletAddressSlice } from "../utils/walletAddressSlice";
 
 const Outer = styled.div`
   display: flex;
@@ -57,84 +60,91 @@ export default class Responsive extends Component {
                 >
                   <div className="nft_popular_item m-0">
                     <div className="nft__item_wrap">
-                      <div className="col-md-5">
-                        <Outer>
-                          <span>
+                      <Outer>
+                        <span>
+                          <img
+                            onLoad={this.onImgLoad}
+                            src={nft.assetInfo.image}
+                            className="lazy nft__item_preview"
+                            alt=""
+                          />
+                        </span>
+                      </Outer>
+                      <div className="swap-icon">
+                        <i className="fa fa-exchange"></i>
+                      </div>
+                      <Outer>
+                        <span>
+                          {nft.targetTokenContract && nft.targetTokenId && (
                             <img
                               onLoad={this.onImgLoad}
-                              src={nft.assetInfo.image}
+                              src={nft.targetAssetInfo[0].image}
                               className="lazy nft__item_preview"
                               alt=""
                             />
-                          </span>
-                        </Outer>
-                      </div>
-                      <div className="col-md-2">
-                        <div className="swap-icon">
-                          <i className="fa fa-exchange"></i>
-                        </div>
-                      </div>
-                      <div className="col-md-5">
-                        {nft.targetTokenId && (
+                          )}
+                        </span>
+                      </Outer>
+                      {nft.targetTokenContract && !nft.targetTokenId && (
+                        <div>
                           <Outer>
                             <span>
                               <img
                                 onLoad={this.onImgLoad}
-                                src={nft.targetAssetInfo[0].image}
+                                src="img/items/make-offer.png"
                                 className="lazy nft__item_preview"
                                 alt=""
                               />
                             </span>
                           </Outer>
-                        )}
-                        {nft.targetTokenContract && !nft.targetTokenId && (
-                          <div>{nft.targetTokenContract.slice(0, 3)}</div>
-                        )}
-                        {nft.targetTokenContract == null &&
-                          nft.targetTokenId == 0 && <div>Make Offer</div>}
-                      </div>
+                        </div>
+                      )}
+                      {!nft.targetTokenContract && !nft.targetTokenId && (
+                        <div>
+                          <Outer>
+                            <span>
+                              <img
+                                onLoad={this.onImgLoad}
+                                src="img/items/make-offer-2.png"
+                                className="lazy nft__item_preview"
+                                alt=""
+                              />
+                            </span>
+                          </Outer>
+                        </div>
+                      )}
                     </div>
-
                     <div className="row">
                       <div className="col-md-6">
-                        <div
-                          className="nft__item_info"
-                          style={{ padding: "10px" }}
-                        >
+                        <div className="nft__item_info">
                           <span>
                             <h4>{nft.assetInfo.name}</h4>
                           </span>
-                          <b>
-                            <h4>{nft.assetInfo.contract_address}</h4>
-                          </b>
-                          <div className="nft__item_price">
                           <span>
+                            <h4>{walletAddressSlice(nft.assetInfo.contract_address,5,3)}</h4>
+                          </span>
+                          <div className="nft__item_price">
+                            <span></span>
 
-                            </span>
+                            {/* <span>{nft.bid}</span> */}
                           </div>
                           <div className="nft__item_action">
                             <span>Make offer</span>
                           </div>
                         </div>
                       </div>
-                      {nft.targetTokenContract && nft.targetTokenId &&
-                      
+                      {nft.targetAssetInfo.length > 0 &&
                       <div className="col-md-6">
-                        <div
-                          className="nft__item_info"
-                          style={{ padding: "10px" }}
-                        >
+                        <div className="nft__item_info">
                           <span>
                             <h4>{nft.targetAssetInfo[0].name}</h4>
+                            <span>
+                            <h4>{walletAddressSlice(nft.targetAssetInfo[0].contract_address,5,3)}</h4>
                           </span>
-                          <span>
-                            <h4>{nft.targetAssetInfo[0].contract_address}</h4>
                           </span>
                           <div className="nft__item_price">
-                            <span>
-                              {nft.price ? "+ "+ nft.price:null}
+                            <span>{nft.price ? "+ "+nft.price : null}</span>
 
-                            </span>
                             {/* <span>{nft.bid}</span> */}
                           </div>
                           <div className="nft__item_action">

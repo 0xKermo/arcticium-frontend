@@ -39,7 +39,7 @@ const ColumnMyNfts = () => {
       {userAssets.map((nft, index) => (
         <div
           key={index}
-          className="d-item col-lg-2 col-md-6 col-sm-6 col-xs-12 mb-4"
+          className="d-item col-lg-3 col-md-6 col-sm-6 col-xs-12 mb-4"
           // style={{width:"20%"}}
           onClick={() => window.open("/asset/"+nft.contract_address+"/"+nft.token_id, "_self")}
           style={{cursor:"pointer"}}

@@ -36,7 +36,7 @@ export const ListItemData = () => {
         priceUint.low,
         priceUint.high,
         listType,
-        targetCollectionAddress,
+        targetCollectionAddress ? targetCollectionAddress : 0,
         targetTokenId.low,
         targetTokenId.high,
       ];       

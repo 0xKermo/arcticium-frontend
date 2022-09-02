@@ -693,6 +693,41 @@ a {
   color: inherit;
 }
 
+.btn-connect {
+  display: block;
+  width: max-content;
+  text-align: center;
+  color: #fff !important;
+  background: #8364e2;
+  border-radius: 6px;
+  letter-spacing: normal;
+  outline: 0;
+  font-weight: 800;
+  text-decoration: none;
+  padding: 8px 20px;
+  font-size: 13px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 2px 2px 20px 0px rgba(131, 100, 226, 0);
+  transition: all 0.3s ease;
+  &:hover {
+    box-shadow: 2px 2px 20px 0px rgba(131, 100, 226, 0.5);
+    transition: all 0.3s ease;
+  }
+  &.inline {
+    display: inline-block;
+    margin-right: 15px;
+    &.white {
+      color: $color_more !important;
+      background: $white;
+    }
+  }
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
 .btn-cancel {
   display: block;
   width: max-content;
@@ -958,7 +993,7 @@ a {
       .mainside {
         position: absolute;
         right: 60px;
-        top: 28px;
+        top: 25px;
       }
       .dropdown-custom.btn {
         color: $gray;
@@ -2589,7 +2624,7 @@ i.font60 {
   margin: 10px;
   img {
     transition: 0.7s;
-    width: 410px;
+    width: 460px;
     height: 300px;
     object-fit: cover;
   }
@@ -2789,8 +2824,6 @@ i.font60 {
   display: flex;
   flex-direction: column;
   position: relative;
-  padding: 10px;
-  margin: 10px;
   border: solid 1px #ddd;
   border-radius: 15px;
   -moz-border-radius: 15px;
@@ -2798,10 +2831,17 @@ i.font60 {
   margin-bottom: 25px;
   background: #ffffff;
   transition: 0.7s;
+  align-items: center;
   &:hover {
     box-shadow: 2px 2px 30px 0px rgba(10, 10, 10, 0.1);
     transition: 0.7s;
   }
+}
+.nft_detail_item_info {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+
 }
 
 .nft_detail_item h4 {
@@ -3040,9 +3080,10 @@ i.font60 {
 .nft__item_wrap span {
   display: block;
 }
+
 .nft__item img {
-  width: auto;
-  height: 250px;
+  width: 150px;
+  height: 150px;
   object-fit: cover;
   border-radius: 8px;
   -moz-border-radius: 8px;
@@ -3051,8 +3092,7 @@ i.font60 {
 
 .nft_detail_item img {
   width: 412px;
-  height: 397px;
-  max-height: 399px;
+  height: 400px;
   object-fit: cover;
   border-radius: 8px;
   -moz-border-radius: 8px;
@@ -3534,6 +3574,8 @@ i.font60 {
 /*** item details ***/
 .item_info {
   padding-left: 10px;
+  padding-right: 10px;
+  margin-top: 10px;
   .de_countdown {
     position: relative;
     display: inline-block;
@@ -3573,7 +3615,8 @@ i.font60 {
   }
   .item_author .author_list_info {
     padding-top: 10px;
-    padding-left: 70px;
+    padding-left: 60px;
+    padding-right: 20px;
     color: #1a1b1e;
     font-weight: bold;
   }
@@ -5559,6 +5602,15 @@ blockquote {
   }
   .profile_avatar i {
     margin-top: -35px;
+  }
+  .nft_popular_item img {
+    width: 150px;
+    height: 150px;
+    max-height: 399px;
+    object-fit: cover;
+    border-radius: 8px;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
   }
   table {
     border: 0;

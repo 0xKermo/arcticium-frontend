@@ -16,7 +16,7 @@ import { getUserAssetByContract } from "../../grqphql/query";
 import { useEffect } from "react";
 import { setUserNfts } from "../../store/slicers/userNfts";
 
-export const BidActions = () => {
+export const BidActions = (_contract_address, tradeType) => {
   const dispatch = useDispatch();
   const [_BidAdd] = useMutation(BidAdd);
   const { walletAddress } = useSelector((state) => state.wallet);
@@ -53,40 +53,27 @@ export const BidActions = () => {
     dispatch(setBidCurrencyAmount(e.target.value));
   };
 
-  const makeOffer = async (bidData) => {
+  const makeOffer = async (bidData, bidItemCallData,_allowance) => {
     const isApprove = await getApprove(walletAddress, bidData.bidContractAddress)
-    const token_id = bnToUint256(bidData.bidTokenId) 
-    const biddedItemId = bnToUint256(bidData.biddedItemId)
-    debugger
-    let priceUint = bnToUint256("0")
-    if(bidData.bidCurrencyType && bidData.bidPrice){
-      const _price = bidData.price * 10**18
-      priceUint = bnToUint256(_price.toString())
-
-    }
-
-    const bidItemCallData = [
-      bidData.tradeId,
-      bidData.bidContractAddress,
-      token_id.low,token_id.high,
-      bidData.expiration,
-      bidData.bidCurrencyType,
-      priceUint.low,
-      priceUint.high,
-      bidData.biddedItemContractAddress,
-      biddedItemId.low,biddedItemId.high
-      
-    ]
-    const {result,tx} = await bidToItem(bidItemCallData,isApprove, bidData.bidContractAddress)
+    
+    const {result,tx} = await bidToItem(bidItemCallData,isApprove, bidData.bidContractAddress,_allowance)
     tx.then((ress) => {
       console.log("ress",ress)
+      console.log("tx",tx)
+
       _BidAdd({
         variables: bidData,
       });
       
     })
    };  
+
 useEffect(() => {
+  if(tradeType == 1){
+
+    GetUserAssetByContract({ variables: { walletAddress: walletAddress, contract_address: _contract_address} })
+    dispatch(setBidCollectionAddress(_contract_address))
+  }
   if(data != null){
     dispatch(setUserNfts(data.getUserAssetByContractAddress.map((item,i) => {
       return{

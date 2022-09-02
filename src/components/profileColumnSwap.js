@@ -220,16 +220,6 @@ export default class Responsive extends Component {
           >
             <div className="nft__item m-0">
               <div className="nft__item_wrap">
-                {/* <Outer>
-                  <span>
-                    <img
-                      onLoad={this.onImgLoad}
-                      src={nft.previewImg}
-                      className="lazy nft__item_preview"
-                      alt=""
-                    />
-                  </span>
-                </Outer> */}
                 <Outer>
                   <span>
                     <img

@@ -94,32 +94,31 @@ const Mint = () => {
     const description = $("#item_desc").val();
     const fileImg = files[0];
     const image = await uploadImage(fileImg);
-    const metadata = uploadMetadata(fileImg, name, description,image);
+    const metadata = uploadMetadata(fileImg, name, description, image);
     const loadingText = "Uploading to IPFS";
     const successText = "Uploaded to IPFS";
-    const ipfsFunc = () => {}
-    ToastPromise(metadata, loadingText, successText,ipfsFunc);
+    const ipfsFunc = () => {};
+    ToastPromise(metadata, loadingText, successText, ipfsFunc);
     const mintPromise = await mintErc721(metadata);
     const mintLoadingText = "Transaction pending...";
     const voyagerLink = `https://beta-goerli.voyager.online/tx/${mintPromise.tr}`;
     const mintSuccessText = `NFT succesfully minted : <a src=${voyagerLink}>Click and see on Voyager</a>`;
     const provider = new Provider();
     const tx = provider.waitForTransaction(mintPromise.transaction_hash);
-    const imageUrl = `https://arcswap.mypinata.cloud/ipfs/${image.data.IpfsHash}`
+    const imageUrl = `https://arcswap.mypinata.cloud/ipfs/${image.data.IpfsHash}`;
     tx.then((res) => {
-    console.log("res",res)
-    addAsset({
-      variables: {
-        assetOwner: walletAddress,
-        name: name,
-        description: description,
-        image: imageUrl,
-      },
-    })})
-  
-    
-    ToastPromise(tx, mintLoadingText, mintSuccessText);
+      console.log("res", res);
+      addAsset({
+        variables: {
+          assetOwner: walletAddress,
+          name: name,
+          description: description,
+          image: imageUrl,
+        },
+      });
+    });
 
+    ToastPromise(tx, mintLoadingText, mintSuccessText);
   };
 
   return (
@@ -207,14 +206,9 @@ const Mint = () => {
 
           <div className="col-lg-3 col-sm-6 col-xs-12">
             <h5>Preview item</h5>
-            <div className="nft__item m-0" style={{height:"300px"}}>
+            <div className="nft__item m-0" style={{ height: "300px" }}>
               <div className="nft_preview_item">
-                  <img
-                    src="./img/collections/coll-item-3.jpg"
-                    id="get_file_2"
-                    
-                    alt=""
-                  />
+                <img src="./img/items/default-img.png" id="get_file_2" alt="" />
               </div>
             </div>
           </div>

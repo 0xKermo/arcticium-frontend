@@ -1,13 +1,13 @@
 import { useMutation } from "@apollo/client";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastPromise } from "../../components/toast";
-import { updateTradeStatus } from "../../grqphql/mutation";
+import { cancelTrade } from "../../grqphql/mutation";
 import { CancelListedItem } from "../../hooks";
 import { setItemOwner } from "../../store/slicers/itemDetailOperations";
 
 export const ListedItemAction = () => {
   const { cancelListedItem } = CancelListedItem();
-  const [tradeStatus] = useMutation(updateTradeStatus);
+  const [_cancelTrade] = useMutation(cancelTrade);
   const dispatch = useDispatch();
   const { walletAddress, account } = useSelector((state) => state.wallet);
 
@@ -23,10 +23,10 @@ export const ListedItemAction = () => {
 
       ToastPromise(tx, mintLoadingText, successText);
       tx.then((ress) => {
-        const res = tradeStatus({
+        const res = _cancelTrade({
           variables: {
-            tokenContract: _contract,
-            tokenId: _id,
+            tradeId: _tradeId,
+      
           },
         });
         res.then((res) => {

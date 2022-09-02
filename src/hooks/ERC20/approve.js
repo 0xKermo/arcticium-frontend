@@ -9,7 +9,7 @@ export const ApproveERC20 = () => {
       const result = {
         contractAddress: _contractAddress,
         entrypoint: 'approve',
-        calldata: [spender, _amount],
+        calldata: [spender, _amount.low,_amount.high],
       }
       return result
     } catch (error) {

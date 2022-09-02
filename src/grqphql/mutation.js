@@ -48,7 +48,7 @@ export const BidAdd = gql`
     $bidTokenId: String
     $expiration: Date
     $bidCurrencyType: Int
-    $bidPrice: Int
+    $bidPrice: String
     $status: Status
     $biddedItemOwner: String
     $biddedItemContractAddress: String
@@ -101,6 +101,16 @@ export const updateTradeStatus = gql`
     }
   }
 `;
+
+export const cancelTrade = gql`
+  mutation cancelTrade($tradeId: Int) {
+    tradeStatus(tradeId: $tradeId) {
+      tradeId
+      status
+    }
+  }
+`;
+
 
 export const updateBidStatus = gql`
   mutation bidStatus($tradeId: Int, $itemBidId:Int, $status: String) {

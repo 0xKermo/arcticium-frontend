@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import Select from "react-select";
 import { currencyAddresses } from "../constants/CurrencyAddresses";
 import { BidActions } from "../controller";
+import { bnToUint256 } from "../utils/uint256";
 
 const customStyles = {
   option: (base, state) => ({
@@ -47,7 +48,7 @@ const SwapToAnyItem = (props) => {
     bidCurrencyTypeOnchange,
     bidCurrencyAmountOnchange,
     makeOffer,
-  } = BidActions();
+  } = BidActions(props.data.targetTokenContract, props.data.tradeType );
 
   const unlockClick = () => {
     setIsActive(true);
@@ -62,7 +63,7 @@ const SwapToAnyItem = (props) => {
       bidContractAddress: props.data.targetTokenContract == null? bidCollectionAddress : props.data.targetTokenContract,
       bidTokenId: bidItemId,
       bidCurrencyType: bidCurrencyType == null ? null : currencyAddresses[bidCurrencyType],
-      bidPrice: bidCurrencyAmount == null ? null : parseFloat(bidCurrencyAmount),
+      bidPrice: bidCurrencyAmount == null ? null : bidCurrencyAmount.toString(),
       tradeId: props.data.tradeId,
       biddedItemOwner: props.data.tradeOwnerAddress,
       biddedItemContractAddress: props.data.tokenContract,
@@ -71,8 +72,31 @@ const SwapToAnyItem = (props) => {
       bidTradeType: props.data.tradeType,
       expiration: 1665179996,
     };
+
+    const token_id = bnToUint256(bidData.bidTokenId) 
+    const biddedItemId = bnToUint256(bidData.biddedItemId)
+
+    let priceUint = bnToUint256("0")
+    let _allowance = 0
+    if(bidData.bidCurrencyType && bidCurrencyAmount){
+      const _price = bidCurrencyAmount * 10**18
+      priceUint = bnToUint256(_price.toString())
+      _allowance = priceUint
+    }
+
+    const bidItemCallData = [
+      bidData.tradeId,
+      bidData.bidContractAddress,
+      token_id.low,token_id.high,
+      bidData.expiration,
+      bidData.bidCurrencyType ? bidData.bidCurrencyType : 0 ,
+      priceUint.low,
+      priceUint.high,
+      bidData.biddedItemContractAddress,
+      biddedItemId.low,biddedItemId.high
+    ]
     console.log("bidData", bidData);
-    makeOffer(bidData);
+    makeOffer(bidData,bidItemCallData,_allowance);
   };
 
   return (
@@ -83,7 +107,7 @@ const SwapToAnyItem = (props) => {
   
             <div
               className="nft_detail_item m-0"
-              style={{ width: "auto", height: "400px", padding: "0" }}
+              style={{ width: "auto", height: "400px", padding: "0" , border:"0"}}
             >
               <a target="_blank" rel="noopener noreferrer" id="targetNftsrc">
                 <div className="nft__item_offer">
@@ -97,6 +121,8 @@ const SwapToAnyItem = (props) => {
                 </div>
               </a>
             </div>
+            <div className="spacer-40"></div>
+            <div className="spacer-40"></div>
             <div className="spacer-40"></div>
 
             <div className="p_list" style={{ display: "flex" }}>

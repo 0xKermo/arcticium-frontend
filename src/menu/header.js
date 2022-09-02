@@ -142,8 +142,10 @@ const Header = function ({ className }) {
                               Collections
                             </NavLink>
                             <NavLink
-                              onClick={() => {window.open(`/nfts`, "_self")
-                              btn_icon(!showmenu)}}
+                              onClick={() => {
+                                window.open(`/nfts`, "_self");
+                                btn_icon(!showmenu);
+                              }}
                             >
                               Nfts
                             </NavLink>
@@ -164,7 +166,7 @@ const Header = function ({ className }) {
                       <span className="lines"></span>
                     </NavLink>
                   </div>
-                  <div className="navbar-item">
+                  {/* <div className="navbar-item">
                     {walletAddress != null ? (
                       <div className="mainside">
                         <div
@@ -230,7 +232,7 @@ const Header = function ({ className }) {
                         </span>
                       </div>
                     )}
-                  </div>
+                  </div> */}
                 </div>
               )}
             </Breakpoint>
@@ -285,7 +287,7 @@ const Header = function ({ className }) {
                     <span className="lines"></span>
                   </NavLink>
                 </div>
-                <div className="navbar-item">
+                {/* <div className="navbar-item">
                   {walletAddress != null ? (
                     <div className="mainside">
                       <div
@@ -351,10 +353,80 @@ const Header = function ({ className }) {
                       </span>
                     </div>
                   )}
-                </div>
+                </div> */}
               </div>
             </Breakpoint>
           </BreakpointProvider>
+
+          <div className="mainside">
+            <div className="connect-wal">
+              {walletAddress != null ? (
+                <div className="active">
+                  <div
+                    id="de-click-menu-profile"
+                    className="de-menu-profile"
+                    onClick={() => btn_icon_pop(!showpop)}
+                    ref={refpop}
+                  >
+                    <img
+                      src="../../img/author_single/author_thumbnail.jpg"
+                      alt=""
+                    />
+                    {showpop && (
+                      <div className="popshow">
+                        <div className="d-name">
+                          <h3>Monica Lucas</h3>
+                        </div>
+                        <div className="d-line"></div>
+                        <div className="d-balance">
+                          <h4>Balance</h4>
+                          12.858 ETH
+                        </div>
+                        <div className="d-wallet">
+                          <h4>My Wallet</h4>
+                          <span id="wallet" className="d-wallet-address">
+                            {walletAddress.slice(0, 6)}
+                            ...
+                            {walletAddress.slice(-7)}
+                          </span>
+                          <button id="btn_copy" title="Copy Text">
+                            Copy
+                          </button>
+                        </div>
+                        <div className="d-line"></div>
+                        <ul className="de-submenu-profile">
+                          <li>
+                            <span
+                              onClick={() =>
+                                window.open(`/${walletAddress}`, "_self")
+                              }
+                            >
+                              <i className="fa fa-user"></i>My Profile
+                            </span>
+                          </li>
+                          <li onClick={handleLogout}>
+                            <span>
+                              <i className="fa fa-sign-out"></i>
+                              Disconnect
+                            </span>
+                          </li>
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ) : (
+                <div className="connect-wal">
+                  <span
+                    onClick={connectWallet}
+                    className="non-active btn-connect"
+                  >
+                    Connect Wallet
+                  </span>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
 
         <button className="nav-icon" onClick={() => btn_icon(!showmenu)}>

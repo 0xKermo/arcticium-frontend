@@ -26,7 +26,6 @@ export const ListItem = () => {
         },
       ];
       let result;
-
       if (_isApprove == 0) {
         const approveArgs = await approveERC721(
           tradeArgs.tokenContract,
@@ -46,10 +45,10 @@ export const ListItem = () => {
       const mintSuccessText = `Minted successfully Test arcEth token : <a src=${voyagerLink}>Click and see on Voyager</a>`;
 
       ToastPromise(tx, mintLoadingText, mintSuccessText);
-      tx.then((res) => {
+      tx.then(async(res) => {
         console.log("test", res);
         tradeArgs.transactionHash = result.transaction_hash;
-        const resAddTrade = _addTrade(tradeArgs);
+        await _addTrade(tradeArgs);
         window.location.reload()
       });
       return result;

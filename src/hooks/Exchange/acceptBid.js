@@ -9,14 +9,6 @@ export const AcceptBid = () => {
   const [bidStatus] = useMutation(updateBidStatus);
 
   const acceptBid = async (_tradeId,_bidId, _bidOwner) => {
-    bidStatus({
-      variables:{
-        tradeId:_tradeId,
-        itemBidId: _bidId,
-        status:"Executed",
-      }
-    })
-    return false
     try {
       const acceptBidArgs = [
         {
@@ -33,8 +25,6 @@ export const AcceptBid = () => {
       const voyagerLink = `https://beta-goerli.voyager.online/tx/${result.transaction_hash}`;
       const mintSuccessText = `<a src=${voyagerLink}>Listing cancelled, click and see on Voyager</a>`;
       ToastPromise(tx, mintLoadingText, mintSuccessText);
-      const status = "Executed"
-
       tx.then((res) => {
         bidStatus({
           variables:{
