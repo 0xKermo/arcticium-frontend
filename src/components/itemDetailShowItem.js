@@ -201,6 +201,16 @@ const ItemDetailShowItem = (props) => {
         <div className="nft_detail_item_info m-0">
           <div className="item_info">
             <div className="p_detail_header">
+              {itemOwner === 1 && (
+                <span onClick={open_trade} className="right btn-main lead">
+                  Open Trade
+                </span>
+              )}
+              {itemOwner === 3 && (
+                <span onClick={make_offer} className="right btn-main lead">
+                  Make Offer
+                </span>
+              )}
               <span>
                 <h2>{metadata.name}</h2>
               </span>
@@ -262,20 +272,12 @@ const ItemDetailShowItem = (props) => {
                 </div>
               </div>
             </div>
-            <div className="spacer-40"></div>
 
-            {itemOwner === 1 && (
-              <div >
-                <span onClick={open_trade} className="btn-main lead">
-                  Open Trade
-                </span>
-              </div>
-            )}
             {itemOwner === 2 && (
               <div className="row">
                 <div className="col-md-4">
                   <div className="listedInfo">
-                    <span style={{padding:"10px"}}>
+                    <span style={{ padding: "10px" }}>
                       item listed to{" "}
                       {props.data.getTradeWithAddresId.targetTokenContract ==
                       null
@@ -316,14 +318,6 @@ const ItemDetailShowItem = (props) => {
                 </div>
               </div>
             )}
-
-            {itemOwner === 3 && (
-              <div >
-                <span onClick={make_offer} className="btn-main lead">
-                  Make Offer
-                </span>
-              </div>
-            )}
           </div>
         </div>
 
@@ -335,146 +329,90 @@ const ItemDetailShowItem = (props) => {
         <div className="nft_detail_item_info m-0">
           <div className="item_info">
             <div className="de_tab">
-              <ul className="de_nav">
-                <li id="Mainbtn" className="active">
-                  <span onClick={handleBtnClick}>Bids</span>
-                </li>
-                <li id="Mainbtn1" className="">
-                  <span onClick={handleBtnClick1}>History</span>
-                </li>
-              </ul>
-
-              <div className="de_tab_content">
-                {openMenu && (
-                  <div className="tab-1 onStep fadeIn">
-                    {props.data.getTradeWithAddresId != null &&
-                      props.data.getTradeWithAddresId.tradeBids.map(
-                        (item, index) => (
-                          <div className="p_list" key={index}>
-                            <div
-                              className="p_list_pp"
-                              onClick={() =>
-                                window.open(
-                                  `/asset/${item.bidAsset.contract_address}/${item.bidAsset.token_id}`,
-                                  "_self"
-                                )
-                              }
-                            >
-                                <img
-                                  className="lazy"
-                                  src={item.bidAsset.image}
-                                  alt=""
-                                  style={{ cursor: "pointer", height:"50px" }}
-                                />
-                            </div>
-                            <div
-                              className="p_list_info"
-                              style={{ cursor: "pointer" }}
-                            >
-                              <div className="row">
-                                <div
-                                  className="col-md-10"
-                                  onClick={() =>
-                                    window.open(
-                                      `/asset/${item.bidAsset.contract_address}/${item.bidAsset.token_id}`,
-                                      "_self"
-                                    )
-                                  }
-                                >
-                                  Offered <b>{item.bidPrice ? item.bidAsset.name + " + " + item.bidPrice +" ETH" : null}</b>
-                                  <span>
-                                    by{" "}
-                                    <b>
-                                      {item.bidAsset.assetOwner.slice(0, 6)}
-                                    </b>{" "}
-                                    at 6/15/2021, 3:20 AM
-                                  </span>
-                                </div>
-                                {(() => {
-                                  if (itemOwner == 2 || itemOwner == 1) {
-                                    return (
-                                      <div className="col-md-2">
-                                        <button
-                                          className="btn-main lead mb-2 right"
-                                          onClick={() => {
-                                            bidAccept(item);
-                                          }}
-                                          style={{
-                                            padding: "6px 5px",
-                                            margin: "10px",
-                                          }}
-                                        >
-                                          Accept
-                                        </button>
-                                      </div>
-                                    );
-                                  }
-                                })()}
-
-                                <div className="col-md-2"></div>
+              <div className="de_tab">
+                <div className="tab-1 onStep fadeIn">
+                  <div className="p_list">
+                    <div className="p_detail_header">
+                      <span>
+                        <h4>Bids</h4>
+                      </span>
+                    </div>
+                  </div>
+                  {props.data.getTradeWithAddresId != null &&
+                    props.data.getTradeWithAddresId.tradeBids.map(
+                      (item, index) => (
+                        <div className="p_list" key={index}>
+                          <div
+                            className="p_list_pp"
+                            onClick={() =>
+                              window.open(
+                                `/asset/${item.bidAsset.contract_address}/${item.bidAsset.token_id}`,
+                                "_self"
+                              )
+                            }
+                          >
+                            <img
+                              className="lazy"
+                              src={item.bidAsset.image}
+                              alt=""
+                              style={{ cursor: "pointer", height: "50px" }}
+                            />
+                          </div>
+                          <div
+                            className="p_list_info"
+                            style={{ cursor: "pointer" }}
+                          >
+                            <div className="row">
+                              <div
+                                className="col-md-10"
+                                onClick={() =>
+                                  window.open(
+                                    `/asset/${item.bidAsset.contract_address}/${item.bidAsset.token_id}`,
+                                    "_self"
+                                  )
+                                }
+                              >
+                                Offered{" "}
+                                <b>
+                                  {item.bidPrice
+                                    ? item.bidAsset.name +
+                                      " + " +
+                                      item.bidPrice +
+                                      " ETH"
+                                    : null}
+                                </b>
+                                <span>
+                                  by{" "}
+                                  <b>{item.bidAsset.assetOwner.slice(0, 6)}</b>{" "}
+                                  at 6/15/2021, 3:20 AM
+                                </span>
                               </div>
+                              {(() => {
+                                if (itemOwner == 2 || itemOwner == 1) {
+                                  return (
+                                    <div className="col-md-2">
+                                      <button
+                                        className="btn-main lead mb-2 right"
+                                        onClick={() => {
+                                          bidAccept(item);
+                                        }}
+                                        style={{
+                                          padding: "6px 5px",
+                                          margin: "10px",
+                                        }}
+                                      >
+                                        Accept
+                                      </button>
+                                    </div>
+                                  );
+                                }
+                              })()}
                             </div>
                           </div>
-                        )
-                      )}
-                  </div>
-                )}
-
-                {openMenu1 && (
-                  <div className="tab-2 onStep fadeIn">
-                    <div className="p_list">
-                      <div className="p_list_pp">
-                        <span>
-                          <img
-                            className="lazy"
-                            src="./img/author/author-1.jpg"
-                            alt=""
-                          />
-                        </span>
-                      </div>
-                      <div className="p_list_info">
-                        Bid <b>0.005 ETH</b>
-                        <span>
-                          by <b>Jimmy Wright</b> at 6/14/2021, 6:40 AM
-                        </span>
-                      </div>
-                    </div>
-                    <div className="p_list">
-                      <div className="p_list_pp">
-                        <span>
-                          <img
-                            className="lazy"
-                            src="./img/author/author-1.jpg"
-                            alt=""
-                          />
-                        </span>
-                      </div>
-                      <div className="p_list_info">
-                        Bid <b>0.005 ETH</b>
-                        <span>
-                          by <b>Jimmy Wright</b> at 6/14/2021, 6:40 AM
-                        </span>
-                      </div>
-                    </div>
-                    <div className="p_list">
-                      <div className="p_list_pp">
-                        <span>
-                          <img
-                            className="lazy"
-                            src="./img/author/author-1.jpg"
-                            alt=""
-                          />
-                        </span>
-                      </div>
-                      <div className="p_list_info">
-                        Bid <b>0.005 ETH</b>
-                        <span>
-                          by <b>Jimmy Wright</b> at 6/14/2021, 6:40 AM
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                )}
+                        </div>
+                      )
+                    )}
+                </div>
               </div>
             </div>
           </div>

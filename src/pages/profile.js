@@ -57,12 +57,12 @@ const Profile = () => {
   const { userAssetLoader } = useSelector((state) => state.loader);
   const dispatch = useDispatch();
   const { walletAddress } = useSelector((state) => state.wallet);
-  const { openMenu, openMenu2, profileCreated } = useSelector(
+  const { openMenu, openMenu1, profileCreated } = useSelector(
     (state) => state.profileOperation
   );
   const { profileInfo } = useSelector((state) => state.userAssets);
 
-  const { handleBtnClick, handleBtnClick2 } = ProfileActions();
+  const { handleBtnClick, handleBtnClick1 } = ProfileActions();
   const { getUserAssets } = UserAsset(
     BigNumber.from(wallet)._hex.toLowerCase()
   );
@@ -163,19 +163,16 @@ const Profile = () => {
 
       <section className="container">
         <div className="row">
-          <div className="col-lg-12">
+          <div className="col-lg-6">
             <div className="items_filter">
               <ul className="de_nav ">
-                <li id="Mainbtn" className="active">
+                <li id="Mainbtn">
                   <span onClick={handleBtnClick}>Nft's</span>
                 </li>
-                {/* <li id="Mainbtn1" className="">
-                  <span onClick={handleBtnClick1}>On Swap</span>
-                </li> */}
-                <li id="Mainbtn2" className="">
-                  <span onClick={handleBtnClick2}>Activity</span>
+                <li id="Mainbtn2">
+                  <span onClick={handleBtnClick1}>Activity</span>
                 </li>
-                <li style={{ float: "right" }}>
+                <li className="search">
                   <input
                     className="form-control"
                     placeholder="   Search Nft by title"
@@ -205,13 +202,7 @@ const Profile = () => {
             <ColumnMyNfts />
           </div>
         )}
-        {/* 
         {openMenu1 && (
-          <div id="zero3" className="onStep fadeIn">
-            <ColumnSwap />
-          </div>
-        )} */}
-        {openMenu2 && (
           <div id="zero3" className="onStep fadeIn">
             <Activity wallet={wallet} />
           </div>
