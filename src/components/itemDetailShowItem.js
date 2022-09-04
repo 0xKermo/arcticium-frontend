@@ -206,6 +206,11 @@ const ItemDetailShowItem = (props) => {
                   Open Trade
                 </span>
               )}
+              {itemOwner === 2 && (
+                <span onClick={cancelListing} className="right btn-main lead">
+                  Cancel listing
+                </span>
+              )}
               {itemOwner === 3 && (
                 <span onClick={make_offer} className="right btn-main lead">
                   Make Offer
@@ -298,22 +303,6 @@ const ItemDetailShowItem = (props) => {
                             -6
                           )}
                     </span>
-                  </div>
-                </div>
-                <div className="col-md-4">
-                  <div className="item_info">
-                    <button
-                      style={{
-                        margin: "0",
-                        color: "rgb(131, 100, 226) !important",
-                        backgroundColor: "#f0f0f0",
-                        padding: "8px 20px",
-                      }}
-                      className="btn-cancel lead mb-2 "
-                      onClick={cancelListing}
-                    >
-                      Cancel listing
-                    </button>
                   </div>
                 </div>
               </div>

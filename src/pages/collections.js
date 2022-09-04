@@ -1,5 +1,5 @@
 import { useQuery } from "@apollo/client";
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { createGlobalStyle } from "styled-components";
 import CollectionsColumnCollection from "../components/explorerColumnCollecetion";
 import { getCollections } from "../grqphql/query";
@@ -10,11 +10,11 @@ const GlobalStyles = createGlobalStyle`
     border-bottom: solid 1px #403f83;
   }
   header#myHeader.navbar .search #quick_search{
-    color: #fff;
+    color: #000;
     background: rgba(255, 255, 255, .1);
   }
   header#myHeader.navbar.white .btn, .navbar.white a, .navbar.sticky.white a{
-    color: #fff;
+    color: #000;
   }
   header#myHeader .dropdown-toggle::after{
     color: rgba(255, 255, 255, .5);;
@@ -39,9 +39,7 @@ const GlobalStyles = createGlobalStyle`
 `;
 
 const Collections = () => {
-  const {loading, error, data} = useQuery(getCollections)
-
-  
+  const { loading, error, data } = useQuery(getCollections);
 
   return (
     <div>
@@ -63,12 +61,11 @@ const Collections = () => {
 
       <section className="container">
         <div className="row">
-          {!loading &&
-          <div className="col-lg-12">
-            <CollectionsColumnCollection collections={data.collections} />
-          </div>
-          
-          }
+          {!loading && (
+            <div className="col-lg-12">
+              <CollectionsColumnCollection collections={data.collections} />
+            </div>
+          )}
         </div>
       </section>
     </div>

@@ -25,9 +25,45 @@ import { setItemDetailLoader } from "../store/slicers/loader";
 import { GetPixelTokenURI } from "../hooks/ERC721/pixelTokenUri";
 
 const GlobalStyles = createGlobalStyle`
-  header#myHeader.navbar.white {
-    background: #fff;
-    border-bottom: solid 1px #dddddd;
+ header#myHeader.navbar.sticky.white {
+    background: #403f83;
+    border-bottom: solid 1px #403f83;
+  }
+  header#myHeader.navbar .search #quick_search{
+    color: #000;
+    background: rgba(255, 255, 255, .1);
+  }
+  header#myHeader.navbar.white .btn, .navbar.white a, .navbar.sticky.white a{
+    color: #000;
+  }
+  header#myHeader .dropdown-toggle::after{
+    color: rgba(255, 255, 255, .5);
+  }
+  header#myHeader .logo .d-block{
+    display: none !important;
+  }
+  header#myHeader .logo .d-none{
+    display: block !important;
+  }
+  .mainside{
+    .connect-wal{
+      display: none;
+    }
+    .logout{
+      display: flex;
+      align-items: center;
+    }
+  }
+  @media only screen and (max-width: 1199px) {
+    .navbar{
+      background: #403f83;
+    }
+    .navbar .menu-line, .navbar .menu-line1, .navbar .menu-line2{
+      background: #fff;
+    }
+    .item-dropdown .dropdown a{
+      color: #fff !important;
+    }
   }
   @media only screen and (max-width: 1199px) {
     .navbar{
@@ -96,7 +132,7 @@ const ItemDetail = function () {
   /**
    * Contract
    */
-  const {getPixelTokenURI} = GetPixelTokenURI()
+  const { getPixelTokenURI } = GetPixelTokenURI();
   const { getCollectionName } = GetCollectionName();
   const { buyItem } = BuyItem();
   const cancelListing = async () => {
@@ -109,7 +145,7 @@ const ItemDetail = function () {
   }
 
   const buyNow = () => {
-    debugger
+    debugger;
     const tradeId = data.getTradeWithAddresId.tradeId;
 
     const targetItemContract =
@@ -124,28 +160,21 @@ const ItemDetail = function () {
     );
 
     const tradeStatusData = {
-      tradeId : tradeId,
+      tradeId: tradeId,
       status: status,
-      buyer : targetAssetOwner
-    }
-    buyItem(
-      tradeId,
-      targetItemContract,
-      price,
-      tokenContract,
-      tradeStatusData
-    );
+      buyer: targetAssetOwner,
+    };
+    buyItem(tradeId, targetItemContract, price, tokenContract, tradeStatusData);
   };
 
- 
-  useEffect( () => {
-    const  prepare = async (dataGetAsset) =>  {
+  useEffect(() => {
+    const prepare = async (dataGetAsset) => {
       const _collectionName =
-      data.collections.filter((x) => x.collectionAddress == contract)[0] ==
-      null
-        ? await getCollectionName(contract) // set collection name collections redux
-        : data.collections.filter((x) => x.collectionAddress == contract)[0]
-            .collectionName;
+        data.collections.filter((x) => x.collectionAddress == contract)[0] ==
+        null
+          ? await getCollectionName(contract) // set collection name collections redux
+          : data.collections.filter((x) => x.collectionAddress == contract)[0]
+              .collectionName;
       dispatch(
         setMetadata({
           name: dataGetAsset.name,
@@ -163,47 +192,44 @@ const ItemDetail = function () {
                 )[0].profileImgPath,
           collectionName: _collectionName,
         })
-        );
+      );
 
-        setTimeout(() => {
+      setTimeout(() => {
         dispatch(setItemDetailLoader(true));
-        }, 1000);
+      }, 1000);
+    };
 
+    if (!loading) {
+      const _collections = data.collections.map((item, i) => {
+        const collectionSelect = {
+          value: item.collectionAddress,
+          label: item.collectionName,
+        };
+        return collectionSelect;
+      });
+      dispatch(setCollections(_collections));
+
+      const currencyInfo = data.getCurrencies.map((item, i) => {
+        return {
+          value: item.currencyAddress,
+          label: item.currencyName,
+        };
+      });
+      dispatch(setCurrencyInfo({ currencyInfo }));
+      prepare(data.getAsset != null ? data.getAsset : null);
     }
-
-        if (!loading) {
-        const _collections = data.collections.map((item, i) => {
-          const collectionSelect = {
-            value: item.collectionAddress,
-            label: item.collectionName,
-          };
-          return collectionSelect;
-        });
-        dispatch(setCollections(_collections));
-
-        const currencyInfo = data.getCurrencies.map((item, i) => {
-          return {
-            value: item.currencyAddress,
-            label: item.currencyName,
-          };
-        });
-        dispatch(setCurrencyInfo({ currencyInfo }));
-        prepare(data.getAsset != null ? data.getAsset : null);
-        
-        }
-  }, [loading])
-  
+  }, [loading]);
 
   useEffect(() => {
     const prepare = async () => {
       if (walletAddress != undefined && !loading) {
         try {
-          console.log(walletAddress)
-          console.log(data.getAsset.assetOwner)
+          console.log(walletAddress);
+          console.log(data.getAsset.assetOwner);
           const checkItemOwner = BigNumber.from(walletAddress).eq(
             data.getAsset.assetOwner
           );
-          dispatch(setOwnerWallet(data.getAsset.assetOwner))
+          dispatch(setOwnerWallet(data.getAsset.assetOwner));
           if (checkItemOwner && data.getTradeWithAddresId === null) {
             dispatch(setItemOwner(1));
           } else if (checkItemOwner && data.getTradeWithAddresId !== null) {
@@ -212,7 +238,7 @@ const ItemDetail = function () {
             dispatch(setItemOwner(3));
           }
         } catch (error) {
-            console.log(error)
+          console.log(error);
         }
       }
     };

@@ -26,7 +26,7 @@ const NavLink = (props) => (
 
 const Header = function ({ className }) {
   const { walletAddress } = useSelector((state) => state.wallet);
-  const { connectWallet,disconnectWallet } = ConnectWallet();
+  const { connectWallet, disconnectWallet } = ConnectWallet();
   const [openMenu, setOpenMenu] = React.useState(false);
   const [openMenu1, setOpenMenu1] = React.useState(false);
 
@@ -96,11 +96,7 @@ const Header = function ({ className }) {
                 />
                 <img src="/img/logo-2.png" className="img-fluid d-3" alt="#" />
                 <img src="/img/logo-3.png" className="img-fluid d-4" alt="#" />
-                <img
-                  src="/img/logo-light.png"
-                  className="img-fluid d-none"
-                  alt="#"
-                />
+                <img src="/img/logo.png" className="img-fluid d-none" alt="#" />
               </NavLink>
             </div>
           </div>

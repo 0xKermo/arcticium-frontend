@@ -12,11 +12,11 @@ const GlobalStyles = createGlobalStyle`
     border-bottom: solid 1px #403f83;
   }
   header#myHeader.navbar .search #quick_search{
-    color: #fff;
+    color: #000;
     background: rgba(255, 255, 255, .1);
   }
   header#myHeader.navbar.white .btn, .navbar.white a, .navbar.sticky.white a{
-    color: #fff;
+    color: #000;
   }
   header#myHeader .dropdown-toggle::after{
     color: rgba(255, 255, 255, .5);
@@ -46,9 +46,10 @@ const Test = () => {
   const { getPixelTokenURI } = GetPixelTokenURI();
 
   const requestFaucet = async () => {
-    const contract_address = "0x07ffe4bd0b457e10674a2842164b91fea646ed4027d3b606a0fcbf056a4c8827"
-    const token_id = "1"
-    getPixelTokenURI(contract_address,token_id)
+    const contract_address =
+      "0x07ffe4bd0b457e10674a2842164b91fea646ed4027d3b606a0fcbf056a4c8827";
+    const token_id = "1";
+    getPixelTokenURI(contract_address, token_id);
   };
   return (
     <div>
@@ -65,10 +66,9 @@ const Test = () => {
                 <h1>Faucet</h1>
 
                 <div className="spacer-20"></div>
-                <div className="row" id="form_sb" >
+                <div className="row" id="form_sb">
                   <p className="mt-0">Address</p>
-                  <Toaster position="bottom-center"
-                  reverseOrder={true} />
+                  <Toaster position="bottom-center" reverseOrder={true} />
                   <div className="col text-center">
                     <input
                       className="form-control"
@@ -92,8 +92,7 @@ const Test = () => {
           </div>
         </div>
       </section>
-      <section>
-      </section>
+      <section></section>
     </div>
   );
 };
