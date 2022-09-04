@@ -172,15 +172,21 @@ const Profile = () => {
                 <li id="Mainbtn2">
                   <span onClick={handleBtnClick1}>Activity</span>
                 </li>
-                <li className="search">
-                  <input
-                    className="form-control"
-                    placeholder="   Search Nft by title"
-                    type="text"
-                    onChange={filterNftTitles}
-                    style={{ borderRadius: "30px" }}
-                  />
-                </li>
+                <form
+                  className="row form-dark"
+                  id="form_quick_search"
+                  name="form_quick_search"
+                >
+                  <div className="col">
+                    <input
+                      className="form-control"
+                      id="name_1"
+                      name="name_1"
+                      placeholder="search item here..."
+                      type="text"
+                    />
+                  </div>
+                </form>
               </ul>
             </div>
           </div>
