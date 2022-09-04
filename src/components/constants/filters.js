@@ -1,36 +1,17 @@
-export const categories = [
+export const tradeType = [
     {
-        value: 'art',
-        label: 'Art'
+        value: 0,
+        label: 'Any'
     },
     {
-        value: 'music',
-        label: 'Music'
+        value: 1,
+        label: 'Collection'
     },
     {
-        value: 'domain_names',
-        label: 'Domain Names'
+        value: 2,
+        label: 'Nft'
     },
-    {
-        value: 'virtual_world',
-        label: 'Virtual World'
-    },
-    {
-        value: 'trading_cards',
-        label: 'Trading Cards'
-    },
-    {
-        value: 'collectibles',
-        label: 'Collectibles'
-    },
-    {
-        value: 'sports',
-        label: 'Sports'
-    },
-    {
-        value: 'utility',
-        label: 'Utility'
-    }
+
 ];
 
 export const status = [

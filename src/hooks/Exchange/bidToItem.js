@@ -26,7 +26,6 @@ export const BidToItem = () => {
         },
       ];
       let result;
-      debugger
       if(_allowance != 0){
         const allowanceArgs = await approveERC20(bidCurrencyType, _allowance)
         bidtoItemArgs.push(allowanceArgs);

@@ -55,6 +55,7 @@ export const BidAdd = gql`
     $biddedItemId: String
     $itemBidId: Int
     $bidTradeType: Int
+    $transactionHash: String
   ) {
     addBid(
       tradeId: $tradeId
@@ -70,6 +71,7 @@ export const BidAdd = gql`
       biddedItemId: $biddedItemId
       itemBidId: $itemBidId
       bidTradeType: $bidTradeType
+      transactionHash: $transactionHash
     ) {
       tradeId
       bidContractAddress
@@ -94,8 +96,8 @@ export const updateUserProfile = gql`
 `;
 
 export const updateTradeStatus = gql`
-  mutation tradeStatus($tradeId: Int, $status: String, $buyer: String) {
-    tradeStatus(tradeId: $tradeId, status: $status, buyer: $buyer) {
+  mutation tradeStatus($tradeId: Int, $status: String, $buyer: String, $transactionHash: string) {
+    tradeStatus(tradeId: $tradeId, status: $status, buyer: $buyer, transactionHash: $transactionHash) {
       tradeId
       status
     }
@@ -113,8 +115,8 @@ export const cancelTrade = gql`
 
 
 export const updateBidStatus = gql`
-  mutation bidStatus($tradeId: Int, $itemBidId:Int, $status: String) {
-    bidStatus(tradeId: $tradeId, itemBidId: $itemBidId, status: $status) {
+  mutation bidStatus($tradeId: Int, $itemBidId:Int, $status: String, $transactionHash: string ) {
+    bidStatus(tradeId: $tradeId, itemBidId: $itemBidId, status: $status,  transactionHash: $transactionHash) {
       tradeId
       status
     }

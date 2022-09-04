@@ -122,21 +122,18 @@ const ItemDetail = function () {
       currencyAddresses,
       Number(data.getTradeWithAddresId.currencyType)
     );
-    const tradeStatusChange = () => {
-      tradeStatus({
-        variables: {
-          tradeId: tradeId,
-          status: status,
-          buyer: targetAssetOwner,
-        },
-      });
-    };
+
+    const tradeStatusData = {
+      tradeId : tradeId,
+      status: status,
+      buyer : targetAssetOwner
+    }
     buyItem(
       tradeId,
       targetItemContract,
       price,
       tokenContract,
-      tradeStatusChange
+      tradeStatusData
     );
   };
 

@@ -19,21 +19,22 @@ export const AcceptBid = () => {
       ];
 
       const result = await account.account.execute(acceptBidArgs);
-
-      const tx = account.provider.waitForTransaction(result.transaction_hash).then((res) => console.log("res",res));
-      const mintLoadingText = "Transaction pending...";
-      const voyagerLink = `https://beta-goerli.voyager.online/tx/${result.transaction_hash}`;
-      const mintSuccessText = `<a src=${voyagerLink}>Listing cancelled, click and see on Voyager</a>`;
-      ToastPromise(tx, mintLoadingText, mintSuccessText);
-      tx.then((res) => {
+      if(result.transaction_hash){
         bidStatus({
           variables:{
             tradeId:_tradeId,
             itemBidId: _bidId,
             status:"Executed",
+            trasactionHash: result.transaction_hash
           }
         })
-      })
+      }
+      const tx = account.provider.waitForTransaction(result.transaction_hash).then((res) => console.log("res",res));
+      const mintLoadingText = "Transaction pending...";
+      const voyagerLink = `https://beta-goerli.voyager.online/tx/${result.transaction_hash}`;
+      const mintSuccessText = `<a src=${voyagerLink}>Listing cancelled, click and see on Voyager</a>`;
+      ToastPromise(tx, mintLoadingText, mintSuccessText);
+ 
       return tx;
     } catch (error) {
       console.log(error);

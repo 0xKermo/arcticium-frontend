@@ -14,15 +14,29 @@ export const ConnectWallet =  () => {
       throw Error("User rejected wallet selection or silent connect found nothing")
     }
     
+    console.log("sd",starknet)
     await starknet.enable()
-    console.log("sd",starknet.selectedAddress)
     
     dispatch(setWalletAddress(BigNumber.from(starknet.selectedAddress)._hex ));
     // dispatch(setProvider(starknet.provider));
     dispatch(setAccount(starknet));
     return starknet
   }
+  const disconnectWallet = async () => {
+    const starknet = getStarknet()
+    if (!starknet) {
+      throw Error("User rejected wallet selection or silent connect found nothing")
+    }
+    console.log(starknet)
+    const test = starknet.off
+    console.log(test)
+    
+    // dispatch(setWalletAddress(null));
+    // // dispatch(setProvider(starknet.provider));
+    // dispatch(setAccount(null));
+    // return starknet
+  }
 return {
-  connectWallet
+  connectWallet,disconnectWallet
 }
 }

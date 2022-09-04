@@ -8,7 +8,7 @@ import { setProfileInfo, setUserAssets } from "../../store/slicers/userAssets";
 import { setUserAssetLoader } from "../../store/slicers/loader";
 import { setProfileCreated } from "../../store/slicers/profileOperations";
 
-export const AddUserAsset = (walletAddress) => {
+export const UserAsset = (walletAddress) => {
   const [_checkEvents] = useMutation(status);
   // const {walletAddress} = useSelector((state) => state.wallet)
   const [getAsset, { loading, data }] = useLazyQuery(getUserProfile);

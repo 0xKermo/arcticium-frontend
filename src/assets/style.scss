@@ -2820,6 +2820,25 @@ i.font60 {
   }
 }
 
+.nft_profile_item {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding: 10px;
+  margin: 10px;
+  border: solid 1px #ddd;
+  border-radius: 15px;
+  -moz-border-radius: 15px;
+  -webkit-border-radius: 15px;
+  margin-bottom: 25px;
+  background: #ffffff;
+  transition: 0.7s;
+  &:hover {
+    box-shadow: 2px 2px 30px 0px rgba(10, 10, 10, 0.1);
+    transition: 0.7s;
+  }
+}
+
 .nft_detail_item {
   display: flex;
   flex-direction: column;
@@ -2934,7 +2953,7 @@ i.font60 {
 }
 .nft__item_like {
   position: relative;
-  bottom: 22px;
+  bottom: 10px;
   font-size: 14px;
   color: #ddd;
   float: right;
@@ -3085,6 +3104,13 @@ i.font60 {
   width: 150px;
   height: 150px;
   object-fit: cover;
+  border-radius: 8px;
+  -moz-border-radius: 8px;
+  -webkit-border-radius: 8px;
+}
+.nft_profile_item img {
+  width: 150px;
+  height: 150px;
   border-radius: 8px;
   -moz-border-radius: 8px;
   -webkit-border-radius: 8px;

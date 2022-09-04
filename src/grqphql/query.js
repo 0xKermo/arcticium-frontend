@@ -18,6 +18,9 @@ export const getUserProfile = gql`
       name
       contract_address
       image
+      trade {
+        tradeId
+      }
     }
   }
 `;
@@ -235,6 +238,21 @@ export const GetOpenTrades = gql`
         name
         image
         contract_address
+      }
+    }
+  }
+`;
+
+export const getUserActivity = gql`
+  query activities($to: String!) {
+    activities(to: $to) {
+      contractAddress
+      tokenId
+      to
+      from
+      activityType
+      assetImage {
+      image
       }
     }
   }

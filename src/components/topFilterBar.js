@@ -1,98 +1,103 @@
-import React, { useCallback } from 'react';
-import Select from 'react-select';
-import { useDispatch } from 'react-redux';
-import { categories, status, itemsType } from './constants/filters';
+import React, { useCallback, useState } from "react";
+import Select from "react-select";
+import { useDispatch, useSelector } from "react-redux";
+import { tradeType, status, itemsType } from "./constants/filters";
+import { setOpenTrades } from "../store/slicers/openTradesData";
 
-const TopFilterBar = () => {
-    const dispatch = useDispatch();
-    const handleCategory = useCallback((option) => {
-        const { value } = option;
-    }, [dispatch]);
-    
-    const handleStatus = useCallback((option) => {
-        const { value } = option;
-    }, [dispatch]);
-    
-    const handleItemsType = useCallback((option) => {
-        const { value } = option;
-    }, [dispatch]);
+const TopFilterBar = (props) => {
+  const dispatch = useDispatch();
+  const [openTradeData, setOpenTradeData] = useState(props.data);
 
-    const filterNftTitles = useCallback((event) => {
-        const value = event.target.value;
-    }, [dispatch]);
+  const handeleTradeType = useCallback(
+    (option) => {
+      const { value } = option;
+      if(value){
 
-    const defaultValue = {
-        value: null,
-        label: 'Select Filter'
-    };
-    
-    const customStyles = {
-        option: (base, state) => ({
-            ...base,
-            background: "#fff",
-            color: "#333",
-            borderRadius: state.isFocused ? "0" : 0,
-            "&:hover": {
-                background: "#eee",
-            }
-        }),
-        menu: base => ({
-            ...base,
-            borderRadius: 0,
-            marginTop: 0
-        }),
-        menuList: base => ({
-            ...base,
-            padding: 0
-        }),
-        control: (base, state) => ({
-            ...base,
-            padding: 2
-        })
-    };
+          const filteredData = openTradeData.filter(
+            (item) => item.tradeType == value
+          );
+          setOpenTradeData(filteredData);
+          dispatch(setOpenTrades(filteredData));
+      }else{
+        setOpenTradeData(props.data);
+        dispatch(setOpenTrades(props.data));
+      }
+    },
+    [dispatch]
+  );
 
-    return (
-        <div className="items_filter">
-            <form className="row form-dark" id="form_quick_search" name="form_quick_search">
-                <div className="col">
-                    <input 
-                        className="form-control" 
-                        id="name_1" 
-                        name="name_1" 
-                        placeholder="search item here..." 
-                        type="text"
-                        onChange={filterNftTitles}
-                    /> 
-                    <button id="btn-submit">
-                        <i className="fa fa-search bg-color-secondary"></i>
-                    </button>
-                    <div className="clearfix"></div>
-                </div>
-            </form>
-            <div className='dropdownSelect one'>
-                <Select 
-                    styles={customStyles} 
-                    menuContainerStyle={{'zIndex': 999}}
-                    options={[defaultValue, ...categories]}
-                    onChange={handleCategory}
-                />
-            </div>
-            <div className='dropdownSelect two'>
-                <Select 
-                    styles={customStyles} 
-                    options={[defaultValue,...status]}
-                    onChange={handleStatus}
-                />
-            </div>
-            <div className='dropdownSelect three'>
-                <Select 
-                    styles={customStyles}
-                    options={[defaultValue, ...itemsType]}
-                    onChange={handleItemsType}
-                />
-            </div>
+  const filterNftTitles = useCallback(
+    (event) => {
+      const value = event.target.value;
+      const filteredData = openTradeData.filter((item) =>
+        item.assetInfo.name.toLowerCase().includes(value)
+      );
+      setOpenTradeData(filteredData);
+
+      dispatch(setOpenTrades(filteredData));
+    },
+    [dispatch]
+  );
+
+  const defaultValue = {
+    value: null,
+    label: "Select Trade Type",
+  };
+
+  const customStyles = {
+    option: (base, state) => ({
+      ...base,
+      background: "#fff",
+      color: "#333",
+      borderRadius: state.isFocused ? "0" : 0,
+      "&:hover": {
+        background: "#eee",
+      },
+    }),
+    menu: (base) => ({
+      ...base,
+      borderRadius: 0,
+      marginTop: 0,
+    }),
+    menuList: (base) => ({
+      ...base,
+      padding: 0,
+    }),
+    control: (base, state) => ({
+      ...base,
+      padding: 2,
+    }),
+  };
+
+  return (
+    <div className="row">
+        
+      <div className="col-lg-2">
+        <input
+          className="form-control"
+          placeholder="   Search Nft by title"
+          type="text"
+          onChange={filterNftTitles}
+          style={{borderRadius:"30px"}}
+        />
+
+      
+      </div>
+      <div className="col-lg-2">
+  
+
+        <div className="dropdownSelect one">
+          <Select
+            styles={customStyles}
+            menuContainerStyle={{ zIndex: 999 }}
+            defaultValue={defaultValue}
+            options={[defaultValue, ...tradeType]}
+            onChange={handeleTradeType}
+          />
         </div>
-    );
-}
+      </div>
+    </div>
+  );
+};
 
 export default TopFilterBar;

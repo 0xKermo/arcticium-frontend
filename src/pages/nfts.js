@@ -1,9 +1,12 @@
-import React from "react";
-import ColumnSwap from "../components/explorerColumnSwap";
+import React, { useEffect } from "react";
+import ExplorerColumnSwap from "../components/explorerColumnSwap";
 import { createGlobalStyle } from "styled-components";
 import TopFilterBar from "../components/topFilterBar";
 import { useQuery } from "@apollo/client";
 import { GetOpenTrades } from "../grqphql/query";
+import { useDispatch, useSelector } from "react-redux";
+import { setOpenTrades } from "../store/slicers/openTradesData";
+import { setTradesLoader } from "../store/slicers/loader";
 
 const GlobalStyles = createGlobalStyle`
   header#myHeader.navbar.sticky.white {
@@ -40,38 +43,47 @@ const GlobalStyles = createGlobalStyle`
 `;
 
 const Nfts = () => {
-  const {loading, error,data} = useQuery(GetOpenTrades)
+  const { loading, error, data } = useQuery(GetOpenTrades);
+  const { tradesLoader } = useSelector((state) => state.loader);
 
-  return(
-  <div>
-    <GlobalStyles />
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (!loading) {
+      dispatch(setOpenTrades(data.getOpenTrades));
+      setTimeout(() => {
+        dispatch(setTradesLoader(false));
+      }, 100);
+    }
+  }, [loading]);
 
-    <section
-      className="jumbotron breadcumb no-bg"
-      style={{ backgroundImage: `url(${"./img/background/subheader.jpg"})` }}
-    >
-      <div className="mainbreadcumb">
-        <div className="container">
-          <div className="row m-10-hor">
-            <div className="col-12">
-              <h1 className="text-center">Nft's</h1>
+  return (
+    <div>
+      <GlobalStyles />
+
+      <section
+        className="jumbotron breadcumb no-bg"
+        style={{ backgroundImage: `url(${"./img/background/subheader.jpg"})` }}
+      >
+        <div className="mainbreadcumb">
+          <div className="container">
+            <div className="row m-10-hor">
+              <div className="col-12">
+                <h1 className="text-center">Nft's</h1>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section className="container">
-      <div className="row">
-        <div className="col-lg-12">
-          <TopFilterBar />
+      <section className="container">
+        <div className="row">
+          <div className="col-lg-12">
+            {!tradesLoader && <TopFilterBar data={data.getOpenTrades} />}
+          </div>
         </div>
-      </div>
-      {!loading &&
-      <ColumnSwap data={data.getOpenTrades}/>
-
-      }
-    </section>
-  </div>
-)};
+        {!tradesLoader && <ExplorerColumnSwap />}
+      </section>
+    </div>
+  );
+};
 export default Nfts;

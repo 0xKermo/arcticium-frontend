@@ -26,7 +26,7 @@ const NavLink = (props) => (
 
 const Header = function ({ className }) {
   const { walletAddress } = useSelector((state) => state.wallet);
-  const { connectWallet } = ConnectWallet();
+  const { connectWallet,disconnectWallet } = ConnectWallet();
   const [openMenu, setOpenMenu] = React.useState(false);
   const [openMenu1, setOpenMenu1] = React.useState(false);
 
@@ -83,7 +83,7 @@ const Header = function ({ className }) {
     };
   }, []);
   return (
-    <header className={`navbar white ${className}`} id="myHeader">
+    <header className={`navbar  ${className}`} id="myHeader">
       <div className="container">
         <div className="row w-100-nav">
           <div className="logo px-0">
@@ -404,7 +404,7 @@ const Header = function ({ className }) {
                               <i className="fa fa-user"></i>My Profile
                             </span>
                           </li>
-                          <li onClick={handleLogout}>
+                          <li onClick={disconnectWallet}>
                             <span>
                               <i className="fa fa-sign-out"></i>
                               Disconnect

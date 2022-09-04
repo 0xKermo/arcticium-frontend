@@ -17,9 +17,7 @@ export const ProfileActions = () => {
     dispatch(setOpenMenu2(false));
     dispatch(setOpenMenu3(false));
     document.getElementById("Mainbtn").classList.add("active");
-    document.getElementById("Mainbtn1").classList.remove("active");
     document.getElementById("Mainbtn2").classList.remove("active");
-    document.getElementById("Mainbtn3").classList.remove("active");
   };
 
   const handleBtnClick1 = () => {
@@ -38,9 +36,7 @@ export const ProfileActions = () => {
     dispatch(setOpenMenu(false));
     dispatch(setOpenMenu1(false));
     document.getElementById("Mainbtn2").classList.add("active");
-    document.getElementById("Mainbtn3").classList.remove("active");
     document.getElementById("Mainbtn").classList.remove("active");
-    document.getElementById("Mainbtn1").classList.remove("active");
   };
   const handleBtnClick3 = () => {
     dispatch(setOpenMenu3(!openMenu3));

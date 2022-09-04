@@ -57,14 +57,14 @@ export const BidActions = (_contract_address, tradeType) => {
     const isApprove = await getApprove(walletAddress, bidData.bidContractAddress)
     
     const {result,tx} = await bidToItem(bidItemCallData,isApprove, bidData.bidContractAddress,_allowance)
-    tx.then((ress) => {
-      console.log("ress",ress)
-      console.log("tx",tx)
-
+    if(result.transaction_hash){
+      bidData.transactionHash = result.transaction_hash;
       _BidAdd({
         variables: bidData,
       });
-      
+    }
+    tx.then((ress) => {
+      window.location.reload()
     })
    };  
 

@@ -38,7 +38,10 @@ export const ListItem = () => {
         result = await account.account.execute(listItemArgs[0]);
       }
       dispatch(setOpenCheckout(false));
-
+      if(result.transaction_hash){
+        tradeArgs.transactionHash = result.transaction_hash;
+        await _addTrade(tradeArgs);
+      }
       const tx = account.provider.waitForTransaction(result.transaction_hash);
       const mintLoadingText = "Transaction pending...";
       const voyagerLink = `https://beta-goerli.voyager.online/tx/${result.transaction_hash}`;
@@ -47,8 +50,6 @@ export const ListItem = () => {
       ToastPromise(tx, mintLoadingText, mintSuccessText);
       tx.then(async(res) => {
         console.log("test", res);
-        tradeArgs.transactionHash = result.transaction_hash;
-        await _addTrade(tradeArgs);
         window.location.reload()
       });
       return result;

@@ -1,17 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import ColumnSwap from "../components/profileColumnSwap";
 import Activity from "../components/profileActvity";
 import { createGlobalStyle } from "styled-components";
 import { ProfileActions } from "../controller";
 import ColumnMyNfts from "../components/profileColumnMyNfts";
-import { AddUserAsset } from "../grqphql";
+import { UserAsset } from "../grqphql";
 import { useParams } from "react-router-dom";
 import { updateUserProfile } from "../grqphql/mutation";
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { BigNumber } from "ethers";
 import ProfileNftsLoader from "../components/loader/profileNfts";
 import { ToastPromise } from "../components/toast";
+import { setUserAssets } from "../store/slicers/userAssets";
+import { getUserActivity } from "../grqphql/query";
 
 const GlobalStyles = createGlobalStyle`
   header#myHeader.navbar.sticky.white {
@@ -53,17 +55,17 @@ const Profile = () => {
   const { wallet } = useParams();
   const { userAssets } = useSelector((state) => state.userAssets);
   const { userAssetLoader } = useSelector((state) => state.loader);
-
-
+  const dispatch = useDispatch();
   const { walletAddress } = useSelector((state) => state.wallet);
-  const { openMenu, openMenu1, openMenu2, profileCreated } = useSelector(
+  const { openMenu, openMenu2, profileCreated } = useSelector(
     (state) => state.profileOperation
   );
-  const {  profileInfo } = useSelector((state) => state.userAssets);
+  const { profileInfo } = useSelector((state) => state.userAssets);
 
-  const { handleBtnClick, handleBtnClick1, handleBtnClick2 } =
-    ProfileActions();
-  const {  getUserAssets } = AddUserAsset(BigNumber.from(wallet)._hex.toLowerCase());
+  const { handleBtnClick, handleBtnClick2 } = ProfileActions();
+  const { getUserAssets } = UserAsset(
+    BigNumber.from(wallet)._hex.toLowerCase()
+  );
   const openEditProfile = () => {
     setEditProfile(true);
   };
@@ -74,9 +76,9 @@ const Profile = () => {
     const name = document.getElementById("username").value;
     const bio = document.getElementById("bio").value;
 
-    const updatedProfile =updateProfile({
+    const updatedProfile = updateProfile({
       variables: {
-        walletAddress:  BigNumber.from(wallet)._hex.toLowerCase(),
+        walletAddress: BigNumber.from(wallet)._hex.toLowerCase(),
         name: name,
         bio: bio,
       },
@@ -85,17 +87,30 @@ const Profile = () => {
     const successText = "Profile succesfully updated";
 
     ToastPromise(updatedProfile, mintLoadingText, successText);
-    setEditProfile(false)
-    console.log("ok",updatedProfile)
+    setEditProfile(false);
+    console.log("ok", updatedProfile);
   };
+
+  const filterNftTitles = useCallback(
+    (event) => {
+      const value = event.target.value;
+      console.log("user aset", userAssets);
+      // const filteredData = userAssets.filter((item) =>
+      //   item.name.toLowerCase().includes(value)
+      // );
+      // dispatch(setUserAssets(filteredData));
+    },
+    [dispatch]
+  );
+
   useEffect(() => {
-    if (walletAddress != null) {
-      getUserAssets( BigNumber.from(wallet)._hex.toLowerCase());
+    if (wallet) getUserAssets(BigNumber.from(wallet)._hex.toLowerCase());
+  }, [wallet]);
+  useEffect(() => {
+    if (walletAddress) {
       setIsOwner(BigNumber.from(wallet).eq(walletAddress));
-      
     }
   }, [walletAddress]);
-
   return (
     <div>
       <GlobalStyles />
@@ -150,54 +165,55 @@ const Profile = () => {
         <div className="row">
           <div className="col-lg-12">
             <div className="items_filter">
-              <ul className="de_nav text-left">
-                <li id="Mainbtn" className="">
-                  <span onClick={handleBtnClick}>My Nft's</span>
+              <ul className="de_nav ">
+                <li id="Mainbtn" className="active">
+                  <span onClick={handleBtnClick}>Nft's</span>
                 </li>
-                <li id="Mainbtn1" className="">
+                {/* <li id="Mainbtn1" className="">
                   <span onClick={handleBtnClick1}>On Swap</span>
-                </li>
+                </li> */}
                 <li id="Mainbtn2" className="">
                   <span onClick={handleBtnClick2}>Activity</span>
+                </li>
+                <li style={{ float: "right" }}>
+                  <input
+                    className="form-control"
+                    placeholder="   Search Nft by title"
+                    type="text"
+                    onChange={filterNftTitles}
+                    style={{ borderRadius: "30px" }}
+                  />
                 </li>
               </ul>
             </div>
           </div>
         </div>
 
-        {userAssetLoader && profileCreated &&
-          <ProfileNftsLoader />
-        }
-        {userAssets.length < 1 && !userAssetLoader && profileCreated &&
-        <div style={{textAlign: "center"}}>
-          <span>
-          Sorry! There were no Nfts found.
-          </span>
-        </div>
-        }
-          {!profileCreated &&
-        <div style={{textAlign: "center"}}>
-          <span>
-          Profile creating...
-          </span>
-        </div>
-        }
-        {openMenu && profileCreated && !userAssetLoader &&(
-        
+        {userAssetLoader && profileCreated && <ProfileNftsLoader />}
+        {userAssets.length < 1 && !userAssetLoader && profileCreated && (
+          <div style={{ textAlign: "center" }}>
+            <span>Sorry! There were no Nfts found.</span>
+          </div>
+        )}
+        {!profileCreated && (
+          <div style={{ textAlign: "center" }}>
+            <span>Profile creating...</span>
+          </div>
+        )}
+        {openMenu && profileCreated && !userAssetLoader && (
           <div id="zero2" className="onStep fadeIn">
             <ColumnMyNfts />
           </div>
-          
         )}
-
+        {/* 
         {openMenu1 && (
           <div id="zero3" className="onStep fadeIn">
             <ColumnSwap />
           </div>
-        )}
+        )} */}
         {openMenu2 && (
           <div id="zero3" className="onStep fadeIn">
-            <Activity />
+            <Activity wallet={wallet} />
           </div>
         )}
 
