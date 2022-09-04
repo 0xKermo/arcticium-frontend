@@ -48,7 +48,7 @@ const SwapToAnyItem = (props) => {
     bidCurrencyTypeOnchange,
     bidCurrencyAmountOnchange,
     makeOffer,
-  } = BidActions(props.data.targetTokenContract, props.data.tradeType );
+  } = BidActions(props.data ? props.data.targetTokenContract : null, props.data ?  props.data.tradeType: null );
 
   const unlockClick = () => {
     setIsActive(true);
