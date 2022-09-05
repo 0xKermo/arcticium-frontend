@@ -63,6 +63,7 @@ const Profile = () => {
   const { profileInfo } = useSelector((state) => state.userAssets);
 
   const { handleBtnClick, handleBtnClick1 } = ProfileActions();
+
   const { getUserAssets } = UserAsset(
     BigNumber.from(wallet)._hex.toLowerCase()
   );
@@ -169,7 +170,7 @@ const Profile = () => {
                 <li id="Mainbtn">
                   <span onClick={handleBtnClick}>Nft's</span>
                 </li>
-                <li id="Mainbtn2">
+                <li id="Mainbtn1">
                   <span onClick={handleBtnClick1}>Activity</span>
                 </li>
                 <li id="quick_search">

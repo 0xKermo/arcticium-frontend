@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { Toaster } from "react-hot-toast";
 import { ToastPromise } from "../components/toast";
 import { Provider } from "starknet";
+import EmptyPage from "../components/emptypage";
 
 const GlobalStyles = createGlobalStyle`
   header#myHeader.navbar.sticky.white {
@@ -95,6 +96,7 @@ const Faucet = () => {
           </div>
         </div>
       </section>
+      <EmptyPage />
     </div>
   );
 };

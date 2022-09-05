@@ -30,20 +30,38 @@ const Footer = () => (
               </div>
               <div className="de-flex-col">
                 <div className="social-icons">
-                  <span onClick={() => window.open("", "_self")}>
-                    <i className="fa-lg">
-                      <FontAwesomeIcon icon={faTwitter} />
-                    </i>
+                  <span>
+                    <a
+                      href="https://twitter.com/arcticiumm"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <i className="fa-lg">
+                        <FontAwesomeIcon icon={faTwitter} />
+                      </i>
+                    </a>
                   </span>
-                  <span onClick={() => window.open("", "_self")}>
-                    <i className="fa-lg">
-                      <FontAwesomeIcon icon={faDiscord} />
-                    </i>
+                  <span>
+                    <a
+                      href="https://twitter.com/arcticiumm"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <i className="fa-lg">
+                        <FontAwesomeIcon icon={faDiscord} />
+                      </i>
+                    </a>
                   </span>
-                  <span onClick={() => window.open("", "_self")}>
-                    <i className="fa-lg">
-                      <FontAwesomeIcon icon={faMediumM} />
-                    </i>
+                  <span>
+                    <a
+                      href="https://twitter.com/arcticiumm"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <i className="fa-lg">
+                        <FontAwesomeIcon icon={faMediumM} />
+                      </i>
+                    </a>
                   </span>
                 </div>
               </div>
