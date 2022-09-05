@@ -124,11 +124,11 @@ const Header = function ({ className }) {
                     <div ref={ref1}>
                       <div
                         className="dropdown-custom dropdown-toggle btn"
-                        onClick={handleBtnClick1}
+                        onClick={handleBtnClick}
                       >
                         Explore
                       </div>
-                      {openMenu1 && (
+                      {openMenu && (
                         <div className="item-dropdown">
                           <div className="dropdown" onClick={closeMenu1}>
                             <NavLink
@@ -245,12 +245,12 @@ const Header = function ({ className }) {
                   <div ref={ref1}>
                     <div
                       className="dropdown-custom dropdown-toggle btn"
-                      onMouseEnter={handleBtnClick1}
+                      onMouseEnter={handleBtnClick}
                       onMouseLeave={closeMenu1}
                     >
                       Explore
                       <span className="lines"></span>
-                      {openMenu1 && (
+                      {openMenu && (
                         <div className="item-dropdown">
                           <div className="dropdown" onClick={closeMenu1}>
                             <NavLink

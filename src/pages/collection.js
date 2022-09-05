@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
 import Activity from "../components/collectionActivity";
-import ColumnSwap from "../components/explorerColumnSwap"
+import ColumnSwap from "../components/explorerColumnSwap";
 import { getCollection } from "../grqphql/query";
 
 const GlobalStyles = createGlobalStyle`
@@ -12,14 +12,14 @@ const GlobalStyles = createGlobalStyle`
     border-bottom: solid 1px #403f83;
   }
   header#myHeader.navbar .search #quick_search{
-    color: #fff;
+    color: #000;
     background: rgba(255, 255, 255, .1);
   }
   header#myHeader.navbar.white .btn, .navbar.white a, .navbar.sticky.white a{
-    color: #fff;
+    color: #000;
   }
   header#myHeader .dropdown-toggle::after{
-    color: rgba(255, 255, 255, .5);;
+    color: #000;
   }
   header#myHeader .logo .d-block{
     display: none !important;
@@ -35,18 +35,18 @@ const GlobalStyles = createGlobalStyle`
       background: #fff;
     }
     .item-dropdown .dropdown a{
-      color: #fff !important;
+      color: #000 !important;
     }
   }
 `;
 const Collection = function () {
   const { contract } = useParams();
-  const [imgUrls, setImgUrls] = useState([])
-  const {loading, error, data } = useQuery(getCollection,{
-    variables:{
-      collectionAddress: contract
-    }
-  })
+  const [imgUrls, setImgUrls] = useState([]);
+  const { loading, error, data } = useQuery(getCollection, {
+    variables: {
+      collectionAddress: contract,
+    },
+  });
   const [openMenu, setOpenMenu] = React.useState(true);
   const [openMenu1, setOpenMenu1] = React.useState(false);
   const handleBtnClick = (): void => {
@@ -63,7 +63,7 @@ const Collection = function () {
   };
 
   useEffect(() => {
-    const prepare = async() => {
+    const prepare = async () => {
       // const tokenIds =[
       //   "2270848422125323085359874136672890433162799864094809492304241408379547811840",
       //   "2101044568154481062897470114561017956862387650662892455178924183664707239936",
@@ -99,21 +99,16 @@ const Collection = function () {
       //   return item.image
       // })
       // setImgUrls(imageUrls)
-
-    }
+    };
 
     // prepare()
-  }, [contract])
+  }, [contract]);
 
   useEffect(() => {
-    
-    if(!loading){
-      console.log(data.getTradeWithContractAddress)
+    if (!loading) {
+      console.log(data.getTradeWithContractAddress);
     }
-    
-  }, [loading])
-  
-
+  }, [loading]);
 
   return (
     <div>
@@ -122,7 +117,11 @@ const Collection = function () {
       <section
         id="profile_banner"
         className="jumbotron breadcumb no-bg"
-        style={{ backgroundImage: `url(${!loading ? data.collection.bannerPath : null})` }}
+        style={{
+          backgroundImage: `url(${
+            !loading ? data.collection.bannerPath : null
+          })`,
+        }}
       >
         <div className="mainbreadcumb"></div>
       </section>
@@ -133,21 +132,22 @@ const Collection = function () {
             <div className="d_profile de-flex left">
               <div className="de-flex-col">
                 <div className="profile_avatar">
-                  <img src={!loading ? data.collection.profileImgPath : null} alt="" />
+                  <img
+                    src={!loading ? data.collection.profileImgPath : null}
+                    alt=""
+                  />
                   <div className="profile_name">
                     <h4>
-                    {!loading ? data.collection.collectionName : null}
+                      {!loading ? data.collection.collectionName : null}
                       <span className="profile_username"></span>
                       <span id="wallet" className="profile_wallet">
-                      {!loading ? data.collection.collectionAddress : null}
+                        {!loading ? data.collection.collectionAddress : null}
                       </span>
                       <button id="btn_copy" title="Copy Text">
                         copy
                       </button>
                     </h4>
-                    <span>
-                    {!loading ? data.collection.bio : null}
-                    </span>
+                    <span>{!loading ? data.collection.bio : null}</span>
                   </div>
                 </div>
               </div>
@@ -196,7 +196,7 @@ const Collection = function () {
         </div>
         {openMenu && !loading && (
           <div id="zero1" className="onStep fadeIn">
-            <ColumnSwap data={data.getTradeWithContractAddress}/>
+            <ColumnSwap data={data.getTradeWithContractAddress} />
           </div>
         )}
         {openMenu1 && (

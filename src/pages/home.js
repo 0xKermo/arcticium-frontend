@@ -22,7 +22,7 @@ const GlobalStyles = createGlobalStyle`
     color: #000;
   }
   header#myHeader .dropdown-toggle::after{
-    color: #fff;
+    color: #000;
   }
   header#myHeader .logo .d-block{
     display: none !important;
@@ -38,7 +38,7 @@ const GlobalStyles = createGlobalStyle`
       background: #fff;
     }
     .item-dropdown .dropdown a{
-      color: #fff !important;
+      color: #000 !important;
     }
   }
 `;

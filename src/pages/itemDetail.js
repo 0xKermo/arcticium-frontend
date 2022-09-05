@@ -62,7 +62,7 @@ const GlobalStyles = createGlobalStyle`
       background: #fff;
     }
     .item-dropdown .dropdown a{
-      color: #fff !important;
+      color: #000 !important;
     }
   }
   @media only screen and (max-width: 1199px) {
@@ -73,7 +73,7 @@ const GlobalStyles = createGlobalStyle`
       background: #111;
     }
     .item-dropdown .dropdown a{
-      color: #111 !important;
+      color: #000 !important;
     }
   }
   .method_active{
