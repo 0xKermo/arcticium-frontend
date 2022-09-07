@@ -854,7 +854,7 @@ a {
 /*navbar*/
 .navbar {
   padding: 0;
-  position: relative;
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
@@ -1449,7 +1449,7 @@ a {
     content: unset;
   }
   .mainbreadcumb {
-    padding: 130px 0 110px;
+    padding: 190px 0 110px;
     h1 {
       margin-bottom: 0;
       color: $white;

@@ -51,7 +51,7 @@ const Home = () => {
       <GlobalStyles />
       <section
         className="jumbotron no-bg"
-        style={{ backgroundImage: `url(${"./img/background/2.jpg"})` }}
+        style={{ backgroundImage: `url(${"./img/background/subheader.jpg"})` }}
       >
         <Particle />
         <SliderMainParticle />
