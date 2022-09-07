@@ -160,24 +160,15 @@ const ItemDetailShowItem = (props) => {
                   Open Trade
                 </span>
               )}
-              {itemOwner === 3 && props.data.getTradeWithAddresId && (
+              {itemOwner === 2 && (
+                <span onClick={cancelListing} className="right btn-main lead">
+                  Cancel listing
+                </span>
+              )}
+              {itemOwner === 3 && (
                 <span onClick={make_offer} className="right btn-main lead">
                   Make Offer
                 </span>
-              )}
-              {itemOwner === 2 && (
-                <button
-                  style={{
-                    margin: "0",
-                    color: "rgb(131, 100, 226) !important",
-                    backgroundColor: "#f0f0f0",
-                    padding: "8px 20px",
-                  }}
-                  className="btn-cancel lead right mb-2 "
-                  onClick={cancelListing}
-                >
-                  Cancel listing
-                </button>
               )}
               <span>
                 <h2>{metadata.name}</h2>

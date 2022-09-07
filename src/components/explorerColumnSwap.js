@@ -84,7 +84,7 @@ const ExplorerColumnSwap = () => {
                         <Outer>
                           <span>
                             <img
-                              src="img/items/make-offer-2.png"
+                              src="img/items/make-offer.png"
                               className="lazy nft__item_preview"
                               alt=""
                             />

@@ -15,14 +15,14 @@ const GlobalStyles = createGlobalStyle`
     border-bottom: solid 1px #403f83;
   }
   header#myHeader.navbar .search #quick_search{
-    color: #fff;
+    color: #000;
     background: rgba(255, 255, 255, .1);
   }
   header#myHeader.navbar.white .btn, .navbar.white a, .navbar.sticky.white a{
-    color: #fff;
+    color: #000;
   }
   header#myHeader .dropdown-toggle::after{
-    color: #fff;
+    color: #000;
   }
   header#myHeader .logo .d-block{
     display: none !important;
@@ -38,7 +38,7 @@ const GlobalStyles = createGlobalStyle`
       background: #fff;
     }
     .item-dropdown .dropdown a{
-      color: #fff !important;
+      color: #000 !important;
     }
   }
 `;
@@ -51,7 +51,7 @@ const Home = () => {
       <GlobalStyles />
       <section
         className="jumbotron no-bg"
-        style={{ backgroundImage: `url(${"./img/background/2.jpg"})` }}
+        style={{ backgroundImage: `url(${"./img/background/subheader.jpg"})` }}
       >
         <Particle />
         <SliderMainParticle />

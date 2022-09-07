@@ -26,26 +26,19 @@ const NavLink = (props) => (
 
 const Header = function ({ className }) {
   const { walletAddress } = useSelector((state) => state.wallet);
-  const { connectWallet,disconnectWallet } = ConnectWallet();
+  const { connectWallet, disconnectWallet } = ConnectWallet();
   const [openMenu, setOpenMenu] = React.useState(false);
-  const [openMenu1, setOpenMenu1] = React.useState(false);
 
   const handleBtnClick = () => {
     setOpenMenu(!openMenu);
   };
 
-  const handleBtnClick1 = () => {
-    setOpenMenu1(!openMenu1);
-  };
   const closeMenu = () => {
     setOpenMenu(false);
   };
-  const closeMenu1 = () => {
-    setOpenMenu1(false);
-  };
 
   const ref1 = useOnclickOutside(() => {
-    closeMenu1();
+    closeMenu();
   });
 
   const [showmenu, btn_icon] = useState(false);
@@ -96,11 +89,7 @@ const Header = function ({ className }) {
                 />
                 <img src="/img/logo-2.png" className="img-fluid d-3" alt="#" />
                 <img src="/img/logo-3.png" className="img-fluid d-4" alt="#" />
-                <img
-                  src="/img/logo-light.png"
-                  className="img-fluid d-none"
-                  alt="#"
-                />
+                <img src="/img/logo.png" className="img-fluid d-none" alt="#" />
               </NavLink>
             </div>
           </div>
@@ -128,13 +117,13 @@ const Header = function ({ className }) {
                     <div ref={ref1}>
                       <div
                         className="dropdown-custom dropdown-toggle btn"
-                        onClick={handleBtnClick1}
+                        onClick={handleBtnClick}
                       >
                         Explore
                       </div>
-                      {openMenu1 && (
+                      {openMenu && (
                         <div className="item-dropdown">
-                          <div className="dropdown" onClick={closeMenu1}>
+                          <div className="dropdown" onClick={closeMenu}>
                             <NavLink
                               to="/collections"
                               onClick={() => btn_icon(!showmenu)}
@@ -166,73 +155,6 @@ const Header = function ({ className }) {
                       <span className="lines"></span>
                     </NavLink>
                   </div>
-                  {/* <div className="navbar-item">
-                    {walletAddress != null ? (
-                      <div className="mainside">
-                        <div
-                          id="de-click-menu-profile"
-                          className="de-menu-profile"
-                          onClick={() => btn_icon_pop(!showpop)}
-                          ref={refpop}
-                        >
-                          <img
-                            src="../../img/author_single/author_thumbnail.jpg"
-                            alt=""
-                          />
-                          {showpop && (
-                            <div className="popshow">
-                              <div className="d-name">
-                                <h3>Monica Lucas</h3>
-                              </div>
-                              <div className="d-line"></div>
-                              <div className="d-balance">
-                                <h4>Balance</h4>
-                                12.858 ETH
-                              </div>
-                              <div className="d-wallet">
-                                <h4>My Wallet</h4>
-                                <span id="wallet" className="d-wallet-address">
-                                  {walletAddress.slice(0, 6)}
-                                  ...
-                                  {walletAddress.slice(-7)}
-                                </span>
-                                <button id="btn_copy" title="Copy Text">
-                                  Copy
-                                </button>
-                              </div>
-                              <div className="d-line"></div>
-                              <ul className="de-submenu-profile">
-                                <li>
-                                  <span
-                                    onClick={() =>
-                                      window.open(`/${walletAddress}`, "_self")
-                                    }
-                                  >
-                                    <i className="fa fa-user"></i> My profile
-                                  </span>
-                                </li>
-                                <li onClick={handleLogout}>
-                                  <span>
-                                    <i className="fa fa-sign-out"></i>{" "}
-                                    Disconnect
-                                  </span>
-                                </li>
-                              </ul>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="connect-wal">
-                        <span
-                          onClick={connectWallet}
-                          className="btn-main inline lead"
-                        >
-                          Connect Wallet
-                        </span>
-                      </div>
-                    )}
-                  </div> */}
                 </div>
               )}
             </Breakpoint>
@@ -249,14 +171,14 @@ const Header = function ({ className }) {
                   <div ref={ref1}>
                     <div
                       className="dropdown-custom dropdown-toggle btn"
-                      onMouseEnter={handleBtnClick1}
-                      onMouseLeave={closeMenu1}
+                      onMouseEnter={handleBtnClick}
+                      onMouseLeave={closeMenu}
                     >
                       Explore
                       <span className="lines"></span>
-                      {openMenu1 && (
+                      {openMenu && (
                         <div className="item-dropdown">
-                          <div className="dropdown" onClick={closeMenu1}>
+                          <div className="dropdown" onClick={closeMenu}>
                             <NavLink
                               to="/collections"
                               onClick={() => btn_icon(!showmenu)}
@@ -287,73 +209,6 @@ const Header = function ({ className }) {
                     <span className="lines"></span>
                   </NavLink>
                 </div>
-                {/* <div className="navbar-item">
-                  {walletAddress != null ? (
-                    <div className="mainside">
-                      <div
-                        id="de-click-menu-profile"
-                        className="de-menu-profile"
-                        onClick={() => btn_icon_pop(!showpop)}
-                        ref={refpop}
-                      >
-                        <img
-                          src="../../img/author_single/author_thumbnail.jpg"
-                          alt=""
-                        />
-                        {showpop && (
-                          <div className="popshow">
-                            <div className="d-name">
-                              <h3>Monica Lucas</h3>
-                            </div>
-                            <div className="d-line"></div>
-                            <div className="d-balance">
-                              <h4>Balance</h4>
-                              12.858 ETH
-                            </div>
-                            <div className="d-wallet">
-                              <h4>My Wallet</h4>
-                              <span id="wallet" className="d-wallet-address">
-                                {walletAddress.slice(0, 6)}
-                                ...
-                                {walletAddress.slice(-7)}
-                              </span>
-                              <button id="btn_copy" title="Copy Text">
-                                Copy
-                              </button>
-                            </div>
-                            <div className="d-line"></div>
-                            <ul className="de-submenu-profile">
-                              <li>
-                                <span
-                                  onClick={() =>
-                                    window.open(`/${walletAddress}`, "_self")
-                                  }
-                                >
-                                  <i className="fa fa-user"></i>My Profile
-                                </span>
-                              </li>
-                              <li onClick={handleLogout}>
-                                <span>
-                                  <i className="fa fa-sign-out"></i>
-                                  Disconnect
-                                </span>
-                              </li>
-                            </ul>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="connect-wal">
-                      <span
-                        onClick={connectWallet}
-                        className="btn-main inline lead"
-                      >
-                        Connect Wallet
-                      </span>
-                    </div>
-                  )}
-                </div> */}
               </div>
             </Breakpoint>
           </BreakpointProvider>

@@ -11,14 +11,13 @@ const TopFilterBar = (props) => {
   const handeleTradeType = useCallback(
     (option) => {
       const { value } = option;
-      if(value){
-
-          const filteredData = openTradeData.filter(
-            (item) => item.tradeType == value
-          );
-          setOpenTradeData(filteredData);
-          dispatch(setOpenTrades(filteredData));
-      }else{
+      if (value) {
+        const filteredData = openTradeData.filter(
+          (item) => item.tradeType == value
+        );
+        setOpenTradeData(filteredData);
+        dispatch(setOpenTrades(filteredData));
+      } else {
         setOpenTradeData(props.data);
         dispatch(setOpenTrades(props.data));
       }
@@ -71,29 +70,33 @@ const TopFilterBar = (props) => {
 
   return (
     <div className="row">
-        
-      <div className="col-lg-2">
-        <input
-          className="form-control"
-          placeholder="   Search Nft by title"
-          type="text"
-          onChange={filterNftTitles}
-          style={{borderRadius:"30px"}}
-        />
+      <div className="col-lg-12">
+        <div className="items_filter">
+          <form
+            className="row form-dark"
+            id="form_quick_search"
+            name="form_quick_search"
+          >
+            <div className="col">
+              <input
+                className="form-control"
+                id="name_1"
+                name="name_1"
+                placeholder="search item here..."
+                type="text"
+              />
+            </div>
+          </form>
 
-      
-      </div>
-      <div className="col-lg-2">
-  
-
-        <div className="dropdownSelect one">
-          <Select
-            styles={customStyles}
-            menuContainerStyle={{ zIndex: 999 }}
-            defaultValue={defaultValue}
-            options={[defaultValue, ...tradeType]}
-            onChange={handeleTradeType}
-          />
+          <div className="dropdownSelect one">
+            <Select
+              styles={customStyles}
+              menuContainerStyle={{ zIndex: 999 }}
+              defaultValue={defaultValue}
+              options={[defaultValue, ...tradeType]}
+              onChange={handeleTradeType}
+            />
+          </div>
         </div>
       </div>
     </div>

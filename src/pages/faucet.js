@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { Toaster } from "react-hot-toast";
 import { ToastPromise } from "../components/toast";
 import { Provider } from "starknet";
+import EmptyPage from "../components/emptypage";
 
 const GlobalStyles = createGlobalStyle`
   header#myHeader.navbar.sticky.white {
@@ -12,14 +13,14 @@ const GlobalStyles = createGlobalStyle`
     border-bottom: solid 1px #403f83;
   }
   header#myHeader.navbar .search #quick_search{
-    color: #fff;
+    color: #000;
     background: rgba(255, 255, 255, .1);
   }
   header#myHeader.navbar.white .btn, .navbar.white a, .navbar.sticky.white a{
-    color: #fff;
+    color: #000;
   }
   header#myHeader .dropdown-toggle::after{
-    color: rgba(255, 255, 255, .5);
+    color: #000;
   }
   header#myHeader .logo .d-block{
     display: none !important;
@@ -35,7 +36,7 @@ const GlobalStyles = createGlobalStyle`
       background: #fff;
     }
     .item-dropdown .dropdown a{
-      color: #fff !important;
+      color: #000 !important;
     }
   }
 `;
@@ -69,10 +70,9 @@ const Faucet = () => {
                 <h1>Faucet</h1>
 
                 <div className="spacer-20"></div>
-                <div className="row" id="form_sb" >
+                <div className="row" id="form_sb">
                   <p className="mt-0">Address</p>
-                  <Toaster position="bottom-center"
-                  reverseOrder={true} />
+                  <Toaster position="bottom-center" reverseOrder={true} />
                   <div className="col text-center">
                     <input
                       className="form-control"
@@ -96,6 +96,7 @@ const Faucet = () => {
           </div>
         </div>
       </section>
+      <EmptyPage />
     </div>
   );
 };

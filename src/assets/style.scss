@@ -151,7 +151,7 @@ section {
   position: relative;
   overflow: hidden;
   font-size: 11pt;
-  color: $white;
+  color: $black;
   background: none;
   border: 2px solid $color;
   border-radius: 0;
@@ -861,7 +861,7 @@ a {
   height: auto;
   display: flex;
   align-items: center;
-  background: rgba(0, 0, 0, 0);
+  background: $white;
   border-bottom: solid 1px rgba(255, 255, 255, 0);
   z-index: 999;
   transition: all 0.6s ease;
@@ -889,7 +889,7 @@ a {
     font-weight: 800;
     padding: 0 5px 0 0;
     text-decoration: none !important;
-    color: $white;
+    color: $black;
     outline: none;
     transition: all 0.3s ease;
     &:hover {
@@ -1094,7 +1094,7 @@ a {
     position: fixed;
     top: 0;
     width: 100%;
-    background: #1b1b1b;
+    background: $white;
     border-bottom: solid 1px #dddddd;
     transition: all 0.6s ease;
     &.white {
@@ -1113,7 +1113,7 @@ a {
     padding-left: 30px;
     #quick_search {
       padding: 4px 11px;
-      border: none;
+      border: solid 1px $black;
       border-radius: 6px;
       font-size: 15px;
       background: rgba(131, 100, 226, 0.1);
@@ -1449,7 +1449,7 @@ a {
     content: unset;
   }
   .mainbreadcumb {
-    padding: 130px 0 110px;
+    padding: 205px 0 110px;
     h1 {
       margin-bottom: 0;
       color: $white;
@@ -1744,7 +1744,7 @@ footer {
           i {
             text-shadow: none;
             color: $white;
-            background: $color_more;
+            background: #8364e2;
             padding: 12px 10px 8px 10px;
             width: 34px;
             height: 34px;
@@ -3384,7 +3384,6 @@ i.font60 {
   width: 100%;
   font-size: 14px;
   margin-bottom: 30px;
-  margin-top: -14px;
   .dropdownSelect {
     display: inline-block;
     width: 15%;
@@ -3416,10 +3415,10 @@ i.font60 {
     width: 200px;
     float: left;
     display: table-cell;
-    border-radius: 5px 0 0 5px;
-    -moz-border-radius: 5px 0 0 5px;
-    -webkit-border-radius: 5px 0 0 5px;
-    border: solid 2px #8364e2;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border: solid 1px #dddddd;
     background: rgba(255, 255, 255, 0.7);
     -webkit-box-shadow: 2px 2px 20px 0px rgba(20, 20, 20, 0.05);
     -moz-box-shadow: 2px 2px 20px 0px rgba(20, 20, 20, 0.05);
@@ -3447,7 +3446,7 @@ i.font60 {
 
 /*** colection ***/
 #profile_banner {
-  min-height: 360px;
+  min-height: 300px;
 }
 .d_coll {
   position: relative;
@@ -3541,6 +3540,8 @@ i.font60 {
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
   outline: none;
+  margin-top: 5px;
+  margin-left: 10px;
   &:hover {
     color: $white;
     background: $color;
@@ -3572,18 +3573,6 @@ i.font60 {
       font-size: 15px;
       cursor: poInter;
       -webkit-border-radius: 3px;
-      &:before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-      }
-    }
-    &.active span {
-      color: $white;
-      background: $color_more;
     }
   }
 }
