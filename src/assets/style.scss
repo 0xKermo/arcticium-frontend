@@ -1449,7 +1449,7 @@ a {
     content: unset;
   }
   .mainbreadcumb {
-    padding: 190px 0 110px;
+    padding: 205px 0 110px;
     h1 {
       margin-bottom: 0;
       color: $white;
@@ -3540,6 +3540,8 @@ i.font60 {
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
   outline: none;
+  margin-top: 5px;
+  margin-left: 10px;
   &:hover {
     color: $white;
     background: $color;

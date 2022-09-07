@@ -162,7 +162,7 @@ const Profile = () => {
         </div>
       </section>
 
-      <section className="container">
+      <section className="container no-top">
         <div className="row">
           <div className="col-lg-12">
             <div className="items_filter">

@@ -7,6 +7,7 @@ import { GetOpenTrades } from "../grqphql/query";
 import { useDispatch, useSelector } from "react-redux";
 import { setOpenTrades } from "../store/slicers/openTradesData";
 import { setTradesLoader } from "../store/slicers/loader";
+import EmptyPage from "../components/emptypage";
 
 const GlobalStyles = createGlobalStyle`
   header#myHeader.navbar.sticky.white {
