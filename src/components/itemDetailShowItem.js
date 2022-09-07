@@ -1,19 +1,13 @@
 import { useMutation } from "@apollo/client";
 import { useSelector, useDispatch } from "react-redux";
 import { ItemDetailAction } from "../controller";
-import { updateTradeStatus } from "../grqphql/mutation";
-import { AcceptBid } from "../hooks";
-import Select from "react-select";
-import { useCallback } from "react";
-import { activity } from "./constants/filters";
+import { AcceptBid, CancelListedItem } from "../hooks";
 import {
   setMakeOfferBtn,
   setOpenCheckout,
 } from "../store/slicers/itemDetailOperations";
-import { ListedItemAction } from "../controller/itemDetail/listedItemAction";
 import { walletAddressSlice } from "../utils/walletAddressSlice";
 import { useEffect, useState } from "react";
-import TopFilterBar from "./topFilterBar";
 
 const ItemDetailShowItem = (props) => {
   const [assetInfo, setAssetInfo] = useState({
@@ -31,14 +25,13 @@ const ItemDetailShowItem = (props) => {
 
   const { metadata, ownerWallet } = useSelector((state) => state.metadata);
 
-  const { openMenu, openMenu1, voyagerLink, itemOwner } = useSelector(
-    (state) => state.itemDetailOperation
-  );
+  const { itemOwner } = useSelector((state) => state.itemDetailOperation);
 
   /**
    * Contract Functions
    */
-  const { cancelItemListing } = ListedItemAction();
+  const { cancelListedItem } = CancelListedItem();
+
   const { acceptBid } = AcceptBid();
   /**
    * Graphql
@@ -47,8 +40,6 @@ const ItemDetailShowItem = (props) => {
   /**
    * Functions
    */
-
-  const { handleBtnClick, handleBtnClick1 } = ItemDetailAction();
 
   const open_trade = () => {
     dispatch(setOpenCheckout(true));
@@ -74,49 +65,12 @@ const ItemDetailShowItem = (props) => {
 
   const cancelListing = async () => {
     const tradeId = props.data.getTradeWithAddresId.tradeId;
-    cancelItemListing(tradeId, props.contract, props.id);
+    cancelListedItem(tradeId);
   };
 
   const bidAccept = async (e) => {
     const res = acceptBid(e.tradeId, e.itemBidId, e.biddedItemOwner);
     console.log(res);
-  };
-
-  const customStyles = {
-    option: (base, state) => ({
-      ...base,
-      background: "#fff",
-      color: "#333",
-      borderRadius: state.isFocused ? "0" : 0,
-      "&:hover": {
-        background: "#eee",
-      },
-    }),
-    menu: (base) => ({
-      ...base,
-      borderRadius: 0,
-      marginTop: 0,
-    }),
-    menuList: (base) => ({
-      ...base,
-      padding: 0,
-    }),
-    control: (base, state) => ({
-      ...base,
-      padding: 2,
-    }),
-  };
-
-  const handleCategory = useCallback(
-    (option) => {
-      const { value } = option;
-    },
-    [dispatch]
-  );
-
-  const defaultValue = {
-    value: null,
-    label: "Select Filter",
   };
 
   return (
@@ -206,10 +160,24 @@ const ItemDetailShowItem = (props) => {
                   Open Trade
                 </span>
               )}
-              {itemOwner === 3 && (
+              {itemOwner === 3 && props.data.getTradeWithAddresId && (
                 <span onClick={make_offer} className="right btn-main lead">
                   Make Offer
                 </span>
+              )}
+              {itemOwner === 2 && (
+                <button
+                  style={{
+                    margin: "0",
+                    color: "rgb(131, 100, 226) !important",
+                    backgroundColor: "#f0f0f0",
+                    padding: "8px 20px",
+                  }}
+                  className="btn-cancel lead right mb-2 "
+                  onClick={cancelListing}
+                >
+                  Cancel listing
+                </button>
               )}
               <span>
                 <h2>{metadata.name}</h2>
@@ -272,6 +240,7 @@ const ItemDetailShowItem = (props) => {
                 </div>
               </div>
             </div>
+            <div className="spacer-40"></div>
 
             {itemOwner === 2 && (
               <div className="row">
@@ -300,22 +269,6 @@ const ItemDetailShowItem = (props) => {
                     </span>
                   </div>
                 </div>
-                <div className="col-md-4">
-                  <div className="item_info">
-                    <button
-                      style={{
-                        margin: "0",
-                        color: "rgb(131, 100, 226) !important",
-                        backgroundColor: "#f0f0f0",
-                        padding: "8px 20px",
-                      }}
-                      className="btn-cancel lead mb-2 "
-                      onClick={cancelListing}
-                    >
-                      Cancel listing
-                    </button>
-                  </div>
-                </div>
               </div>
             )}
           </div>
@@ -325,6 +278,8 @@ const ItemDetailShowItem = (props) => {
         <div className="spacer-40"></div>
         <div className="spacer-40"></div>
         <div className="spacer-40"></div>
+        <div className="spacer-40"></div>
+        <div className="spacer-30"></div>
 
         <div className="nft_detail_item_info m-0">
           <div className="item_info">

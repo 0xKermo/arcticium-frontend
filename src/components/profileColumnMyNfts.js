@@ -1,8 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
-import ProfileNftsLoader from "./loader/profileNfts";
-import InfiniteScroll from "react-infinite-scroll-component";
 
 const Outer = styled.div`
   height: 100%;
@@ -37,13 +35,7 @@ const ColumnMyNfts = () => {
   };
 
   return (
-    <InfiniteScroll
-    pageStart={0}
-      dataLength={userAssets.length}
-      next={loadMore}
-      hasMore={true}
-      loader={<ProfileNftsLoader />}
-    >
+
       <div className="row">
         {userAssets.map((nft, index) => (
           <div
@@ -100,7 +92,6 @@ const ColumnMyNfts = () => {
           </div>
         ))}
       </div>
-    </InfiniteScroll>
   );
 };
 export default ColumnMyNfts;

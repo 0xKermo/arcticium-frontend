@@ -122,7 +122,7 @@ const Collection = function () {
       <section
         id="profile_banner"
         className="jumbotron breadcumb no-bg"
-        style={{ backgroundImage: `url(${!loading ? data.collection.bannerPath : null})` }}
+        style={{ backgroundImage: `url(/${!loading ? data.collection.bannerPath : null})` }}
       >
         <div className="mainbreadcumb"></div>
       </section>
@@ -133,7 +133,7 @@ const Collection = function () {
             <div className="d_profile de-flex left">
               <div className="de-flex-col">
                 <div className="profile_avatar">
-                  <img src={!loading ? data.collection.profileImgPath : null} alt="" />
+                  <img src={!loading ?"/"+ data.collection.profileImgPath : null} alt="" />
                   <div className="profile_name">
                     <h4>
                     {!loading ? data.collection.collectionName : null}

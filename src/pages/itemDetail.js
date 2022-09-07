@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { createGlobalStyle } from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
-import { GetTokenURI, GetOwnerOf, GetCollectionName, BuyItem } from "../hooks";
+import { GetTokenURI, GetOwnerOf, GetCollectionName, BuyItem, CancelListedItem } from "../hooks";
 import { useParams } from "react-router-dom";
 import { setItemOwner } from "../store/slicers/itemDetailOperations";
 import { setMetadata, setOwnerWallet } from "../store/slicers/metadata";
@@ -16,7 +16,6 @@ import ItemDetailShowItem from "../components/itemDetailShowItem";
 import SwapToAnyItem from "../components/swapToAnyItem";
 import TargetItem from "../components/targetItem";
 import { BigNumber } from "ethers";
-import { ListedItemAction } from "../controller/itemDetail/listedItemAction";
 import { currencyAddresses } from "../constants/CurrencyAddresses";
 import { updateTradeStatus } from "../grqphql/mutation";
 import { walletAddressSlice } from "../utils/walletAddressSlice";
@@ -75,7 +74,8 @@ const ItemDetail = function () {
   const { walletAddress } = useSelector((state) => state.wallet);
   const { itemDetailLoader } = useSelector((state) => state.loader);
 
-  const { cancelItemListing } = ListedItemAction();
+  const { cancelListedItem } = CancelListedItem();
+
 
   /**
    * Reducer End
@@ -101,7 +101,7 @@ const ItemDetail = function () {
   const { buyItem } = BuyItem();
   const cancelListing = async () => {
     const tradeId = data.getTradeWithAddresId.tradeId;
-    cancelItemListing(tradeId, contract, id);
+    cancelListedItem(tradeId);
   };
 
   function getKeyByValue(object, value) {
