@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import ColumnSwap from "../components/profileColumnSwap";
 import Activity from "../components/profileActvity";
+import NotFound from "../components/notFound";
 import { createGlobalStyle } from "styled-components";
 import { ProfileActions } from "../controller";
 import ColumnMyNfts from "../components/profileColumnMyNfts";
@@ -14,6 +15,7 @@ import ProfileNftsLoader from "../components/loader/profileNfts";
 import { ToastPromise } from "../components/toast";
 import { setUserAssets } from "../store/slicers/userAssets";
 import { getUserActivity } from "../grqphql/query";
+import ProfileCreating from "../components/profileCreating";
 
 const GlobalStyles = createGlobalStyle`
   header#myHeader.navbar.sticky.white {
@@ -37,12 +39,6 @@ const GlobalStyles = createGlobalStyle`
     display: block !important;
   }
   @media only screen and (max-width: 1199px) {
-    .navbar{
-      background: #403f83;
-    }
-    .navbar .menu-line, .navbar .menu-line1, .navbar .menu-line2{
-      background: #fff;
-    }
     .item-dropdown .dropdown a{
       color: #000 !important;
     }
@@ -198,12 +194,12 @@ const Profile = () => {
         {userAssetLoader && profileCreated && <ProfileNftsLoader />}
         {userAssets.length < 1 && !userAssetLoader && profileCreated && (
           <div style={{ textAlign: "center" }}>
-            <span>Sorry! There were no Nfts found.</span>
+            <NotFound />
           </div>
         )}
         {!profileCreated && (
           <div style={{ textAlign: "center" }}>
-            <span>Profile creating...</span>
+            <ProfileCreating />
           </div>
         )}
         {openMenu && profileCreated && !userAssetLoader && (

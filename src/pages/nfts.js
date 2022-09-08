@@ -7,7 +7,6 @@ import { GetOpenTrades } from "../grqphql/query";
 import { useDispatch, useSelector } from "react-redux";
 import { setOpenTrades } from "../store/slicers/openTradesData";
 import { setTradesLoader } from "../store/slicers/loader";
-import EmptyPage from "../components/emptypage";
 
 const GlobalStyles = createGlobalStyle`
   header#myHeader.navbar.sticky.white {
@@ -31,12 +30,6 @@ const GlobalStyles = createGlobalStyle`
     display: block !important;
   }
   @media only screen and (max-width: 1199px) {
-    .navbar{
-      background: #403f83;
-    }
-    .navbar .menu-line, .navbar .menu-line1, .navbar .menu-line2{
-      background: #fff;
-    }
     .item-dropdown .dropdown a{
       color: #000 !important;
     }

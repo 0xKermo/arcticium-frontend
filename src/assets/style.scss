@@ -996,7 +996,6 @@ a {
         top: 25px;
       }
       .dropdown-custom.btn {
-        color: $gray;
         width: 100%;
         text-align: left;
         &::after {
@@ -5229,6 +5228,7 @@ blockquote {
         }
         #btn_copy {
           margin-left: 15px;
+          margin-top: 0px;
         }
       }
       .d-line {

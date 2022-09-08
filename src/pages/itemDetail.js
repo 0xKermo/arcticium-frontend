@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { createGlobalStyle } from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
-import { GetTokenURI, GetOwnerOf, GetCollectionName, BuyItem, CancelListedItem } from "../hooks";
+import {
+  GetTokenURI,
+  GetOwnerOf,
+  GetCollectionName,
+  BuyItem,
+  CancelListedItem,
+} from "../hooks";
 import { useParams } from "react-router-dom";
 import { setItemOwner } from "../store/slicers/itemDetailOperations";
 import { setMetadata, setOwnerWallet } from "../store/slicers/metadata";
@@ -54,23 +60,6 @@ const GlobalStyles = createGlobalStyle`
     }
   }
   @media only screen and (max-width: 1199px) {
-    .navbar{
-      background: #403f83;
-    }
-    .navbar .menu-line, .navbar .menu-line1, .navbar .menu-line2{
-      background: #fff;
-    }
-    .item-dropdown .dropdown a{
-      color: #000 !important;
-    }
-  }
-  @media only screen and (max-width: 1199px) {
-    .navbar{
-      background: #403f83;
-    }
-    .navbar .menu-line, .navbar .menu-line1, .navbar .menu-line2{
-      background: #111;
-    }
     .item-dropdown .dropdown a{
       color: #000 !important;
     }
@@ -111,7 +100,6 @@ const ItemDetail = function () {
   const { itemDetailLoader } = useSelector((state) => state.loader);
 
   const { cancelListedItem } = CancelListedItem();
-
 
   /**
    * Reducer End
