@@ -5,6 +5,14 @@ import { createGlobalStyle } from "styled-components";
 import Activity from "../components/collectionActivity";
 import ColumnSwap from "../components/explorerColumnSwap";
 import { getCollection } from "../grqphql/query";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faTwitter,
+  faDiscord,
+  faTelegram,
+  faInstagramSquare,
+} from "@fortawesome/free-brands-svg-icons";
+import { faGlobe } from "@fortawesome/free-solid-svg-icons";
 
 const GlobalStyles = createGlobalStyle`
   header#myHeader.navbar.sticky.white {
@@ -117,7 +125,7 @@ const Collection = function () {
           })`,
         }}
       >
-        <div className="mainbreadcumb"></div>
+        <div className="mainbreadcumb_profile"></div>
       </section>
 
       <section className="container d_coll no-top no-bottom">
@@ -152,19 +160,59 @@ const Collection = function () {
               <div className="de-flex-col">
                 <div className="collection-social-icons">
                   <span onClick={() => window.open("", "_self")}>
-                    <i className="fa fa-facebook fa-lg"></i>
+                    <a
+                      href="https://twitter.com/arcticiumm"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <i className="fa fa-lg">
+                        <FontAwesomeIcon icon={faTwitter} />
+                      </i>
+                    </a>
                   </span>
                   <span onClick={() => window.open("", "_self")}>
-                    <i className="fa fa-twitter fa-lg"></i>
+                    <a
+                      href="https://twitter.com/arcticiumm"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <i className="fa fa-lg">
+                        <FontAwesomeIcon icon={faDiscord} />
+                      </i>
+                    </a>
                   </span>
                   <span onClick={() => window.open("", "_self")}>
-                    <i className="fa fa-linkedin fa-lg"></i>
+                    <a
+                      href="https://medium.com/@arcticium"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <i className="fa fa-lg">
+                        <FontAwesomeIcon icon={faTelegram} />
+                      </i>
+                    </a>
                   </span>
                   <span onClick={() => window.open("", "_self")}>
-                    <i className="fa fa-pinterest fa-lg"></i>
+                    <a
+                      href="https://medium.com/@arcticium"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <i className="fa fa-lg">
+                        <FontAwesomeIcon icon={faInstagramSquare} />
+                      </i>
+                    </a>
                   </span>
                   <span onClick={() => window.open("", "_self")}>
-                    <i className="fa fa-rss fa-lg"></i>
+                    <a
+                      href="https://medium.com/@arcticium"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <i className="fa fa-lg">
+                        <FontAwesomeIcon icon={faGlobe} />
+                      </i>
+                    </a>
                   </span>
                 </div>
               </div>

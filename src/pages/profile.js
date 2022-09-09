@@ -117,7 +117,7 @@ const Profile = () => {
         className="jumbotron breadcumb no-bg"
         style={{ backgroundImage: `url(${"./img/background/subheader.jpg"})` }}
       >
-        <div className="mainbreadcumb"></div>
+        <div className="mainbreadcumb_profile"></div>
       </section>
 
       <section className="container d_coll no-top no-bottom">
@@ -227,35 +227,89 @@ const Profile = () => {
               <div className="heading">
                 <h3>Edit Profile</h3>
               </div>
-              <div className="detailcheckout mt-4">
+              <div className="detailcheckout">
                 <div className="listcheckout">
-                  <div className="spacer-40"></div>
-
                   <div className="items_filter centerEl">
-                    <div
-                      className="dropdownSelect two"
-                      style={{ width: "100%" }}
-                    >
-                      <h5>Username</h5>
-                      <input
-                        type="text"
-                        id="username"
-                        className="form-control"
-                        placeholder="username"
-                        defaultValue={profileInfo ? profileInfo.name : null}
-                      />
-                    </div>
-                    <div className="spacer-20"></div>
-                    <div
-                      className="dropdownSelect two"
-                      style={{ width: "100%" }}
-                    >
-                      <h5>Bio</h5>
+                    <div className="field-set">
+                      <h5>Upload file</h5>
+                      <div className="d-create-file">
+                        <p id="file_name">
+                          PNG, JPG, GIF, WEBP or MP4. Max 200mb.
+                        </p>
+
+                        {/* <p>{fileName}</p> */}
+
+                        <div className="browse">
+                          <input
+                            type="button"
+                            id="get_file"
+                            className="btn-main"
+                            value="Browse"
+                          />
+                          <input
+                            id="upload_file"
+                            type="file"
+                            multiple
+                            // onChange={onChange}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="spacer-single"></div>
+                      <div className="row">
+                        <div className="col-6">
+                          <h5>Username</h5>
+                          <input
+                            type="text"
+                            id="username"
+                            className="form-control"
+                            defaultValue={profileInfo ? profileInfo.name : null}
+                          />
+
+                          <h5>Instagram Link</h5>
+                          <input
+                            type="text"
+                            id="ınstagram"
+                            className="form-control"
+                            defaultValue={profileInfo ? profileInfo.name : null}
+                          />
+                          <h5>Twitter Link</h5>
+                          <input
+                            type="text"
+                            id="twitter"
+                            className="form-control"
+                            defaultValue={profileInfo ? profileInfo.name : null}
+                          />
+                        </div>
+                        <div className="col-6">
+                          <h5>Discord Link</h5>
+                          <input
+                            type="text"
+                            id="discord"
+                            className="form-control"
+                            defaultValue={profileInfo ? profileInfo.name : null}
+                          />
+                          <h5>Telegram Link</h5>
+                          <input
+                            type="text"
+                            id="telegram"
+                            className="form-control"
+                            defaultValue={profileInfo ? profileInfo.name : null}
+                          />
+                          <h5>Website</h5>
+                          <input
+                            type="text"
+                            id="website"
+                            className="form-control"
+                            defaultValue={profileInfo ? profileInfo.name : null}
+                          />
+                        </div>
+                      </div>
+                      <h5>Biografi</h5>
                       <textarea
                         type="text"
-                        id="bio"
+                        id="biografi"
                         className="form-control"
-                        placeholder="bio"
                         defaultValue={profileInfo ? profileInfo.bio : null}
                       />
                     </div>

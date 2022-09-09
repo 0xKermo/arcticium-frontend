@@ -32,9 +32,6 @@ const GlobalStyles = createGlobalStyle`
     display: block !important;
   }
   .mainside{
-    .connect-wal{
-      display: none;
-    }
     .logout{
       display: flex;
       align-items: center;
