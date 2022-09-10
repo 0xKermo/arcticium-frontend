@@ -60,7 +60,7 @@ const SwapToAnyItem = (props) => {
   const make_offer = () => {
     const bidData = {
       bidOwner: walletAddress,
-      bidContractAddress: props.data.targetTokenContract == null? bidCollectionAddress : props.data.targetTokenContract,
+      bidContractAddress: (props.data == null || props.data.targetTokenContract == null )? bidCollectionAddress : props.data.targetTokenContract,
       bidTokenId: bidItemId,
       bidCurrencyType: bidCurrencyType == null ? null : currencyAddresses[bidCurrencyType],
       bidPrice: bidCurrencyAmount == null ? null : bidCurrencyAmount.toString(),

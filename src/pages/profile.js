@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import ColumnSwap from "../components/profileColumnSwap";
 import Activity from "../components/profileActvity";
 import { createGlobalStyle } from "styled-components";
 import { ProfileActions } from "../controller";
@@ -14,6 +13,7 @@ import ProfileNftsLoader from "../components/loader/profileNfts";
 import { ToastPromise } from "../components/toast";
 import { setUserAssets } from "../store/slicers/userAssets";
 import { getUserActivity } from "../grqphql/query";
+import EmptyPage from "../components/emptypage";
 
 const GlobalStyles = createGlobalStyle`
   header#myHeader.navbar.sticky.white {
@@ -197,9 +197,7 @@ const Profile = () => {
 
         {userAssetLoader && profileCreated && <ProfileNftsLoader />}
         {userAssets.length < 1 && !userAssetLoader && profileCreated && (
-          <div style={{ textAlign: "center" }}>
-            <span>Sorry! There were no Nfts found.</span>
-          </div>
+          <EmptyPage text={"Sorry! There were no Nfts found."}/>
         )}
         {!profileCreated && (
           <div style={{ textAlign: "center" }}>

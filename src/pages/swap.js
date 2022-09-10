@@ -98,7 +98,6 @@ const Swap = function () {
   const {
     bidCollectionAddress,
     bidItemId,
-    bidCurrencyType,
     bidCurrencyAmount,
   } = useSelector((state) => state.bid);
   const { voyagerLink } = useSelector((state) => state.itemDetailOperation);

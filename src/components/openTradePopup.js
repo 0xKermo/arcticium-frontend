@@ -15,6 +15,8 @@ import { useState } from "react";
 import { setTargetMetadata } from "../store/slicers/targetNftMetadata";
 import { GetTokenURI } from "../hooks";
 import TargetItemLoader from "./loader/targetItemPopupLoader";
+import { useLazyQuery } from "@apollo/client";
+import { getAsset } from "../grqphql/query";
 
 
 const customStyles = {
@@ -43,11 +45,11 @@ const customStyles = {
   }),
 };
 
-const OfferPopup = (props) => {
+const OpenTradePopup = (props) => {
   const [isActive, setIsActive] = useState(false);
   const [targetNftUrl, setTargetNftUrl] = useState("");
   const [targetNftLoader, setTargetNftLoader] = useState(0);
-
+  const [_getAsset, {loading,data}] = useLazyQuery(getAsset)
   const { getTokenURI } = GetTokenURI();
   const { listItemData} = ListItemData()
   const dispatch = useDispatch();
@@ -73,7 +75,14 @@ const OfferPopup = (props) => {
 
   const targetNftOnfocus = async (e) => {
     setTargetNftUrl("");
-    setTargetNftLoader(1)
+    setTargetNftLoader(1);
+    _getAsset({
+      variables:{
+        contract_address:targetCollectionAddress,
+        token_id:e.target.value
+      }
+    })
+    console.log(data)
     const targetMetadata = await getTokenURI(
       targetCollectionAddress,
       e.target.value
@@ -82,6 +91,7 @@ const OfferPopup = (props) => {
     dispatch(setTargetMetadata(props.metadata));
     const _targetNftLink =
       "http://localhost:3000/" + targetCollectionAddress + "/" + e.target.value;
+      console.log("targetMetadata",targetMetadata)
     document.getElementById("targetNft").src = targetMetadata.image;
     document.getElementById("targetNftsrc").src = _targetNftLink;
     setTargetNftUrl(targetMetadata.image);
@@ -301,4 +311,4 @@ const OfferPopup = (props) => {
     </div>
   );
 };
-export default OfferPopup;
+export default OpenTradePopup;

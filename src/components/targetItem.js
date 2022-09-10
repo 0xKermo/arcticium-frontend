@@ -47,14 +47,14 @@ export default class Responsive extends Component {
         </div>
         <div className="spacer-40">
           {this.props.price > 0 && (
-            <span
+            <h3
               style={{
-                fontSize: "20px",
+                fontSize: "25px",
                 textAlign: "center",
               }}
             >
               + {this.props.price} ETH{" "}
-            </span>
+            </h3>
           )}
         </div>
         <div className="item_info">
@@ -96,12 +96,12 @@ export default class Responsive extends Component {
                         <span>
                           <img
                             className="lazy"
-                            src={
+                            src={"/"+
                               this.props.collections.filter(
                                 (x) =>
                                   x.collectionAddress ==
                                   this.state.targetItemData.contract_address
-                              )[0] ?    this.props.collections.filter(
+                              )[0] ?  "/"+  this.props.collections.filter(
                                 (x) =>
                                   x.collectionAddress ==
                                   this.state.targetItemData.contract_address

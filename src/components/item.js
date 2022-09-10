@@ -1,15 +1,5 @@
 import React, { Component } from "react";
-import styled from "styled-components";
-import Clock from "./clock";
 
-const Outer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  align-items: center;
-  overflow: hidden;
-  border-radius: 8px;
-`;
 
 export default class Responsive extends Component {
   constructor(props) {
@@ -20,7 +10,6 @@ export default class Responsive extends Component {
       collectionName: this.props.collectionName,
       attr: this.props.attr,
     };
-    console.log("targets", this.props.ownerWalle);
   }
 
   render() {
@@ -81,7 +70,7 @@ export default class Responsive extends Component {
                         <span>
                           <img
                             className="lazy"
-                            src={this.state.metadata.collectionPP}
+                            src={"/"+this.state.metadata.collectionPP}
                             alt=""
                           />
                         </span>

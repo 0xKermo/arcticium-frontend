@@ -3,6 +3,6 @@ export const ERC721_ADDRESS =
 export const ERC20_ADDRESS =
   "0x0780ca6590818ab5ed6c5e1c6003e7dc7bbedcafceb36dfa1ad279d8134915b4";
 export const EXCHANGE_ADDRESS =
-  "0x00953442de743007c9cc5b8442f035734ea15de0bcdfb8baa3c112bdb3a11fc4";
+  "0x052d5003d1a58dd05049a852f0e97df8f41bb1b7c0abd30d84ba544764aa9586";
 export const PROXY_ADDRESS =
   "0x03d96c9afa785c9e92561b9869890cd580e158af2ffbb58103851cb615bd2bd4";
