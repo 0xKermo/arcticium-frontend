@@ -9,6 +9,8 @@ import { faGavel } from "@fortawesome/free-solid-svg-icons";
 import { walletAddressSlice } from "../utils/walletAddressSlice";
 import { useSelector } from "react-redux";
 import { urlCheck } from "../constants/consttant";
+import NotFound from "./notFound";
+import EmptyPage from "./emptypage";
 
 const Outer = styled.div`
   display: flex;
@@ -28,8 +30,8 @@ const ExplorerColumnSwap = () => {
 
   return (
     <div className="row">
-      {_openTrades != undefined
-        ? _openTrades.map((nft, index) => (
+      {_openTrades != undefined && _openTrades.length > 0 &&
+       _openTrades.map((nft, index) => (
             <div
               key={index}
               className="d-item col-lg-3 col-md-6 col-sm-6 col-xs-12 mb-4"
@@ -149,7 +151,11 @@ const ExplorerColumnSwap = () => {
               </Link>
             </div>
           ))
-        : null}
+        }
+        {
+          _openTrades.length < 1 &&
+          <NotFound text={"Sorry, No Nft found listed"} />
+        }
     </div>
   );
 };
