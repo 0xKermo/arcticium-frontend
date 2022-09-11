@@ -7,17 +7,9 @@ import {
   setOpenCheckout,
 } from "../store/slicers/itemDetailOperations";
 import { walletAddressSlice } from "../utils/walletAddressSlice";
-import { useEffect, useState } from "react";
 
 const ItemDetailShowItem = (props) => {
-  const [assetInfo, setAssetInfo] = useState({
-    image: null,
-    description: null,
-    name: null,
-    ownerPP: null,
-    ownerWallet: null,
-    creatorPP: null,
-  });
+
   const dispatch = useDispatch();
   /**
    *    Redux
@@ -213,7 +205,7 @@ const ItemDetailShowItem = (props) => {
                       <span>
                         <img
                           className="lazy"
-                          src={metadata.collectionPP}
+                          src={`/${metadata.collectionPP}`}
                           alt=""
                         />
                       </span>
@@ -233,7 +225,7 @@ const ItemDetailShowItem = (props) => {
             </div>
             <div className="spacer-40"></div>
 
-            {itemOwner === 2 && (
+            {props.data.getTradeWithAddresId && (
               <div className="row">
                 <div className="col-md-4">
                   <div className="listedInfo">
@@ -241,7 +233,7 @@ const ItemDetailShowItem = (props) => {
                       item listed to{" "}
                       {props.data.getTradeWithAddresId.targetTokenContract ==
                       null
-                        ? "any collection"
+                        ? "any item"
                         : props.data.getTradeWithAddresId.targetTokenId !== null
                         ? props.data.getTradeWithAddresId.targetAssetInfo[0]
                             .name +
@@ -284,7 +276,7 @@ const ItemDetailShowItem = (props) => {
                       </span>
                     </div>
                   </div>
-                  {props.data.getTradeWithAddresId != null &&
+                  {props.data.getTradeWithAddresId && props.data.getTradeWithAddresId.tradeId && 
                     props.data.getTradeWithAddresId.tradeBids.map(
                       (item, index) => (
                         <div className="p_list" key={index}>

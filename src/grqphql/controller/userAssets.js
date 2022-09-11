@@ -31,26 +31,26 @@ export const UserAsset = (walletAddress) => {
       setTimeout(() => {
         dispatch(setUserAssetLoader(false))
         
-      }, 1000);
+      }, 1100);
       if (data != undefined) {
         dispatch(setUserAssets(data.getUserAsset));
         dispatch(setProfileInfo(data.getUserProfile));
-        const statusArgs = {
-          walletAddress:walletAddress,
-          index: data.getUserProfile ? data.getUserProfile.nextPage: 0,
-          lastIndex: data.getUserProfile ? data.getUserProfile.lastIndex: 0
-        }
-        if(data.getUserProfile == null){
-          dispatch(setProfileCreated(false))
-        }
-        checkEvents(statusArgs).then(res => {
-          if(res.data.status.index){
-          dispatch(setProfileCreated(true))
-          getUserAssets(walletAddress)
-          dispatch(setUserAssets(data.getUserAsset));
-          dispatch(setProfileInfo(data.getUserProfile));
-          }
-        })
+        // const statusArgs = {
+        //   walletAddress:walletAddress,
+        //   index: data.getUserProfile ? data.getUserProfile.nextPage: 0,
+        //   lastIndex: data.getUserProfile ? data.getUserProfile.lastIndex: 0
+        // }
+        // if(data.getUserProfile == null){
+        //   dispatch(setProfileCreated(false))
+        // }
+        // checkEvents(statusArgs).then(res => {
+        //   if(res.data.status.index){
+        //   dispatch(setProfileCreated(true))
+        //   getUserAssets(walletAddress)
+        //   dispatch(setUserAssets(data.getUserAsset));
+        //   dispatch(setProfileInfo(data.getUserProfile));
+        //   }
+        // })
       }
     }
   }, [loading]);

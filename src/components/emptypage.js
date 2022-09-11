@@ -34,12 +34,12 @@ const GlobalStyles = createGlobalStyle`
   }
 `;
 
-const EmptyPage = () => {
+const EmptyPage = (props) => {
   return (
     <div>
       <GlobalStyles />
       <section id="profile_banner" className="jumbotron breadcumb no-bg">
-        <div className="mainbreadcumb"></div>
+        <div className="mainbreadcumb">{props.text}</div>
       </section>
     </div>
   );

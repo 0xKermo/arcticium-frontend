@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import ColumnSwap from "../components/profileColumnSwap";
 import Activity from "../components/profileActvity";
 import NotFound from "../components/notFound";
 import { createGlobalStyle } from "styled-components";
@@ -193,18 +192,18 @@ const Profile = () => {
           </div>
         </div>
 
-        {userAssetLoader && profileCreated && <ProfileNftsLoader />}
-        {userAssets.length < 1 && !userAssetLoader && profileCreated && (
+        {userAssetLoader  && <ProfileNftsLoader />}
+        {userAssets.length < 1 && userAssetLoader  && (
           <div style={{ textAlign: "center" }}>
-            <NotFound />
+            <NotFound text={"Sorry! There were no Nfts or Collection found."}/>
           </div>
         )}
-        {!profileCreated && (
+        {/* {!profileCreated && (
           <div style={{ textAlign: "center" }}>
             <ProfileCreating />
           </div>
-        )}
-        {openMenu && profileCreated && !userAssetLoader && (
+        )} */}
+        {openMenu  && !userAssetLoader && userAssets.length > 0 &&(
           <div id="zero2" className="onStep fadeIn">
             <ColumnMyNfts />
           </div>

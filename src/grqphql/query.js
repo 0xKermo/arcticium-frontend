@@ -56,7 +56,7 @@ export const getUserAssetByContract = gql`
 `;
 export const getAsset = gql`
   query getAsset($contract_address: String!, $token_id: String) {
-    getUserAsset(contract_address: $contract_address, token_id: $token_id) {
+    getAsset(contract_address: $contract_address, token_id: $token_id) {
       assetOwner
       token_id
       name

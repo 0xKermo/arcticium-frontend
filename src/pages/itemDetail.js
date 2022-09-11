@@ -1,29 +1,22 @@
-import React, { useState, useEffect } from "react";
+import {useEffect } from "react";
 import { createGlobalStyle } from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  GetTokenURI,
-  GetOwnerOf,
-  GetCollectionName,
-  BuyItem,
-  CancelListedItem,
-} from "../hooks";
+import {  GetCollectionName, BuyItem, CancelListedItem } from "../hooks";
 import { useParams } from "react-router-dom";
 import { setItemOwner } from "../store/slicers/itemDetailOperations";
 import { setMetadata, setOwnerWallet } from "../store/slicers/metadata";
 import { Toaster } from "react-hot-toast";
 import { GetTradeWithAddresId } from "../grqphql/query";
-import { useMutation, useQuery } from "@apollo/client";
+import {  useQuery } from "@apollo/client";
 import Item from "../components/item";
 import { setCurrencyInfo } from "../store/slicers/currency";
 import { setCollections } from "../store/slicers/collections";
-import OfferPopup from "../components/offerPopup";
+import OpenTradePopup from "../components/openTradePopup";
 import ItemDetailShowItem from "../components/itemDetailShowItem";
 import SwapToAnyItem from "../components/swapToAnyItem";
 import TargetItem from "../components/targetItem";
 import { BigNumber } from "ethers";
 import { currencyAddresses } from "../constants/CurrencyAddresses";
-import { updateTradeStatus } from "../grqphql/mutation";
 import { walletAddressSlice } from "../utils/walletAddressSlice";
 import ItemLoader from "../components/loader/itemLoader";
 import { setItemDetailLoader } from "../store/slicers/loader";
@@ -77,7 +70,7 @@ const GlobalStyles = createGlobalStyle`
   .p_detail{
     font-weight: 400;
     text-align: left;
-      
+
     }
     .link:hover {
       color: #00F
@@ -115,7 +108,6 @@ const ItemDetail = function () {
       tokenId: id,
     },
   });
-  const [tradeStatus] = useMutation(updateTradeStatus);
 
   /**
    * Contract
@@ -133,7 +125,6 @@ const ItemDetail = function () {
   }
 
   const buyNow = () => {
-    debugger;
     const tradeId = data.getTradeWithAddresId.tradeId;
 
     const targetItemContract =
@@ -165,6 +156,8 @@ const ItemDetail = function () {
               .collectionName;
       dispatch(
         setMetadata({
+          ownerAddress:dataGetAsset.assetOwner,
+          collectionAddress:dataGetAsset.contract_address,
           name: dataGetAsset.name,
           description: dataGetAsset.description,
           image: dataGetAsset.image,
@@ -218,9 +211,9 @@ const ItemDetail = function () {
             data.getAsset.assetOwner
           );
           dispatch(setOwnerWallet(data.getAsset.assetOwner));
-          if (checkItemOwner && data.getTradeWithAddresId === null) {
+          if (checkItemOwner && !data.getTradeWithAddresId) {
             dispatch(setItemOwner(1));
-          } else if (checkItemOwner && data.getTradeWithAddresId !== null) {
+          } else if (checkItemOwner && data.getTradeWithAddresId) {
             dispatch(setItemOwner(2));
           } else if (!checkItemOwner) {
             dispatch(setItemOwner(3));
@@ -409,7 +402,7 @@ const ItemDetail = function () {
       </section>
 
       {openCheckout && (
-        <OfferPopup contract={contract} id={id} metadata={metadata} />
+        <OpenTradePopup contract={contract} id={id} metadata={metadata} />
       )}
     </div>
   );

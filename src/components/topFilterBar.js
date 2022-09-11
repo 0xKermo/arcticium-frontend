@@ -84,6 +84,7 @@ const TopFilterBar = (props) => {
                 name="name_1"
                 placeholder="search item here..."
                 type="text"
+                onChange={filterNftTitles}
               />
             </div>
           </form>

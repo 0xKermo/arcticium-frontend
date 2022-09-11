@@ -96,7 +96,7 @@ export const updateUserProfile = gql`
 `;
 
 export const updateTradeStatus = gql`
-  mutation tradeStatus($tradeId: Int, $status: String, $buyer: String, $transactionHash: string) {
+  mutation tradeStatus($tradeId: Int, $status: String, $buyer: String, $transactionHash: String) {
     tradeStatus(tradeId: $tradeId, status: $status, buyer: $buyer, transactionHash: $transactionHash) {
       tradeId
       status
@@ -115,7 +115,7 @@ export const cancelTrade = gql`
 
 
 export const updateBidStatus = gql`
-  mutation bidStatus($tradeId: Int, $itemBidId:Int, $status: String, $transactionHash: string ) {
+  mutation bidStatus($tradeId: Int, $itemBidId:Int, $status: String, $transactionHash: String ) {
     bidStatus(tradeId: $tradeId, itemBidId: $itemBidId, status: $status,  transactionHash: $transactionHash) {
       tradeId
       status

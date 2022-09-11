@@ -34,13 +34,13 @@ const GlobalStyles = createGlobalStyle`
   }
 `;
 
-const NotFound = () => {
+const NotFound = (props) => {
   return (
     <div>
       <GlobalStyles />
       <section id="profile_banner" className="jumbotron breadcumb no-bg">
         <div className="mainbreadcumb">
-          <h3>Sorry! There were no Nfts or Collection found.</h3>
+          <h3>{props.text}</h3>
         </div>
       </section>
     </div>
