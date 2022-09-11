@@ -47,7 +47,7 @@ export default class Responsive extends Component {
                   <div className="p_detail">
                     <h6>Owner</h6>
                     <div className="item_author">
-                      <div className="author_list_pp">
+                      <div className="author_list_pp" onClick={() => window.open(`/${this.state.metadata.ownerAddress}`, "_blank")}>
                         <span>
                           <img
                             className="lazy"
@@ -66,7 +66,7 @@ export default class Responsive extends Component {
                   <div className="p_detail">
                     <h6>Creator</h6>
                     <div className="item_author">
-                      <div className="author_list_pp">
+                      <div className="author_list_pp" onClick={() => window.open(`/collection/${this.state.metadata.collectionAddress}`, "_blank")}>
                         <span>
                           <img
                             className="lazy"

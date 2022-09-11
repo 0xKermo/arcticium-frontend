@@ -64,7 +64,7 @@ const SliderMainParticle = () => (
         >
           <span
             onClick={() => window.open("mint", "_self")}
-            className="btn-main inline lead"
+            className="btn-main inline white lead"
           >
             Mint
           </span>

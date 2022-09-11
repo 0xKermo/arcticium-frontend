@@ -26,13 +26,13 @@ export const BidToItem = () => {
         },
       ];
       let result;
+
       if(_allowance != 0){
         const allowanceArgs = await approveERC20(bidCurrencyType, _allowance)
         bidtoItemArgs.push(allowanceArgs);
       }       
 
       if (_isApprove == 0) {
-        console.log(" a 0")
         const approveArgs = await approveERC721(
           _bidContractAddress,
           EXCHANGE_ADDRESS,
@@ -41,9 +41,8 @@ export const BidToItem = () => {
         bidtoItemArgs.push(approveArgs);
         result = await account.account.execute(bidtoItemArgs.reverse());
       } else {
-        console.log(" a 1")
-        console.log(account)
-        result = await account.account.execute(bidtoItemArgs[0]);
+     
+        result = await account.account.execute(bidtoItemArgs.reverse());
       }
 
       const tx = account.provider.waitForTransaction(result.transaction_hash);

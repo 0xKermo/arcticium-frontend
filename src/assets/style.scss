@@ -996,7 +996,6 @@ a {
         top: 25px;
       }
       .dropdown-custom.btn {
-        color: $gray;
         width: 100%;
         text-align: left;
         &::after {
@@ -1450,6 +1449,44 @@ a {
   }
   .mainbreadcumb {
     padding: 205px 0 110px;
+    h1 {
+      margin-bottom: 0;
+      color: $white;
+    }
+    p {
+      color: $white;
+      margin-top: 15px;
+    }
+    .list {
+      position: relative;
+      bottom: -20px;
+      display: flex;
+      justify-content: right;
+      font-size: 0.86rem;
+      font-weight: 400;
+      letter-spacing: 4px;
+      .dash {
+        padding: 0 10px;
+      }
+      .link {
+        color: $white;
+        font-weight: 500;
+        line-height: 1.3;
+        letter-spacing: 1px;
+        margin: 0;
+        padding: 0;
+        text-decoration: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        &:hover {
+          color: $color;
+          transition: all 0.3s ease;
+        }
+      }
+    }
+  }
+  .mainbreadcumb_profile {
+    padding: 400px 0 110px;
     h1 {
       margin-bottom: 0;
       color: $white;
@@ -3480,7 +3517,8 @@ i.font60 {
   -moz-border-radius: 100%;
   -webkit-border-radius: 100%;
   width: 150px;
-  height: auto;
+  height: 150px;
+  object-fit: cover;
 }
 .d_coll .profile_avatar img {
   display: inline-block;
@@ -5229,6 +5267,7 @@ blockquote {
         }
         #btn_copy {
           margin-left: 15px;
+          margin-top: 0px;
         }
       }
       .d-line {

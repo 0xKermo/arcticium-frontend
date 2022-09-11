@@ -70,7 +70,7 @@ export default class Responsive extends Component {
 
               <div className="p_list" style={{ display: "flex" }}>
                 <div className="col-md-6">
-                  <div className="p_detail" onClick={() => window.open(`/${this.state.targetItemData.assetOwner}`, "_self")} >
+                  <div className="p_detail" onClick={() => window.open(`/${this.state.targetItemData.assetOwner}`, "_blank")} >
                     <h6>Owner</h6>
                     <div className="item_author">
                       <div className="author_list_pp">
@@ -89,7 +89,7 @@ export default class Responsive extends Component {
                   </div>
                 </div>
                 <div className="col-md-6">
-                  <div className="p_detail" onClick={() => window.open(`/collection/${this.state.targetItemData.contract_address}`, "_self")} >
+                  <div className="p_detail" onClick={() => window.open(`/collection/${this.state.targetItemData.contract_address}`, "_blank")} >
                     <h6>Creator</h6>
                     <div className="item_author">
                       <div className="author_list_pp">

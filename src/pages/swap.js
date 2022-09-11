@@ -34,38 +34,11 @@ const GlobalStyles = createGlobalStyle`
     display: block !important;
   }
   @media only screen and (max-width: 1199px) {
-    .navbar{
-      background: #403f83;
-    }
-    .navbar .menu-line, .navbar .menu-line1, .navbar .menu-line2{
-      background: #fff;
-    }
     .item-dropdown .dropdown a{
       color: #000 !important;
     }
   }
-  @media only screen and (max-width: 1199px) {
-    .navbar{
-      background: #403f83;
-    }
-    .navbar .menu-line, .navbar .menu-line1, .navbar .menu-line2{
-      background: #fff;
-    }
-    .item-dropdown .dropdown a{
-      color: #fff !important;
-    }
-  }
-  @media only screen and (max-width: 1199px) {
-    .navbar{
-      background: #403f83;
-    }
-    .navbar .menu-line, .navbar .menu-line1, .navbar .menu-line2{
-      background: #111;
-    }
-    .item-dropdown .dropdown a{
-      color: #111 !important;
-    }
-  }
+
   .method_active{
     background: #8364e2!important;
     color: #fff;

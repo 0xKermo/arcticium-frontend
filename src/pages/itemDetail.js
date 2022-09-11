@@ -53,23 +53,6 @@ const GlobalStyles = createGlobalStyle`
     }
   }
   @media only screen and (max-width: 1199px) {
-    .navbar{
-      background: #403f83;
-    }
-    .navbar .menu-line, .navbar .menu-line1, .navbar .menu-line2{
-      background: #fff;
-    }
-    .item-dropdown .dropdown a{
-      color: #000 !important;
-    }
-  }
-  @media only screen and (max-width: 1199px) {
-    .navbar{
-      background: #403f83;
-    }
-    .navbar .menu-line, .navbar .menu-line1, .navbar .menu-line2{
-      background: #111;
-    }
     .item-dropdown .dropdown a{
       color: #000 !important;
     }
@@ -110,7 +93,6 @@ const ItemDetail = function () {
   const { itemDetailLoader } = useSelector((state) => state.loader);
 
   const { cancelListedItem } = CancelListedItem();
-
 
   /**
    * Reducer End
@@ -174,6 +156,8 @@ const ItemDetail = function () {
               .collectionName;
       dispatch(
         setMetadata({
+          ownerAddress:dataGetAsset.assetOwner,
+          collectionAddress:dataGetAsset.contract_address,
           name: dataGetAsset.name,
           description: dataGetAsset.description,
           image: dataGetAsset.image,

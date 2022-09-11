@@ -225,7 +225,7 @@ const ItemDetailShowItem = (props) => {
             </div>
             <div className="spacer-40"></div>
 
-            {itemOwner === 2 && (
+            {props.data.getTradeWithAddresId && (
               <div className="row">
                 <div className="col-md-4">
                   <div className="listedInfo">

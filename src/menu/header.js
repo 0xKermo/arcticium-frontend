@@ -37,7 +37,7 @@ const Header = function ({ className }) {
     setOpenMenu(false);
   };
 
-  const ref1 = useOnclickOutside(() => {
+  const ref = useOnclickOutside(() => {
     closeMenu();
   });
 
@@ -114,7 +114,7 @@ const Header = function ({ className }) {
                     </NavLink>
                   </div>
                   <div className="navbar-item">
-                    <div ref={ref1}>
+                    <div ref={ref}>
                       <div
                         className="dropdown-custom dropdown-toggle btn"
                         onClick={handleBtnClick}
@@ -131,10 +131,8 @@ const Header = function ({ className }) {
                               Collections
                             </NavLink>
                             <NavLink
-                              onClick={() => {
-                                window.open(`/nfts`, "_self");
-                                btn_icon(!showmenu);
-                              }}
+                              to="/nfts"
+                              onClick={() => btn_icon(!showmenu)}
                             >
                               Nfts
                             </NavLink>
@@ -168,7 +166,7 @@ const Header = function ({ className }) {
                   </NavLink>
                 </div>
                 <div className="navbar-item">
-                  <div ref={ref1}>
+                  <div ref={ref}>
                     <div
                       className="dropdown-custom dropdown-toggle btn"
                       onMouseEnter={handleBtnClick}

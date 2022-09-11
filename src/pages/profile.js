@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Activity from "../components/profileActvity";
+import NotFound from "../components/notFound";
 import { createGlobalStyle } from "styled-components";
 import { ProfileActions } from "../controller";
 import ColumnMyNfts from "../components/profileColumnMyNfts";
@@ -13,7 +14,7 @@ import ProfileNftsLoader from "../components/loader/profileNfts";
 import { ToastPromise } from "../components/toast";
 import { setUserAssets } from "../store/slicers/userAssets";
 import { getUserActivity } from "../grqphql/query";
-import EmptyPage from "../components/emptypage";
+import ProfileCreating from "../components/profileCreating";
 
 const GlobalStyles = createGlobalStyle`
   header#myHeader.navbar.sticky.white {
@@ -37,12 +38,6 @@ const GlobalStyles = createGlobalStyle`
     display: block !important;
   }
   @media only screen and (max-width: 1199px) {
-    .navbar{
-      background: #403f83;
-    }
-    .navbar .menu-line, .navbar .menu-line1, .navbar .menu-line2{
-      background: #fff;
-    }
     .item-dropdown .dropdown a{
       color: #000 !important;
     }
@@ -121,7 +116,7 @@ const Profile = () => {
         className="jumbotron breadcumb no-bg"
         style={{ backgroundImage: `url(${"./img/background/subheader.jpg"})` }}
       >
-        <div className="mainbreadcumb"></div>
+        <div className="mainbreadcumb_profile"></div>
       </section>
 
       <section className="container d_coll no-top no-bottom">
@@ -195,16 +190,18 @@ const Profile = () => {
           </div>
         </div>
 
-        {userAssetLoader && profileCreated && <ProfileNftsLoader />}
-        {userAssets.length < 1 && !userAssetLoader && profileCreated && (
-          <EmptyPage text={"Sorry! There were no Nfts found."}/>
-        )}
-        {!profileCreated && (
+        {userAssetLoader  && <ProfileNftsLoader />}
+        {userAssets.length < 1 && userAssetLoader  && (
           <div style={{ textAlign: "center" }}>
-            <span>Profile creating...</span>
+            <NotFound text={"Sorry! There were no Nfts or Collection found."}/>
           </div>
         )}
-        {openMenu && profileCreated && !userAssetLoader && (
+        {/* {!profileCreated && (
+          <div style={{ textAlign: "center" }}>
+            <ProfileCreating />
+          </div>
+        )} */}
+        {openMenu  && !userAssetLoader && userAssets.length > 0 &&(
           <div id="zero2" className="onStep fadeIn">
             <ColumnMyNfts />
           </div>
@@ -229,35 +226,89 @@ const Profile = () => {
               <div className="heading">
                 <h3>Edit Profile</h3>
               </div>
-              <div className="detailcheckout mt-4">
+              <div className="detailcheckout">
                 <div className="listcheckout">
-                  <div className="spacer-40"></div>
-
                   <div className="items_filter centerEl">
-                    <div
-                      className="dropdownSelect two"
-                      style={{ width: "100%" }}
-                    >
-                      <h5>Username</h5>
-                      <input
-                        type="text"
-                        id="username"
-                        className="form-control"
-                        placeholder="username"
-                        defaultValue={profileInfo ? profileInfo.name : null}
-                      />
-                    </div>
-                    <div className="spacer-20"></div>
-                    <div
-                      className="dropdownSelect two"
-                      style={{ width: "100%" }}
-                    >
-                      <h5>Bio</h5>
+                    <div className="field-set">
+                      <h5>Upload file</h5>
+                      <div className="d-create-file">
+                        <p id="file_name">
+                          PNG, JPG, GIF, WEBP or MP4. Max 200mb.
+                        </p>
+
+                        {/* <p>{fileName}</p> */}
+
+                        <div className="browse">
+                          <input
+                            type="button"
+                            id="get_file"
+                            className="btn-main"
+                            value="Browse"
+                          />
+                          <input
+                            id="upload_file"
+                            type="file"
+                            multiple
+                            // onChange={onChange}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="spacer-single"></div>
+                      <div className="row">
+                        <div className="col-6">
+                          <h5>Username</h5>
+                          <input
+                            type="text"
+                            id="username"
+                            className="form-control"
+                            defaultValue={profileInfo ? profileInfo.name : null}
+                          />
+
+                          <h5>Instagram Link</h5>
+                          <input
+                            type="text"
+                            id="ınstagram"
+                            className="form-control"
+                            defaultValue={profileInfo ? profileInfo.name : null}
+                          />
+                          <h5>Twitter Link</h5>
+                          <input
+                            type="text"
+                            id="twitter"
+                            className="form-control"
+                            defaultValue={profileInfo ? profileInfo.name : null}
+                          />
+                        </div>
+                        <div className="col-6">
+                          <h5>Discord Link</h5>
+                          <input
+                            type="text"
+                            id="discord"
+                            className="form-control"
+                            defaultValue={profileInfo ? profileInfo.name : null}
+                          />
+                          <h5>Telegram Link</h5>
+                          <input
+                            type="text"
+                            id="telegram"
+                            className="form-control"
+                            defaultValue={profileInfo ? profileInfo.name : null}
+                          />
+                          <h5>Website</h5>
+                          <input
+                            type="text"
+                            id="website"
+                            className="form-control"
+                            defaultValue={profileInfo ? profileInfo.name : null}
+                          />
+                        </div>
+                      </div>
+                      <h5>Biografi</h5>
                       <textarea
                         type="text"
-                        id="bio"
+                        id="biografi"
                         className="form-control"
-                        placeholder="bio"
                         defaultValue={profileInfo ? profileInfo.bio : null}
                       />
                     </div>
