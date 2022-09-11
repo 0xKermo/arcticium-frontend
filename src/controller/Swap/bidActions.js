@@ -55,7 +55,6 @@ export const BidActions = (_contract_address, tradeType) => {
 
   const makeOffer = async (bidData, bidItemCallData,_allowance) => {
     const isApprove = await getApprove(walletAddress, bidData.bidContractAddress)
-    
     const {result,tx} = await bidToItem(bidItemCallData,isApprove, bidData.bidContractAddress,_allowance)
     if(result.transaction_hash){
       bidData.transactionHash = result.transaction_hash;
