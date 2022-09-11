@@ -137,54 +137,56 @@ const Profile = () => {
                         copy
                       </button>
                     </h4>
-                    <h4>{profileInfo ? profileInfo.bio : null}</h4>
+                    <span>{profileInfo ? profileInfo.bio : null}</span>
                   </div>
                 </div>
-                {isOwner && (
-                  <div
-                    className="d_profile de-flex right"
-                    style={{ cursor: "pointer" }}
-                    onClick={openEditProfile}
-                  >
-                    <div className="de_countdown">
-                      <span>Edit Profile</span>
-                    </div>
-                  </div>
-                )}
               </div>
             </div>
+          </div>
+          <div className="col-md-4">
+            {isOwner && (
+              <span
+                className="btn-main-edit inline right"
+                style={{ cursor: "pointer" }}
+                onClick={openEditProfile}
+              >
+                Edit Profile
+              </span>
+            )}
           </div>
         </div>
       </section>
 
-      <section className="container no-top">
+      <section className="container">
         <div className="row">
           <div className="col-lg-12">
             <div className="items_filter">
               <ul className="de_nav">
-                <li id="Mainbtn">
-                  <span onClick={handleBtnClick}>Nft's</span>
-                </li>
-                <li id="Mainbtn1">
-                  <span onClick={handleBtnClick1}>Activity</span>
-                </li>
-                <li id="quick_search">
-                  <form
-                    className="row form-dark"
-                    id="form_quick_search"
-                    name="form_quick_search"
-                  >
-                    <div className="col">
-                      <input
-                        className="form-control"
-                        id="name_1"
-                        name="name_1"
-                        placeholder="search item here..."
-                        type="text"
-                      />
-                    </div>
-                  </form>
-                </li>
+                <div className="left">
+                  <li id="Mainbtn">
+                    <span onClick={handleBtnClick}>Nft's</span>
+                  </li>
+                  <li id="Mainbtn1">
+                    <span onClick={handleBtnClick1}>Activity</span>
+                  </li>
+                  <li id="quick_search">
+                    <form
+                      className="row form-dark"
+                      id="form_quick_search"
+                      name="form_quick_search"
+                    >
+                      <div className="col">
+                        <input
+                          className="form-control"
+                          id="name_1"
+                          name="name_1"
+                          placeholder="search item here..."
+                          type="text"
+                        />
+                      </div>
+                    </form>
+                  </li>
+                </div>
               </ul>
             </div>
           </div>
@@ -335,7 +337,7 @@ const Profile = () => {
                   setEditProfile(false);
                 }}
               >
-                cancel
+                Cancel
               </button>
             </div>
           </div>

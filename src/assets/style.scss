@@ -693,6 +693,42 @@ a {
   color: inherit;
 }
 
+.btn-main-edit {
+  display: block;
+  width: max-content;
+  text-align: center;
+  color: #fff !important;
+  background: #8364e2;
+  border-radius: 6px;
+  letter-spacing: normal;
+  outline: 0;
+  font-weight: 800;
+  text-decoration: none;
+  padding: 8px 40px;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 2px 2px 20px 0px rgba(131, 100, 226, 0);
+  transition: all 0.3s ease;
+  &:hover {
+    box-shadow: 2px 2px 20px 0px rgba(131, 100, 226, 0.5);
+    transition: all 0.3s ease;
+  }
+  &.inline {
+    display: inline-block;
+    margin-top: 15px;
+    margin-right: 5px;
+    &.white {
+      color: $color_more !important;
+      background: $white;
+    }
+  }
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
 .btn-connect {
   display: block;
   width: max-content;
@@ -3444,13 +3480,12 @@ i.font60 {
 }
 #form_quick_search {
   display: inline-block;
-  margin-right: 0px;
   position: relative;
-  top: 16px;
+  margin-right: 5px;
   input[type="text"] {
-    padding: 8px 12px;
+    padding: 10px 12px;
     width: 200px;
-    float: left;
+    float: none;
     display: table-cell;
     border-radius: 5px;
     -moz-border-radius: 5px;
@@ -3460,7 +3495,7 @@ i.font60 {
     -webkit-box-shadow: 2px 2px 20px 0px rgba(20, 20, 20, 0.05);
     -moz-box-shadow: 2px 2px 20px 0px rgba(20, 20, 20, 0.05);
     box-shadow: 2px 2px 20px 0px rgba(20, 20, 20, 0.05);
-    font-size: 16px;
+    font-size: 15px;
   }
   #btn-submit {
     padding: 0;
