@@ -1,13 +1,13 @@
-import {useEffect } from "react";
+import { useEffect } from "react";
 import { createGlobalStyle } from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
-import {  GetCollectionName, BuyItem, CancelListedItem } from "../hooks";
+import { GetCollectionName, BuyItem, CancelListedItem } from "../hooks";
 import { useParams } from "react-router-dom";
 import { setItemOwner } from "../store/slicers/itemDetailOperations";
 import { setMetadata, setOwnerWallet } from "../store/slicers/metadata";
 import { Toaster } from "react-hot-toast";
 import { GetTradeWithAddresId } from "../grqphql/query";
-import {  useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import Item from "../components/item";
 import { setCurrencyInfo } from "../store/slicers/currency";
 import { setCollections } from "../store/slicers/collections";
@@ -44,9 +44,6 @@ const GlobalStyles = createGlobalStyle`
     display: block !important;
   }
   .mainside{
-    .connect-wal{
-      display: none;
-    }
     .logout{
       display: flex;
       align-items: center;
@@ -156,8 +153,8 @@ const ItemDetail = function () {
               .collectionName;
       dispatch(
         setMetadata({
-          ownerAddress:dataGetAsset.assetOwner,
-          collectionAddress:dataGetAsset.contract_address,
+          ownerAddress: dataGetAsset.assetOwner,
+          collectionAddress: dataGetAsset.contract_address,
           name: dataGetAsset.name,
           description: dataGetAsset.description,
           image: dataGetAsset.image,

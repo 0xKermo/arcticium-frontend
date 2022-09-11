@@ -45,10 +45,7 @@ const FeatureBox = () => (
             duration={600}
             triggerOnce
           >
-            <p className="">
-              Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-              accusantium doloremque laudantium, totam rem.
-            </p>
+            <p className="">Connect with your wallet.</p>
           </Reveal>
         </div>
         <i className="wm icon_wallet"></i>
@@ -83,10 +80,7 @@ const FeatureBox = () => (
             duration={600}
             triggerOnce
           >
-            <p className="">
-              Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-              accusantium doloremque laudantium, totam rem.
-            </p>
+            <p className="">List your Nft's in profile.</p>
           </Reveal>
         </div>
         <i className="wm icon_cloud-upload_alt"></i>
@@ -121,10 +115,7 @@ const FeatureBox = () => (
             duration={600}
             triggerOnce
           >
-            <p className="">
-              Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-              accusantium doloremque laudantium, totam rem.
-            </p>
+            <p className="">make offer or open to trade for swap Nft</p>
           </Reveal>
         </div>
         <i className="wm arrow_left-right_alt"></i>
