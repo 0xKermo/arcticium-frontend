@@ -90,6 +90,21 @@ const Header = function ({ className }) {
                 <img src="/img/logo-2.png" className="img-fluid d-3" alt="#" />
                 <img src="/img/logo-3.png" className="img-fluid d-4" alt="#" />
                 <img src="/img/logo.png" className="img-fluid d-none" alt="#" />
+                {/* <img
+                  src="/img/ArcticiumLogo03.png"
+                  className="img-fluid d-3"
+                  alt="#"
+                />
+                <img
+                  src="/img/ArcticiumLogo03.png"
+                  className="img-fluid d-4"
+                  alt="#"
+                />
+                <img
+                  src="/img/ArcticiumLogo03.png"
+                  className="img-fluid d-none"
+                  alt="#"
+                /> */}
               </NavLink>
             </div>
           </div>
