@@ -26,14 +26,10 @@ const NavLink = (props) => (
 
 const Header = function ({ className }) {
   const { walletAddress } = useSelector((state) => state.wallet);
-<<<<<<< HEAD
-  const { connectWallet, disconnectWallet, silentConnectWallet } =
-    ConnectWallet();
-=======
   const { userIsWl } = useSelector((state) => state.userIsWl);
 
-  const { connectWallet, disconnectWallet,silentConnectWallet } = ConnectWallet();
->>>>>>> 7abd74b690a78f8fc69fb32dff1689659d7b8192
+  const { connectWallet, disconnectWallet, silentConnectWallet } =
+    ConnectWallet();
   const [openMenu, setOpenMenu] = React.useState(false);
 
   const handleBtnClick = () => {
@@ -58,7 +54,6 @@ const Header = function ({ className }) {
   const refpop = useOnclickOutside(() => {
     closePop();
   });
-
 
   useEffect(() => {
     const header = document.getElementById("myHeader");
