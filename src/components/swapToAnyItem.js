@@ -48,7 +48,10 @@ const SwapToAnyItem = (props) => {
     bidCurrencyTypeOnchange,
     bidCurrencyAmountOnchange,
     makeOffer,
-  } = BidActions(props.data ? props.data.targetTokenContract : null, props.data ?  props.data.tradeType: null );
+  } = BidActions(
+    props.data ? props.data.targetTokenContract : null,
+    props.data ? props.data.tradeType : null
+  );
 
   const unlockClick = () => {
     setIsActive(true);
@@ -60,9 +63,13 @@ const SwapToAnyItem = (props) => {
   const make_offer = () => {
     const bidData = {
       bidOwner: walletAddress,
-      bidContractAddress: (props.data == null || props.data.targetTokenContract == null )? bidCollectionAddress : props.data.targetTokenContract,
+      bidContractAddress:
+        props.data == null || props.data.targetTokenContract == null
+          ? bidCollectionAddress
+          : props.data.targetTokenContract,
       bidTokenId: bidItemId,
-      bidCurrencyType: bidCurrencyType == null ? null : currencyAddresses[bidCurrencyType],
+      bidCurrencyType:
+        bidCurrencyType == null ? null : currencyAddresses[bidCurrencyType],
       bidPrice: bidCurrencyAmount == null ? null : bidCurrencyAmount.toString(),
       tradeId: props.data.tradeId,
       biddedItemOwner: props.data.tradeOwnerAddress,
@@ -73,30 +80,32 @@ const SwapToAnyItem = (props) => {
       expiration: 1665179996,
     };
 
-    const token_id = bnToUint256(bidData.bidTokenId) 
-    const biddedItemId = bnToUint256(bidData.biddedItemId)
+    const token_id = bnToUint256(bidData.bidTokenId);
+    const biddedItemId = bnToUint256(bidData.biddedItemId);
 
-    let priceUint = bnToUint256("0")
-    let _allowance = 0
-    if(bidData.bidCurrencyType && bidCurrencyAmount){
-      const _price = bidCurrencyAmount * 10**18
-      priceUint = bnToUint256(_price.toString())
-      _allowance = priceUint
+    let priceUint = bnToUint256("0");
+    let _allowance = 0;
+    if (bidData.bidCurrencyType && bidCurrencyAmount) {
+      const _price = bidCurrencyAmount * 10 ** 18;
+      priceUint = bnToUint256(_price.toString());
+      _allowance = priceUint;
     }
 
     const bidItemCallData = [
       bidData.tradeId,
       bidData.bidContractAddress,
-      token_id.low,token_id.high,
+      token_id.low,
+      token_id.high,
       bidData.expiration,
-      bidData.bidCurrencyType ? bidData.bidCurrencyType : 0 ,
+      bidData.bidCurrencyType ? bidData.bidCurrencyType : 0,
       priceUint.low,
       priceUint.high,
       bidData.biddedItemContractAddress,
-      biddedItemId.low,biddedItemId.high
-    ]
+      biddedItemId.low,
+      biddedItemId.high,
+    ];
     console.log("bidData", bidData);
-    makeOffer(bidData,bidItemCallData,_allowance);
+    makeOffer(bidData, bidItemCallData, _allowance);
   };
 
   return (
@@ -104,15 +113,12 @@ const SwapToAnyItem = (props) => {
       <div className="item_info">
         <div className="de_tab">
           <div className="tab-1 onStep fadeIn">
-  
-            <div
-              className="nft_detail_item m-0"
-              style={{ width: "auto", height: "400px", padding: "0" , border:"0"}}
-            >
+            <div className="nft_detail_item m-0">
               <a target="_blank" rel="noopener noreferrer" id="targetNftsrc">
                 <div className="nft__item_offer">
                   <span>
                     <img
+                      src="/img/items/default-img.png"
                       id="biddedNft"
                       className="lazy nft__item_preview"
                       alt=""
@@ -129,7 +135,8 @@ const SwapToAnyItem = (props) => {
               <div className="items_filter centerEl ">
                 <div className="dropdownSelect one" style={{ width: "100%" }}>
                   <h5>Collection</h5>
-                   {props.data != null && props.data.targetTokenContract != null ? (
+                  {props.data != null &&
+                  props.data.targetTokenContract != null ? (
                     <input
                       type="text"
                       disabled
@@ -142,18 +149,20 @@ const SwapToAnyItem = (props) => {
                         )[0].collectionName
                       }
                     />
-                  ):(   <Select
-                    className="select1"
-                    onChange={bidCollectionOnchange}
-                    styles={customStyles}
-                    menuContainerStyle={{ zIndex: 999 }}
-                    options={props.collections.map((item, i) => {
-                      return {
-                        value: item.collectionAddress,
-                        label: item.collectionName,
-                      };
-                    })}
-                  />)}
+                  ) : (
+                    <Select
+                      className="select1"
+                      onChange={bidCollectionOnchange}
+                      styles={customStyles}
+                      menuContainerStyle={{ zIndex: 999 }}
+                      options={props.collections.map((item, i) => {
+                        return {
+                          value: item.collectionAddress,
+                          label: item.collectionName,
+                        };
+                      })}
+                    />
+                  )}
                 </div>
               </div>
             </div>

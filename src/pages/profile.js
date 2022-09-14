@@ -44,21 +44,21 @@ const Profile = () => {
   const [isEditProfile, setEditProfile] = useState(false);
   const [isOwner, setIsOwner] = useState(false);
   const { wallet } = useParams();
-  const { userAssets,profileInfo,nonFilterUserAsset } = useSelector((state) => state.userAssets);
+  const { userAssets, profileInfo, nonFilterUserAsset } = useSelector(
+    (state) => state.userAssets
+  );
   const { userAssetLoader } = useSelector((state) => state.loader);
   const dispatch = useDispatch();
   const { walletAddress } = useSelector((state) => state.wallet);
-  const { openMenu } = useSelector(
-    (state) => state.profileOperation
-  );
-  
+  const { openMenu } = useSelector((state) => state.profileOperation);
+
   const { getUserAssets } = UserAsset(
     BigNumber.from(wallet)._hex.toLowerCase()
-    );
-    const openEditProfile = () => {
-      setEditProfile(true);
-    };
-    const [filterText, setFilterText] = useState(userAssets);
+  );
+  const openEditProfile = () => {
+    setEditProfile(true);
+  };
+  const [filterText, setFilterText] = useState(userAssets);
 
   const [updateProfile] = useMutation(updateUserProfile);
 
@@ -80,17 +80,15 @@ const Profile = () => {
     setEditProfile(false);
   };
 
-  const filterNftTitles =
-    (event) => {
-      const value = event.target.value;
-      const filteredData = nonFilterUserAsset.filter((item) =>
-        item.name.toLowerCase().includes(value)
-      );
+  const filterNftTitles = (event) => {
+    const value = event.target.value;
+    const filteredData = nonFilterUserAsset.filter((item) =>
+      item.name.toLowerCase().includes(value)
+    );
 
-      dispatch(setUserAssets(filteredData));
+    dispatch(setUserAssets(filteredData));
+  };
 
-    }
-     
   useEffect(() => {
     if (wallet) getUserAssets(BigNumber.from(wallet)._hex.toLowerCase());
   }, [wallet]);
@@ -154,18 +152,16 @@ const Profile = () => {
           <div className="col-lg-12">
             <div className="items_filter">
               <ul className="de_nav">
-                <div className="">
+                <div className="left">
                   <li id="Mainbtn">
-                    <span >Nft's</span>
+                    <span>Nft's</span>
                   </li>
-                  {/* <li id="Mainbtn1">
-                    <span onClick={handleBtnClick1}>Activity</span>
+                  <li id="Mainbtn1">
+                    <span>Activity</span>
                   </li>
                   <li id="quick_search">
-                 
-                  </li> */}
-                   <div
-                      className="row form-dark right"
+                    <div
+                      className="row form-dark"
                       id="form_quick_search"
                       name="form_quick_search"
                     >
@@ -180,17 +176,17 @@ const Profile = () => {
                         />
                       </div>
                     </div>
+                  </li>
                 </div>
-               
               </ul>
             </div>
           </div>
         </div>
 
-        {userAssetLoader  && <ProfileNftsLoader />}
-        {userAssets.length < 1 && !userAssetLoader  && (
+        {userAssetLoader && <ProfileNftsLoader />}
+        {userAssets.length < 1 && !userAssetLoader && (
           <div style={{ textAlign: "center" }}>
-            <NotFound text={"Sorry! There were no Nfts or Collection found."}/>
+            <NotFound text={"Sorry! There were no Nfts or Collection found."} />
           </div>
         )}
         {/* {!profileCreated && (
@@ -198,9 +194,9 @@ const Profile = () => {
             <ProfileCreating />
           </div>
         )} */}
-        {openMenu  && !userAssetLoader && userAssets.length > 0 &&(
+        {openMenu && !userAssetLoader && userAssets.length > 0 && (
           <div id="zero2" className="onStep fadeIn">
-            <ColumnMyNfts filter={filterText}/>
+            <ColumnMyNfts filter={filterText} />
           </div>
         )}
         {/* {openMenu1 && (

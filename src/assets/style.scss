@@ -3191,6 +3191,8 @@ i.font60 {
 .nft_detail_item img {
   width: 412px;
   height: 400px;
+  max-height: 100%;
+  max-width: 100%;
   object-fit: cover;
   border-radius: 8px;
   -moz-border-radius: 8px;
@@ -3208,6 +3210,8 @@ i.font60 {
 }
 
 .nft_popular_item img {
+  max-height: 100%;
+  max-width: 100%;
   width: 128px;
   height: 128px;
   object-fit: cover;
@@ -5642,7 +5646,8 @@ blockquote {
     }
   }
   #form_quick_search input[type="text"] {
-    width: 80%;
+    width: 100%;
+    margin-top: 10px;
   }
   #form_quick_search #btn-submit {
     width: 20%;
