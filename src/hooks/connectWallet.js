@@ -4,6 +4,7 @@ import {
   connect,
 } from "get-starknet";
 import { useDispatch } from "react-redux";
+import userIsWl, { setUserIsWl } from "../store/slicers/userIsWl";
 import {
   setWalletAddress,
   setProvider,
@@ -28,6 +29,8 @@ export const ConnectWallet = () => {
     }
 
     dispatch(setWalletAddress(BigNumber.from(starknet.selectedAddress)._hex ));
+    const res =checkWalletIsWl(BigNumber.from(starknet.selectedAddress)._hex)
+    dispatch(setUserIsWl(res))
     // dispatch(setProvider(starknet.provider));
     dispatch(setAccount(starknet));
     return starknet
@@ -37,7 +40,9 @@ export const ConnectWallet = () => {
     const starknet = await connect({ showList: false });
     if (!starknet?.isConnected) {
       await starknet?.enable({ showModal: false });
-      checkWalletIsWl(BigNumber.from(starknet.selectedAddress)._hex)
+      const res =checkWalletIsWl(BigNumber.from(starknet.selectedAddress)._hex)
+
+      dispatch(setUserIsWl(res))
       dispatch(setWalletAddress(BigNumber.from(starknet.selectedAddress)._hex));
     }
   };

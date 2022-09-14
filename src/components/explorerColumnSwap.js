@@ -68,7 +68,7 @@ const ExplorerColumnSwap = () => {
                         )}
                       </span>
                     </Outer>
-                    {nft.targetTokenContract && !nft.targetTokenId && (
+                    {!nft.targetTokenId && (
                       <div>
                         <Outer>
                           <span>
@@ -81,19 +81,7 @@ const ExplorerColumnSwap = () => {
                         </Outer>
                       </div>
                     )}
-                    {!nft.targetTokenContract && !nft.targetTokenId && (
-                      <div>
-                        <Outer>
-                          <span>
-                            <img
-                              src="img/items/make-offer.png"
-                              className="lazy nft__item_preview"
-                              alt=""
-                            />
-                          </span>
-                        </Outer>
-                      </div>
-                    )}
+       
                   </div>
                   <div className="row">
                     <div className="col-md-6">
@@ -102,13 +90,11 @@ const ExplorerColumnSwap = () => {
                           <h4>{nft.assetInfo.name}</h4>
                         </span>
                         <span>
-                          <b>
-                            {walletAddressSlice(
+                          <h6 style={{fontSize:"smaller",fontWeight:"100"}}> {walletAddressSlice(
                               nft.assetInfo.contract_address,
                               5,
                               3
-                            )}
-                          </b>
+                            )}</h6>
                         </span>
                         <div className="nft__item_price">
                           <span></span>
@@ -126,13 +112,13 @@ const ExplorerColumnSwap = () => {
                           <span>
                             <h4>{nft.targetAssetInfo[0].name}</h4>
                             <span>
-                              <b>
+                              <h6 style={{fontSize:"smaller",fontWeight:"100"}}>
                                 {walletAddressSlice(
                                   nft.targetAssetInfo[0].contract_address,
                                   5,
                                   3
                                 )}
-                              </b>
+                              </h6>
                             </span>
                           </span>
                           <div className="nft__item_price">
