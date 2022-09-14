@@ -76,22 +76,27 @@ const OpenTradePopup = (props) => {
   const targetNftOnfocus = async (e) => {
     setTargetNftUrl("");
     setTargetNftLoader(1);
-    _getAsset({
+    await _getAsset({
       variables:{
         contract_address:targetCollectionAddress,
         token_id:e.target.value
       }
     })
-    console.log(data)
-    const targetMetadata = await getTokenURI(
-      targetCollectionAddress,
-      e.target.value
-    );
+    let targetMetadata;
+    if(!data.getAsset){
+      const _targetMetadata = await getTokenURI(
+        targetCollectionAddress,
+        e.target.value
+      );
+      targetMetadata = _targetMetadata
+    }else{
+      targetMetadata = data.getAsset
+    }
+  
     setTargetNftLoader(2)
     dispatch(setTargetMetadata(props.metadata));
     const _targetNftLink =
       "http://localhost:3000/" + targetCollectionAddress + "/" + e.target.value;
-      console.log("targetMetadata",targetMetadata)
     document.getElementById("targetNft").src = targetMetadata.image;
     document.getElementById("targetNftsrc").src = _targetNftLink;
     setTargetNftUrl(targetMetadata.image);

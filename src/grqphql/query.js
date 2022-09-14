@@ -160,6 +160,7 @@ export const GetTradeWithAddresId = gql`
         biddedItemId
         itemBidId
         bidTradeType
+        createdAt
         bidAsset {
           assetOwner
           token_id
@@ -168,6 +169,7 @@ export const GetTradeWithAddresId = gql`
           contract_address
           image
         }
+        createdAt
       }
       targetAssetInfo {
         assetOwner
@@ -239,6 +241,7 @@ export const GetOpenTrades = gql`
         image
         contract_address
       }
+      createdAt
     }
   }
 `;

@@ -4,6 +4,7 @@ import styled from "styled-components";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { carouselNew } from "./constants";
+import { walletAddressSlice } from "../utils/walletAddressSlice";
 
 const Outer = styled.div`
   display: flex;
@@ -85,12 +86,13 @@ const CarouselNewRedux = (props) => {
                         className="nft__item_info"
                         style={{ padding: "10px" }}
                       >
-                        <span onClick={() => window.open("/#", "_self")}>
+                        <span>
                           <h4>{nft.assetInfo.name}</h4>
+                          <h4>{walletAddressSlice(nft.assetInfo.contract_address ,5,5)}</h4>
                         </span>
                         <div className="nft__item_price"><span></span></div>
                         <div className="nft__item_action">
-                          <span>Place a bid</span>
+                          <span>Make Offer</span>
                         </div>
                       </div>
                     </div>
@@ -102,6 +104,7 @@ const CarouselNewRedux = (props) => {
                         >
                           <span onClick={() => window.open("/#", "_self")}>
                             <h4>{nft.targetAssetInfo[0].name}</h4>
+                             <h4>{nft.targetAssetInfo[0].contract_address}</h4>
                           </span>
                           <div className="nft__item_price">+ {nft.price} ETH</div>
                           <div className="nft__item_action">

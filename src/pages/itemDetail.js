@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { createGlobalStyle } from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { GetCollectionName, BuyItem, CancelListedItem } from "../hooks";
@@ -77,7 +77,7 @@ const GlobalStyles = createGlobalStyle`
 
 const ItemDetail = function () {
   const dispatch = useDispatch();
-
+  const [targetItemOwner, setTargetItemOwner] = useState(false)
   /**
    *  Reducer start
    */
@@ -202,8 +202,6 @@ const ItemDetail = function () {
     const prepare = async () => {
       if (walletAddress != undefined && !loading) {
         try {
-          console.log(walletAddress);
-          console.log(data.getAsset.assetOwner);
           const checkItemOwner = BigNumber.from(walletAddress).eq(
             data.getAsset.assetOwner
           );
@@ -215,8 +213,19 @@ const ItemDetail = function () {
           } else if (!checkItemOwner) {
             dispatch(setItemOwner(3));
           }
+       
         } catch (error) {
           console.log(error);
+        }
+        try {
+          if(data.getTradeWithAddresId.tradeType == 2){
+            const checkTargetItemOwner = BigNumber.from(walletAddress).eq(
+              data.getTradeWithAddresId.targetAssetOwner
+            );
+            setTargetItemOwner(checkTargetItemOwner)
+          }
+        } catch (error) {
+          console.log(error)
         }
       }
     };
@@ -375,7 +384,7 @@ const ItemDetail = function () {
                           </button>
                         </div>
                       )}
-                      {itemOwner === 3 && (
+                      {itemOwner === 3 && targetItemOwner && (
                         <div className="item_info">
                           <button
                             className="btn-main lead mb-2"

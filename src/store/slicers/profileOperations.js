@@ -22,9 +22,6 @@ export const profileOperation = createSlice({
     setOpenMenu3: (state, action) => {
       state.openMenu3 = action.payload;
     },
-    setOpenMenu3: (state, action) => {
-      state.openMenu3 = action.payload;
-    },
     setProfileCreated: (state, action) => {
       state.profileCreated = action.payload;
     },

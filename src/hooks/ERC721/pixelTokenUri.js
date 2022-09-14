@@ -2,7 +2,6 @@ import { Provider } from "starknet";
 import { bnToUint256 } from "../../utils/uint256";
 import { hexToDecimalString } from "../../utils/number";
 import { hex2a } from "../../utils/util";
-import axios from "axios";
 
 export const GetPixelTokenURI = () => {
 

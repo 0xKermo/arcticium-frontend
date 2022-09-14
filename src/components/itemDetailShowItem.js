@@ -32,7 +32,13 @@ const ItemDetailShowItem = (props) => {
   /**
    * Functions
    */
+  const convertDate = (_bidDate) => {
+    const splitDate = _bidDate.split("T")
+    const date = splitDate[0].split("-").reverse().join("/")
+    const time = splitDate[1].split(".")[0]
+    return date+ " "+time
 
+  }
   const open_trade = () => {
     dispatch(setOpenCheckout(true));
   };
@@ -241,14 +247,7 @@ const ItemDetailShowItem = (props) => {
                           props.data.getTradeWithAddresId.targetTokenContract +
                           "collection"
                         : "any item from " +
-                          props.data.getTradeWithAddresId.targetTokenContract.slice(
-                            0,
-                            6
-                          ) +
-                          "..." +
-                          props.data.getTradeWithAddresId.targetTokenContract.slice(
-                            -6
-                          )}
+                          walletAddressSlice(props.data.getTradeWithAddresId.targetTokenContract,5,5)}
                     </span>
                   </div>
                 </div>
@@ -312,17 +311,20 @@ const ItemDetailShowItem = (props) => {
                               >
                                 Offered{" "}
                                 <b>
-                                  {item.bidPrice
-                                    ? item.bidAsset.name +
+                                {item.bidAsset.name }
+                                  {item.bidPrice && Number(item.bidPrice) > 0
+                                    && 
                                       " + " +
                                       item.bidPrice +
                                       " ETH"
-                                    : null}
+                                    }
                                 </b>
+                                   {" "}   by{" "}
+                                  <b>{walletAddressSlice(item.bidAsset.assetOwner,5,5)}</b>{" "}
                                 <span>
-                                  by{" "}
-                                  <b>{item.bidAsset.assetOwner.slice(0, 6)}</b>{" "}
-                                  at 6/15/2021, 3:20 AM
+                                  from{" "}
+                                  <b>{walletAddressSlice(item.bidAsset.contract_address,5,3)}</b>{" "}
+                                  at {convertDate(item.createdAt)}
                                 </span>
                               </div>
                               {(() => {

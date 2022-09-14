@@ -26,7 +26,7 @@ const NavLink = (props) => (
 
 const Header = function ({ className }) {
   const { walletAddress } = useSelector((state) => state.wallet);
-  const { connectWallet, disconnectWallet } = ConnectWallet();
+  const { connectWallet, disconnectWallet,silentConnectWallet } = ConnectWallet();
   const [openMenu, setOpenMenu] = React.useState(false);
 
   const handleBtnClick = () => {
@@ -70,7 +70,7 @@ const Header = function ({ className }) {
         closeMenu();
       }
     });
-    connectWallet();
+    silentConnectWallet()
     return () => {
       window.removeEventListener("scroll", scrollCallBack);
     };

@@ -1,4 +1,3 @@
-import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import "./assets/animated.css";
@@ -11,45 +10,26 @@ import "./assets/style.scss";
 import "./assets/style_grey.scss";
 import "./web.config";
 import reportWebVitals from "./reportWebVitals";
-import Home from "./pages/home";
-import { Route, Routes, BrowserRouter } from "react-router-dom";
+
+import App from "./App";
 import Header from "./menu/header";
 import Footer from "./menu/footer";
+import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
+import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import store from "./store";
-import Nfts from "./pages/nfts";
-import Collections from "./pages/collections";
-import Collection from "./pages/collection";
-import ItemDetail from "./pages/itemDetail";
-import Profile from "./pages/profile";
-import Faucet from "./pages/faucet";
-import Mint from "./pages/mint";
-import Swap from "./pages/swap";
 
-import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
-import Test from "./pages/test";
+const root = ReactDOM.createRoot(document.getElementById("root"));
 const client = new ApolloClient({
   uri: "http://localhost:4000/graphql",
   cache: new InMemoryCache(),
 });
-const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <ApolloProvider client={client}>
     <Provider store={store}>
       <BrowserRouter>
         <Header />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/nfts" element={<Nfts />} />
-          <Route path="/collections" element={<Collections />} />
-          <Route path="/collection/:contract" element={<Collection />} />
-          <Route path="/asset/:contract/:id" element={<ItemDetail />} />
-          <Route path="/asset/:contract/:id/swap" element={<Swap />} />
-          <Route path="/:wallet" element={<Profile />} />
-          <Route path="/faucet" element={<Faucet />} />
-          <Route path="/mint" element={<Mint />} />
-          <Route path="/test" element={<Test />} />
-        </Routes>
+        <App />
         <Footer />
       </BrowserRouter>
     </Provider>

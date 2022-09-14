@@ -1,4 +1,3 @@
-import { useDispatch } from "react-redux";
 
 const axios = require("axios").default;
 
@@ -35,7 +34,6 @@ export const uploadImage = (fileImg) => {
 };
 
 export const UploadMetadata =  () => {
-  const dispatch = useDispatch()
     const uploadMetadata = async (fileImg, name, description, image) => {
        
         const ImgHash = `ipfs://${image.data.IpfsHash}`;

@@ -102,13 +102,13 @@ const ExplorerColumnSwap = () => {
                           <h4>{nft.assetInfo.name}</h4>
                         </span>
                         <span>
-                          <h4>
+                          <b>
                             {walletAddressSlice(
                               nft.assetInfo.contract_address,
                               5,
                               3
                             )}
-                          </h4>
+                          </b>
                         </span>
                         <div className="nft__item_price">
                           <span></span>
@@ -126,13 +126,13 @@ const ExplorerColumnSwap = () => {
                           <span>
                             <h4>{nft.targetAssetInfo[0].name}</h4>
                             <span>
-                              <h4>
+                              <b>
                                 {walletAddressSlice(
                                   nft.targetAssetInfo[0].contract_address,
                                   5,
                                   3
                                 )}
-                              </h4>
+                              </b>
                             </span>
                           </span>
                           <div className="nft__item_price">
@@ -154,7 +154,11 @@ const ExplorerColumnSwap = () => {
         }
         {
           _openTrades.length < 1 &&
-          <NotFound text={"Sorry, No Nft found listed"} />
+          
+          <div style={{textAlign:"center"}}>
+            <NotFound text={"Sorry, No Nft found listed"} />
+
+          </div>
         }
     </div>
   );
