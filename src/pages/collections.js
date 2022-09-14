@@ -1,5 +1,4 @@
 import { useQuery } from "@apollo/client";
-import React, { useEffect, useState } from "react";
 import { createGlobalStyle } from "styled-components";
 import CollectionsColumnCollection from "../components/explorerColumnCollecetion";
 import { getCollections } from "../grqphql/query";

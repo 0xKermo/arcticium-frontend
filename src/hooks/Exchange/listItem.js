@@ -16,7 +16,7 @@ export const ListItem = () => {
   const listItem = async (_itemCallData, _isApprove, tradeArgs) => {
     try {
       const listItemSelector = getSelectorFromName("initializer")
-      console.log(listItemSelector)
+      console.log("isApprove",_isApprove)
       
       let listItemArgs = [
         {

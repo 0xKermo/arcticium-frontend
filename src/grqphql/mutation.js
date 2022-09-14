@@ -81,8 +81,6 @@ export const BidAdd = gql`
   }
 `;
 
-
-
 export const updateUserProfile = gql`
   mutation updateUserProfile(
     $walletAddress: String
@@ -113,7 +111,6 @@ export const cancelTrade = gql`
   }
 `;
 
-
 export const updateBidStatus = gql`
   mutation bidStatus($tradeId: Int, $itemBidId:Int, $status: String, $transactionHash: String ) {
     bidStatus(tradeId: $tradeId, itemBidId: $itemBidId, status: $status,  transactionHash: $transactionHash) {
@@ -122,8 +119,6 @@ export const updateBidStatus = gql`
     }
   }
 `;
-
-
 
 export const uploadToMetadata = gql`
   mutation uploadMetadata($assetOwner: String!,  $name: String, $description: String, $image: String ) {

@@ -7,7 +7,8 @@ export const userAssets = createSlice({
     userAssetsLoading: true,
     userAssetsError: null,
     profileInfo:null,
-    imageIpfsUrl: null
+    imageIpfsUrl: null,
+    nonFilterUserAsset:[]
   },
   reducers: {
     setUserAssets: (state, action) => {
@@ -25,12 +26,15 @@ export const userAssets = createSlice({
     setImageIpfsUrl:(state, action) => {
       state.imageIpfsUrl = action.payload;
     },
+    setNonFilterUserData:(state, action) => {
+      state.nonFilterUserAsset = action.payload;
+    },
 
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setUserAssets, setUserAssetsLoading, setUserAssetsError,setProfileInfo ,setImageIpfsUrl} =
+export const { setUserAssets, setUserAssetsLoading, setUserAssetsError,setProfileInfo ,setImageIpfsUrl,setNonFilterUserData} =
   userAssets.actions;
 
 export default userAssets.reducer;

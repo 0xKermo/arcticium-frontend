@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setUserAssets } from "../store/slicers/userAssets";
 
 const Outer = styled.div`
   height: 100%;
@@ -13,26 +14,16 @@ const Outer = styled.div`
   border-radius: 8px;
 `;
 
-const ColumnMyNfts = () => {
+const ColumnMyNfts = (props) => {
   const [height, setHeight] = useState(0);
-  const { _nfts } = useSelector((state) => state.userNfts);
   const { userAssets } = useSelector((state) => state.userAssets);
-
   const onImgLoad = ({ target: img }) => {
     let currentHeight = height;
     if (currentHeight < img.offsetHeight) {
       setHeight(img.offsetHeight);
     }
   };
-  const loadMore = () => {
-    console.log(userAssets);
-    let nftState = userAssets;
-    let start = nftState.length;
-    let end = nftState.length + 4;
-    // this.setState({
-    //   nfts: [...nftState, ...this.dummyData.slice(start, end)],
-    // });
-  };
+
 
   return (
     <div className="row">

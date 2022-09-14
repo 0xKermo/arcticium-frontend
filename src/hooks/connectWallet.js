@@ -1,42 +1,54 @@
 import { BigNumber } from "ethers";
-import { getStarknet } from "get-starknet"
-import {useDispatch } from "react-redux";
+import {
+
+  connect,
+} from "get-starknet";
+import { useDispatch } from "react-redux";
 import {
   setWalletAddress,
   setProvider,
   setAccount,
 } from "../store/slicers/wallet";
-export const ConnectWallet =  () => {
+import { checkWalletIsWl } from "../utils/merkleTree";
+export const ConnectWallet = () => {
   const dispatch = useDispatch();
   const connectWallet = async () => {
-    const starknet = getStarknet()
+    const starknet = await connect({ showList: true });
     if (!starknet) {
-      throw Error("User rejected wallet selection or silent connect found nothing")
+      throw Error(
+        "User rejected wallet selection or silent connect found nothing"
+      );
     }
-    
-    console.log("sd",starknet)
-    await starknet.enable()
-    
+    if (starknet.isConnected) {
+      // dispatch(setStarknetAccount(starknet));
+    } else {
+      await starknet?.enable();
+
+      console.log("Problem");
+    }
+
     dispatch(setWalletAddress(BigNumber.from(starknet.selectedAddress)._hex ));
     // dispatch(setProvider(starknet.provider));
     dispatch(setAccount(starknet));
     return starknet
-  }
-  const disconnectWallet = async () => {
-    const starknet = getStarknet()
-    if (!starknet) {
-      throw Error("User rejected wallet selection or silent connect found nothing")
+  };
+  
+  const silentConnectWallet = async () => {
+    const starknet = await connect({ showList: false });
+    if (!starknet?.isConnected) {
+      await starknet?.enable({ showModal: false });
+      checkWalletIsWl(BigNumber.from(starknet.selectedAddress)._hex)
+      dispatch(setWalletAddress(BigNumber.from(starknet.selectedAddress)._hex));
     }
-    console.log(starknet)
-    const test = starknet.off
-    console.log(test)
-    
-    // dispatch(setWalletAddress(null));
-    // // dispatch(setProvider(starknet.provider));
-    // dispatch(setAccount(null));
-    // return starknet
-  }
-return {
-  connectWallet,disconnectWallet
-}
-}
+  };
+  const disconnectWallet = async () => {
+    localStorage.clear();
+    dispatch(setWalletAddress(null));
+    dispatch(setAccount(null));
+  };
+  return {
+    connectWallet,
+    disconnectWallet,
+    silentConnectWallet,
+  };
+};

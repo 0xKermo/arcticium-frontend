@@ -4,7 +4,7 @@ import { status, updateUserAssets } from "../mutation";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserProfile } from "../query";
 import { useEffect } from "react";
-import { setProfileInfo, setUserAssets } from "../../store/slicers/userAssets";
+import { setNonFilterUserData, setProfileInfo, setUserAssets } from "../../store/slicers/userAssets";
 import { setUserAssetLoader } from "../../store/slicers/loader";
 import { setProfileCreated } from "../../store/slicers/profileOperations";
 
@@ -31,10 +31,11 @@ export const UserAsset = (walletAddress) => {
       setTimeout(() => {
         dispatch(setUserAssetLoader(false))
         
-      }, 1100);
+      }, 1500);
       if (data != undefined) {
         dispatch(setUserAssets(data.getUserAsset));
         dispatch(setProfileInfo(data.getUserProfile));
+        dispatch(setNonFilterUserData(data.getUserAsset))
         // const statusArgs = {
         //   walletAddress:walletAddress,
         //   index: data.getUserProfile ? data.getUserProfile.nextPage: 0,

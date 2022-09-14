@@ -1,20 +1,16 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import Activity from "../components/profileActvity";
 import NotFound from "../components/notFound";
 import { createGlobalStyle } from "styled-components";
-import { ProfileActions } from "../controller";
 import ColumnMyNfts from "../components/profileColumnMyNfts";
 import { UserAsset } from "../grqphql";
 import { useParams } from "react-router-dom";
 import { updateUserProfile } from "../grqphql/mutation";
-import { useMutation, useQuery } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { BigNumber } from "ethers";
 import ProfileNftsLoader from "../components/loader/profileNfts";
 import { ToastPromise } from "../components/toast";
 import { setUserAssets } from "../store/slicers/userAssets";
-import { getUserActivity } from "../grqphql/query";
-import ProfileCreating from "../components/profileCreating";
 
 const GlobalStyles = createGlobalStyle`
   header#myHeader.navbar.sticky.white {
@@ -48,23 +44,21 @@ const Profile = () => {
   const [isEditProfile, setEditProfile] = useState(false);
   const [isOwner, setIsOwner] = useState(false);
   const { wallet } = useParams();
-  const { userAssets } = useSelector((state) => state.userAssets);
+  const { userAssets,profileInfo,nonFilterUserAsset } = useSelector((state) => state.userAssets);
   const { userAssetLoader } = useSelector((state) => state.loader);
   const dispatch = useDispatch();
   const { walletAddress } = useSelector((state) => state.wallet);
-  const { openMenu, openMenu1, profileCreated } = useSelector(
+  const { openMenu } = useSelector(
     (state) => state.profileOperation
   );
-  const { profileInfo } = useSelector((state) => state.userAssets);
-
-  const { handleBtnClick, handleBtnClick1 } = ProfileActions();
-
+  
   const { getUserAssets } = UserAsset(
     BigNumber.from(wallet)._hex.toLowerCase()
-  );
-  const openEditProfile = () => {
-    setEditProfile(true);
-  };
+    );
+    const openEditProfile = () => {
+      setEditProfile(true);
+    };
+    const [filterText, setFilterText] = useState(userAssets);
 
   const [updateProfile] = useMutation(updateUserProfile);
 
@@ -84,21 +78,19 @@ const Profile = () => {
 
     ToastPromise(updatedProfile, mintLoadingText, successText);
     setEditProfile(false);
-    console.log("ok", updatedProfile);
   };
 
-  const filterNftTitles = useCallback(
+  const filterNftTitles =
     (event) => {
       const value = event.target.value;
-      console.log("user aset", userAssets);
-      // const filteredData = userAssets.filter((item) =>
-      //   item.name.toLowerCase().includes(value)
-      // );
-      // dispatch(setUserAssets(filteredData));
-    },
-    [dispatch]
-  );
+      const filteredData = nonFilterUserAsset.filter((item) =>
+        item.name.toLowerCase().includes(value)
+      );
 
+      dispatch(setUserAssets(filteredData));
+
+    }
+     
   useEffect(() => {
     if (wallet) getUserAssets(BigNumber.from(wallet)._hex.toLowerCase());
   }, [wallet]);
@@ -162,16 +154,18 @@ const Profile = () => {
           <div className="col-lg-12">
             <div className="items_filter">
               <ul className="de_nav">
-                <div className="left">
+                <div className="">
                   <li id="Mainbtn">
-                    <span onClick={handleBtnClick}>Nft's</span>
+                    <span >Nft's</span>
                   </li>
-                  <li id="Mainbtn1">
+                  {/* <li id="Mainbtn1">
                     <span onClick={handleBtnClick1}>Activity</span>
                   </li>
                   <li id="quick_search">
-                    <form
-                      className="row form-dark"
+                 
+                  </li> */}
+                   <div
+                      className="row form-dark right"
                       id="form_quick_search"
                       name="form_quick_search"
                     >
@@ -182,18 +176,19 @@ const Profile = () => {
                           name="name_1"
                           placeholder="search item here..."
                           type="text"
+                          onChange={filterNftTitles}
                         />
                       </div>
-                    </form>
-                  </li>
+                    </div>
                 </div>
+               
               </ul>
             </div>
           </div>
         </div>
 
         {userAssetLoader  && <ProfileNftsLoader />}
-        {userAssets.length < 1 && userAssetLoader  && (
+        {userAssets.length < 1 && !userAssetLoader  && (
           <div style={{ textAlign: "center" }}>
             <NotFound text={"Sorry! There were no Nfts or Collection found."}/>
           </div>
@@ -205,14 +200,14 @@ const Profile = () => {
         )} */}
         {openMenu  && !userAssetLoader && userAssets.length > 0 &&(
           <div id="zero2" className="onStep fadeIn">
-            <ColumnMyNfts />
+            <ColumnMyNfts filter={filterText}/>
           </div>
         )}
-        {openMenu1 && (
+        {/* {openMenu1 && (
           <div id="zero3" className="onStep fadeIn">
             <Activity wallet={wallet} />
           </div>
-        )}
+        )} */}
 
         {isEditProfile && (
           <div className="checkout">
