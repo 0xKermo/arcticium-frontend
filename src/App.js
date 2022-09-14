@@ -24,7 +24,7 @@ const App = () => {
     }
   }, [walletAddress]);
 
-  if (userIsWl) {
+  if (userIsWl && walletAddress) {
     return (
       <Routes>
         <Route path="/" element={<Home />} />

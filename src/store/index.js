@@ -12,7 +12,8 @@ import bidsOfItemReducer from './slicers/bidsOfItem'
 import userAssetsReducer from './slicers/userAssets'
 import loaderReducer from './slicers/loader'
 import  openTradesReducer  from './slicers/openTradesData'
-import activitiesReducer  from './slicers/activity'
+import userIsWlReducer from './slicers/userIsWl'
+
 
 export default configureStore({
   reducer: {
@@ -29,7 +30,7 @@ export default configureStore({
     userAssets:userAssetsReducer,
     loader:loaderReducer,
     openTrades: openTradesReducer,
-    activities: activitiesReducer
+    userIsWl:userIsWlReducer,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
