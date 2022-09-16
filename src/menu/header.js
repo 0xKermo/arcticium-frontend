@@ -84,22 +84,22 @@ const Header = function ({ className }) {
             <div className="navbar-title navbar-item">
               <NavLink to="/">
                 <img
-                  src="/img/ArcticiumLogo03.png"
+                  src="/img/ArcticiumLogo01.png"
                   className="img-fluid d-block"
                   alt="#"
                 />
                 <img
-                  src="/img/ArcticiumLogo03.png"
+                  src="/img/ArcticiumLogo01png"
                   className="img-fluid d-3"
                   alt="#"
                 />
                 <img
-                  src="/img/ArcticiumLogo03.png"
+                  src="/img/ArcticiumLogo01.png"
                   className="img-fluid d-4"
                   alt="#"
                 />
                 <img
-                  src="/img/ArcticiumLogo03.png"
+                  src="/img/ArcticiumLogo01.png"
                   className="img-fluid d-none"
                   alt="#"
                 />
@@ -108,13 +108,13 @@ const Header = function ({ className }) {
           </div>
 
           <div className="search">
-            <input
+            {/* <input
               id="quick_search"
               className="xs-hide"
               name="quick_search"
               placeholder="search item here..."
               type="text"
-            />
+            /> */}
           </div>
 
           <BreakpointProvider>
