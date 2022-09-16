@@ -11,7 +11,7 @@ import {
   setCurrencyAmount,
 } from "../store/slicers/itemDetailOperations";
 import Select from "react-select";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { setTargetMetadata } from "../store/slicers/targetNftMetadata";
 import { GetTokenURI } from "../hooks";
 import TargetItemLoader from "./loader/targetItemPopupLoader";
@@ -48,6 +48,7 @@ const customStyles = {
 const OpenTradePopup = (props) => {
   const [isActive, setIsActive] = useState(false);
   const [targetNftUrl, setTargetNftUrl] = useState("");
+  const [targetTokenId,setTargetTokenId]  =useState(0)
   const [targetNftLoader, setTargetNftLoader] = useState(0);
   const [_getAsset, {loading,data}] = useLazyQuery(getAsset)
   const { getTokenURI } = GetTokenURI();
@@ -76,31 +77,48 @@ const OpenTradePopup = (props) => {
   const targetNftOnfocus = async (e) => {
     setTargetNftUrl("");
     setTargetNftLoader(1);
+    setTargetTokenId(e.target.value)
     await _getAsset({
       variables:{
         contract_address:targetCollectionAddress,
         token_id:e.target.value
       }
     })
-    let targetMetadata;
-    if(!data.getAsset){
-      const _targetMetadata = await getTokenURI(
-        targetCollectionAddress,
-        e.target.value
-      );
-      targetMetadata = _targetMetadata
-    }else{
-      targetMetadata = data.getAsset
-    }
-  
-    setTargetNftLoader(2)
-    dispatch(setTargetMetadata(props.metadata));
-    const _targetNftLink =
-      "http://localhost:3000/" + targetCollectionAddress + "/" + e.target.value;
-    document.getElementById("targetNft").src = targetMetadata.image;
-    document.getElementById("targetNftsrc").src = _targetNftLink;
-    setTargetNftUrl(targetMetadata.image);
+    
+   
   };
+  
+  useEffect(() => {
+    const prepare = async() => {
+
+      if(!loading){
+        let targetMetadata;
+        if(!data.getAsset){
+          console.log("test",data.getAsset)
+          const _targetMetadata = await getTokenURI(
+            targetCollectionAddress,
+            targetTokenId
+          );
+          targetMetadata = _targetMetadata
+          setTargetNftUrl(targetMetadata.image)
+        }else{
+          targetMetadata = data.getAsset
+          setTargetNftUrl(data.getAsset.image)
+    
+        }
+      
+        setTargetNftLoader(2)
+        dispatch(setTargetMetadata(props.metadata));
+        const _targetNftLink =
+          "http://localhost:3000/" + targetCollectionAddress + "/" + targetTokenId;
+       console.log("TARGET",targetNftUrl)
+        document.getElementById("targetNftsrc").src = _targetNftLink;
+      }
+
+    }
+  prepare();
+
+  }, [loading])
   
   const unlockClick = () => {
     setIsActive(true);

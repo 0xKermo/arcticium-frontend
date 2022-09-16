@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
-import { EXCHANGE_ADDRESS } from "../../constants/starknetAddress";
+import { PROXY_ADDRESS } from "../../constants/starknetAddress";
 import { ToastPromise } from "../../components/toast";
 import { GetApprove } from "../ERC721/getApprove";
 import { ApproveERC721 } from "../ERC721/approve";
@@ -28,11 +28,11 @@ export const BuyItem = () => {
     const approveArgs = {
         contractAddress: _token_contract,
         entrypoint: "approve",
-        calldata: [EXCHANGE_ADDRESS, priceUint.low, priceUint.high],
+        calldata: [PROXY_ADDRESS, priceUint.low, priceUint.high],
     };
     const acceptBidArgs = [
       {
-        contractAddress: EXCHANGE_ADDRESS,
+        contractAddress: PROXY_ADDRESS,
         entrypoint: "execute_swap_trade",
         calldata: [_tradeId],
       },
@@ -43,7 +43,7 @@ export const BuyItem = () => {
     if (isApproved == 0) {
       const approveArgs = await approveERC721(
         _targetItemcontract,
-        EXCHANGE_ADDRESS,
+        PROXY_ADDRESS,
         1
       );
       acceptBidArgs.push(approveArgs);

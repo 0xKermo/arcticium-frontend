@@ -61,7 +61,7 @@ const ExplorerColumnSwap = () => {
                       <span>
                         {nft.targetTokenContract && nft.targetTokenId && (
                           <img
-                            src={nft.targetAssetInfo[0].image}
+                            src={nft.targetAssetInfo.length > 0 ?  nft.targetAssetInfo[0].image : null}
                             className="lazy nft__item_preview"
                             alt=""
                           />

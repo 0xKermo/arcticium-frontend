@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
-import { EXCHANGE_ADDRESS } from "../../constants/starknetAddress";
+import { PROXY_ADDRESS } from "../../constants/starknetAddress";
 import { ToastPromise } from "../../components/toast";
 import { useMutation } from "@apollo/client";
 import { cancelTrade } from "../../grqphql/mutation";
@@ -13,7 +13,7 @@ export const CancelListedItem = () => {
     try {
       const cancelItemArgs = [
         {
-          contractAddress: EXCHANGE_ADDRESS,
+          contractAddress: PROXY_ADDRESS,
           entrypoint: "cancel_swap_trade",
           calldata: [_tradeId],
         },

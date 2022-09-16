@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
-import { EXCHANGE_ADDRESS } from "../../constants/starknetAddress";
+import { PROXY_ADDRESS } from "../../constants/starknetAddress";
 import { ApproveERC721 } from "../ERC721/approve";
 import { ToastPromise } from "../../components/toast";
 import { ApproveERC20 } from "../ERC20/approve";
@@ -20,7 +20,7 @@ export const BidToItem = () => {
     try {
       let bidtoItemArgs = [
         {
-          contractAddress: EXCHANGE_ADDRESS,
+          contractAddress: PROXY_ADDRESS,
           entrypoint: "open_swap_bid",
           calldata:_bidItemCallData ,
         },
@@ -35,7 +35,7 @@ export const BidToItem = () => {
       if (_isApprove == 0) {
         const approveArgs = await approveERC721(
           _bidContractAddress,
-          EXCHANGE_ADDRESS,
+          PROXY_ADDRESS,
           1
         );
         bidtoItemArgs.push(approveArgs);
