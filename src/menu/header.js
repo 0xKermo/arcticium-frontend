@@ -28,7 +28,8 @@ const Header = function ({ className }) {
   const { walletAddress } = useSelector((state) => state.wallet);
   const { userIsWl } = useSelector((state) => state.userIsWl);
 
-  const { connectWallet, disconnectWallet,silentConnectWallet } = ConnectWallet();
+  const { connectWallet, disconnectWallet, silentConnectWallet } =
+    ConnectWallet();
   const [openMenu, setOpenMenu] = React.useState(false);
 
   const handleBtnClick = () => {
@@ -54,7 +55,6 @@ const Header = function ({ className }) {
     closePop();
   });
 
-
   useEffect(() => {
     const header = document.getElementById("myHeader");
     const sticky = header.offsetTop;
@@ -71,7 +71,7 @@ const Header = function ({ className }) {
         closeMenu();
       }
     });
-    silentConnectWallet()
+    silentConnectWallet();
     return () => {
       window.removeEventListener("scroll", scrollCallBack);
     };
@@ -84,28 +84,25 @@ const Header = function ({ className }) {
             <div className="navbar-title navbar-item">
               <NavLink to="/">
                 <img
-                  src="/img/logo.png"
+                  src="/img/ArcticiumLogo01.png"
                   className="img-fluid d-block"
                   alt="#"
                 />
-                <img src="/img/logo-2.png" className="img-fluid d-3" alt="#" />
-                <img src="/img/logo-3.png" className="img-fluid d-4" alt="#" />
-                <img src="/img/logo.png" className="img-fluid d-none" alt="#" />
-                {/* <img
-                  src="/img/ArcticiumLogo03.png"
+                <img
+                  src="/img/ArcticiumLogo01.png"
                   className="img-fluid d-3"
                   alt="#"
                 />
                 <img
-                  src="/img/ArcticiumLogo03.png"
+                  src="/img/ArcticiumLogo01.png"
                   className="img-fluid d-4"
                   alt="#"
                 />
                 <img
-                  src="/img/ArcticiumLogo03.png"
+                  src="/img/ArcticiumLogo01.png"
                   className="img-fluid d-none"
                   alt="#"
-                /> */}
+                />
               </NavLink>
             </div>
           </div>
@@ -125,7 +122,7 @@ const Header = function ({ className }) {
               {showmenu && (
                 <div className="menu">
                   <div className="navbar-item">
-                    <NavLink to="/activity" onClick={() => btn_icon(!showmenu)}>
+                    <NavLink to="/" onClick={() => btn_icon(!showmenu)}>
                       Home
                     </NavLink>
                   </div>
