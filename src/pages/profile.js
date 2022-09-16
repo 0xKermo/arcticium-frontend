@@ -88,7 +88,6 @@ const Profile = () => {
     setFiles(file);
     setFileName(file[0].name);
 
-<<<<<<< HEAD
     if (file && file[0]) {
       var reader = new FileReader();
 
@@ -106,13 +105,6 @@ const Profile = () => {
       const filteredData = nonFilterUserAsset.filter((item) =>
         item.name ? item.name.toLowerCase().includes(value):null
       );
-=======
-  const filterNftTitles = (event) => {
-    const value = event.target.value;
-    const filteredData = nonFilterUserAsset.filter((item) =>
-      item.name.toLowerCase().includes(value)
-    );
->>>>>>> af3c35e8a12c3d466e7222e7d658e2486722ac65
 
     dispatch(setUserAssets(filteredData));
   };
