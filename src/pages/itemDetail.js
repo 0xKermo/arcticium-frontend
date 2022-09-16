@@ -77,7 +77,7 @@ const GlobalStyles = createGlobalStyle`
 
 const ItemDetail = function () {
   const dispatch = useDispatch();
-  const [targetItemOwner, setTargetItemOwner] = useState(false)
+  const [targetItemOwner, setTargetItemOwner] = useState(false);
   /**
    *  Reducer start
    */
@@ -213,19 +213,18 @@ const ItemDetail = function () {
           } else if (!checkItemOwner) {
             dispatch(setItemOwner(3));
           }
-       
         } catch (error) {
           console.log(error);
         }
         try {
-          if(data.getTradeWithAddresId.tradeType == 2){
+          if (data.getTradeWithAddresId.tradeType == 2) {
             const checkTargetItemOwner = BigNumber.from(walletAddress).eq(
               data.getTradeWithAddresId.targetAssetOwner
             );
-            setTargetItemOwner(checkTargetItemOwner)
+            setTargetItemOwner(checkTargetItemOwner);
           }
         } catch (error) {
-          console.log(error)
+          console.log(error);
         }
       }
     };
@@ -316,20 +315,9 @@ const ItemDetail = function () {
                       ownerWallet={walletAddressSlice(ownerWallet, 5, 3)}
                       contract={contract}
                     />
-                    <div className="col-md-2">
-                      <div className="p_list">
-                        <div className="p_detail">
-                          <div
-                            className="swap-icon"
-                            style={{
-                              fontSize: "50px",
-                              textAlign: "center",
-                              marginTop: "150px",
-                            }}
-                          >
-                            <i className="fa fa-exchange"></i>
-                          </div>
-                        </div>
+                    <div className="col-md-4 text-center">
+                      <div className="swap-icon-big">
+                        <i className="fa fa-exchange"></i>
                       </div>
                     </div>
                     <SwapToAnyItem

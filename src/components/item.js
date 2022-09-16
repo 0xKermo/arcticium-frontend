@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 
-
 export default class Responsive extends Component {
   constructor(props) {
     super(props);
@@ -15,10 +14,7 @@ export default class Responsive extends Component {
   render() {
     return (
       <div className="col-md-4 text-center">
-        <div
-          className="nft_detail_item m-0"
-          style={{ padding:"0px" }}
-        >
+        <div className="nft_detail_item m-0" style={{ padding: "0px" }}>
           <div className="nft__item_offer">
             <span>
               <img
@@ -47,7 +43,15 @@ export default class Responsive extends Component {
                   <div className="p_detail">
                     <h6>Owner</h6>
                     <div className="item_author">
-                      <div className="author_list_pp" onClick={() => window.open(`/${this.state.metadata.ownerAddress}`, "_blank")}>
+                      <div
+                        className="author_list_pp"
+                        onClick={() =>
+                          window.open(
+                            `/${this.state.metadata.ownerAddress}`,
+                            "_blank"
+                          )
+                        }
+                      >
                         <span>
                           <img
                             className="lazy"
@@ -66,11 +70,19 @@ export default class Responsive extends Component {
                   <div className="p_detail">
                     <h6>Creator</h6>
                     <div className="item_author">
-                      <div className="author_list_pp" onClick={() => window.open(`/collection/${this.state.metadata.collectionAddress}`, "_blank")}>
+                      <div
+                        className="author_list_pp"
+                        onClick={() =>
+                          window.open(
+                            `/collection/${this.state.metadata.collectionAddress}`,
+                            "_blank"
+                          )
+                        }
+                      >
                         <span>
                           <img
                             className="lazy"
-                            src={"/"+this.state.metadata.collectionPP}
+                            src={"/" + this.state.metadata.collectionPP}
                             alt=""
                           />
                         </span>

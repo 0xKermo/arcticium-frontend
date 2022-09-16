@@ -10,7 +10,7 @@ export default class Responsive extends Component {
       targetItemvoyagerLink: `https://beta-goerli.voyager.online/contract/${this.props.targetItemData.contract_address}`,
       collectionName: this.props.targetItemData.contract_address,
     };
-    console.log(this.state.targetItemData)
+    console.log(this.state.targetItemData);
   }
 
   attr = (_attributes) =>
@@ -29,11 +29,8 @@ export default class Responsive extends Component {
 
   render() {
     return (
-      <div className="col-md-4 text-center">
-        <div
-          className="nft_detail_item m-0"
-          style={{ padding:"0px" }}
-        >
+      <div className="col-md-5 text-center">
+        <div className="nft_detail_item m-0" style={{ padding: "0px" }}>
           <div className="nft__item_offer">
             <span>
               <img
@@ -70,7 +67,15 @@ export default class Responsive extends Component {
 
               <div className="p_list" style={{ display: "flex" }}>
                 <div className="col-md-6">
-                  <div className="p_detail" onClick={() => window.open(`/${this.state.targetItemData.assetOwner}`, "_blank")} >
+                  <div
+                    className="p_detail"
+                    onClick={() =>
+                      window.open(
+                        `/${this.state.targetItemData.assetOwner}`,
+                        "_blank"
+                      )
+                    }
+                  >
                     <h6>Owner</h6>
                     <div className="item_author">
                       <div className="author_list_pp">
@@ -83,46 +88,70 @@ export default class Responsive extends Component {
                         </span>
                       </div>
                       <div className="author_list_info">
-                        <span>{walletAddressSlice(this.state.targetItemData.assetOwner,5,3)}</span>
+                        <span>
+                          {walletAddressSlice(
+                            this.state.targetItemData.assetOwner,
+                            5,
+                            3
+                          )}
+                        </span>
                       </div>
                     </div>
                   </div>
                 </div>
                 <div className="col-md-6">
-                  <div className="p_detail" onClick={() => window.open(`/collection/${this.state.targetItemData.contract_address}`, "_blank")} >
+                  <div
+                    className="p_detail"
+                    onClick={() =>
+                      window.open(
+                        `/collection/${this.state.targetItemData.contract_address}`,
+                        "_blank"
+                      )
+                    }
+                  >
                     <h6>Creator</h6>
                     <div className="item_author">
                       <div className="author_list_pp">
                         <span>
                           <img
                             className="lazy"
-                            src={"/"+
+                            src={
+                              "/" +
                               this.props.collections.filter(
                                 (x) =>
                                   x.collectionAddress ==
                                   this.state.targetItemData.contract_address
-                              )[0] ?  "/"+  this.props.collections.filter(
-                                (x) =>
-                                  x.collectionAddress ==
-                                  this.state.targetItemData.contract_address
-                              )[0].profileImgPath:"../../img/author/author.svg"
+                              )[0]
+                                ? "/" +
+                                  this.props.collections.filter(
+                                    (x) =>
+                                      x.collectionAddress ==
+                                      this.state.targetItemData.contract_address
+                                  )[0].profileImgPath
+                                : "../../img/author/author.svg"
                             }
                             alt=""
                           />
                         </span>
                       </div>
                       <div className="author_list_info">
-                        <span>{
-                              this.props.collections.filter(
+                        <span>
+                          {this.props.collections.filter(
+                            (x) =>
+                              x.collectionAddress ==
+                              this.state.targetItemData.contract_address
+                          )[0]
+                            ? this.props.collections.filter(
                                 (x) =>
                                   x.collectionAddress ==
                                   this.state.targetItemData.contract_address
-                              )[0] ?   this.props.collections.filter(
-                                (x) =>
-                                  x.collectionAddress ==
-                                  this.state.targetItemData.contract_address
-                              )[0].collectionName: walletAddressSlice( this.state.targetItemData.contract_address, 5,3)
-                            }</span>
+                              )[0].collectionName
+                            : walletAddressSlice(
+                                this.state.targetItemData.contract_address,
+                                5,
+                                3
+                              )}
+                        </span>
                       </div>
                     </div>
                   </div>
