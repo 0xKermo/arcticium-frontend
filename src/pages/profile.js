@@ -11,6 +11,7 @@ import { BigNumber } from "ethers";
 import ProfileNftsLoader from "../components/loader/profileNfts";
 import { ToastPromise } from "../components/toast";
 import { setUserAssets } from "../store/slicers/userAssets";
+import $ from "jquery";
 
 const GlobalStyles = createGlobalStyle`
   header#myHeader.navbar.sticky.white {
@@ -41,6 +42,8 @@ const GlobalStyles = createGlobalStyle`
 `;
 
 const Profile = () => {
+  const [files, setFiles] = useState();
+  const [fileName, setFileName] = useState();
   const [isEditProfile, setEditProfile] = useState(false);
   const [isOwner, setIsOwner] = useState(false);
   const { wallet } = useParams();
@@ -79,12 +82,37 @@ const Profile = () => {
     ToastPromise(updatedProfile, mintLoadingText, successText);
     setEditProfile(false);
   };
+  const uploadImageOnChange = (e) => {
+    var file = e.target.files;
+    document.getElementById("file_name").style.display = "none";
+    setFiles(file);
+    setFileName(file[0].name);
 
+<<<<<<< HEAD
+    if (file && file[0]) {
+      var reader = new FileReader();
+
+      reader.onload = function (e) {
+        $("#get_file").attr("src", e.target.result);
+      };
+
+      reader.readAsDataURL(file[0]);
+    }
+  };
+  const filterNftTitles =
+    (event) => {
+      const value = event.target.value;
+      console.log(value)
+      const filteredData = nonFilterUserAsset.filter((item) =>
+        item.name ? item.name.toLowerCase().includes(value):null
+      );
+=======
   const filterNftTitles = (event) => {
     const value = event.target.value;
     const filteredData = nonFilterUserAsset.filter((item) =>
       item.name.toLowerCase().includes(value)
     );
+>>>>>>> af3c35e8a12c3d466e7222e7d658e2486722ac65
 
     dispatch(setUserAssets(filteredData));
   };
@@ -242,7 +270,7 @@ const Profile = () => {
                             id="upload_file"
                             type="file"
                             multiple
-                            // onChange={onChange}
+                            onChange={uploadImageOnChange}
                           />
                         </div>
                       </div>

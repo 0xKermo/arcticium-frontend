@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
-import { EXCHANGE_ADDRESS } from "../../constants/starknetAddress";
+import { PROXY_ADDRESS } from "../../constants/starknetAddress";
 import { ToastPromise } from "../../components/toast";
 import { updateBidStatus } from "../../grqphql/mutation";
 import { useMutation } from "@apollo/client";
@@ -12,7 +12,7 @@ export const AcceptBid = () => {
     try {
       const acceptBidArgs = [
         {
-          contractAddress: EXCHANGE_ADDRESS,
+          contractAddress: PROXY_ADDRESS,
           entrypoint: "accept_swap_bid",
           calldata: [_tradeId,_bidId],
         },

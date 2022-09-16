@@ -69,7 +69,7 @@ const ColumnMyNfts = (props) => {
                 </span>
               </div> */}
               <div className="nft__item_like">
-                {nft.trade.length > 0 ? (
+                {nft.trade.tradeId ? (
                   <span>Listed</span>
                 ) : (
                   <span>Unlisted</span>

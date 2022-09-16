@@ -30,6 +30,7 @@ export const ConnectWallet = () => {
 
     dispatch(setWalletAddress(BigNumber.from(starknet.selectedAddress)._hex ));
     const res =checkWalletIsWl(BigNumber.from(starknet.selectedAddress)._hex)
+    console.log(starknet)
     dispatch(setUserIsWl(res))
     // dispatch(setProvider(starknet.provider));
     dispatch(setAccount(starknet));
@@ -43,6 +44,8 @@ export const ConnectWallet = () => {
       const res =checkWalletIsWl(BigNumber.from(starknet.selectedAddress)._hex)
 
       dispatch(setUserIsWl(res))
+      dispatch(setAccount(starknet));
+
       dispatch(setWalletAddress(BigNumber.from(starknet.selectedAddress)._hex));
     }
   };

@@ -88,19 +88,15 @@ const CarouselNewRedux = (props) => {
                       >
                         <span>
                           <h4>{nft.assetInfo.name}</h4>
-                          <h4>
-                            {walletAddressSlice(
-                              nft.assetInfo.contract_address,
-                              5,
-                              5
-                            )}
-                          </h4>
+                          <b style={{fontWeight:"10", fontSize:"smaller"}}>{walletAddressSlice(nft.assetInfo.contract_address ,5,5)}</b>
                         </span>
                         <div className="nft__item_price">
                           <span></span>
                         </div>
                         <div className="nft__item_action">
+                          {nft.targetAssetInfo.length <1 && 
                           <span>Make Offer</span>
+                          }
                         </div>
                       </div>
                     </div>
@@ -112,11 +108,12 @@ const CarouselNewRedux = (props) => {
                         >
                           <span onClick={() => window.open("/#", "_self")}>
                             <h4>{nft.targetAssetInfo[0].name}</h4>
-                            <h4>{nft.targetAssetInfo[0].contract_address}</h4>
+                             <b style={{fontWeight:"10", fontSize:"smaller"}}>{walletAddressSlice(nft.targetAssetInfo[0].contract_address,5,5)}</b>
                           </span>
                           <div className="nft__item_price">
-                            + {nft.price} ETH
-                          </div>
+                            { nft.price? (
+                              <>
+                          + {nft.price} ETH</>): <span></span>}</div>
                           <div className="nft__item_action">
                             <span>Buy now</span>
                           </div>

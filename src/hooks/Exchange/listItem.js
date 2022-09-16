@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
-import { EXCHANGE_ADDRESS, PROXY_ADDRESS } from "../../constants/starknetAddress";
+import {  PROXY_ADDRESS } from "../../constants/starknetAddress";
 import { ApproveERC721 } from "../ERC721/approve";
 import { ToastPromise } from "../../components/toast";
 import { setOpenCheckout } from "../../store/slicers/itemDetailOperations";
@@ -20,7 +20,7 @@ export const ListItem = () => {
       
       let listItemArgs = [
         {
-          contractAddress: EXCHANGE_ADDRESS,
+          contractAddress: PROXY_ADDRESS,
           entrypoint: "open_swap_trade",
           calldata: _itemCallData,
         },
@@ -29,7 +29,7 @@ export const ListItem = () => {
       if (_isApprove == 0) {
         const approveArgs = await approveERC721(
           tradeArgs.tokenContract,
-          EXCHANGE_ADDRESS,
+          PROXY_ADDRESS,
           1
         );
         listItemArgs.push(approveArgs);
