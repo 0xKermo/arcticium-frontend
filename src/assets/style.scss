@@ -55,6 +55,7 @@ $color_more: #403f83;
 
 /*font*/
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@200;300;400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Righteous&display=swap");
 
 /*general*/
 html {
@@ -1808,6 +1809,7 @@ footer {
         &.copy {
           cursor: default;
           margin: 0;
+          margin-left: 20px;
         }
       }
       .social-icons {
@@ -5819,6 +5821,12 @@ blockquote {
 
 .left {
   float: left;
+}
+
+.logo-font {
+  font-size: 45px;
+  color: #8364e2;
+  font-family: "Righteous", cursive;
 }
 
 .profile_info_place {

@@ -35,7 +35,7 @@ const GlobalStyles = createGlobalStyle`
     color: #000;
   }
   header#myHeader .dropdown-toggle::after{
-    color: rgba(255, 255, 255, .5);
+    color: #000;
   }
   header#myHeader .logo .d-block{
     display: none !important;
@@ -70,7 +70,7 @@ const GlobalStyles = createGlobalStyle`
 
     }
     .link:hover {
-      color: #00F
+      color: #000
    }
   }
 `;
@@ -273,20 +273,9 @@ const ItemDetail = function () {
                   ownerWallet={walletAddressSlice(ownerWallet, 5, 3)}
                   contract={contract}
                 />
-                <div className="col-md-2">
-                  <div className="p_list">
-                    <div className="p_detail">
-                      <div
-                        className="swap-icon"
-                        style={{
-                          fontSize: "50px",
-                          textAlign: "center",
-                          marginTop: "150px",
-                        }}
-                      >
-                        <i className="fa fa-exchange"></i>
-                      </div>
-                    </div>
+                <div className="col-md-4 text-center">
+                  <div className="swap-icon-big">
+                    <i className="fa fa-exchange"></i>
                   </div>
                 </div>
                 <SwapToAnyItem
@@ -344,46 +333,32 @@ const ItemDetail = function () {
                   contract={contract}
                   ownerWallet={walletAddressSlice(ownerWallet, 5, 3)}
                 />
-                <div className="col-md-2">
-                  <div className="p_list">
-                    <div className="p_detail">
-                      <div
-                        className="swap-icon"
-                        style={{
-                          fontSize: "50px",
-                          textAlign: "center",
-                          marginTop: "150px",
-                        }}
-                      >
-                        <i className="fa fa-exchange"></i>
-                      </div>
-                      {itemOwner == 2 && (
-                        <div className="item_info">
-                          <button
-                            style={{
-                              margin: "0",
-                              color: "rgb(131, 100, 226) !important",
-                              backgroundColor: "#f0f0f0",
-                            }}
-                            className="btn-cancel lead mb-2"
-                            onClick={cancelListing}
-                          >
-                            Cancel listing
-                          </button>
-                        </div>
-                      )}
-                      {itemOwner === 3 && targetItemOwner && (
-                        <div className="item_info">
-                          <button
-                            className="btn-main lead mb-2"
-                            onClick={buyNow}
-                          >
-                            Buy now
-                          </button>
-                        </div>
-                      )}
-                    </div>
+                <div className="col-md-4 text-center">
+                  <div className="swap-icon-big">
+                    <i className="fa fa-exchange"></i>
                   </div>
+                  {itemOwner == 2 && (
+                    <div className="item_info">
+                      <button
+                        style={{
+                          margin: "0",
+                          color: "rgb(131, 100, 226) !important",
+                          backgroundColor: "#f0f0f0",
+                        }}
+                        className="btn-cancel lead mb-2"
+                        onClick={cancelListing}
+                      >
+                        Cancel listing
+                      </button>
+                    </div>
+                  )}
+                  {itemOwner === 3 && targetItemOwner && (
+                    <div className="item_info">
+                      <button className="btn-main lead mb-2" onClick={buyNow}>
+                        Buy now
+                      </button>
+                    </div>
+                  )}
                 </div>
                 <TargetItem
                   targetItemData={data.getTradeWithAddresId.targetAssetInfo[0]}

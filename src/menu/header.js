@@ -83,7 +83,8 @@ const Header = function ({ className }) {
           <div className="logo px-0">
             <div className="navbar-title navbar-item">
               <NavLink to="/">
-                <img
+                <span className="logo-font">arcswap</span>
+                {/* <img
                   src="/img/ArcticiumLogo01.png"
                   className="img-fluid d-block"
                   alt="#"
@@ -102,20 +103,20 @@ const Header = function ({ className }) {
                   src="/img/ArcticiumLogo01.png"
                   className="img-fluid d-none"
                   alt="#"
-                />
+                /> */}
               </NavLink>
             </div>
           </div>
 
-          <div className="search">
-            {/* <input
+          {/* <div className="search">
+            <input
               id="quick_search"
               className="xs-hide"
               name="quick_search"
               placeholder="search item here..."
               type="text"
-            /> */}
-          </div>
+            />
+          </div> */}
 
           <BreakpointProvider>
             <Breakpoint l down>

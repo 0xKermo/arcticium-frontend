@@ -14,7 +14,7 @@ export default class Responsive extends Component {
   render() {
     return (
       <div className="col-md-4 text-center">
-        <div className="nft_detail_item m-0" style={{ padding: "0px" }}>
+        <div className="nft_detail_item m-0">
           <div className="nft__item_offer">
             <span>
               <img

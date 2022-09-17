@@ -16,7 +16,8 @@ const Footer = () => (
             <div className="de-flex">
               <div className="de-flex-col">
                 <span onClick={() => window.open("", "_self")}>
-                  <img
+                  <span className="logo-font">arcswap</span>
+                  {/* <img
                     alt=""
                     className="f-logo d-1"
                     src="/img/ArcticiumLogo01.png"
@@ -30,7 +31,7 @@ const Footer = () => (
                     alt=""
                     className="f-logo d-4"
                     src="/img/ArcticiumLogo03.png"
-                  />
+                  /> */}
                   <span className="copy">
                     &copy; Copyright 2021 - Gigaland by Designesia
                   </span>
