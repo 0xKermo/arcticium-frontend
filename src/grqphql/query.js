@@ -89,7 +89,7 @@ export const getCollections = gql`
 `;
 
 export const getCollection = gql`
-  query getCollection($collectionAddress: String!) {
+  query getCollection($collectionAddress: String!,$offset:Int, $limit:Int) {
     collection(collectionAddress: $collectionAddress) {
       collectionName
       collectionAddress
@@ -100,7 +100,7 @@ export const getCollection = gql`
       bio
       socialMediaHandles
     }
-    getTradeWithContractAddress(contractAdress: $collectionAddress) {
+    getTradeWithContractAddress(contractAdress: $collectionAddress,offset:$offset, limit:$limit) {
       tradeId
       tradeOwnerAddress
       tokenContract

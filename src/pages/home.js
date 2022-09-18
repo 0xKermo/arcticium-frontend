@@ -39,7 +39,12 @@ const GlobalStyles = createGlobalStyle`
 `;
 
 const Home = () => {
-  const { loading, error, data } = useQuery(GetOpenTrades);
+  const { loading, error, data } = useQuery(GetOpenTrades,{
+    variables:{
+      offset:0,
+      limit:7
+    }
+  });
 
   return (
     <div>

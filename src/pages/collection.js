@@ -54,6 +54,8 @@ const Collection = function () {
   const { loading, error, data } = useQuery(getCollection, {
     variables: {
       collectionAddress: contract,
+      offset:0,
+      limit:12
     },
   });
   const [openMenu, setOpenMenu] = React.useState(true);
