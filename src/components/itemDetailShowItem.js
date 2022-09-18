@@ -1,7 +1,9 @@
-import { useMutation } from "@apollo/client";
+import { BigNumber } from "ethers";
+import {useEffect} from "react"
 import { useSelector, useDispatch } from "react-redux";
 import { ItemDetailAction } from "../controller";
 import { AcceptBid, CancelListedItem } from "../hooks";
+import { CancelBid } from "../hooks/Exchange/cancelBid";
 import {
   setMakeOfferBtn,
   setOpenCheckout,
@@ -14,6 +16,7 @@ const ItemDetailShowItem = (props) => {
   /**
    *    Redux
    */
+   const { walletAddress } = useSelector((state) => state.wallet);
 
   const { metadata, ownerWallet } = useSelector((state) => state.metadata);
 
@@ -23,7 +26,7 @@ const ItemDetailShowItem = (props) => {
    * Contract Functions
    */
   const { cancelListedItem } = CancelListedItem();
-
+   const {cancelBid} = CancelBid()
   const { acceptBid } = AcceptBid();
   /**
    * Graphql
@@ -70,6 +73,11 @@ const ItemDetailShowItem = (props) => {
     const res = acceptBid(e.tradeId, e.itemBidId, e.biddedItemOwner);
     console.log(res);
   };
+
+  const bidCancel = (e) => {
+    const res = cancelBid(e.tradeId, e.itemBidId, e.biddedItemOwner);
+
+  }
 
   return (
     <>
@@ -328,7 +336,7 @@ const ItemDetailShowItem = (props) => {
                                 </span>
                               </div>
                               {(() => {
-                                if (itemOwner == 2 || itemOwner == 1) {
+                                if (itemOwner === 2 || itemOwner === 1) {
                                   return (
                                     <div className="col-md-2">
                                       <button
@@ -342,6 +350,25 @@ const ItemDetailShowItem = (props) => {
                                         }}
                                       >
                                         Accept
+                                      </button>
+                                    </div>
+                                  );
+                                }else if(itemOwner === 3 && BigNumber.from(walletAddress).eq(
+                                  item.bidOwner
+                                )){
+                                  return (
+                                    <div className="col-md-2">
+                                      <button
+                                        className="btn-main lead mb-2 right"
+                                        onClick={() => {
+                                          bidCancel(item);
+                                        }}
+                                        style={{
+                                          padding: "6px 5px",
+                                          margin: "10px",
+                                        }}
+                                      >
+                                        Cancel
                                       </button>
                                     </div>
                                   );

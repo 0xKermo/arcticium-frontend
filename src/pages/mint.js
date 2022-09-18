@@ -9,6 +9,7 @@ import { Provider } from "starknet";
 import { useMutation } from "@apollo/client";
 import { uploadToMetadata } from "../grqphql/mutation";
 import { useSelector } from "react-redux";
+import SliderMainZero from "../components/SliderMainZero";
 
 const GlobalStyles = createGlobalStyle`
   header#myHeader.navbar.sticky.white {
@@ -116,22 +117,11 @@ const Mint = () => {
     <div>
       <GlobalStyles />
 
-      <section
-        className="jumbotron breadcumb no-bg"
-        style={{
-          backgroundImage: `url(${"./img/background/subheader.jpg"})`,
-        }}
-      >
-        <div className="mainbreadcumb">
-          <div className="container">
-            <div className="row m-10-hor">
-              <div className="col-12">
-                <h1 className="text-center">Create</h1>
-              </div>
-            </div>
-          </div>
-        </div>
+      
+      <section className="jumbotron no-bg bg-gray">
+         <SliderMainZero text={"Mint Nft"}/>
       </section>
+
 
       <section className="container">
         <div className="row">

@@ -38,8 +38,7 @@ export const CancelListedItem = () => {
       }
       const tx = account.provider.waitForTransaction(result.transaction_hash).then((res) => console.log("res",res));
       const mintLoadingText = "Transaction pending...";
-      const voyagerLink = `https://beta-goerli.voyager.online/tx/${result.transaction_hash}`;
-      const mintSuccessText = `<a src=${voyagerLink}>Listing cancelled, click and see on Voyager</a>`;
+      const mintSuccessText = `Listing successfully cancelled`;
       ToastPromise(tx, mintLoadingText, mintSuccessText);
       return tx;
     } catch (error) {

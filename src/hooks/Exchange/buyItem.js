@@ -63,7 +63,7 @@ export const BuyItem = () => {
       .then((res) => console.log("res", res));
     const mintLoadingText = "Transaction pending...";
     const voyagerLink = `https://beta-goerli.voyager.online/tx/${result.transaction_hash}`;
-    const mintSuccessText = `<a src=${voyagerLink}>Listing cancelled, click and see on Voyager</a>`;
+    const mintSuccessText = `Trade successfully executed`;
 
     ToastPromise(tx, mintLoadingText, mintSuccessText);
     return tx;

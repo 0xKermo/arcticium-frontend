@@ -29,7 +29,7 @@ const TopFilterBar = (props) => {
     (event) => {
       const value = event.target.value;
       const filteredData = openTradeData.filter((item) =>
-        item.assetInfo.name.toLowerCase().includes(value)
+      item.assetInfo.name ?item.assetInfo.name.toLowerCase().includes(value):null
       );
       setOpenTradeData(filteredData);
 

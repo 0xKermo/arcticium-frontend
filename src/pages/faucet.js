@@ -6,6 +6,7 @@ import { Toaster } from "react-hot-toast";
 import { ToastPromise } from "../components/toast";
 import { Provider } from "starknet";
 import EmptyPage from "../components/emptypage";
+import SliderMainZero from "../components/SliderMainZero";
 
 const GlobalStyles = createGlobalStyle`
   header#myHeader.navbar.sticky.white {
@@ -53,16 +54,17 @@ const Faucet = () => {
     <div>
       <GlobalStyles />
 
+      
+      <section className="jumbotron no-bg bg-gray">
+         <SliderMainZero text={"Faucet"}/>
+      </section>
       <section
-        className="jumbotron breadcumb no-bg"
-        style={{ backgroundImage: `url(${"./img/background/subheader.jpg"})` }}
+        className="jumbotron no-bg bg-gray"
       >
         <div className="mainbreadcumb">
           <div className="container">
             <div className="row">
               <div className="col-md-8 offset-md-2 text-center">
-                <h1>Faucet</h1>
-
                 <div className="spacer-20"></div>
                 <div className="row" id="form_sb">
                   <p className="mt-0">Address</p>

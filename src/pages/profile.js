@@ -53,8 +53,7 @@ const Profile = () => {
   const { userAssetLoader } = useSelector((state) => state.loader);
   const dispatch = useDispatch();
   const { walletAddress } = useSelector((state) => state.wallet);
-  const { openMenu } = useSelector((state) => state.profileOperation);
-
+ 
   const { getUserAssets } = UserAsset(
     BigNumber.from(wallet)._hex.toLowerCase()
   );
@@ -176,12 +175,16 @@ const Profile = () => {
                   <li id="Mainbtn">
                     <span>Nft's</span>
                   </li>
-                  <li id="Mainbtn1">
+                  {/* <li id="Mainbtn1">
                     <span>Activity</span>
-                  </li>
+                  </li> */}
                   <li id="quick_search">
-                    <div
-                      className="row form-dark"
+                  
+                  </li>
+
+                </div>
+                <div
+                      className="row form-dark right"
                       id="form_quick_search"
                       name="form_quick_search"
                     >
@@ -196,14 +199,17 @@ const Profile = () => {
                         />
                       </div>
                     </div>
-                  </li>
-                </div>
               </ul>
             </div>
           </div>
         </div>
 
         {userAssetLoader && <ProfileNftsLoader />}
+        {userAssets.length > 0 && !userAssetLoader  && (
+          <div id="zero2" className="onStep fadeIn">
+            <ColumnMyNfts  />
+          </div>
+        )}
         {userAssets.length < 1 && !userAssetLoader && (
           <div style={{ textAlign: "center" }}>
             <NotFound text={"Sorry! There were no Nfts or Collection found."} />
@@ -214,11 +220,7 @@ const Profile = () => {
             <ProfileCreating />
           </div>
         )} */}
-        {openMenu && !userAssetLoader && userAssets.length > 0 && (
-          <div id="zero2" className="onStep fadeIn">
-            <ColumnMyNfts filter={filterText} />
-          </div>
-        )}
+     
         {/* {openMenu1 && (
           <div id="zero3" className="onStep fadeIn">
             <Activity wallet={wallet} />

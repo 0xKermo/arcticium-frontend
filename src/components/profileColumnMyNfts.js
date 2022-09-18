@@ -14,7 +14,7 @@ const Outer = styled.div`
   border-radius: 8px;
 `;
 
-const ColumnMyNfts = (props) => {
+const ColumnMyNfts = () => {
   const [height, setHeight] = useState(0);
   const { userAssets } = useSelector((state) => state.userAssets);
   const onImgLoad = ({ target: img }) => {

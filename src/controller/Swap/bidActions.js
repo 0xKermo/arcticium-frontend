@@ -30,8 +30,6 @@ export const BidActions = (_contract_address, tradeType) => {
   const bidCollectionOnchange = (e) => {
     console.log(e.value);
     GetUserAssetByContract({ variables: { walletAddress: walletAddress, contract_address: e.value } })
-
-    console.log(document.getElementById("bidNft"))
     dispatch(setBidCollectionAddress(e.value));
     // dispatch(setBidItemId(null));
 
@@ -62,9 +60,7 @@ export const BidActions = (_contract_address, tradeType) => {
         variables: bidData,
       });
     }
-    tx.then((ress) => {
-      window.location.reload()
-    })
+
    };  
 
 useEffect(() => {

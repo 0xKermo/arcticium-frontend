@@ -42,7 +42,6 @@ export const ConnectWallet = () => {
     if (!starknet?.isConnected) {
       await starknet?.enable({ showModal: false });
       const res =checkWalletIsWl(BigNumber.from(starknet.selectedAddress)._hex)
-
       dispatch(setUserIsWl(res))
       dispatch(setAccount(starknet));
 

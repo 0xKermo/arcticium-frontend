@@ -1,12 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import ExplorerColumnSwap from "../components/explorerColumnSwap";
 import { createGlobalStyle } from "styled-components";
 import TopFilterBar from "../components/topFilterBar";
-import { useQuery } from "@apollo/client";
+import { useLazyQuery, useQuery } from "@apollo/client";
 import { GetOpenTrades } from "../grqphql/query";
 import { useDispatch, useSelector } from "react-redux";
 import { setOpenTrades } from "../store/slicers/openTradesData";
 import { setTradesLoader } from "../store/slicers/loader";
+import SliderMainZero from "../components/SliderMainZero";
 
 const GlobalStyles = createGlobalStyle`
   header#myHeader.navbar.sticky.white {
@@ -34,39 +35,61 @@ const GlobalStyles = createGlobalStyle`
       color: #000 !important;
     }
   }
-`;
-
-const Nfts = () => {
-  const { loading, error, data } = useQuery(GetOpenTrades);
+  `;
+  
+  const Nfts = () => {
+  const [ offset, setOffset] = useState(0)
+  const [ limit, setLimit] = useState(12)
+  const { loading, error,data } = useQuery(GetOpenTrades,{
+    variables: {
+      offset: offset,
+      limit: limit,
+    }});
+  
+  const [test,{ limitLoading, limitData }] = useLazyQuery(GetOpenTrades);
   const { tradesLoader } = useSelector((state) => state.loader);
 
   const dispatch = useDispatch();
+  
+
+
   useEffect(() => {
     if (!loading) {
       dispatch(setOpenTrades(data.getOpenTrades));
       setTimeout(() => {
         dispatch(setTradesLoader(false));
-      }, 100);
+      }, 1000);
     }
   }, [loading]);
+
+  const loadMore = () => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop ===
+      document.scrollingElement.scrollHeight
+    ) {
+      setOffset(limit)
+      setLimit(limit+limit)
+      console.log("offset",offset);
+      console.log("limit",limit);
+      test({
+        variables: {
+          offset: offset,
+          limit: limit,
+        },
+      })
+    }
+  };
+  // useEffect(() => {
+  //   window.addEventListener("scroll", loadMore);
+
+  // }, []);
 
   return (
     <div>
       <GlobalStyles />
 
-      <section
-        className="jumbotron breadcumb no-bg"
-        style={{ backgroundImage: `url(${"./img/background/subheader.jpg"})` }}
-      >
-        <div className="mainbreadcumb">
-          <div className="container">
-            <div className="row m-10-hor">
-              <div className="col-12">
-                <h1 className="text-center">Nft's</h1>
-              </div>
-            </div>
-          </div>
-        </div>
+      <section className="jumbotron no-bg bg-gray">
+        <SliderMainZero text={"Nft's"} />
       </section>
 
       <section className="container">

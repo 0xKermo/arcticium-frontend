@@ -1,6 +1,7 @@
 import { useQuery } from "@apollo/client";
 import { createGlobalStyle } from "styled-components";
 import CollectionsColumnCollection from "../components/explorerColumnCollecetion";
+import SliderMainZero from "../components/SliderMainZero";
 import { getCollections } from "../grqphql/query";
 
 const GlobalStyles = createGlobalStyle`
@@ -37,19 +38,8 @@ const Collections = () => {
   return (
     <div>
       <GlobalStyles />
-      <section
-        className="jumbotron breadcumb no-bg"
-        style={{ backgroundImage: `url(${"./img/background/subheader.jpg"})` }}
-      >
-        <div className="mainbreadcumb">
-          <div className="container">
-            <div className="row m-10-hor">
-              <div className="col-12">
-                <h1 className="text-center">Top Collections</h1>
-              </div>
-            </div>
-          </div>
-        </div>
+      <section className="jumbotron no-bg bg-gray">
+         <SliderMainZero text={"Top Collections"}/>
       </section>
 
       <section className="container">

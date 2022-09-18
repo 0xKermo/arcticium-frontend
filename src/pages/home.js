@@ -8,6 +8,7 @@ import { createGlobalStyle } from "styled-components";
 
 import { useQuery } from "@apollo/client";
 import { GetOpenTrades } from "../grqphql/query";
+import SliderMainZeroHome from "../components/SliderMainZeroHome";
 
 const GlobalStyles = createGlobalStyle`
   header#myHeader.navbar.sticky.white {
@@ -43,13 +44,10 @@ const Home = () => {
   return (
     <div>
       <GlobalStyles />
-      <section
-        className="jumbotron no-bg"
-        style={{ backgroundImage: `url(${"./img/background/subheader.jpg"})` }}
-      >
-        <Particle />
-        <SliderMainParticle />
+      <section className="jumbotron no-bg bg-gray">
+         <SliderMainZeroHome/>
       </section>
+
 
       <section className="container">
         <div className="row">

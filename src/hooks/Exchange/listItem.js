@@ -45,12 +45,11 @@ export const ListItem = () => {
       const tx = account.provider.waitForTransaction(result.transaction_hash);
       const mintLoadingText = "Transaction pending...";
       const voyagerLink = `https://beta-goerli.voyager.online/tx/${result.transaction_hash}`;
-      const mintSuccessText = `Minted successfully Test arcEth token : <a src=${voyagerLink}>Click and see on Voyager</a>`;
+      const mintSuccessText = `Item successfully listed`;
 
       ToastPromise(tx, mintLoadingText, mintSuccessText);
       tx.then(async(res) => {
         console.log("test", res);
-        window.location.reload()
       });
       return result;
     } catch (error) {

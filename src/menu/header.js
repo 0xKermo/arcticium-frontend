@@ -27,7 +27,7 @@ const NavLink = (props) => (
 const Header = function ({ className }) {
   const { walletAddress } = useSelector((state) => state.wallet);
   const { userIsWl } = useSelector((state) => state.userIsWl);
-
+  const [network, setNetwork] = useState();
   const { connectWallet, disconnectWallet, silentConnectWallet } =
     ConnectWallet();
   const [openMenu, setOpenMenu] = React.useState(false);

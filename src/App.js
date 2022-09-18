@@ -12,6 +12,7 @@ import Faucet from "./pages/faucet";
 import Mint from "./pages/mint";
 import { useEffect, useState } from "react";
 import { checkWalletIsWl } from "./utils/merkleTree";
+import Admin from "./pages/admin";
 
 const App = () => {
   const { walletAddress } = useSelector((state) => state.wallet);
@@ -36,6 +37,7 @@ const App = () => {
         <Route path="/:wallet" element={<Profile />} />
         <Route path="/faucet" element={<Faucet />} />
         <Route path="/mint" element={<Mint />} />
+        <Route path="/admin" element={<Admin />} />
       </Routes>
     );
   } else {

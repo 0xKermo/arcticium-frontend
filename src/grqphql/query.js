@@ -217,8 +217,8 @@ export const GetTradeWithAddresId = gql`
 `;
 
 export const GetOpenTrades = gql`
-  {
-    getOpenTrades {
+ query getOpenTrades($offset: Int!, $limit: Int) {
+    getOpenTrades(offset: $offset,limit:$limit)  {
       tokenContract
       tokenId
       expiration
@@ -243,7 +243,8 @@ export const GetOpenTrades = gql`
       }
       createdAt
     }
-  }
+  
+}
 `;
 
 export const getUserActivity = gql`
@@ -255,7 +256,7 @@ export const getUserActivity = gql`
       from
       activityType
       assetImage {
-      image
+        image
       }
     }
   }

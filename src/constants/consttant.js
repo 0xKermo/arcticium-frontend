@@ -1,6 +1,10 @@
 const ipfs= "ipfs://";
 const ipfsGateway = "https://gateway.pinata.cloud/ipfs/";
-
+export const GOERLI_PROVIDER = {
+  baseUrl: 'https://alpha4.starknet.io',
+  feederGatewayUrl: 'feeder_gateway',
+  gatewayUrl: 'gateway',
+}
 export const urlCheck = (url) => {
   let resUrl = ""
   const isIpfs = url.startsWith(ipfs);

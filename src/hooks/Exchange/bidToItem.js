@@ -48,7 +48,7 @@ export const BidToItem = () => {
       const tx = account.provider.waitForTransaction(result.transaction_hash);
       const mintLoadingText = "Transaction pending...";
       const voyagerLink = `https://beta-goerli.voyager.online/tx/${result.transaction_hash}`;
-      const mintSuccessText = `<a src=${voyagerLink}>Bid successfully apply Click and see on Voyager</a>`;
+      const mintSuccessText = `Bid successfully apply`;
       ToastPromise(tx, mintLoadingText, mintSuccessText);
 
       return {

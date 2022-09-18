@@ -31,7 +31,7 @@ export const UserAsset = (walletAddress) => {
       setTimeout(() => {
         dispatch(setUserAssetLoader(false))
         
-      }, 1500);
+      }, 2000);
       if (data != undefined) {
         dispatch(setUserAssets(data.getUserAsset));
         dispatch(setProfileInfo(data.getUserProfile));
