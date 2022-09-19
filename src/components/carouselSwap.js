@@ -67,16 +67,16 @@ const CarouselNewRedux = (props) => {
                     </div>
                     <Outer>
                       <span>
-                        <img
-                          src={
-                            nft.targetAssetInfo.length > 0
-                              ? nft.targetAssetInfo[0].image
-                              : "/img/items/make-offer.png"
-                          }
-                          className="lazy nft__item_preview"
-                          onLoad={onImgLoad}
-                          alt=""
-                        />
+                          <img
+                            src={
+                              nft.targetAssetInfo.length > 0
+                                ? nft.targetAssetInfo[0].image
+                                : null
+                            }
+                            className="lazy nft__item_preview"
+                            onLoad={onImgLoad}
+                            alt=""
+                          />
                       </span>
                     </Outer>
                   </div>
@@ -94,9 +94,9 @@ const CarouselNewRedux = (props) => {
                           <span></span>
                         </div>
                         <div className="nft__item_action">
-                          {nft.targetAssetInfo.length <1 && 
-                          <span>Make Offer</span>
-                          }
+                          
+                          <span></span>
+                          
                         </div>
                       </div>
                     </div>

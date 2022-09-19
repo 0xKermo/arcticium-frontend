@@ -123,7 +123,7 @@ const Profile = () => {
       <section
         id="profile_banner"
         className="jumbotron breadcumb no-bg"
-        style={{ backgroundImage: `url(${"./img/background/subheader.jpg"})` }}
+        style={{ backgroundImage: `url(${"./img/background/gradientBackground.jpg"})` }}
       >
         <div className="mainbreadcumb_profile"></div>
       </section>
@@ -134,7 +134,7 @@ const Profile = () => {
             <div className="d_profile de-flex left">
               <div className="de-flex-col">
                 <div className="profile_avatar">
-                  <img src="./img/author_single/author_thumbnail.jpg" alt="" />
+                  <img src="./img/background/gradientBackground.jpg" alt="" />
                   <div className="profile_name">
                     <h4>
                       {profileInfo ? profileInfo.name : null}
