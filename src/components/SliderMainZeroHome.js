@@ -23,7 +23,7 @@ const SliderMainZeroHome= () => {
               <div className="spacer-single"></div>
               <div className="spacer-double"></div>
               <Reveal className='onStep' keyframes={fadeInUp} delay={300} duration={600}>
-              <h1 className="text-center">Create, sell or collect digital items.</h1>
+              <h1 className="text-center">Buy, sell or collect digital items.</h1>
               </Reveal>
               <Reveal className='onStep' keyframes={fadeInUp} delay={600} duration={600}>
               <p className="lead text-center">

@@ -213,6 +213,7 @@ const ItemDetail = function () {
           } else if (!checkItemOwner) {
             dispatch(setItemOwner(3));
           }
+          console.log("itemownwer",itemOwner)
         } catch (error) {
           console.log(error);
         }

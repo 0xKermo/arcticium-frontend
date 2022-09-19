@@ -83,27 +83,27 @@ const Header = function ({ className }) {
           <div className="logo px-0">
             <div className="navbar-title navbar-item">
               <NavLink to="/">
-                <span className="logo-font">arcswap</span>
-                {/* <img
-                  src="/img/ArcticiumLogo01.png"
+                {/* <span className="logo-font">arcswap</span> */}
+                <img
+                  src="/img/ArcticiumLogo06.png"
                   className="img-fluid d-block"
                   alt="#"
                 />
                 <img
-                  src="/img/ArcticiumLogo01png"
+                  src="/img/ArcticiumLogo06.png"
                   className="img-fluid d-3"
                   alt="#"
                 />
                 <img
-                  src="/img/ArcticiumLogo01.png"
+                  src="/img/ArcticiumLogo06.png"
                   className="img-fluid d-4"
                   alt="#"
                 />
                 <img
-                  src="/img/ArcticiumLogo01.png"
+                  src="/img/ArcticiumLogo06.png"
                   className="img-fluid d-none"
                   alt="#"
-                /> */}
+                />
               </NavLink>
             </div>
           </div>

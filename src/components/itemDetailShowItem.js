@@ -374,6 +374,7 @@ const ItemDetailShowItem = (props) => {
                                   );
                                 }
                               })()}
+                              
                             </div>
                           </div>
                         </div>

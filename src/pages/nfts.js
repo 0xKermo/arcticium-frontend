@@ -5,9 +5,10 @@ import TopFilterBar from "../components/topFilterBar";
 import { useLazyQuery, useQuery } from "@apollo/client";
 import { GetOpenTrades } from "../grqphql/query";
 import { useDispatch, useSelector } from "react-redux";
-import { setOpenTrades } from "../store/slicers/openTradesData";
+import { openTrades, setOpenTrades, setOpenTradesNonFilter } from "../store/slicers/openTradesData";
 import { setTradesLoader } from "../store/slicers/loader";
 import SliderMainZero from "../components/SliderMainZero";
+import ProfileNftsLoader from "../components/loader/profileNfts";
 
 const GlobalStyles = createGlobalStyle`
   header#myHeader.navbar.sticky.white {
@@ -36,53 +37,66 @@ const GlobalStyles = createGlobalStyle`
     }
   }
   `;
-  
-  const Nfts = () => {
-  const [ offset, setOffset] = useState(0)
-  const [ limit, setLimit] = useState(12)
-  const { loading, error,data } = useQuery(GetOpenTrades,{
-    variables: {
-      offset: offset,
-      limit: limit,
-    }});
-  
-  const [test,{ limitLoading, limitData }] = useLazyQuery(GetOpenTrades);
+
+const Nfts = () => {
+  const [offset, setOffset] = useState(0);
+  const [limit, setLimit] = useState(12);
+  const { _openTrades } = useSelector((state) => state.openTrades);
+
+  // const { loading, error,data } = useQuery(GetOpenTrades,{
+  //   variables: {
+  //     offset: offset,
+  //     limit: limit,
+  //   }});
+
+  const [test, { loading, data }] = useLazyQuery(GetOpenTrades);
   const { tradesLoader } = useSelector((state) => state.loader);
 
   const dispatch = useDispatch();
-  
-
 
   useEffect(() => {
-    if (!loading) {
-      dispatch(setOpenTrades(data.getOpenTrades));
+    if (data != undefined && data != null) {
+      if(_openTrades){
+        const newArray = [..._openTrades, ...data.getOpenTrades]
+        dispatch(setOpenTrades(newArray));
+        dispatch(setOpenTradesNonFilter(newArray))
+
+      }else{
+        dispatch(setOpenTrades(data.getOpenTrades));
+        dispatch(setOpenTradesNonFilter(data.getOpenTrades))
+      }
       setTimeout(() => {
         dispatch(setTradesLoader(false));
       }, 1000);
     }
-  }, [loading]);
+  }, [data]);
 
   const loadMore = () => {
     if (
       window.innerHeight + document.documentElement.scrollTop ===
       document.scrollingElement.scrollHeight
     ) {
-      setOffset(limit)
+      setOffset(offset+limit)
       setLimit(limit+limit)
-      console.log("offset",offset);
-      console.log("limit",limit);
+      console.log("offset", offset);
+      console.log("limit", limit);
       test({
         variables: {
-          offset: offset,
-          limit: limit,
+          offset: offset+limit,
+          limit: limit+limit,
         },
-      })
+      });
     }
   };
-  // useEffect(() => {
-  //   window.addEventListener("scroll", loadMore);
-
-  // }, []);
+  useEffect(() => {
+    window.addEventListener("scroll", loadMore);
+    test({
+      variables: {
+        offset: offset,
+        limit: limit,
+      },
+    });
+  }, []);
 
   return (
     <div>
@@ -95,9 +109,10 @@ const GlobalStyles = createGlobalStyle`
       <section className="container">
         <div className="row">
           <div className="col-lg-12">
-            {!tradesLoader && <TopFilterBar data={data.getOpenTrades} />}
+            {!tradesLoader && <TopFilterBar />}
           </div>
         </div>
+        {tradesLoader && <ProfileNftsLoader />}
         {!tradesLoader && <ExplorerColumnSwap />}
       </section>
     </div>

@@ -1,5 +1,5 @@
-import { useQuery } from "@apollo/client";
-import React, { useEffect } from "react";
+import { useLazyQuery, useQuery } from "@apollo/client";
+import React, { useEffect,useState } from "react";
 import styled from "styled-components";
 import Clock from "./clock";
 import { Link } from "react-router-dom";
@@ -7,10 +7,12 @@ import NftCard from "./nftCard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGavel } from "@fortawesome/free-solid-svg-icons";
 import { walletAddressSlice } from "../utils/walletAddressSlice";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { urlCheck } from "../constants/consttant";
 import NotFound from "./notFound";
 import EmptyPage from "./emptypage";
+import { GetOpenTrades } from "../grqphql/query";
+import { setOpenTrades } from "../store/slicers/openTradesData";
 
 const Outer = styled.div`
   display: flex;
@@ -21,13 +23,12 @@ const Outer = styled.div`
   border-radius: 8px;
 `;
 
-const ExplorerColumnSwap = () => {
+const ExplorerColumnSwap = (props) => {
   const { _openTrades } = useSelector((state) => state.openTrades);
+  const [_getOpenTrades,{ loading, data }] = useLazyQuery(GetOpenTrades);
 
-  useEffect(() => {
-    console.log("sd", _openTrades);
-  }, []);
 
+  
   return (
     <div className="row">
       {_openTrades != undefined && _openTrades.length > 0 &&
@@ -73,7 +74,7 @@ const ExplorerColumnSwap = () => {
                         <Outer>
                           <span>
                             <img
-                              src="img/items/make-offer.png"
+                              src=""
                               className="lazy nft__item_preview"
                               alt=""
                             />
@@ -122,7 +123,7 @@ const ExplorerColumnSwap = () => {
                             </span>
                           </span>
                           <div className="nft__item_price">
-                            <span>{nft.price ? "+ " + nft.price : null}</span>
+                            <span>{nft.price ? "+ " + nft.price +" ETH": null}</span>
 
                             {/* <span>{nft.bid}</span> */}
                           </div>

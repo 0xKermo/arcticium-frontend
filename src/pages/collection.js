@@ -14,7 +14,7 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import { faGlobe } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { setOpenTrades } from "../store/slicers/openTradesData";
+import { setOpenTrades, setOpenTradesNonFilter } from "../store/slicers/openTradesData";
 import { setTradesLoader } from "../store/slicers/loader";
 import ProfileNftsLoader from "../components/loader/profileNfts";
 import TopFilterBar from "../components/topFilterBar";
@@ -74,6 +74,7 @@ const Collection = function () {
   useEffect(() => {
     if (!loading) {
       dispatch(setOpenTrades(data.getTradeWithContractAddress));
+      dispatch(setOpenTradesNonFilter(data.getTradeWithContractAddress));
       setTimeout(() => {
         dispatch(setTradesLoader(false));
       }, 1000);
