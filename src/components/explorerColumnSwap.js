@@ -62,7 +62,7 @@ const ExplorerColumnSwap = (props) => {
                       <span>
                         {nft.targetTokenContract && nft.targetTokenId && (
                           <img
-                            src={nft.targetAssetInfo.length > 0 ?  nft.targetAssetInfo[0].image : null}
+                            src={nft.targetAssetInfo.length > 0 ?  nft.targetAssetInfo[0].image : "./img/emptyImage.png"}
                             className="lazy nft__item_preview"
                             alt=""
                           />
@@ -74,7 +74,7 @@ const ExplorerColumnSwap = (props) => {
                         <Outer>
                           <span>
                             <img
-                              src=""
+                              src="./img/emptyImage.png"
                               className="lazy nft__item_preview"
                               alt=""
                             />
@@ -91,19 +91,13 @@ const ExplorerColumnSwap = (props) => {
                           <h4>{nft.assetInfo.name}</h4>
                         </span>
                         <span>
-                          <h6 style={{fontSize:"smaller",fontWeight:"100"}}> {walletAddressSlice(
-                              nft.assetInfo.contract_address,
-                              5,
-                              3
-                            )}</h6>
+                          <h6 style={{fontSize:"smaller",fontWeight:"100",marginTop:"10%"}}> {
+                              nft.assetInfo.contract_address ? nft.assetInfo.contract_address .slice(0,10)+"...":<br></br>}</h6>
                         </span>
                         <div className="nft__item_price">
                           <span></span>
 
                           {/* <span>{nft.bid}</span> */}
-                        </div>
-                        <div className="nft__item_action">
-                          <span>Make offer</span>
                         </div>
                       </div>
                     </div>
@@ -113,12 +107,10 @@ const ExplorerColumnSwap = (props) => {
                           <span>
                             <h4>{nft.targetAssetInfo[0].name}</h4>
                             <span>
-                              <h6 style={{fontSize:"smaller",fontWeight:"100"}}>
-                                {walletAddressSlice(
-                                  nft.targetAssetInfo[0].contract_address,
-                                  5,
-                                  3
-                                )}
+                              <h6 style={{fontSize:"smaller",fontWeight:"100",marginTop:"10%"}}>
+                                {
+                                  nft.targetAssetInfo[0].contract_address ?nft.targetAssetInfo[0].contract_address.slice(0,10)+"...":<br></br>
+                                 }
                               </h6>
                             </span>
                           </span>
@@ -128,7 +120,29 @@ const ExplorerColumnSwap = (props) => {
                             {/* <span>{nft.bid}</span> */}
                           </div>
                           <div className="nft__item_action">
-                            <span>Make offer</span>
+                            <span>Buy now</span>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                     {nft.targetAssetInfo.length < 1 && (
+                      <div className="col-md-6">
+                        <div className="nft__item_info">
+                          <span>
+                          <br></br>
+                            <span>
+                              <h6 style={{fontSize:"smaller",fontWeight:"100",marginTop:"10%"}}>
+                              <br></br>
+                              </h6>
+                            </span>
+                          </span>
+                          <div className="nft__item_price">
+                           <br></br>
+
+                            {/* <span>{nft.bid}</span> */}
+                          </div>
+                          <div className="nft__item_action">
+                            <span>Make Offer</span>
                           </div>
                         </div>
                       </div>

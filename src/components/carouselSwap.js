@@ -71,7 +71,7 @@ const CarouselNewRedux = (props) => {
                             src={
                               nft.targetAssetInfo.length > 0
                                 ? nft.targetAssetInfo[0].image
-                                : null
+                                : "./img/emptyImage.png"
                             }
                             className="lazy nft__item_preview"
                             onLoad={onImgLoad}
@@ -87,15 +87,15 @@ const CarouselNewRedux = (props) => {
                         style={{ padding: "10px" }}
                       >
                         <span>
-                          <h4>{nft.assetInfo.name}</h4>
-                          <b style={{fontWeight:"10", fontSize:"smaller"}}>{walletAddressSlice(nft.assetInfo.contract_address ,5,5)}</b>
+                          <h4>{nft.assetInfo.name?nft.assetInfo.name:<br></br>}</h4>
+                          <b style={{fontWeight:"10", fontSize:"smaller"}}>{nft.assetInfo.contract_address.slice(0,12)+"..."}</b>
                         </span>
                         <div className="nft__item_price">
                           <span></span>
                         </div>
                         <div className="nft__item_action">
                           
-                          <span></span>
+                          <span><br></br></span>
                           
                         </div>
                       </div>
@@ -108,7 +108,7 @@ const CarouselNewRedux = (props) => {
                         >
                           <span onClick={() => window.open("/#", "_self")}>
                             <h4>{nft.targetAssetInfo[0].name}</h4>
-                             <b style={{fontWeight:"10", fontSize:"smaller"}}>{walletAddressSlice(nft.targetAssetInfo[0].contract_address,5,5)}</b>
+                             <b style={{fontWeight:"10", fontSize:"smaller"}}>{nft.targetAssetInfo[0].contract_address.slice(0,12)+"..."}</b>
                           </span>
                           <div className="nft__item_price">
                             { nft.price? (
@@ -116,6 +116,24 @@ const CarouselNewRedux = (props) => {
                           + {nft.price} ETH</>): <span></span>}</div>
                           <div className="nft__item_action">
                             <span>Buy now</span>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                       {nft.targetAssetInfo.length < 1 && (
+                      <div className="col-md-6">
+                        <div
+                          className="nft__item_info"
+                          style={{ padding: "10px" }}
+                        >
+                          <span onClick={() => window.open("/#", "_self")}>
+                            <br></br>
+                             <br></br>
+                          </span>
+                          <div className="nft__item_price">
+                              <br></br></div>
+                          <div className="nft__item_action">
+                            <span>Make Offer</span>
                           </div>
                         </div>
                       </div>
