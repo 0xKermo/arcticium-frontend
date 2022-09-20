@@ -46,7 +46,6 @@ const Faucet = () => {
     const provider = new Provider();
     const tx = provider.waitForTransaction(mintErc20Promise.transaction_hash);
     const mintLoadingText = "Transaction pending...";
-    const voyagerLink = `https://beta-goerli.voyager.online/tx/${mintErc20Promise.transaction_hash}`;
     const mintSuccessText = `Minted successfully Test arcEth,arcDAI and arcSTARK tokens`;
     ToastPromise(tx, mintLoadingText, mintSuccessText);
   };
