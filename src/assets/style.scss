@@ -1009,7 +1009,7 @@ a {
     }
     .menu {
       display: block;
-      padding: 15px 0 10px;
+      padding: 40px 0 10px;
     }
     &.navbar {
       position: relative;
@@ -5699,6 +5699,10 @@ blockquote {
     border-radius: 8px;
     -moz-border-radius: 8px;
     -webkit-border-radius: 8px;
+  }
+
+  .logo-font {
+    display: none;
   }
 
   table {
