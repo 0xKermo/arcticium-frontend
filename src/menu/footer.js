@@ -19,8 +19,9 @@ const Footer = () => (
                   <img alt="" className="f-logo d-1" src="/img/logo.png" />
                   <img alt="" className="f-logo d-3" src="/img/logo.png" />
                   <img alt="" className="f-logo d-4" src="/img/logo.png" />
+                  <span className="logo-footer">ARCTICIUM</span>
                   <span className="copy">
-                    &copy; Copyright 2022 Arctiicum. All rights reserved. 
+                    &copy; Copyright 2022 Arctiicum. All rights reserved.
                   </span>
                 </span>
               </div>
