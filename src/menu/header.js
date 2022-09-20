@@ -94,19 +94,22 @@ const Header = function ({ className }) {
               </NavLink>
             </div>
           </div>
-          {!userIsWl && walletAddress &&
-          <div
-          class="alert alert-danger"
-          role="alert"
-          style={{
-            width: "30%",
-            marginLeft: "20%",
-            marginTop: "1%",
-          }}
-          >
-            You are not eligible to participate testnet
-          </div>
-          }
+
+          <span className="logo-font w-0">ARCTICIUM</span>
+
+          {!userIsWl && walletAddress && (
+            <div
+              class="alert alert-danger"
+              role="alert"
+              style={{
+                width: "30%",
+                marginLeft: "20%",
+                marginTop: "1%",
+              }}
+            >
+              You are not eligible to participate testnet
+            </div>
+          )}
           {/* <div className="search">
             <input
               id="quick_search"
