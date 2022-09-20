@@ -6,13 +6,6 @@ import { hexToDecimalString } from "../../utils/number";
 export const useBalanceOf = () => {
     const {walletAddress, provider,account} = useSelector(state => state.wallet)
 
-    
-  useEffect(async () => {
-
-    getBalanceOf()
-
-  }, [provider]);
-
   const getBalanceOf = async () => {
     try {
       const address = hexToDecimalString(walletAddress)
