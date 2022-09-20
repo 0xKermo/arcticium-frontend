@@ -84,8 +84,9 @@ const Faucet = () => {
                 </div>
                 <div className="spacer-20"></div>
                 <p className="mt-0">
-                  This faucet can only be taken every 24 hours. Just for use in
-                  Arcswap testnet only
+                You will receive ArcETH, ArcDAI and ArcSTARK.
+                  <h6>This faucet can only be taken every 24 hours. Just
+                    for use in the Arcticium testnet.</h6>
                 </p>
               </div>
             </div>
