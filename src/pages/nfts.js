@@ -78,8 +78,6 @@ const Nfts = () => {
     ) {
       setOffset(offset+limit)
       setLimit(limit+limit)
-      console.log("offset", offset);
-      console.log("limit", limit);
       test({
         variables: {
           offset: offset+limit,

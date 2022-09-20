@@ -54,7 +54,6 @@ export default class Responsive extends Component {
     };
     this.onImgLoad = this.onImgLoad.bind(this);
     this.state.collections = this.props.collections;
-    console.log(this.state.collections);
   }
 
   loadMore = () => {
@@ -119,17 +118,7 @@ export default class Responsive extends Component {
             </div>
           </div>
         ))}
-        {this.state.collections.length !== this.dummyData.length && (
-          <div className="col-lg-12">
-            <div className="spacer-single"></div>
-            <span
-              onClick={() => this.loadMore()}
-              className="btn-main lead m-auto"
-            >
-              Load More
-            </span>
-          </div>
-        )}
+
       </div>
     );
   }

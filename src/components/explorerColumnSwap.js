@@ -1,18 +1,11 @@
 import { useLazyQuery, useQuery } from "@apollo/client";
-import React, { useEffect,useState } from "react";
 import styled from "styled-components";
-import Clock from "./clock";
 import { Link } from "react-router-dom";
-import NftCard from "./nftCard";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGavel } from "@fortawesome/free-solid-svg-icons";
-import { walletAddressSlice } from "../utils/walletAddressSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { urlCheck } from "../constants/consttant";
 import NotFound from "./notFound";
-import EmptyPage from "./emptypage";
 import { GetOpenTrades } from "../grqphql/query";
-import { setOpenTrades } from "../store/slicers/openTradesData";
+import { currencyNames } from "../constants/CurrencyAddresses";
+
 
 const Outer = styled.div`
   display: flex;
@@ -115,7 +108,7 @@ const ExplorerColumnSwap = (props) => {
                             </span>
                           </span>
                           <div className="nft__item_price">
-                            <span>{nft.price ? "+ " + nft.price +" ETH": null}</span>
+                            <span>{nft.price ? "+ " + nft.price +" "+currencyNames[Number(nft.currencyType)]: null}</span>
 
                             {/* <span>{nft.bid}</span> */}
                           </div>

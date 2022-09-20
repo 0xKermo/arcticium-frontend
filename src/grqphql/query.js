@@ -113,6 +113,8 @@ export const getCollection = gql`
       targetTokenId
       transactionHash
       tradeType
+      currencyType
+
       assetInfo {
         assetOwner
         token_id
@@ -227,6 +229,7 @@ export const GetOpenTrades = gql`
       targetTokenContract
       targetTokenId
       tradeType
+      currencyType
       assetInfo {
         assetOwner
         token_id

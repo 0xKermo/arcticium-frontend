@@ -39,7 +39,7 @@ const Footer = () => (
                   </span>
                   <span>
                     <a
-                      href="https://twitter.com/arcticiumm"
+                      // href="https://twitter.com/arcticiumm"
                       target="_blank"
                       rel="noopener noreferrer"
                     >

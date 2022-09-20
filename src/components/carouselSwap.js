@@ -5,6 +5,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { carouselNew } from "./constants";
 import { walletAddressSlice } from "../utils/walletAddressSlice";
+import { currencyNames } from "../constants/CurrencyAddresses";
 
 const Outer = styled.div`
   display: flex;
@@ -113,7 +114,7 @@ const CarouselNewRedux = (props) => {
                           <div className="nft__item_price">
                             { nft.price? (
                               <>
-                          + {nft.price} ETH</>): <span></span>}</div>
+                          + {nft.price} {currencyNames[Number(nft.currencyType)]}</>): <span></span>}</div>
                           <div className="nft__item_action">
                             <span>Buy now</span>
                           </div>
