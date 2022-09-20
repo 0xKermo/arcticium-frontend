@@ -1,9 +1,11 @@
+import { useLazyQuery } from "@apollo/client";
 import { BigNumber } from "ethers";
 import {
 
   connect,
 } from "get-starknet";
 import { useDispatch } from "react-redux";
+import { getBalance } from "../grqphql/query";
 import userIsWl, { setUserIsWl } from "../store/slicers/userIsWl";
 import {
   setWalletAddress,
@@ -13,6 +15,7 @@ import {
 import { checkWalletIsWl } from "../utils/merkleTree";
 export const ConnectWallet = () => {
   const dispatch = useDispatch();
+  const [_getBalance, {loading,data}] = useLazyQuery(getBalance)
   const connectWallet = async () => {
     const starknet = await connect({ showList: true });
     if (!starknet) {
@@ -40,6 +43,11 @@ export const ConnectWallet = () => {
     const starknet = await connect({ showList: false });
     if (!starknet?.isConnected) {
       await starknet?.enable({ showModal: false });
+      _getBalance({
+        variables:{
+          walletAddress:BigNumber.from(starknet.selectedAddress)._hex
+        }
+      })
       const res =checkWalletIsWl(BigNumber.from(starknet.selectedAddress)._hex)
       dispatch(setUserIsWl(res))
       dispatch(setAccount(starknet));

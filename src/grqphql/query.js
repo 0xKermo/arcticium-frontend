@@ -264,3 +264,13 @@ export const getUserActivity = gql`
     }
   }
 `;
+
+export const getBalance = gql`
+  query balance($walletAddress: String!) {
+    balance(walletAddress: $walletAddress) {
+      aETH
+      aDAI
+      aSTARK
+    }
+  }
+`;

@@ -6,11 +6,11 @@ import { hexToDecimalString } from "../../utils/number";
 export const useBalanceOf = () => {
     const {walletAddress, provider,account} = useSelector(state => state.wallet)
 
-  const getBalanceOf = async () => {
+  const getBalanceOf = async (_contract_address) => {
     try {
       const address = hexToDecimalString(walletAddress)
       const tx = await provider.callContract({
-        contractAddress: ERC20_ETH_ADDRESS,
+        contractAddress: _contract_address,
         entrypoint: 'balanceOf',
         calldata: [address],
       })
