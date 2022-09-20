@@ -14,10 +14,11 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import { faGlobe } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { setOpenTrades } from "../store/slicers/openTradesData";
+import { setOpenTrades, setOpenTradesNonFilter } from "../store/slicers/openTradesData";
 import { setTradesLoader } from "../store/slicers/loader";
 import ProfileNftsLoader from "../components/loader/profileNfts";
 import TopFilterBar from "../components/topFilterBar";
+import toast, { Toaster } from "react-hot-toast";
 
 
 const GlobalStyles = createGlobalStyle`
@@ -67,13 +68,21 @@ const Collection = function () {
     document.getElementById("Mainbtn").classList.add("active");
     document.getElementById("Mainbtn1").classList.remove("active");
   };
+  function copyToClipboard() {
+    navigator.clipboard.writeText(contract).then(() => {
+        // Alert the user that the action took place.
+        // Nobody likes hidden stuff being done under the hood!
+        toast.success('Copied')
 
+    });
+  }
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (!loading) {
       dispatch(setOpenTrades(data.getTradeWithContractAddress));
+      dispatch(setOpenTradesNonFilter(data.getTradeWithContractAddress));
       setTimeout(() => {
         dispatch(setTradesLoader(false));
       }, 1000);
@@ -96,7 +105,10 @@ const Collection = function () {
       >
         <div className="mainbreadcumb_profile"></div>
       </section>
-
+      <Toaster
+  position="top-center"
+  reverseOrder={false}
+/>
       <section className="container d_coll no-top no-bottom">
         <div className="row">
           <div className="col-md-8">
@@ -114,7 +126,7 @@ const Collection = function () {
                       <span id="wallet" className="profile_wallet">
                         {!loading ? data.collection.collectionAddress : null}
                       </span>
-                      <button id="btn_copy" title="Copy Text">
+                      <button id="btn_copy" title="Copy Text" onClick={copyToClipboard}>
                         copy
                       </button>
                     </h4>

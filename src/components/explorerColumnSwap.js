@@ -1,16 +1,11 @@
-import { useQuery } from "@apollo/client";
-import React, { useEffect } from "react";
+import { useLazyQuery, useQuery } from "@apollo/client";
 import styled from "styled-components";
-import Clock from "./clock";
 import { Link } from "react-router-dom";
-import NftCard from "./nftCard";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGavel } from "@fortawesome/free-solid-svg-icons";
-import { walletAddressSlice } from "../utils/walletAddressSlice";
-import { useSelector } from "react-redux";
-import { urlCheck } from "../constants/consttant";
+import { useDispatch, useSelector } from "react-redux";
 import NotFound from "./notFound";
-import EmptyPage from "./emptypage";
+import { GetOpenTrades } from "../grqphql/query";
+import { currencyNames } from "../constants/CurrencyAddresses";
+
 
 const Outer = styled.div`
   display: flex;
@@ -21,13 +16,12 @@ const Outer = styled.div`
   border-radius: 8px;
 `;
 
-const ExplorerColumnSwap = () => {
+const ExplorerColumnSwap = (props) => {
   const { _openTrades } = useSelector((state) => state.openTrades);
+  const [_getOpenTrades,{ loading, data }] = useLazyQuery(GetOpenTrades);
 
-  useEffect(() => {
-    console.log("sd", _openTrades);
-  }, []);
 
+  
   return (
     <div className="row">
       {_openTrades != undefined && _openTrades.length > 0 &&
@@ -61,7 +55,7 @@ const ExplorerColumnSwap = () => {
                       <span>
                         {nft.targetTokenContract && nft.targetTokenId && (
                           <img
-                            src={nft.targetAssetInfo.length > 0 ?  nft.targetAssetInfo[0].image : null}
+                            src={nft.targetAssetInfo.length > 0 ?  nft.targetAssetInfo[0].image : "./img/emptyImage.png"}
                             className="lazy nft__item_preview"
                             alt=""
                           />
@@ -73,7 +67,7 @@ const ExplorerColumnSwap = () => {
                         <Outer>
                           <span>
                             <img
-                              src="img/items/make-offer.png"
+                              src="./img/emptyImage.png"
                               className="lazy nft__item_preview"
                               alt=""
                             />
@@ -90,19 +84,13 @@ const ExplorerColumnSwap = () => {
                           <h4>{nft.assetInfo.name}</h4>
                         </span>
                         <span>
-                          <h6 style={{fontSize:"smaller",fontWeight:"100"}}> {walletAddressSlice(
-                              nft.assetInfo.contract_address,
-                              5,
-                              3
-                            )}</h6>
+                          <h6 style={{fontSize:"smaller",fontWeight:"100",marginTop:"10%"}}> {
+                              nft.assetInfo.contract_address ? nft.assetInfo.contract_address .slice(0,10)+"...":<br></br>}</h6>
                         </span>
                         <div className="nft__item_price">
                           <span></span>
 
                           {/* <span>{nft.bid}</span> */}
-                        </div>
-                        <div className="nft__item_action">
-                          <span>Make offer</span>
                         </div>
                       </div>
                     </div>
@@ -112,22 +100,42 @@ const ExplorerColumnSwap = () => {
                           <span>
                             <h4>{nft.targetAssetInfo[0].name}</h4>
                             <span>
-                              <h6 style={{fontSize:"smaller",fontWeight:"100"}}>
-                                {walletAddressSlice(
-                                  nft.targetAssetInfo[0].contract_address,
-                                  5,
-                                  3
-                                )}
+                              <h6 style={{fontSize:"smaller",fontWeight:"100",marginTop:"10%"}}>
+                                {
+                                  nft.targetAssetInfo[0].contract_address ?nft.targetAssetInfo[0].contract_address.slice(0,10)+"...":<br></br>
+                                 }
                               </h6>
                             </span>
                           </span>
                           <div className="nft__item_price">
-                            <span>{nft.price ? "+ " + nft.price : null}</span>
+                            <span>{nft.price ? "+ " + nft.price +" "+currencyNames[Number(nft.currencyType)]: null}</span>
 
                             {/* <span>{nft.bid}</span> */}
                           </div>
                           <div className="nft__item_action">
-                            <span>Make offer</span>
+                            <span>Buy now</span>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                     {nft.targetAssetInfo.length < 1 && (
+                      <div className="col-md-6">
+                        <div className="nft__item_info">
+                          <span>
+                          <br></br>
+                            <span>
+                              <h6 style={{fontSize:"smaller",fontWeight:"100",marginTop:"10%"}}>
+                              <br></br>
+                              </h6>
+                            </span>
+                          </span>
+                          <div className="nft__item_price">
+                           <br></br>
+
+                            {/* <span>{nft.bid}</span> */}
+                          </div>
+                          <div className="nft__item_action">
+                            <span>Make Offer</span>
                           </div>
                         </div>
                       </div>

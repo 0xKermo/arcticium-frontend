@@ -4,36 +4,40 @@ import { useDispatch, useSelector } from "react-redux";
 import { tradeType, status, itemsType } from "./constants/filters";
 import { setOpenTrades } from "../store/slicers/openTradesData";
 
-const TopFilterBar = (props) => {
+const TopFilterBar = () => {
   const dispatch = useDispatch();
-  const [openTradeData, setOpenTradeData] = useState(props.data);
+  const { _openTrades,_openTradesNonFilter } = useSelector((state) => state.openTrades);
 
-  const handeleTradeType = useCallback(
+  const handleTradeType = 
     (option) => {
       const { value } = option;
       if (value) {
-        const filteredData = openTradeData.filter(
-          (item) => item.tradeType == value
+        const filteredData = _openTrades.filter(
+          (item) => item.tradeType === value
         );
-        setOpenTradeData(filteredData);
         dispatch(setOpenTrades(filteredData));
       } else {
-        setOpenTradeData(props.data);
-        dispatch(setOpenTrades(props.data));
+
+        dispatch(setOpenTrades(_openTradesNonFilter));
       }
-    },
-    [dispatch]
-  );
+
+    }
+ 
 
   const filterNftTitles = useCallback(
     (event) => {
       const value = event.target.value;
-      const filteredData = openTradeData.filter((item) =>
-      item.assetInfo.name ?item.assetInfo.name.toLowerCase().includes(value):null
-      );
-      setOpenTradeData(filteredData);
+      if(value){
 
-      dispatch(setOpenTrades(filteredData));
+        const filteredData = _openTrades.filter((item) =>
+        item.assetInfo.name ?item.assetInfo.name.toLowerCase().includes(value):null
+        );
+        
+        dispatch(setOpenTrades(filteredData));
+      }else{
+        dispatch(setOpenTrades(_openTradesNonFilter));
+
+      }
     },
     [dispatch]
   );
@@ -95,7 +99,7 @@ const TopFilterBar = (props) => {
               menuContainerStyle={{ zIndex: 999 }}
               defaultValue={defaultValue}
               options={[defaultValue, ...tradeType]}
-              onChange={handeleTradeType}
+              onChange={handleTradeType}
             />
           </div>
         </div>

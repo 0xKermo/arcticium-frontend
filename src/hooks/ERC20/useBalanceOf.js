@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import React, { useEffect } from "react";
-import { ERC20_ADDRESS } from "../../constants/starknetAddress";
+import { ERC20_ETH_ADDRESS } from "../../constants/starknetAddress";
 import { hexToDecimalString } from "../../utils/number";
 
 export const useBalanceOf = () => {
@@ -17,7 +17,7 @@ export const useBalanceOf = () => {
     try {
       const address = hexToDecimalString(walletAddress)
       const tx = await provider.callContract({
-        contractAddress: ERC20_ADDRESS,
+        contractAddress: ERC20_ETH_ADDRESS,
         entrypoint: 'balanceOf',
         calldata: [address],
       })

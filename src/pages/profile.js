@@ -12,6 +12,7 @@ import ProfileNftsLoader from "../components/loader/profileNfts";
 import { ToastPromise } from "../components/toast";
 import { setUserAssets } from "../store/slicers/userAssets";
 import $ from "jquery";
+import toast, { Toaster } from "react-hot-toast";
 
 const GlobalStyles = createGlobalStyle`
   header#myHeader.navbar.sticky.white {
@@ -60,7 +61,6 @@ const Profile = () => {
   const openEditProfile = () => {
     setEditProfile(true);
   };
-  const [filterText, setFilterText] = useState(userAssets);
 
   const [updateProfile] = useMutation(updateUserProfile);
 
@@ -100,14 +100,20 @@ const Profile = () => {
   const filterNftTitles =
     (event) => {
       const value = event.target.value;
-      console.log(value)
       const filteredData = nonFilterUserAsset.filter((item) =>
         item.name ? item.name.toLowerCase().includes(value):null
       );
 
     dispatch(setUserAssets(filteredData));
   };
+  function copyToClipboard() {
+    navigator.clipboard.writeText(wallet).then(() => {
+        // Alert the user that the action took place.
+        // Nobody likes hidden stuff being done under the hood!
+        toast.success('Copied')
 
+    });
+  }
   useEffect(() => {
     if (wallet) getUserAssets(BigNumber.from(wallet)._hex.toLowerCase());
   }, [wallet]);
@@ -123,18 +129,21 @@ const Profile = () => {
       <section
         id="profile_banner"
         className="jumbotron breadcumb no-bg"
-        style={{ backgroundImage: `url(${"./img/background/subheader.jpg"})` }}
+        style={{ backgroundImage: `url(${"./img/background/gradientBackground.jpg"})` }}
       >
         <div className="mainbreadcumb_profile"></div>
       </section>
-
+      <Toaster
+  position="top-center"
+  reverseOrder={false}
+/>
       <section className="container d_coll no-top no-bottom">
         <div className="row">
           <div className="col-md-8">
             <div className="d_profile de-flex left">
               <div className="de-flex-col">
                 <div className="profile_avatar">
-                  <img src="./img/author_single/author_thumbnail.jpg" alt="" />
+                  <img src="./img/background/gradientBackground.jpg" alt="" />
                   <div className="profile_name">
                     <h4>
                       {profileInfo ? profileInfo.name : null}
@@ -142,7 +151,7 @@ const Profile = () => {
                       <span id="wallet" className="profile_wallet">
                         {wallet.slice(0, 6)}...{wallet.slice(-6)}
                       </span>
-                      <button id="btn_copy" title="Copy Text">
+                      <button id="btn_copy" title="Copy Text" onClick={copyToClipboard}>
                         copy
                       </button>
                     </h4>
@@ -245,15 +254,15 @@ const Profile = () => {
                 <div className="listcheckout">
                   <div className="items_filter centerEl">
                     <div className="field-set">
-                      <h5>Upload file</h5>
+                      {/* <h5>Upload file</h5>
                       <div className="d-create-file">
                         <p id="file_name">
                           PNG, JPG, GIF, WEBP or MP4. Max 200mb.
-                        </p>
+                        </p> */}
 
                         {/* <p>{fileName}</p> */}
 
-                        <div className="browse">
+                        {/* <div className="browse">
                           <input
                             type="button"
                             id="get_file"
@@ -267,7 +276,7 @@ const Profile = () => {
                             onChange={uploadImageOnChange}
                           />
                         </div>
-                      </div>
+                      </div> */}
 
                       <div className="spacer-single"></div>
                       <div className="row">
@@ -280,7 +289,7 @@ const Profile = () => {
                             defaultValue={profileInfo ? profileInfo.name : null}
                           />
 
-                          <h5>Instagram Link</h5>
+                          {/* <h5>Instagram Link</h5>
                           <input
                             type="text"
                             id="ınstagram"
@@ -293,17 +302,17 @@ const Profile = () => {
                             id="twitter"
                             className="form-control"
                             defaultValue={profileInfo ? profileInfo.name : null}
-                          />
+                          /> */}
                         </div>
                         <div className="col-6">
-                          <h5>Discord Link</h5>
+                          <h5>Discord username</h5>
                           <input
                             type="text"
                             id="discord"
                             className="form-control"
-                            defaultValue={profileInfo ? profileInfo.name : null}
+                            // defaultValue={profileInfo ? profileInfo.name : null}
                           />
-                          <h5>Telegram Link</h5>
+                          {/* <h5>Telegram Link</h5>
                           <input
                             type="text"
                             id="telegram"
@@ -316,10 +325,10 @@ const Profile = () => {
                             id="website"
                             className="form-control"
                             defaultValue={profileInfo ? profileInfo.name : null}
-                          />
+                          /> */}
                         </div>
                       </div>
-                      <h5>Biografi</h5>
+                      <h5>Bio</h5>
                       <textarea
                         type="text"
                         id="biografi"

@@ -71,7 +71,7 @@ const FeatureBox = () => (
             duration={600}
             triggerOnce
           >
-            <h4 className="">Add your NFT's</h4>
+            <h4 className="">List your NFT's</h4>
           </Reveal>
           <Reveal
             className="onStep"
@@ -80,7 +80,7 @@ const FeatureBox = () => (
             duration={600}
             triggerOnce
           >
-            <p className="">List your Nft's in profile.</p>
+            <p className="">List your Nft's to swap.</p>
           </Reveal>
         </div>
         <i className="wm icon_cloud-upload_alt"></i>

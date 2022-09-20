@@ -251,9 +251,9 @@ const ItemDetailShowItem = (props) => {
                         : props.data.getTradeWithAddresId.targetTokenId !== null
                         ? props.data.getTradeWithAddresId.targetAssetInfo[0]
                             .name +
-                          "from" +
-                          props.data.getTradeWithAddresId.targetTokenContract +
-                          "collection"
+                          " from " +
+                          walletAddressSlice(props.data.getTradeWithAddresId.targetTokenContract,5,5) +
+                          " collection"
                         : "any item from " +
                           walletAddressSlice(props.data.getTradeWithAddresId.targetTokenContract,5,5)}
                     </span>
@@ -279,7 +279,7 @@ const ItemDetailShowItem = (props) => {
                   <div className="p_list">
                     <div className="p_detail_header">
                       <span>
-                        <h4>Bids</h4>
+                        <h4>Offers</h4>
                       </span>
                     </div>
                   </div>
@@ -374,6 +374,7 @@ const ItemDetailShowItem = (props) => {
                                   );
                                 }
                               })()}
+                              
                             </div>
                           </div>
                         </div>

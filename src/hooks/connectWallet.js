@@ -22,18 +22,17 @@ export const ConnectWallet = () => {
     }
     if (starknet.isConnected) {
       // dispatch(setStarknetAccount(starknet));
+      dispatch(setWalletAddress(BigNumber.from(starknet.selectedAddress)._hex ));
+      const res =checkWalletIsWl(BigNumber.from(starknet.selectedAddress)._hex)
+      dispatch(setUserIsWl(res))
+      // dispatch(setProvider(starknet.provider));
+      dispatch(setAccount(starknet));
     } else {
       await starknet?.enable();
 
       console.log("Problem");
     }
 
-    dispatch(setWalletAddress(BigNumber.from(starknet.selectedAddress)._hex ));
-    const res =checkWalletIsWl(BigNumber.from(starknet.selectedAddress)._hex)
-    console.log(starknet)
-    dispatch(setUserIsWl(res))
-    // dispatch(setProvider(starknet.provider));
-    dispatch(setAccount(starknet));
     return starknet
   };
   

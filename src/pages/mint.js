@@ -99,7 +99,6 @@ const Mint = () => {
     const tx = provider.waitForTransaction(mintPromise.transaction_hash);
     const imageUrl = `https://arcswap.mypinata.cloud/ipfs/${image.data.IpfsHash}`;
     tx.then((res) => {
-      console.log("res", res);
       addAsset({
         variables: {
           assetOwner: walletAddress,

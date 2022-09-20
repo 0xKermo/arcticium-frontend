@@ -20,7 +20,7 @@ const Footer = () => (
                   <img alt="" className="f-logo d-3" src="/img/logo.png" />
                   <img alt="" className="f-logo d-4" src="/img/logo.png" />
                   <span className="copy">
-                    &copy; Copyright 2021 - Gigaland by Designesia
+                    &copy; Copyright 2022 Arctiicum. All rights reserved. 
                   </span>
                 </span>
               </div>
@@ -39,7 +39,7 @@ const Footer = () => (
                   </span>
                   <span>
                     <a
-                      href="https://twitter.com/arcticiumm"
+                      // href="https://twitter.com/arcticiumm"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
