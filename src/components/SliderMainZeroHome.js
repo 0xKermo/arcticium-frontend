@@ -63,7 +63,6 @@ const SliderMainZeroHome = () => {
               </span>
             </div>
             <div className="spacer-single"></div>
-            <div className="spacer-double"></div>
           </Reveal>
         </div>
       </div>
