@@ -88,18 +88,18 @@ const Header = function ({ className }) {
             <div className="navbar-title navbar-item">
               <NavLink to="/">
                 <img
-                  src="/img/logo.png"
+                  src="/img/arc125x75.png"
                   className="img-fluid d-block"
                   alt="#"
                 />
-                <img src="/img/logo.png" className="img-fluid d-3" alt="#" />
-                <img src="/img/logo.png" className="img-fluid d-4" alt="#" />
-                <img src="/img/logo.png" className="img-fluid d-none" alt="#" />
+                <img src="/img/arc125x75.png" className="img-fluid d-3" alt="#" />
+                <img src="/img/arc125x75.png" className="img-fluid d-4" alt="#" />
+                <img src="/img/arc125x75.png" className="img-fluid d-none" alt="#" />
               </NavLink>
             </div>
           </div>
 
-          <span className="logo-font w-0">ARCTICIUM</span>
+          {/* <span className="logo-font w-0">ARCTICIUM</span> */}
 
           {!userIsWl && walletAddress && (
             <div

@@ -3,8 +3,8 @@ import { createGlobalStyle } from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 
 import { Toaster } from "react-hot-toast";
-
-import { hash,number }  from "starknet"
+import { hash,number,Contract }  from "starknet"
+import { ARGENT_ACCOUNT } from "../utils/ACCOUNT_ABİ";
 const GlobalStyles = createGlobalStyle`
  header#myHeader.navbar.sticky.white {
     background: #403f83;
@@ -52,17 +52,18 @@ const GlobalStyles = createGlobalStyle`
   }
 `;
 
+
 const Swap = function () {
 
   const { walletAddress,account } = useSelector((state) => state.wallet);
 
   const signMessages = async() =>{
-    let longTitle = "This is a very, very, very, very, very, very long title.";
+    let longTitle = "Edit Profile";
     let hashedMsg = number.toHex(hash.starknetKeccak(longTitle));
     console.log(hashedMsg);
     let signableMessage = {
       domain: {
-        name: "Almanac",
+        name: "Arcticium",
         chainId:  "SN_GOERLI",
         version: "0.0.1",
       },
@@ -84,9 +85,9 @@ const Swap = function () {
       console.log("signature",signature);
       let hashedMessage = await account.account.hashMessage(signableMessage);
       console.log("hashhedmessage",hashedMessage );
-  
+      let argentAccount = new Contract(ARGENT_ACCOUNT,walletAddress,account.provicer )
       try {
-          let response = await account.account.is_valid_signature(hashedMessage, signature);
+          let response = await argentAccount.is_valid_signature(hashedMessage, signature);
           
       } catch (err) {
           console.log(err)
