@@ -1,6 +1,6 @@
 import "./App.css";
 import { useSelector } from "react-redux";
-import {  Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Home from "./pages/home";
 import Nfts from "./pages/nfts";
 import Collections from "./pages/collections";
@@ -21,7 +21,7 @@ const App = () => {
   useEffect(() => {
     if (walletAddress) {
       const res = checkWalletIsWl(walletAddress);
-      console.log("res",res)
+      console.log("res", res);
       setUserIsWl(res);
     }
   }, [walletAddress]);
@@ -32,23 +32,25 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/nfts" element={<Nfts />} />
         <Route path="/collections" element={<Collections />} />
-        <Route path="/collection/:contract" element={<Collection />} />
-        <Route path="/asset/:contract/:id" element={<ItemDetail />} />
+        <Route path="/collection">
+          <Route path=":contract" element={<Collection />} />
+        </Route>
+        <Route path="/asset">
+          <Route path=":contract/:id" element={<ItemDetail />} />
+        </Route>
         <Route path="/asset/:contract/:id/swap" element={<Swap />} />
         <Route path="/:wallet" element={<Profile />} />
         <Route path="/faucet" element={<Faucet />} />
         <Route path="/mint" element={<Mint />} />
         <Route path="/admin" element={<Admin />} />
-        <Route path="/test" element={<Swap />} />
-
       </Routes>
     );
   } else {
-    return(
-    <Routes>
-      <Route path="/" element={<Home />} />
-    </Routes>
-    )
+    return (
+      <Routes>
+        <Route path="/" element={<Home />} />
+      </Routes>
+    );
   }
 };
 
