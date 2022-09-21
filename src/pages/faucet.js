@@ -6,6 +6,7 @@ import { Toaster } from "react-hot-toast";
 import { ToastPromise } from "../components/toast";
 import { Provider } from "starknet";
 import EmptyPage from "../components/emptypage";
+import SliderMainZero from "../components/SliderMainZero";
 
 const GlobalStyles = createGlobalStyle`
   header#myHeader.navbar.sticky.white {
@@ -28,7 +29,7 @@ const GlobalStyles = createGlobalStyle`
   header#myHeader .logo .d-none{
     display: block !important;
   }
-  .mainside{
+   .mainside{
     .logout{
       display: flex;
       align-items: center;
@@ -38,18 +39,6 @@ const GlobalStyles = createGlobalStyle`
     .item-dropdown .dropdown a{
       color: #fff !important;
     }
-  }
-  .nft_preview_item {
-    width: 100%;
-    height:100%;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .nft_preview_item img{
-    width: 100%;
-    height:100%
   }
 `;
 
@@ -70,15 +59,13 @@ const Faucet = () => {
       <GlobalStyles />
 
       <section className="jumbotron no-bg bg-gray">
+        <SliderMainZero text={"Faucet"} />
+      </section>
+      <section className="jumbotron no-bg bg-gray">
         <div className="mainbreadcumb">
           <div className="container">
             <div className="row">
               <div className="col-md-8 offset-md-2 text-center">
-                <div className="spacer-20"></div>
-                <div className="spacer-20"></div>
-                <div className="spacer-20"></div>
-                <div className="spacer-20"></div>
-                <h2>Faucet</h2>
                 <div className="spacer-20"></div>
                 <div className="row" id="form_sb">
                   <p className="mt-0">Address</p>
@@ -104,8 +91,6 @@ const Faucet = () => {
                     in the Arcticium testnet.
                   </h6>
                 </p>
-                <div className="spacer-20"></div>
-                <div className="spacer-20"></div>
               </div>
             </div>
           </div>
