@@ -13,6 +13,7 @@ setDefaultBreakpoints([{ xs: 0 }, { l: 1199 }, { xl: 1200 }]);
 
 const NavLink = (props) => (
   <Link
+ 
     {...props}
     getProps={({ isCurrent }) => {
       // the object returned here is passed to the
@@ -129,7 +130,9 @@ const Header = function ({ className }) {
               {showmenu && (
                 <div className="menu">
                   <div className="navbar-item">
-                    <NavLink to="/" onClick={() => btn_icon(!showmenu)}>
+                    <NavLink to="/" onClick={() =>{
+                       window.location.reload()
+                        btn_icon(!showmenu)}}>
                       Home
                     </NavLink>
                   </div>
@@ -150,12 +153,13 @@ const Header = function ({ className }) {
                             >
                               Collections
                             </NavLink>
-                            <NavLink
-                              to="/nfts"
-                              onClick={() => btn_icon(!showmenu)}
+                            <a
+                              href="/nfts"
+                              onClick={() => {btn_icon(!showmenu)
+                                window.location.reload()}}
                             >
                               Nfts
-                            </NavLink>
+                            </a>
                           </div>
                         </div>
                       )}
@@ -203,12 +207,13 @@ const Header = function ({ className }) {
                             >
                               Collections
                             </NavLink>
-                            <NavLink
-                              to="/nfts"
-                              onClick={() => btn_icon(!showmenu)}
+                            <a
+                              href="/nfts"
+                              onClick={() => {btn_icon(!showmenu)
+                                window.location.reload()}}
                             >
                               Nfts
-                            </NavLink>
+                            </a>
                           </div>
                         </div>
                       )}
