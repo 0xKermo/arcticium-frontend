@@ -329,7 +329,7 @@ const Profile = () => {
                       <h5>Bio</h5>
                       <textarea
                         type="text"
-                        id="biografi"
+                        id="bio"
                         className="form-control"
                         defaultValue={profileInfo ? profileInfo.bio : null}
                       />

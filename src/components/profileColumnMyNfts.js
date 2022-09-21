@@ -48,7 +48,7 @@ const ColumnMyNfts = () => {
                 <img
                   style={{ width: "100%", height: "100%" }}
                   onLoad={onImgLoad}
-                  src={nft.image ? nft.image : "/img/emptyImage.jpg"}
+                  src={nft.image ? nft.image : "/img/emptyImage.png"}
                   className="lazy nft__item_preview"
                   alt=""
                 />

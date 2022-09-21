@@ -86,8 +86,9 @@ export const updateUserProfile = gql`
     $walletAddress: String
     $name: String
     $bio: String
+    $signature: String
   ) {
-    updateProfile(walletAddress: $walletAddress, name: $name, bio: $bio) {
+    updateProfile(walletAddress: $walletAddress, name: $name, bio: $bio, signature: $signature) {
       walletAddress
     }
   }
