@@ -3,8 +3,7 @@ import { createGlobalStyle } from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 
 import { Toaster } from "react-hot-toast";
-import { hash,number,Contract }  from "starknet"
-import { ARGENT_ACCOUNT } from "../utils/ACCOUNT_ABİ";
+import { hash,number }  from "starknet"
 const GlobalStyles = createGlobalStyle`
  header#myHeader.navbar.sticky.white {
     background: #403f83;
@@ -97,13 +96,10 @@ const Swap = function () {
       }
     };
       console.log(account)
-      let signature = await account.account.signMessage(signableMessage);
-      console.log("signature",signature);
       let hashedMessage = await account.account.hashMessage(signableMessage);
-      console.log("hashhedmessage",hashedMessage );
-      let argentAccount = new Contract(ARGENT_ACCOUNT,walletAddress,account.provider )
+      let signature = await account.account.signMessage(signableMessage);
       try {
-          let response = await account.account.verifyMessage(hashedMessage, signature);
+          let response = await account.account.verifyMessage(signableMessage, signature);
           console.log("response",response)
       } catch (err) {
           console.log("error",err)
