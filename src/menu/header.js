@@ -82,8 +82,6 @@ const Header = function ({ className }) {
   }, []);
   return (
     <header className={`navbar  ${className}`} id="myHeader">
-      <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"/>
-
       <div className="container">
         <div className="row w-100-nav">
           <div className="logo px-0 left">

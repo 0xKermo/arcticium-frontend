@@ -21,7 +21,7 @@ import store from "./store";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const client = new ApolloClient({
-  uri: "http://167.235.245.115:4000/graphql",
+  uri: "http://api.arcticium.com:4000/graphql",
   cache: new InMemoryCache(),
 });
 root.render(
