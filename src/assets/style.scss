@@ -1009,7 +1009,7 @@ a {
     }
     .menu {
       display: block;
-      padding: 40px 0 10px;
+      padding: 55px 0 10px;
     }
     &.navbar {
       position: relative;
@@ -1121,6 +1121,7 @@ a {
       .logo {
         img {
           width: 90%;
+          margin-top: -10px;
         }
       }
     }
@@ -1789,7 +1790,7 @@ footer {
     }
     .subfooter {
       // margin-top: 40px;
-      padding: 20px 0 20px 0;
+      // padding: 20px 0 20px 0;
       border-top: solid 1px #eeeeee;
       span {
         cursor: pointer;
@@ -1810,6 +1811,7 @@ footer {
           cursor: default;
           margin: 0;
           margin-left: 20px;
+          margin-top: 25px;
         }
       }
       .social-icons {
@@ -3002,13 +3004,20 @@ i.font60 {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+.nft__item_info h6 {
+  font-weight: 100;
+  font-size: smaller;
+  margin-top: 10px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
 .nft__item_price {
   font-size: 14px;
   font-weight: 600;
   display: block;
 }
 .nft__item_price span {
-  margin-left: 10px;
   color: $black;
   font-weight: 700;
 }
@@ -3463,7 +3472,7 @@ i.font60 {
     display: inline-block;
     width: 15%;
     position: relative;
-    margin-right: 10px;
+    margin-left: 10px;
     margin-bottom: 5px;
     z-index: 2;
     .css-1okebmr-indicatorSeparator {
@@ -3483,7 +3492,7 @@ i.font60 {
 #form_quick_search {
   display: inline-block;
   position: relative;
-  margin-right: 5px;
+  margin-right: 0px;
   input[type="text"] {
     padding: 10px 12px;
     width: 200px;
@@ -5658,8 +5667,9 @@ blockquote {
     width: 100%;
   }
   .items_filter .dropdownSelect {
-    margin-right: 0;
-    width: 96%;
+    margin-top: 10px;
+    width: 97%;
+    margin-left: 0px;
   }
   .item_info {
     margin-top: 30px;
@@ -5693,8 +5703,8 @@ blockquote {
     margin-top: -35px;
   }
   .nft_popular_item img {
-    width: 128px;
-    height: 128px;
+    width: 155px;
+    height: 155px;
     object-fit: cover;
     border-radius: 8px;
     -moz-border-radius: 8px;
@@ -5782,8 +5792,6 @@ blockquote {
   padding: 5px;
   max-width: 100%;
   height: auto;
-  margin-left: 1px;
-  margin-right: 1px;
 }
 
 .swap-icon-big {

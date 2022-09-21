@@ -54,7 +54,7 @@ const Profile = () => {
   const { userAssetLoader } = useSelector((state) => state.loader);
   const dispatch = useDispatch();
   const { walletAddress } = useSelector((state) => state.wallet);
- 
+
   const { getUserAssets } = UserAsset(
     BigNumber.from(wallet)._hex.toLowerCase()
   );
@@ -97,21 +97,19 @@ const Profile = () => {
       reader.readAsDataURL(file[0]);
     }
   };
-  const filterNftTitles =
-    (event) => {
-      const value = event.target.value;
-      const filteredData = nonFilterUserAsset.filter((item) =>
-        item.name ? item.name.toLowerCase().includes(value):null
-      );
+  const filterNftTitles = (event) => {
+    const value = event.target.value;
+    const filteredData = nonFilterUserAsset.filter((item) =>
+      item.name ? item.name.toLowerCase().includes(value) : null
+    );
 
     dispatch(setUserAssets(filteredData));
   };
   function copyToClipboard() {
     navigator.clipboard.writeText(wallet).then(() => {
-        // Alert the user that the action took place.
-        // Nobody likes hidden stuff being done under the hood!
-        toast.success('Copied')
-
+      // Alert the user that the action took place.
+      // Nobody likes hidden stuff being done under the hood!
+      toast.success("Copied");
     });
   }
   useEffect(() => {
@@ -129,14 +127,13 @@ const Profile = () => {
       <section
         id="profile_banner"
         className="jumbotron breadcumb no-bg"
-        style={{ backgroundImage: `url(${"./img/background/gradientBackground.jpg"})` }}
+        style={{
+          backgroundImage: `url(${"./img/background/gradientBackground.jpg"})`,
+        }}
       >
         <div className="mainbreadcumb_profile"></div>
       </section>
-      <Toaster
-  position="top-center"
-  reverseOrder={false}
-/>
+      <Toaster position="top-center" reverseOrder={false} />
       <section className="container d_coll no-top no-bottom">
         <div className="row">
           <div className="col-md-8">
@@ -151,7 +148,11 @@ const Profile = () => {
                       <span id="wallet" className="profile_wallet">
                         {wallet.slice(0, 6)}...{wallet.slice(-6)}
                       </span>
-                      <button id="btn_copy" title="Copy Text" onClick={copyToClipboard}>
+                      <button
+                        id="btn_copy"
+                        title="Copy Text"
+                        onClick={copyToClipboard}
+                      >
                         copy
                       </button>
                     </h4>
@@ -187,36 +188,33 @@ const Profile = () => {
                   {/* <li id="Mainbtn1">
                     <span>Activity</span>
                   </li> */}
-                  <li id="quick_search">
-                  
-                  </li>
-
+                  <li id="quick_search"></li>
                 </div>
                 <div
-                      className="row form-dark right"
-                      id="form_quick_search"
-                      name="form_quick_search"
-                    >
-                      <div className="col">
-                        <input
-                          className="form-control"
-                          id="name_1"
-                          name="name_1"
-                          placeholder="search item here..."
-                          type="text"
-                          onChange={filterNftTitles}
-                        />
-                      </div>
-                    </div>
+                  className="row form-dark right"
+                  id="form_quick_search"
+                  name="form_quick_search"
+                >
+                  <div className="col p-0">
+                    <input
+                      className="form-control"
+                      id="name_1"
+                      name="name_1"
+                      placeholder="search item here..."
+                      type="text"
+                      onChange={filterNftTitles}
+                    />
+                  </div>
+                </div>
               </ul>
             </div>
           </div>
         </div>
 
         {userAssetLoader && <ProfileNftsLoader />}
-        {userAssets.length > 0 && !userAssetLoader  && (
+        {userAssets.length > 0 && !userAssetLoader && (
           <div id="zero2" className="onStep fadeIn">
-            <ColumnMyNfts  />
+            <ColumnMyNfts />
           </div>
         )}
         {userAssets.length < 1 && !userAssetLoader && (
@@ -229,7 +227,7 @@ const Profile = () => {
             <ProfileCreating />
           </div>
         )} */}
-     
+
         {/* {openMenu1 && (
           <div id="zero3" className="onStep fadeIn">
             <Activity wallet={wallet} />
@@ -260,9 +258,9 @@ const Profile = () => {
                           PNG, JPG, GIF, WEBP or MP4. Max 200mb.
                         </p> */}
 
-                        {/* <p>{fileName}</p> */}
+                      {/* <p>{fileName}</p> */}
 
-                        {/* <div className="browse">
+                      {/* <div className="browse">
                           <input
                             type="button"
                             id="get_file"
