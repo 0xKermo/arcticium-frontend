@@ -6,9 +6,12 @@ import {
 } from "../../constants/starknetAddress";
 import { hexToDecimalString } from "../../utils/number";
 import { bnToUint256 } from "../../utils/uint256";
+import { useAddToken } from "./addTokens";
+
 
 export const MintErc20 = () => {
   const { walletAddress, account } = useSelector((state) => state.wallet);
+  const { addTokens } = useAddToken();
 
   const mintErc20 = async () => {
     try {
@@ -30,6 +33,8 @@ export const MintErc20 = () => {
           calldata: [address],
         }]
       );
+    addTokens()
+
       return result;
     } catch (error) {
       console.log(error);

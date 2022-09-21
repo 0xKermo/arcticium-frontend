@@ -43,19 +43,20 @@ const Nfts = () => {
   const [limit, setLimit] = useState(12);
   const { _openTrades } = useSelector((state) => state.openTrades);
 
-  // const { loading, error,data } = useQuery(GetOpenTrades,{
-  //   variables: {
-  //     offset: offset,
-  //     limit: limit,
-  //   }});
+  const { loading, error,data } = useQuery(GetOpenTrades,{
+    variables: {
+      offset: offset,
+      limit: limit,
+    }});
 
-  const [test, { loading, data }] = useLazyQuery(GetOpenTrades);
+  const [test, { loading2, data2 }] = useLazyQuery(GetOpenTrades);
   const { tradesLoader } = useSelector((state) => state.loader);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (data != undefined && data != null) {
+    console.log("loading")
+    if (!loading) {
       if(_openTrades){
         const newArray = [..._openTrades, ...data.getOpenTrades]
         dispatch(setOpenTrades(newArray));
@@ -69,7 +70,27 @@ const Nfts = () => {
         dispatch(setTradesLoader(false));
       }, 1000);
     }
-  }, [data]);
+  }, [loading]);
+
+
+  // useEffect(() => {
+  //   console.log("loading2")
+
+  //   if (!loading2) {
+  //     if(_openTrades){
+  //       const newArray = [..._openTrades, ...data.getOpenTrades]
+  //       dispatch(setOpenTrades(newArray));
+  //       dispatch(setOpenTradesNonFilter(newArray))
+
+  //     }else{
+  //       dispatch(setOpenTrades(data.getOpenTrades));
+  //       dispatch(setOpenTradesNonFilter(data.getOpenTrades))
+  //     }
+  //     setTimeout(() => {
+  //       dispatch(setTradesLoader(false));
+  //     }, 1000);
+  //   }
+  // }, [loading2]);
 
   const loadMore = () => {
     if (

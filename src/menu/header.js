@@ -27,7 +27,10 @@ const NavLink = (props) => (
 const Header = function ({ className }) {
   const { walletAddress } = useSelector((state) => state.wallet);
   const { userIsWl } = useSelector((state) => state.userIsWl);
-  const [network, setNetwork] = useState();
+  const { aETH, aDAI, aSTARK, balanceLoading } = useSelector(
+    (state) => state.erc20Balance
+  );
+
   const { connectWallet, disconnectWallet, silentConnectWallet } =
     ConnectWallet();
   const [openMenu, setOpenMenu] = React.useState(false);
@@ -71,6 +74,7 @@ const Header = function ({ className }) {
         closeMenu();
       }
     });
+
     silentConnectWallet();
     return () => {
       window.removeEventListener("scroll", scrollCallBack);
@@ -238,29 +242,33 @@ const Header = function ({ className }) {
                     ref={refpop}
                   >
                     <img
-                      src="../../img/author_single/author_thumbnail.jpg"
+                      src="../../img/gradient-small-modified.png"
                       alt=""
                     />
                     {showpop && (
                       <div className="popshow">
-                        <div className="d-name">
+                        {/* <div className="d-name">
                           <h3>Monica Lucas</h3>
-                        </div>
+                        </div> */}
                         <div className="d-line"></div>
-                        <div className="d-balance">
-                          <h4>Balance</h4>
-                          12.858 ETH
-                        </div>
+                        {balanceLoading && (
+                          <div className="d-balance">
+                            <h4>Balance</h4>
+                            {aETH} arcETH
+                            <br></br>
+                            {aDAI} arcDAI
+                            <br></br>
+                            {aSTARK} arcSTARK
+                          </div>
+                        )}
                         <div className="d-wallet">
-                          <h4>My Wallet</h4>
-                          <span id="wallet" className="d-wallet-address">
+                          <h4>Wallet</h4>
+                          <span id="wallet" className="d-wallet-address" >
                             {walletAddress.slice(0, 6)}
                             ...
                             {walletAddress.slice(-7)}
                           </span>
-                          <button id="btn_copy" title="Copy Text">
-                            Copy
-                          </button>
+                         
                         </div>
                         <div className="d-line"></div>
                         <ul className="de-submenu-profile">
@@ -270,7 +278,7 @@ const Header = function ({ className }) {
                                 window.open(`/${walletAddress}`, "_self")
                               }
                             >
-                              <i className="fa fa-user"></i>My Profile
+                              <i className="fa fa-user"></i>Profile
                             </span>
                           </li>
                           <li onClick={disconnectWallet}>

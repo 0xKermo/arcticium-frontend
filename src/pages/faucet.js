@@ -57,7 +57,6 @@ const Faucet = () => {
   const { walletAddress } = useSelector((state) => state.wallet);
 
   const { mintErc20 } = MintErc20();
-
   const requestFaucet = async () => {
     const mintErc20Promise = mintErc20();
     const provider = new Provider();

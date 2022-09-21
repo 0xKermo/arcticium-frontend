@@ -31,6 +31,7 @@
     "graphql": "^16.5.0",
     "jquery": "^3.6.0",
     "keccak256": "^1.0.6",
+    "mdbreact": "^5.2.0",
     "merkletreejs": "^0.2.32",
     "react": "^18.2.0",
     "react-awesome-reveal": "^3.8.1",
