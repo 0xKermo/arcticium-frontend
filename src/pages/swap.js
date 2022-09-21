@@ -62,24 +62,40 @@ const Swap = function () {
     let hashedMsg = number.toHex(hash.starknetKeccak(longTitle));
     console.log(hashedMsg);
     let signableMessage = {
-      domain: {
-        name: "Arcticium",
-        chainId:  "SN_GOERLI",
-        version: "0.0.1",
-      },
-      types: {
-        StarkNetDomain: [
-          { name: "name", type: "felt" },
-          { name: "chainId", type: "felt" },
-          { name: "version", type: "felt" },
+      "types": {
+        "StarkNetDomain": [
+          { "name": "name", "type": "felt" },
+          { "name": "version", "type": "felt" },
+          { "name": "chainId", "type": "felt" }
         ],
-        Message: [{ name: "msg", type: "felt" }],
+        "Person": [
+          { "name": "name", "type": "felt" },
+          { "name": "wallet", "type": "felt" }
+        ],
+        "Mail": [
+          { "name": "from", "type": "Person" },
+          { "name": "to", "type": "Person" },
+          { "name": "contents", "type": "felt" }
+        ]
       },
-        primaryType: "Message",
-        message: {
-          msg: hashedMsg
-        }
-      };
+      "primaryType": "Mail",
+      "domain": {
+        "name": "StarkNet Mail",
+        "version": "1",
+        "chainId": 1
+      },
+      "message": {
+        "from": {
+          "name": "Cow",
+          "wallet": "0xCD2a3d9F938E13CD947Ec05AbC7FE734Df8DD826"
+        },
+        "to": {
+          "name": "Bob",
+          "wallet": "0xbBbBBBBbbBBBbbbBbbBbbbbBBbBbbbbBbBbbBBbB"
+        },
+        "contents": "Hello, Bob!"
+      }
+    };
       console.log(account)
       let signature = await account.account.signMessage(signableMessage);
       console.log("signature",signature);
@@ -87,10 +103,10 @@ const Swap = function () {
       console.log("hashhedmessage",hashedMessage );
       let argentAccount = new Contract(ARGENT_ACCOUNT,walletAddress,account.provider )
       try {
-          let response = await argentAccount.is_valid_signature(hashedMessage, signature);
-          
+          let response = await account.account.verifyMessage(hashedMessage, signature);
+          console.log("response",response)
       } catch (err) {
-          console.log(err)
+          console.log("error",err)
       }
 
   }
