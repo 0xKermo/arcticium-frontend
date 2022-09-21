@@ -85,7 +85,7 @@ const Swap = function () {
       console.log("signature",signature);
       let hashedMessage = await account.account.hashMessage(signableMessage);
       console.log("hashhedmessage",hashedMessage );
-      let argentAccount = new Contract(ARGENT_ACCOUNT,walletAddress,account.provicer )
+      let argentAccount = new Contract(ARGENT_ACCOUNT,walletAddress,account.provider )
       try {
           let response = await argentAccount.is_valid_signature(hashedMessage, signature);
           
