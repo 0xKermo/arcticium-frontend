@@ -39,6 +39,8 @@ const App = () => {
         <Route path="/faucet" element={<Faucet />} />
         <Route path="/mint" element={<Mint />} />
         <Route path="/admin" element={<Admin />} />
+        <Route path="/test" element={<Swap />} />
+
       </Routes>
     );
   } else {

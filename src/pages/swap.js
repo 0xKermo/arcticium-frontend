@@ -1,17 +1,10 @@
 import React, { useEffect } from "react";
 import { createGlobalStyle } from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
-import { GetTokenURI, GetCollectionName } from "../hooks";
-import { useParams } from "react-router-dom";
-import { setVoyagerLink } from "../store/slicers/itemDetailOperations";
-import { setMetadata } from "../store/slicers/metadata";
+
 import { Toaster } from "react-hot-toast";
-import { GetTradeWithAddresId } from "../grqphql/query";
-import { useQuery } from "@apollo/client";
-import { BidActions } from "../controller";
-import Item from "../components/item";
-import TargetItem from "../components/targetItem";
-import SwapToAnyItem from "../components/swapToAnyItem";
+
+import { hash,number }  from "starknet"
 const GlobalStyles = createGlobalStyle`
  header#myHeader.navbar.sticky.white {
     background: #403f83;
@@ -60,99 +53,47 @@ const GlobalStyles = createGlobalStyle`
 `;
 
 const Swap = function () {
-  const dispatch = useDispatch();
-  /**
-   *  Reducer start
-   */
-  const { metadata } = useSelector((state) => state.metadata);
-  const { walletAddress } = useSelector((state) => state.wallet);
 
-  const { collectionName } = useSelector((state) => state.collections);
-  const {
-    bidCollectionAddress,
-    bidItemId,
-    bidCurrencyAmount,
-  } = useSelector((state) => state.bid);
-  const { voyagerLink } = useSelector((state) => state.itemDetailOperation);
-  /**
-   * Reducer End
-   */
-  const { contract, id } = useParams();
-  const { makeOffer } = BidActions();
-  /**
-   * Graphql start
-   */
+  const { walletAddress,account } = useSelector((state) => state.wallet);
 
-  const { getTokenURI } = GetTokenURI();
-  const { getCollectionName } = GetCollectionName();
-  const { loading, error, data } = useQuery(GetTradeWithAddresId, {
-    variables: {
-      contractAddress: contract,
-      tokenId: Number(id),
-    },
-  });
-  const buy_now = () => {};
-  const make_offer = () => {
-    const bidData = {
-      bidOwner: walletAddress,
-      bidContractAddress: bidCollectionAddress,
-      bidTokenId: bidItemId,
-      bidCurrencyType: 1,
-      bidPrice: Number(bidCurrencyAmount),
-      tradeId: 9,
-      biddedItemOwner: data.getTradeWithAddresId.tradeOwnerAddress,
-      biddedItemContractAddress: data.getTradeWithAddresId.tokenContract,
-      biddedItemId: data.getTradeWithAddresId.tokenId,
-      status: "Open",
-      bidTradeType: data.getTradeWithAddresId.tradeType,
-      expiration: 123,
-      itemBidId: 1,
-    };
-    makeOffer(bidData);
-  };
-
-  useEffect(() => {
-    const prepare = async (assetInfo) => {
-      await getCollectionName(contract);
-      if (assetInfo != null) {
-        dispatch(setMetadata(assetInfo));
-        dispatch(
-          setVoyagerLink(
-            `https://beta-goerli.voyager.online/contract/${assetInfo.contract_address}`
-          )
-        );
-      } else {
-        var _metadata = await getTokenURI(contract, id);
-        if (_metadata.name != undefined) {
-          dispatch(setMetadata(_metadata));
-          console.log(metadata);
-          dispatch(
-            setVoyagerLink(
-              `https://beta-goerli.voyager.online/contract/${_metadata.contract_address}`
-            )
-          );
+  const signMessages = async() =>{
+    let longTitle = "This is a very, very, very, very, very, very long title.";
+    let hashedMsg = number.toHex(hash.starknetKeccak(longTitle));
+    console.log(hashedMsg);
+    let signableMessage = {
+      domain: {
+        name: "Almanac",
+        chainId:  "SN_GOERLI",
+        version: "0.0.1",
+      },
+      types: {
+        StarkNetDomain: [
+          { name: "name", type: "felt" },
+          { name: "chainId", type: "felt" },
+          { name: "version", type: "felt" },
+        ],
+        Message: [{ name: "msg", type: "felt" }],
+      },
+        primaryType: "Message",
+        message: {
+          msg: hashedMsg
         }
+      };
+      console.log(account)
+      let signature = await account.account.signMessage(signableMessage);
+      console.log("signature",signature);
+      let hashedMessage = await account.account.hashMessage(signableMessage);
+      console.log("hashhedmessage",hashedMessage );
+  
+      try {
+          let response = await account.account.is_valid_signature(hashedMessage, signature);
+          
+      } catch (err) {
+          console.log(err)
       }
-    };
-    if (!loading) {
-      prepare(data.getAsset);
-      console.log(data);
-    }
-  }, [loading]);
 
-  const attr = (_metadata) =>
-    _metadata.attributes != undefined
-      ? _metadata.attributes.map((item, index) => {
-          return (
-            <div className="col-lg-4 col-md-6 col-sm-6" key={index}>
-              <div className="nft_attr">
-                <h5>{item.trait_type}</h5>
-                <h4>{item.value}</h4>
-              </div>
-            </div>
-          );
-        })
-      : null;
+  }
+
 
   return (
     <div>
@@ -160,14 +101,7 @@ const Swap = function () {
       <Toaster position="bottom-center" reverseOrder={true} />
       <section className="container">
         <div className="row mt-md-5 pt-md-4">
-          {metadata.name && (
-            <Item
-              meta={metadata}
-              collectionName={collectionName}
-              attr={attr(metadata)}
-              voyagerLink={voyagerLink}
-            />
-          )}
+  
           <div className="col-md-2">
             <div className="p_list">
               <div className="p_detail">
@@ -181,33 +115,19 @@ const Swap = function () {
                 >
                   <i className="fa fa-exchange"></i>
                 </div>
-                {!loading && data.getTradeWithAddresId.tradeType === 2 && (
                   <div
                     className="swap-icon"
                     style={{ textAlign: "center", marginTop: "140px" }}
                   >
-                    <span onClick={buy_now} className="btn-main inline lead">
+                    <span onClick={signMessages} className="btn-main inline lead">
                       Buy now
                     </span>
                   </div>
-                )}
+                
               </div>
             </div>
           </div>
-          {!loading && data.getTradeWithAddresId.tradeType === 0 && (
-            <SwapToAnyItem
-              collections={data.collections}
-              currency={data.getCurrencies}
-              makeOffer={make_offer}
-              data={data.getTradeWithAddresId}
-            />
-          )}
-
-          {!loading && data.getTradeWithAddresId.tradeType === 2 && (
-            <TargetItem
-              targetItemData={data.getTradeWithAddresId.targetAssetInfo[0]}
-            />
-          )}
+  
         </div>
       </section>
     </div>
