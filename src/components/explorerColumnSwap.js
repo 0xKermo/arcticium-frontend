@@ -39,7 +39,7 @@ const ExplorerColumnSwap = (props) => {
                         src={
                           nft.assetInfo.image
                             ? nft.assetInfo.image
-                            : "/img/noimage.jpg"
+                            : "../img/emptyImage.png"
                         }
                         className="lazy nft__item_preview"
                         alt=""
@@ -56,7 +56,7 @@ const ExplorerColumnSwap = (props) => {
                           src={
                             nft.targetAssetInfo.length > 0
                               ? nft.targetAssetInfo[0].image
-                              : "./img/emptyImage.png"
+                              : "../img/emptyImage.png"
                           }
                           className="lazy nft__item_preview"
                           alt=""
@@ -69,7 +69,7 @@ const ExplorerColumnSwap = (props) => {
                       <Outer>
                         <span>
                           <img
-                            src="./img/emptyImage.png"
+                            src="../img/emptyImage.png"
                             className="lazy nft__item_preview"
                             alt=""
                           />

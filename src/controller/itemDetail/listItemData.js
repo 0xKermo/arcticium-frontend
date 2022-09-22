@@ -16,7 +16,7 @@ export const ListItemData = () => {
     const isApproved = await getApprove(walletAddress, _contract);
     const contract_address = _contract;
     const token_id = bnToUint256(_token_id);
-    const expiration = 1665179996;
+    const expiration = 1672520399;
     let _price = currencyAmount
     let _choosenCurrency = choosenCurrency 
     if (!currencyAmount || !choosenCurrency) {
