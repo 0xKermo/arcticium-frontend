@@ -42,7 +42,7 @@ const App = () => {
         <Route path="/:wallet" element={<Profile />} />
         <Route path="/faucet" element={<Faucet />} />
         <Route path="/mint" element={<Mint />} />
-        <Route path="/admin" element={<Admin />} />
+        {/* <Route path="/admin" element={<Admin />} /> */}
       </Routes>
     );
   } else {
