@@ -36,10 +36,7 @@ const SliderMainZeroHome = () => {
             delay={600}
             duration={600}
           >
-            <p className="lead text-center">
-              Easiest place to buy and sell cryptocurrency. <br />
-              Sign up and get started today.
-            </p>
+          
           </Reveal>
           <div className="spacer-10"></div>
           <Reveal

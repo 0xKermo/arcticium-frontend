@@ -130,7 +130,6 @@ const Mint = () => {
                 <h5>Upload file</h5>
 
                 <div className="d-create-file">
-                  <p id="file_name">PNG, JPG, GIF, WEBP or MP4. Max 200mb.</p>
 
                   <p>{fileName}</p>
 
@@ -139,7 +138,7 @@ const Mint = () => {
                       type="button"
                       id="get_file"
                       className="btn-main"
-                      value="Browse"
+                      value="Upload"
                     />
                     <input
                       id="upload_file"
