@@ -67,7 +67,7 @@ const Mint = () => {
   const [addAsset] = useMutation(uploadToMetadata);
   const onChange = (e) => {
     var file = e.target.files;
-    document.getElementById("file_name").style.display = "none";
+    // document.getElementById("file_name").style.display = "none";
     setFiles(file);
     setFileName(file[0].name);
 
