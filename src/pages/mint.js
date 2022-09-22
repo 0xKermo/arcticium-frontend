@@ -94,7 +94,7 @@ const Mint = () => {
     const mintPromise = await mintErc721(metadata);
     const mintLoadingText = "Transaction pending...";
     const voyagerLink = `https://beta-goerli.voyager.online/tx/${mintPromise.tr}`;
-    const mintSuccessText = `NFT succesfully minted : <a src=${voyagerLink}>Click and see on Voyager</a>`;
+    const mintSuccessText = `NFT succesfully minted`;
     const provider = new Provider();
     const tx = provider.waitForTransaction(mintPromise.transaction_hash);
     const imageUrl = `https://arcswap.mypinata.cloud/ipfs/${image.data.IpfsHash}`;
