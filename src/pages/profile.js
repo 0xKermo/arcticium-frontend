@@ -13,6 +13,8 @@ import { ToastPromise } from "../components/toast";
 import { setUserAssets } from "../store/slicers/userAssets";
 import $ from "jquery";
 import toast, { Toaster } from "react-hot-toast";
+import { SignMessage } from "../hooks/signMessage";
+import { hash, number } from "starknet";
 
 const GlobalStyles = createGlobalStyle`
   header#myHeader.navbar.sticky.white {
@@ -63,23 +65,64 @@ const Profile = () => {
   };
 
   const [updateProfile] = useMutation(updateUserProfile);
-
+const { signMessages} = SignMessage()
   const submitProfile = () => {
     const name = document.getElementById("username").value;
     const bio = document.getElementById("bio").value;
+    let _message = {
+      name:name,
+      bio:bio,
+      owner:walletAddress
+    }
+    let hashedMsg = number.toHex(hash.starknetKeccak(_message));
 
-    const updatedProfile = updateProfile({
-      variables: {
-        walletAddress: BigNumber.from(wallet)._hex.toLowerCase(),
-        name: name,
-        bio: bio,
+    let signableMessage ={
+      "domain": {
+        "name": "Auth",
+        "version": "1.0.0"
       },
-    });
-    const mintLoadingText = "Profile updating...";
-    const successText = "Profile succesfully updated";
+      "message": {
+        "message": hashedMsg
+      },
+      "primaryType": "Message",
+      "types": {
+        "Message": [
+          {
+            "name": "message",
+            "type": "felt"
+          }
+        ],
+        "StarkNetDomain": [
+          {
+            "name": "name",
+            "type": "felt"
+          },
+          {
+            "name": "version",
+            "type": "felt"
+          }
+        ]
+      }
+    }
+    signMessages(signableMessage).then((res) => {
 
-    ToastPromise(updatedProfile, mintLoadingText, successText);
-    setEditProfile(false);
+      console.log(res)
+      const updatedProfile = updateProfile({
+        variables: {
+          walletAddress: BigNumber.from(wallet)._hex.toLowerCase(),
+          name: name,
+          bio: bio,
+          sig_r:res[0],
+          sig_v:res[1]
+        },
+      });
+      const mintLoadingText = "Profile updating...";
+      const successText = "Profile succesfully updated";
+  
+      ToastPromise(updatedProfile, mintLoadingText, successText);
+      setEditProfile(false);
+    }
+    )
   };
   const uploadImageOnChange = (e) => {
     var file = e.target.files;
