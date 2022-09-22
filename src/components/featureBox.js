@@ -71,7 +71,9 @@ const FeatureBox = () => (
             duration={600}
             triggerOnce
           >
-            <h4 className="">List your NFT's</h4>
+            <h4 className="">
+              List your NFT's<br></br>
+            </h4>
           </Reveal>
           <Reveal
             className="onStep"
@@ -80,7 +82,9 @@ const FeatureBox = () => (
             duration={600}
             triggerOnce
           >
-            <p className="">List your Nft's to swap.</p>
+            <p className="">
+              List your Nft's to swap.<br></br>
+            </p>
           </Reveal>
         </div>
         <i className="wm icon_cloud-upload_alt"></i>
@@ -115,7 +119,9 @@ const FeatureBox = () => (
             duration={600}
             triggerOnce
           >
-            <p className="">Make an offer a swap to a listed nft or list your nft for a swap</p>
+            <p className="">
+              Make an offer a swap to a listed nft or list your nft for a swap
+            </p>
           </Reveal>
         </div>
         <i className="wm arrow_left-right_alt"></i>
