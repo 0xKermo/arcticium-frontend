@@ -14,12 +14,14 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import { faGlobe } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { setOpenTrades, setOpenTradesNonFilter } from "../store/slicers/openTradesData";
+import {
+  setOpenTrades,
+  setOpenTradesNonFilter,
+} from "../store/slicers/openTradesData";
 import { setTradesLoader } from "../store/slicers/loader";
 import ProfileNftsLoader from "../components/loader/profileNfts";
 import TopFilterBar from "../components/topFilterBar";
 import toast, { Toaster } from "react-hot-toast";
-
 
 const GlobalStyles = createGlobalStyle`
   header#myHeader.navbar.sticky.white {
@@ -55,13 +57,13 @@ const Collection = function () {
   const { loading, error, data } = useQuery(getCollection, {
     variables: {
       collectionAddress: contract,
-      offset:0,
-      limit:12
+      offset: 0,
+      limit: 12,
     },
   });
   const [openMenu, setOpenMenu] = React.useState(true);
   const [openMenu1, setOpenMenu1] = React.useState(false);
-  
+
   const handleBtnClick = (): void => {
     setOpenMenu(!openMenu);
     setOpenMenu1(false);
@@ -70,10 +72,9 @@ const Collection = function () {
   };
   function copyToClipboard() {
     navigator.clipboard.writeText(contract).then(() => {
-        // Alert the user that the action took place.
-        // Nobody likes hidden stuff being done under the hood!
-        toast.success('Copied')
-
+      // Alert the user that the action took place.
+      // Nobody likes hidden stuff being done under the hood!
+      toast.success("Copied");
     });
   }
 
@@ -88,7 +89,6 @@ const Collection = function () {
       }, 1000);
     }
   }, [loading]);
-
 
   return (
     <div>
@@ -105,10 +105,7 @@ const Collection = function () {
       >
         <div className="mainbreadcumb_profile"></div>
       </section>
-      <Toaster
-  position="top-center"
-  reverseOrder={false}
-/>
+      <Toaster position="top-center" reverseOrder={false} />
       <section className="container d_coll no-top no-bottom">
         <div className="row">
           <div className="col-md-8">
@@ -126,7 +123,11 @@ const Collection = function () {
                       <span id="wallet" className="profile_wallet">
                         {!loading ? data.collection.collectionAddress : null}
                       </span>
-                      <button id="btn_copy" title="Copy Text" onClick={copyToClipboard}>
+                      <button
+                        id="btn_copy"
+                        title="Copy Text"
+                        onClick={copyToClipboard}
+                      >
                         copy
                       </button>
                     </h4>
@@ -180,17 +181,6 @@ const Collection = function () {
                       rel="noopener noreferrer"
                     >
                       <i className="fa fa-lg">
-                        <FontAwesomeIcon icon={faInstagramSquare} />
-                      </i>
-                    </a>
-                  </span>
-                  <span onClick={() => window.open("", "_self")}>
-                    <a
-                      href="https://medium.com/@arcticium"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <i className="fa fa-lg">
                         <FontAwesomeIcon icon={faGlobe} />
                       </i>
                     </a>
@@ -217,12 +207,12 @@ const Collection = function () {
             </div>
           </div>
         </div>
-        {tradesLoader &&
-        <ProfileNftsLoader />
-        }
-          <div className="col-lg-12">
-            {!tradesLoader && <TopFilterBar data={data.getTradeWithContractAddress} />}
-          </div>
+        {tradesLoader && <ProfileNftsLoader />}
+        <div className="col-lg-12">
+          {!tradesLoader && (
+            <TopFilterBar data={data.getTradeWithContractAddress} />
+          )}
+        </div>
         {openMenu && !tradesLoader && (
           <div id="zero1" className="onStep fadeIn">
             <ColumnSwap data={data.getTradeWithContractAddress} />

@@ -73,25 +73,6 @@ const Nfts = () => {
   }, [loading]);
 
 
-  // useEffect(() => {
-  //   console.log("loading2")
-
-  //   if (!loading2) {
-  //     if(_openTrades){
-  //       const newArray = [..._openTrades, ...data.getOpenTrades]
-  //       dispatch(setOpenTrades(newArray));
-  //       dispatch(setOpenTradesNonFilter(newArray))
-
-  //     }else{
-  //       dispatch(setOpenTrades(data.getOpenTrades));
-  //       dispatch(setOpenTradesNonFilter(data.getOpenTrades))
-  //     }
-  //     setTimeout(() => {
-  //       dispatch(setTradesLoader(false));
-  //     }, 1000);
-  //   }
-  // }, [loading2]);
-
   const loadMore = () => {
     if (
       window.innerHeight + document.documentElement.scrollTop ===

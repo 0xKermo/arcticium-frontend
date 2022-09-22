@@ -11,6 +11,7 @@ import { setADAI, setAETH, setASTARK, setBalanceLoading } from "../store/slicers
 export const ConnectWallet = () => {
   const dispatch = useDispatch();
   const [_getBalance, { loading, data }] = useLazyQuery(getBalance);
+
   const connectWallet = async () => {
     const starknet = await connect({ showList: true });
     if (!starknet) {
@@ -35,7 +36,7 @@ export const ConnectWallet = () => {
     } else {
       await starknet?.enable();
 
-      console.log("Problem");
+      console.log("xxx");
     }
 
     return starknet;
@@ -50,21 +51,25 @@ export const ConnectWallet = () => {
     }, [loading]);
 
   const silentConnectWallet = async () => {
-    const starknet = await connect({ showList: false });
-    if (!starknet?.isConnected) {
-      await starknet?.enable({ showModal: false });
-      _getBalance({
-        variables: {
-          walletAddress: BigNumber.from(starknet.selectedAddress)._hex,
-        },
-      });
-      const res = checkWalletIsWl(
-        BigNumber.from(starknet.selectedAddress)._hex
-      );
-      dispatch(setUserIsWl(res));
-      dispatch(setAccount(starknet));
-
-      dispatch(setWalletAddress(BigNumber.from(starknet.selectedAddress)._hex));
+    try {
+      const starknet = await connect({ showList: false });
+      if (!starknet?.isConnected) {
+        await starknet?.enable({ showModal: false });
+        _getBalance({
+          variables: {
+            walletAddress: BigNumber.from(starknet.selectedAddress)._hex,
+          },
+        });
+        const res = checkWalletIsWl(
+          BigNumber.from(starknet.selectedAddress)._hex
+        );
+        dispatch(setUserIsWl(res));
+        dispatch(setAccount(starknet));
+  
+        dispatch(setWalletAddress(BigNumber.from(starknet.selectedAddress)._hex));
+      }
+    } catch (error) {
+      console.log(error)
     }
   };
   const disconnectWallet = async () => {

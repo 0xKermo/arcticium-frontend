@@ -11,10 +11,12 @@ const TopFilterBar = () => {
   const handleTradeType = 
     (option) => {
       const { value } = option;
-      if (value) {
-        const filteredData = _openTrades.filter(
+
+      if (value != null) {
+        const filteredData = _openTradesNonFilter.filter(
           (item) => item.tradeType === value
         );
+
         dispatch(setOpenTrades(filteredData));
       } else {
 
