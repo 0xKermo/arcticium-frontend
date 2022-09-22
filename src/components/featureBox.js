@@ -115,7 +115,7 @@ const FeatureBox = () => (
             duration={600}
             triggerOnce
           >
-            <p className="">Make offer or open to trade for swap Nft.</p>
+            <p className="">Make an offer a swap to a listed nft or list your nft for a swap</p>
           </Reveal>
         </div>
         <i className="wm arrow_left-right_alt"></i>
