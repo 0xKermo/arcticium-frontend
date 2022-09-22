@@ -137,7 +137,7 @@ const Collection = function () {
               </div>
             </div>
           </div>
-          <div className="col-md-4">
+          {/* <div className="col-md-4">
             <div className="d_profile de-flex right">
               <div className="de-flex-col">
                 <div className="collection-social-icons">
@@ -170,17 +170,6 @@ const Collection = function () {
                       rel="noopener noreferrer"
                     >
                       <i className="fa fa-lg">
-                        <FontAwesomeIcon icon={faTelegram} />
-                      </i>
-                    </a>
-                  </span>
-                  <span onClick={() => window.open("", "_self")}>
-                    <a
-                      href="https://medium.com/@arcticium"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <i className="fa fa-lg">
                         <FontAwesomeIcon icon={faGlobe} />
                       </i>
                     </a>
@@ -188,7 +177,7 @@ const Collection = function () {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </section>
 

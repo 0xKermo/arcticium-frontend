@@ -14,6 +14,7 @@ import loaderReducer from './slicers/loader'
 import  openTradesReducer  from './slicers/openTradesData'
 import userIsWlReducer from './slicers/userIsWl'
 import erc20BalanceReducer from './slicers/erc20Balance'
+import scrollReducer from './slicers/scroll'
 
 export default configureStore({
   reducer: {
@@ -31,7 +32,8 @@ export default configureStore({
     loader:loaderReducer,
     openTrades: openTradesReducer,
     userIsWl:userIsWlReducer,
-    erc20Balance:erc20BalanceReducer
+    erc20Balance:erc20BalanceReducer,
+    scroll:scrollReducer
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

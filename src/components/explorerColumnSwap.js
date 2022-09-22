@@ -143,14 +143,13 @@ const ExplorerColumnSwap = (props) => {
                         <span>
                           <br></br>
                           <span>
-                            <h6>
+                            
                               <br></br>
-                            </h6>
+                            
                           </span>
                         </span>
                         <div className="nft__item_price">
                           <br></br>
-
                           {/* <span>{nft.bid}</span> */}
                         </div>
                         <div className="nft__item_action">

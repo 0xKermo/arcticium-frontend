@@ -53,6 +53,7 @@ const Profile = () => {
   const { userAssets, profileInfo, nonFilterUserAsset } = useSelector(
     (state) => state.userAssets
   );
+
   const { userAssetLoader } = useSelector((state) => state.loader);
   const dispatch = useDispatch();
   const { walletAddress } = useSelector((state) => state.wallet);
@@ -63,66 +64,63 @@ const Profile = () => {
   const openEditProfile = () => {
     setEditProfile(true);
   };
-
   const [updateProfile] = useMutation(updateUserProfile);
-const { signMessages} = SignMessage()
+  const { signMessages } = SignMessage();
   const submitProfile = () => {
     const name = document.getElementById("username").value;
     const bio = document.getElementById("bio").value;
     let _message = {
-      name:name,
-      bio:bio,
-      owner:walletAddress
-    }
+      name: name,
+      bio: bio,
+      owner: walletAddress,
+    };
     let hashedMsg = number.toHex(hash.starknetKeccak(_message));
 
-    let signableMessage ={
-      "domain": {
-        "name": "Auth",
-        "version": "1.0.0"
+    let signableMessage = {
+      domain: {
+        name: "Auth",
+        version: "1.0.0",
       },
-      "message": {
-        "message": hashedMsg
+      message: {
+        message: hashedMsg,
       },
-      "primaryType": "Message",
-      "types": {
-        "Message": [
+      primaryType: "Message",
+      types: {
+        Message: [
           {
-            "name": "message",
-            "type": "felt"
-          }
+            name: "message",
+            type: "felt",
+          },
         ],
-        "StarkNetDomain": [
+        StarkNetDomain: [
           {
-            "name": "name",
-            "type": "felt"
+            name: "name",
+            type: "felt",
           },
           {
-            "name": "version",
-            "type": "felt"
-          }
-        ]
-      }
-    }
+            name: "version",
+            type: "felt",
+          },
+        ],
+      },
+    };
     signMessages(signableMessage).then((res) => {
-
-      console.log(res)
+      console.log(res);
       const updatedProfile = updateProfile({
         variables: {
           walletAddress: BigNumber.from(wallet)._hex.toLowerCase(),
           name: name,
           bio: bio,
-          sig_r:res[0],
-          sig_v:res[1]
+          sig_r: res[0],
+          sig_v: res[1],
         },
       });
       const mintLoadingText = "Profile updating...";
       const successText = "Profile succesfully updated";
-  
+
       ToastPromise(updatedProfile, mintLoadingText, successText);
       setEditProfile(false);
-    }
-    )
+    });
   };
   const uploadImageOnChange = (e) => {
     var file = e.target.files;
@@ -155,6 +153,20 @@ const { signMessages} = SignMessage()
       toast.success("Copied");
     });
   }
+//   const loadMore = () => {
+//     if (
+//       window.innerHeight + document.documentElement.scrollTop ===
+//       document.scrollingElement.scrollHeight
+//     ) {
+
+//       getUserAssets(BigNumber.from(wallet)._hex.toLowerCase());
+    
+//   };  
+// }
+  // useEffect(() => {
+  //   window.addEventListener("scroll", loadMore);
+ 
+  // }, []);
   useEffect(() => {
     if (wallet) getUserAssets(BigNumber.from(wallet)._hex.toLowerCase());
   }, [wallet]);

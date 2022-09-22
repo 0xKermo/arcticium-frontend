@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 export const getUserProfile = gql`
-  query getUserProfile($walletAddress: String!) {
+  query getUserProfile($walletAddress: String!, $offset: Int, $limit: Int) {
     getUserProfile(walletAddress: $walletAddress) {
       walletAddress
       name
@@ -12,7 +12,7 @@ export const getUserProfile = gql`
       nextPage
       lastIndex
     }
-    getUserAsset(assetOwner: $walletAddress) {
+    getUserAsset(assetOwner: $walletAddress, offset: $offset, limit: $limit) {
       assetOwner
       token_id
       name
