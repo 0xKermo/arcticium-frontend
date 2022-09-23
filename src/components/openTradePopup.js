@@ -48,13 +48,15 @@ const customStyles = {
 const OpenTradePopup = (props) => {
   const [isActive, setIsActive] = useState(false);
   const [targetNftUrl, setTargetNftUrl] = useState("");
+  const [isError, setIsError] = useState(false);
+  const [errorText, setErrorText] = useState("");
   const [targetTokenId,setTargetTokenId]  =useState(0)
   const [targetNftLoader, setTargetNftLoader] = useState(0);
   const [_getAsset, {loading,data}] = useLazyQuery(getAsset)
   const { getTokenURI } = GetTokenURI();
   const { listItemData} = ListItemData()
   const dispatch = useDispatch();
-  const { listType, targetNftLink, targetCollectionAddress } = useSelector(
+  const { listType, targetNftLink, targetCollectionAddress,targetNftId } = useSelector(
     (state) => state.itemDetailOperation
   );
   const { currencyInfo } = useSelector((state) => state.currency);
@@ -63,8 +65,28 @@ const OpenTradePopup = (props) => {
   const { anyBtn, collectionBtn, nftBtn } = ItemDetailAction();
 
   const listItemBtn = async () => {
-  
-    listItemData(props.contract, props.id);
+    if(listType === 2){
+      if(targetCollectionAddress && targetNftId){
+        listItemData(props.contract, props.id);
+
+      }else{
+        setErrorText("Please select collection address and nft id")
+        setIsError(true)
+      }
+    }else if(listType === 1){
+      if(targetCollectionAddress){
+        listItemData(props.contract, props.id);
+
+      }else{
+        setErrorText("Please select collection address")
+        setIsError(true)
+
+      }
+    }else{
+      listItemData(props.contract, props.id);
+
+    }
+    return false
   };
   
   const {
@@ -272,10 +294,6 @@ const OpenTradePopup = (props) => {
         {listType === 0 && (
           <div>
             <div className="heading">
-              <p>Service fee 0%</p>
-              <div className="subtotal">0.00 ETH</div>
-            </div>
-            <div className="heading">
               <p>
                 Anyone can offer <span className="bold">any nft</span>
               </p>
@@ -330,6 +348,15 @@ const OpenTradePopup = (props) => {
         <button onClick={listItemBtn} className="btn-main lead mb-5">
           List item
         </button>
+        {isError &&
+        <div
+              class="alert alert-danger"
+              role="alert"
+            >
+              {errorText}
+            </div>
+        
+        }
       </div>
     </div>
   );
