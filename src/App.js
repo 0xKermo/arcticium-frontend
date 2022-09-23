@@ -21,7 +21,6 @@ const App = () => {
   useEffect(() => {
     if (walletAddress) {
       const res = checkWalletIsWl(walletAddress);
-      console.log("res", res);
       setUserIsWl(res);
     }
   }, [walletAddress]);

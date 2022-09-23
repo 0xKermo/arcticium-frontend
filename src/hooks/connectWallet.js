@@ -35,8 +35,6 @@ export const ConnectWallet = () => {
       dispatch(setAccount(starknet));
     } else {
       await starknet?.enable();
-
-      console.log("xxx");
     }
 
     return starknet;
