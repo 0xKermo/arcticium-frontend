@@ -13,7 +13,6 @@ setDefaultBreakpoints([{ xs: 0 }, { l: 1199 }, { xl: 1200 }]);
 
 const NavLink = (props) => (
   <Link
- 
     {...props}
     getProps={({ isCurrent }) => {
       // the object returned here is passed to the
@@ -93,9 +92,21 @@ const Header = function ({ className }) {
                   className="img-fluid d-block"
                   alt="#"
                 />
-                <img src="/img/arc125x75.png" className="img-fluid d-3" alt="#" />
-                <img src="/img/arc125x75.png" className="img-fluid d-4" alt="#" />
-                <img src="/img/arc125x75.png" className="img-fluid d-none" alt="#" />
+                <img
+                  src="/img/arc125x75.png"
+                  className="img-fluid d-3"
+                  alt="#"
+                />
+                <img
+                  src="/img/arc125x75.png"
+                  className="img-fluid d-4"
+                  alt="#"
+                />
+                <img
+                  src="/img/arc125x75.png"
+                  className="img-fluid d-none"
+                  alt="#"
+                />
               </NavLink>
             </div>
           </div>
@@ -130,9 +141,13 @@ const Header = function ({ className }) {
               {showmenu && (
                 <div className="menu">
                   <div className="navbar-item">
-                    <NavLink to="/" onClick={() =>{
-                       window.location.reload()
-                        btn_icon(!showmenu)}}>
+                    <NavLink
+                      to="/"
+                      onClick={() => {
+                        window.location.reload();
+                        btn_icon(!showmenu);
+                      }}
+                    >
                       Home
                     </NavLink>
                   </div>
@@ -155,10 +170,12 @@ const Header = function ({ className }) {
                             </NavLink>
                             <a
                               href="/nfts"
-                              onClick={() => {btn_icon(!showmenu)
-                                window.location.reload()}}
+                              onClick={() => {
+                                btn_icon(!showmenu);
+                                window.location.reload();
+                              }}
                             >
-                              Nfts
+                              Nft's
                             </a>
                           </div>
                         </div>
@@ -209,8 +226,10 @@ const Header = function ({ className }) {
                             </NavLink>
                             <a
                               href="/nfts"
-                              onClick={() => {btn_icon(!showmenu)
-                                window.location.reload()}}
+                              onClick={() => {
+                                btn_icon(!showmenu);
+                                window.location.reload();
+                              }}
                             >
                               Nfts
                             </a>
@@ -246,10 +265,7 @@ const Header = function ({ className }) {
                     onClick={() => btn_icon_pop(!showpop)}
                     ref={refpop}
                   >
-                    <img
-                      src="../../img/gradient-small-modified.png"
-                      alt=""
-                    />
+                    <img src="../../img/gradient-small-modified.png" alt="" />
                     {showpop && (
                       <div className="popshow">
                         {/* <div className="d-name">
@@ -268,12 +284,11 @@ const Header = function ({ className }) {
                         )}
                         <div className="d-wallet">
                           <h4>Wallet</h4>
-                          <span id="wallet" className="d-wallet-address" >
+                          <span id="wallet" className="d-wallet-address">
                             {walletAddress.slice(0, 6)}
                             ...
                             {walletAddress.slice(-7)}
                           </span>
-                         
                         </div>
                         <div className="d-line"></div>
                         <ul className="de-submenu-profile">
