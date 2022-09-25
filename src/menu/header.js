@@ -231,7 +231,7 @@ const Header = function ({ className }) {
                                 window.location.reload();
                               }}
                             >
-                              Nfts
+                              Nft's
                             </a>
                           </div>
                         </div>
