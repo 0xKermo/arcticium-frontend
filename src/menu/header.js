@@ -123,7 +123,7 @@ const Header = function ({ className }) {
                 marginTop: "1%",
               }}
             >
-              You are not eligible to participate testnet
+              You are not eligible to participate testnet.
             </div>
           )}
           {/* <div className="search">
