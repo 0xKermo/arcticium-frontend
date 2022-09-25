@@ -166,7 +166,7 @@ const Header = function ({ className }) {
                               to="/collections"
                               onClick={() => btn_icon(!showmenu)}
                             >
-                              Collections
+                              Collection's
                             </NavLink>
                             <a
                               href="/nfts"
