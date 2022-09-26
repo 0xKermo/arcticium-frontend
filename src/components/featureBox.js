@@ -46,6 +46,7 @@ const FeatureBox = () => (
             triggerOnce
           >
             <p className="">Connect with your wallet.</p>
+            <br></br>
           </Reveal>
         </div>
         <i className="wm icon_wallet"></i>
@@ -71,9 +72,7 @@ const FeatureBox = () => (
             duration={600}
             triggerOnce
           >
-            <h4 className="">
-              List your NFT's<br></br>
-            </h4>
+            <h4 className="">List your NFT's</h4>
           </Reveal>
           <Reveal
             className="onStep"
@@ -84,6 +83,7 @@ const FeatureBox = () => (
           >
             <p className="">
               List your Nft's to swap.<br></br>
+              <br></br>
             </p>
           </Reveal>
         </div>

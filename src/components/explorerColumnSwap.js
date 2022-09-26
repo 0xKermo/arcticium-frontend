@@ -140,14 +140,7 @@ const ExplorerColumnSwap = (props) => {
                   {nft.targetAssetInfo.length < 1 && (
                     <div className="col-6">
                       <div className="nft__item_info">
-                        <span>
-                          <br></br>
-                          <span>
-                            
-                              <br></br>
-                            
-                          </span>
-                        </span>
+                        <span></span>
                         <div className="nft__item_price">
                           <br></br>
                           {/* <span>{nft.bid}</span> */}

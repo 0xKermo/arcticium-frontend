@@ -61,7 +61,7 @@ const Faucet = () => {
       <section className="jumbotron no-bg bg-gray">
         <SliderMainZero text={"Faucet"} />
       </section>
-      <section className="jumbotron no-bg bg-gray">
+      <section className="jumbotron no-bg">
         <div className="mainbreadcumb">
           <div className="container">
             <div className="row">
