@@ -95,8 +95,9 @@ const ExplorerColumnSwap = (props) => {
                         </h6>
                       </span>
                       <div className="nft__item_price">
-                        <span></span>
-
+                        <br></br>
+                        <br></br>
+                        <br></br>
                         {/* <span>{nft.bid}</span> */}
                       </div>
                     </div>
@@ -105,7 +106,7 @@ const ExplorerColumnSwap = (props) => {
                     <div className="col-6">
                       <div className="nft__item_info">
                         <span>
-                          <h4>{nft.targetAssetInfo[0].name}</h4>
+                          <h4>{nft.targetAssetInfo[0].name?nft.targetAssetInfo[0].name:<br></br>}</h4>
                           <span>
                             <h6>
                               {nft.targetAssetInfo[0].contract_address ? (
@@ -121,12 +122,14 @@ const ExplorerColumnSwap = (props) => {
                         </span>
                         <div className="nft__item_price">
                           <span>
-                            {nft.price
-                              ? "+ " +
-                                nft.price +
-                                " " +
-                                currencyNames[Number(nft.currencyType)]
-                              : null}
+                            {nft.price ? (
+                              "+ " +
+                              nft.price +
+                              " " +
+                              currencyNames[Number(nft.currencyType)]
+                            ) : (
+                              <br></br>
+                            )}
                           </span>
 
                           {/* <span>{nft.bid}</span> */}
@@ -140,7 +143,8 @@ const ExplorerColumnSwap = (props) => {
                   {nft.targetAssetInfo.length < 1 && (
                     <div className="col-6">
                       <div className="nft__item_info">
-                        <span></span>
+                      <br></br>
+                        <br></br>
                         <div className="nft__item_price">
                           <br></br>
                           {/* <span>{nft.bid}</span> */}
