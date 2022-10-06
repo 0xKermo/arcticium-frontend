@@ -16,9 +16,9 @@ const Footer = () => (
             <div className="de-flex">
               <div className="de-flex-col">
                 <span onClick={() => window.open("", "_self")}>
-                  <img alt="" className="f-logo d-3" src="/img/logo2.png" />
-                  <img alt="" className="f-logo d-1" src="/img/logo2.png" />
-                  <img alt="" className="f-logo d-4" src="/img/logo2.png" />
+                  <img alt="" className="f-logo d-3" src="/img/arc125x75.png" />
+                  <img alt="" className="f-logo d-1" src="/img/arc125x75.png" />
+                  <img alt="" className="f-logo d-4" src="/img/arc125x75.png" />
                 </span>
               </div>
               <span className="copy">
